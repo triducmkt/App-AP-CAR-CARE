@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Vừa khởi tạo khung dự án tại `D:\My Agents\Projects\App AP CAR CARE\` (chưa có code app).
-- **Vừa xong:** Tạo cấu trúc `hq/`, `src/`, `backup/`, liên kết `business-docs/` → tài liệu kinh doanh AP CAR CARE; áp dụng nguyên tắc Single Source of Truth.
+- **Trạng thái:** Khung dự án và toàn bộ quy chuẩn làm việc (lesson, schematic, coding tasks, scan workflow) đã sẵn sàng 100%.
+- **Vừa xong:** Rà soát và nạp đầy đủ quy tắc thao tác + template mẫu chuẩn cho `hq/lesson.md`, `hq/schematic_map.md`, `hq/CODING_TASKS.json` và `AGENTS.md` (commit `1f8200a`).
 - **Bước tiếp theo:** Anh Đức xác định mục tiêu app (tính năng, nền tảng, stack) để lập schematic và task đầu tiên.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 19:50
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 22:36
 
 ## Ghi chú
 - Thư mục `D:\My Agents\Antigravity\App AP CAR CARE` và `D:\My Agents\Gemini\App AP CAR CARE` là liên kết tới thư mục này.
