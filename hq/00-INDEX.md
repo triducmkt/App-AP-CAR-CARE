@@ -2,9 +2,9 @@
 
 ## TRẠNG THÁI HIỆN TẠI
 - **Trạng thái:** Đã lưu trữ toàn bộ quy chuẩn thiết kế nhận diện thương hiệu vào `hq/design_aesthetic_memo.md`, cập nhật kiến trúc Google Apps Script + Google Sheet ID vào `hq/schematic_map.md`, và tạo TASK-001 trong `hq/CODING_TASKS.json`.
-- **Vừa xong:** Trích xuất logo AP từ `business-docs/logo/Logo AP nen den chu trang.png` sang base64, hoàn tất thiết kế trang demo Welcome & Login (PC + Mobile) theo phong cách Mercedes S-Class.
-- **Bước tiếp theo:** Xin phép Product Owner (anh Đức) xác nhận danh mục file tạo mới trong `src/` (`Code.gs`, `Index.html`, `appsscript.json`) để chạy `backup.ps1` và đưa code vào hoạt động.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 23:10
+- **Vừa xong:** Chạy ackup.ps1 và khởi tạo thành công 3 file mã nguồn chính thức trong src/ (ppsscript.json, Code.gs, Index.html).
+- **Bước tiếp theo:** Product Owner kiểm tra trải nghiệm giao diện và định hướng triển khai các tính năng chuyên sâu tiếp theo (Quản lý dịch vụ, Lịch hẹn, Phân quyền).
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 23:12
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư:** Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

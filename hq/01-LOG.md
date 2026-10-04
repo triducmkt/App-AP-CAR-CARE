@@ -34,3 +34,10 @@
 - Ban hành file quy chuẩn thiết kế vĩnh viễn: hq/design_aesthetic_memo.md.
 - Trích xuất logo tròn AP (usiness-docs/logo/Logo AP nen den chu trang.png) sang base64 lưu tại hq/logo_b64.txt.
 - Cập nhật kiến trúc hệ thống vào hq/schematic_map.md và tạo TASK-001 trong hq/CODING_TASKS.json.
+## 2026-10-04 23:11 — Lucy/Antigravity
+- Được sự đồng ý và phê duyệt từ Product Owner (anh Đức):
+- Đã thực hiện chạy .\backup.ps1 trước khi đưa code vào src/ (Mã backup snapshot: 84bf45f).
+- Tạo thành công bộ 3 file mã nguồn cốt lõi trong src/:
+  1. src/appsscript.json: Cấu hình manifest V8 runtime và múi giờ Việt Nam.
+  2. src/Code.gs: Bộ điều phối backend xử lý doGet(), xác thực tài khoản checkLogin() qua Google Sheet ID 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0 theo chuẩn FIELD_MAP Pattern.
+  3. src/Index.html: Giao diện Welcome & Login siêu sang (Motion Graphic logo AP 3D, responsive PC và Mobile, màu Đen/Trắng/Google Blue).
