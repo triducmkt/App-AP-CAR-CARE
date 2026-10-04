@@ -747,23 +747,27 @@
       const u = document.getElementById('txtUsername').value;
       const btn = document.getElementById('btnLogin');
       
-      btn.innerHTML = <span>ĐANG XÁC THỰC...</span>;
+      btn.innerHTML = "<span>ĐANG XÁC THỰC...</span>";
       btn.style.opacity = '0.8';
       btn.disabled = true;
 
       // Simulate verification with Google Apps Script backend
       setTimeout(() => {
         alert("Xin chào " + u + "!\\n\\nXác thực thành công với hệ thống Google Apps Script & Google Sheet ID: 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0");
-        btn.innerHTML = <span>ĐĂNG NHẬP</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
+        btn.innerHTML = '<span>ĐĂNG NHẬP</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
         btn.style.opacity = '1';
         btn.disabled = false;
       }, 1200);
     }
 
     // Auto-run on page load
-    window.addEventListener('DOMContentLoaded', () => {
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runMotionGraphicSequence);
+    } else {
       runMotionGraphicSequence();
-    });
+    }
+  
   </script>
 </body>
 </html>

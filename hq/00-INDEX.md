@@ -2,9 +2,9 @@
 
 ## TRẠNG THÁI HIỆN TẠI
 - **Trạng thái:** Đã lưu trữ toàn bộ quy chuẩn thiết kế nhận diện thương hiệu vào `hq/design_aesthetic_memo.md`, cập nhật kiến trúc Google Apps Script + Google Sheet ID vào `hq/schematic_map.md`, và tạo TASK-001 trong `hq/CODING_TASKS.json`.
-- **Vừa xong:** Chạy ackup.ps1 và khởi tạo thành công 3 file mã nguồn chính thức trong src/ (ppsscript.json, Code.gs, Index.html).
+- **Vừa xong:** Khắc phục lỗi màn hình đen [ERR-005], tắt hoàn toàn task chạy nền, đẩy toàn bộ mã nguồn lên GitHub repo: https://github.com/triducmkt/App-AP-CAR-CARE.
 - **Bước tiếp theo:** Product Owner kiểm tra trải nghiệm giao diện và định hướng triển khai các tính năng chuyên sâu tiếp theo (Quản lý dịch vụ, Lịch hẹn, Phân quyền).
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 23:12
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 23:23
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư:** Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

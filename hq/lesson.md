@@ -126,3 +126,12 @@ ode -e "Mã code"), hoặc nếu phải tạo file thì đưa vào thư mục t�
 - **Cách giải quyết:** 
   1. Agent: Mỗi khi thực hiện lệnh clasp deploy, BẮT BUỘC phải luôn nhắc nhở user: *"Hãy ấn Ctrl + F5 (Hard Refresh) hoặc mở bằng tab Ẩn danh để xem bản /exec mới nhất, tránh bị dính cache trình duyệt"*.
   2. Xử lý triệt để: Đảm bảo chạy clasp push thành công 100% trước khi chạy clasp deploy. Nếu user vẫn báo thiếu, hãy ép push lại và deploy version mới, sau đó dặn user clear cache ngay và luôn.
+
+### [ERR-005] Lỗi màn hình đen toàn phần do PowerShell nuốt dấu nháy ngược (Backtick) trong innerHTML
+- **Triệu chứng:** Khi mở trang web chỉ thấy màn hình đen tuyền (stage-0), không có chuyển động hay hiển thị logo/form đăng nhập. Mở F12 Console thấy lỗi: SyntaxError: Unexpected token '<'.
+- **Nguyên nhân:** Khi sinh hoặc cập nhật file HTML bằng PowerShell Here-String, các chuỗi template literal JavaScript có dấu backtick ` <span>...</span> ` bị PowerShell nội suy làm mất cặp backtick, khiến chuỗi HTML bên trong trở thành mã không đặt trong ngoặc nháy (unquoted token <). JavaScript gặp lỗi cú pháp ngay lập tức và ngừng thực thi toàn bộ script.
+- **Cách giải quyết:**
+  1. Sử dụng chuỗi nháy kép thông thường "<span>...</span>" hoặc escape dấu backtick khi tạo qua PowerShell.
+  2. Bổ sung cơ chế tự kích hoạt: kiểm tra document.readyState === 'loading' để chạy ngay mà không bị lỡ sự kiện DOMContentLoaded.
+  3. Trước khi xuất file, luôn chạy lệnh kiểm thử cú pháp bằng Node.js: 
+ode -e "new Function(scriptCode)" để đảm bảo 100% không có lỗi cú pháp.

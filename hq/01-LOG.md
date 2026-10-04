@@ -41,3 +41,14 @@
   1. src/appsscript.json: Cấu hình manifest V8 runtime và múi giờ Việt Nam.
   2. src/Code.gs: Bộ điều phối backend xử lý doGet(), xác thực tài khoản checkLogin() qua Google Sheet ID 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0 theo chuẩn FIELD_MAP Pattern.
   3. src/Index.html: Giao diện Welcome & Login siêu sang (Motion Graphic logo AP 3D, responsive PC và Mobile, màu Đen/Trắng/Google Blue).
+## 2026-10-04 23:22 — Lucy/Antigravity
+- Khắc phục sự cố màn hình đen theo phản hồi của Product Owner:
+  + Dừng khẩn cấp và loại bỏ hoàn toàn tiến trình nền 
+ode serve.js để giải phóng máy, không để tác vụ nền chạy ngầm gây lag.
+  + Phân tích nguyên nhân root-cause màn hình đen: Do chuỗi HTML trong innerHTML bị PowerShell nuốt mất dấu backtick khi sinh file, tạo thành lỗi cú pháp SyntaxError: Unexpected token '<'.
+  + Đã sửa triệt để lỗi cú pháp trong cả 2 file src/Index.html và hq/demo_welcome_login.html, chạy xác minh cú pháp 
+ode -e "new Function(...)" đạt chuẩn 100%.
+  + Ghi nhận bài học kinh nghiệm mã [ERR-005] vào hq/lesson.md.
+- Kết nối remote và đẩy mã nguồn lên GitHub:
+  + Remote: https://github.com/triducmkt/App-AP-CAR-CARE.git.
+  + Đã push thành công toàn bộ branch main lên GitHub repo.
