@@ -23,3 +23,11 @@ Danh mục dự án toàn máy:
 - Gặp cùng 1 lỗi 3 lần liên tiếp: dừng, đối chiếu backup, đọc `hq/lesson.md`, đổi hướng tiếp cận (xem `/fix-stuck3` trong GLOBAL-RULES).
 - Cập nhật `hq/schematic_map.md` khi thay đổi kiến trúc/luồng dữ liệu.
 - Mặc định chỉ code giao diện PC/Laptop, trừ khi anh Đức yêu cầu Mobile.
+
+## Quy trình chi tiết (nhân bản từ Project TDCM Team App, 2026-10-04)
+
+1. **Quy định tạo file:** Tuyệt đối KHÔNG tự tạo file mới bất kỳ trong `src/`. Khi cần tạo file mới, BẮT BUỘC xin phép và được anh Đức xác nhận. File không phải code app (`.md` cho agent) chỉ được tạo ở `hq/`.
+2. **Backup bắt buộc:** Trước mỗi lần coding, agent BẮT BUỘC chạy `.\backup.ps1` trên Terminal (copy `src/` vào `backup/<ID>` + ghi log). Tuyệt đối không viết code nếu chưa chạy thành công.
+3. **Quy trình sửa lỗi & chống lặp lỗi:** Cùng 1 lỗi mà anh báo chưa sửa được, đếm biến `i`. Khi `i = 3` BẮT BUỘC DỪNG NGAY: đối chiếu bản backup gần nhất (chỉ ưu tiên đoạn code mới thêm/sửa/xóa, không lan man sang file khác), dùng `hq/schematic_map.md` + `hq/lesson.md` để brainstorm và đi theo **hướng tiếp cận hoàn toàn khác**. Ghi bài học vào `hq/lesson.md` (Bug ID ERR-xxx).
+4. **Cập nhật `hq/schematic_map.md`:** BẮT BUỘC cập nhật khi đổi cấu trúc hệ thống, luồng dữ liệu Frontend-Backend hoặc thêm module/chức năng lớn. BỎ QUA khi chỉ sửa UI/UX, text, css lặt vặt.
+5. **Tracking:** sau mỗi task code, cập nhật `hq/CODING_TASKS.json` theo mẫu trong GLOBAL-RULES; git add/commit và báo mã commit 7 ký tự.
