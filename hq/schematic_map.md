@@ -11,43 +11,62 @@
 
 ---
 
-## 1. MÔ HÌNH KIẾN TRÚC TỔNG THỂ (LOGISTICS SCHEMATIC)
-
-*(Sơ đồ mẫu Mermaid sẽ được cập nhật cụ thể khi xác định tech-stack và luồng dữ liệu của app)*
+## 1. MÔ HÌNH KIẾN TRÚC GIAI ĐOẠN 1 (GAS + GOOGLE SHEETS)
 
 ```mermaid
 flowchart TD
-    UI[Giao diện Người Dùng\nHTML / CSS / JS / Components] -->|1. Thao tác người dùng| DISPATCHER[Controller / Action Dispatcher]
-    DISPATCHER -->|2. Gọi API / Backend Service| BACKEND[Backend Service / APIs / GAS]
-    BACKEND -->|3. Đọc / Ghi Dữ liệu| DB[(Database / Sheets / Drive)]
-    DB -->|4. Phản hồi Dữ liệu| BACKEND
-    BACKEND -->|5. Trả kết quả JSON/Payload| UI
+    subgraph CLIENT [Giao diện Client (Responsive PC & Mobile)]
+        WELCOME[Màn hình Welcome Chào Mừng\nMotion Graphic & 3D Logo Sequence] --> LOGIN[Form Đăng Nhập\nTên đăng nhập + Mật khẩu]
+        LOGIN -->|Thao tác Click Đăng Nhập| DISPATCHER[Client Action Controller\n(Xử lý Validation & Hiệu ứng Chờ)]
+    end
+
+    subgraph BACKEND [Google Apps Script Backend]
+        DISPATCHER -->|google.script.run| API_AUTH[Hàm checkLogin(username, password)]
+        API_AUTH --> FIELD_MAP[FIELD_MAP Chuyển Đổi Dữ Liệu]
+    end
+
+    subgraph DATABASE [Google Sheet Database Central]
+        FIELD_MAP -->|SpreadsheetApp.openById| GSHEET[(Google Sheet\nID: 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0)]
+        GSHEET -->|Trả về thông tin User & Quyền| API_AUTH
+    end
+
+    API_AUTH -->|Trả về JSON Payload {status, user, role}| CLIENT
+    CLIENT -->|Đăng nhập thành công| APP_MAIN[Giao diện Làm Việc Chính]
 ```
 
 ---
 
 ## 2. CÁC TRỤ CỘT KỸ THUẬT & NGUYÊN TẮC THIẾT KẾ
 
-1. **Single Source of Truth (SSOT):** Toàn bộ state/data có một nguồn quản lý tập trung, tránh phân tán gây lệch dữ liệu.
-2. **FIELD_MAP Pattern (Bắt buộc):** Ánh xạ cấu trúc dữ liệu bảng / database ra Frontend Object, không hardcode index cột.
-3. **Optimistic UI & Feedback:** Phản hồi giao diện tức thì cho người dùng khi thao tác, xử lý đồng bộ nền an toàn.
+1. **Single Source of Truth (SSOT):** Dữ liệu lưu trữ tập trung tại Google Sheet ID `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0`.
+2. **FIELD_MAP Pattern (Bắt buộc):** Ánh xạ cấu trúc cột từ Sheet (Tên đăng nhập, Mật khẩu, Họ tên, Nhóm quyền: Khách hàng / Nhân viên / Đại lý, Chi nhánh: Q7 / Tân Phú...) ra Frontend Key, không hardcode số thứ tự cột.
+3. **Optimistic & Seamless Animation:** Chuyển động Logo AP 3D mượt mà, không giật lag trên cả trình duyệt PC và Mobile Safari/Chrome.
 4. **Data Isolation & Clean Code:** Tách bạch rõ ràng giữa tầng Render giao diện và tầng Xử lý logic / Gọi API.
 
 ---
 
-## 3. BẢN ĐỒ MODULE & TỌA ĐỘ FILE CODE CHÍNH
+## 3. BẢN ĐỒ MODULE & TỌA ĐỘ FILE CODE ĐỀ XUẤT (`src/`)
 
 ### 3.1. Frontend Modules (`src/`)
 | File / Component | Chức năng chính | Hàm / Biến quan trọng |
 |---|---|---|
-| *(Sẽ cập nhật khi có code)* | | |
+| `Index.html` | Màn hình Welcome chào mừng + Form Đăng nhập PC & Mobile | `runWelcomeSequence()`, `handleLoginSubmit()`, `toggleMobileView()` |
 
 ### 3.2. Backend / API / Database (`src/`)
 | Module / File | Vai trò | Điểm kết nối dữ liệu |
 |---|---|---|
-| *(Sẽ cập nhật khi có code)* | | |
+| `Code.gs` | Điều phối Web App (`doGet`), API xác thực tài khoản | `checkLogin(credentials)`, `getAppConfig()` |
+| `appsscript.json` | Cấu hình manifest Apps Script (timezone, runtime V8) | V8 Runtime |
 
 ---
 
 ## 4. TỌA ĐỘ HÀM VÀ TRẠNG THÁI (STATE MAP)
-*(Danh mục các hàm điều phối trọng yếu trong app sẽ được cập nhật khi xây dựng tính năng)*
+- **`AppConfig`**:
+  - `SHEET_ID`: `"1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0"`
+  - `BRAND_NAME`: `"AP CAR CARE AUDIO & ACCESSORIES"`
+  - `PRIMARY_COLORS`: `{ black: "#000000", white: "#FFFFFF", googleBlue: "#4285F4" }`
+- **`USER_FIELD_MAP`** (Dự kiến cho xác thực):
+  - `username` -> Cột Tên Đăng Nhập
+  - `password` -> Cột Mật Khẩu
+  - `role` -> Cột Phân Quyền (Khách hàng / Kỹ thuật / Đại lý)
+  - `branch` -> Cột Chi Nhánh (Q7 / Tân Phú / Toàn quốc)

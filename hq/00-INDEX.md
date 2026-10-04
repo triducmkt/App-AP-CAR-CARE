@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã chuẩn hóa vai trò phối hợp (Lucy: Kỹ sư/Lập trình chính + Trợ lý dự án + BA + QA + Điều phối giải pháp; anh Đức: Product Owner duy nhất).
-- **Vừa xong:** Cập nhật AGENTS.md, 00-INDEX.md, 01-LOG.md; đang đợi phản hồi từ Product Owner cho 8 câu hỏi định hướng.
-- **Bước tiếp theo:** Product Owner phản hồi 8 câu hỏi để Lucy phân tích BA, dựng Schematic và bắt đầu lên code.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 22:57
+- **Trạng thái:** Đã lưu trữ toàn bộ quy chuẩn thiết kế nhận diện thương hiệu vào `hq/design_aesthetic_memo.md`, cập nhật kiến trúc Google Apps Script + Google Sheet ID vào `hq/schematic_map.md`, và tạo TASK-001 trong `hq/CODING_TASKS.json`.
+- **Vừa xong:** Trích xuất logo AP từ `business-docs/logo/Logo AP nen den chu trang.png` sang base64, hoàn tất thiết kế trang demo Welcome & Login (PC + Mobile) theo phong cách Mercedes S-Class.
+- **Bước tiếp theo:** Xin phép Product Owner (anh Đức) xác nhận danh mục file tạo mới trong `src/` (`Code.gs`, `Index.html`, `appsscript.json`) để chạy `backup.ps1` và đưa code vào hoạt động.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 23:10
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư:** Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

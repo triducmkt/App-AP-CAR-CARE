@@ -24,3 +24,13 @@
 - Đính chính phân vai nhân sự chuẩn xác theo chỉ đạo của anh Đức:
   + **Lucy (AI Agent):** Đảm nhiệm toàn diện: AI kỹ sư phần mềm / kiến trúc sư giải pháp & lập trình viên chính, Trợ lý dự án kiêm phụ trách các vị trí chức năng chuyên môn, Business Analyst (BA), Kiểm thử chất lượng (QA) & Điều phối giải pháp.
   + **Anh Đức:** Đóng 1 vai trò duy nhất là **Product Owner (PO)** — Định hướng tầm nhìn sản phẩm, phê duyệt tính năng, ra quyết định nghiệm thu và mục tiêu kinh doanh.
+## 2026-10-04 23:10 — Lucy/Antigravity
+- Ghi nhận yêu cầu phong cách thiết kế từ Product Owner (anh Đức):
+  + Tinh thần: Ultra-luxury, automotive premium, minimalist, studio lighting (tham chiếu ảnh Mercedes S-Class đen tuyền bóng gương).
+  + 3 Màu chủ đạo: Đen tuyền (#000000, #08090B), Trắng tinh khôi (#FFFFFF), Xanh dương nhạt (Google Blue #4285F4 / #8AB4F8).
+  + Kịch bản Motion Graphic: Load đen tuyền -> 0.5s hiện dần logo tròn AP lớn giữa màn hình (tilt 3D) -> Logo zoom nhỏ lại và hiện chữ "AP CAR CARE AUDIO & ACCESSORIES" kế bên -> Xuất hiện form đăng nhập gồm 2 ô "Tên đăng nhập" và "Mật khẩu" + nút đăng nhập đồng bộ.
+  + Tech Stack Giai đoạn 1: Google Apps Script Web App.
+  + Backend Database: Google Sheet ID 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0.
+- Ban hành file quy chuẩn thiết kế vĩnh viễn: hq/design_aesthetic_memo.md.
+- Trích xuất logo tròn AP (usiness-docs/logo/Logo AP nen den chu trang.png) sang base64 lưu tại hq/logo_b64.txt.
+- Cập nhật kiến trúc hệ thống vào hq/schematic_map.md và tạo TASK-001 trong hq/CODING_TASKS.json.

@@ -14,5 +14,14 @@
       "fields": "field_map_nếu_có",
       "note": "Ghi chú ngắn gọn để truy vết"
     }
+  },
+  {
+    "id": "TASK-001",
+    "env": "frontend & backend",
+    "task_name": "Design Welcome & Login Demo Page (PC & Mobile) with AP Logo Motion Graphic",
+    "main_function": "doGet, runWelcomeSequence, handleLoginSubmit",
+    "main_vars_css": ".ap-welcome-container, .ap-logo-circle, .ap-brand-title, .ap-login-box, .ap-btn-luxury",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Màn hình chào mừng và đăng nhập sang trọng (Black/White/Google Blue). 4 giai đoạn motion graphic chuyển động logo AP + 2 ô input + nút login đồng bộ cho cả PC và Mobile."
   }
 ]
