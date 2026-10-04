@@ -27,7 +27,7 @@ Danh mục dự án toàn máy:
 ## Quy trình chi tiết (nhân bản từ Project TDCM Team App, 2026-10-04)
 
 1. **Quy định tạo file:** Tuyệt đối KHÔNG tự tạo file mới bất kỳ trong `src/`. Khi cần tạo file mới, BẮT BUỘC xin phép và được anh Đức xác nhận. File không phải code app (`.md` cho agent) chỉ được tạo ở `hq/`.
-2. **Backup bắt buộc:** Trước mỗi lần coding, agent BẮT BUỘC chạy `.\backup.ps1` trên Terminal (copy `src/` vào `backup/<ID>` + ghi log). Tuyệt đối không viết code nếu chưa chạy thành công.
+2. **Backup & Revert bắt buộc:** Trước mỗi lần coding, agent BẮT BUỘC chạy `.\backup.ps1` trên Terminal (copy `src/` vào `backup/<ID>` + ghi log). Tuyệt đối không viết code nếu chưa chạy thành công. Khi nhận lệnh `/revert-local (mã ID)`, chạy ngay `.\revert-local.ps1 -TargetHash <mã ID>` để khôi phục code an toàn.
 3. **Quy trình Khởi động, Scan & Dọn dẹp tàn dư (Mandatory Scan Workflow):**
    - Đọc `hq/schematic_map.md` để nắm luồng kiến trúc.
    - Quét `hq/CODING_TASKS.json` từ trên xuống dưới, trái qua phải để xác định tọa độ (ID task, file, hàm, CSS class) liên quan.
