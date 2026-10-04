@@ -52,3 +52,8 @@ ode -e "new Function(...)" đạt chuẩn 100%.
 - Kết nối remote và đẩy mã nguồn lên GitHub:
   + Remote: https://github.com/triducmkt/App-AP-CAR-CARE.git.
   + Đã push thành công toàn bộ branch main lên GitHub repo.
+## 2026-10-05 06:53 — Lucy/Antigravity
+- Tiếp nhận chỉ đạo toàn cục /global: Bổ sung quy định cung cấp link demo trải nghiệm (VĨNH VIỄN).
+  + Mỗi khi cung cấp demo cho anh Đức, Agent BẮT BUỘC chỉ đưa link truy cập nhanh (bấm click trực tiếp mở cửa sổ trình duyệt tương tác ngay).
+  + Tuyệt đối không đưa file code HTML hoặc các dạng file mã nguồn khác trừ khi anh Đức yêu cầu cụ thể.
+- Đã cập nhật vào D:\My Agents\Global\GLOBAL-RULES.md và chạy script sync-rules.ps1 đồng bộ sang toàn bộ Claude, Codex, Gemini và AI-HQ.
