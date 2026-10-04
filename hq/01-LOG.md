@@ -20,3 +20,7 @@
 - Bổ sung bối cảnh dự án cốt lõi: Ứng dụng đa năng phục vụ Khách hàng, Nhân viên, Đối tác của Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).
 - Xác lập cơ chế phân vai phối hợp: Lucy (Kỹ sư phần mềm / lập trình chính), anh Đức (Trợ lý dự án kiêm phụ trách chức năng nghiệp vụ).
 - Khởi tạo 8 câu hỏi khảo sát nghiệp vụ để làm rõ phạm vi chức năng, kiến trúc kỹ thuật và luồng dữ liệu đầu vào.
+## 2026-10-04 22:57 — Lucy/Antigravity
+- Đính chính phân vai nhân sự chuẩn xác theo chỉ đạo của anh Đức:
+  + **Lucy (AI Agent):** Đảm nhiệm toàn diện: AI kỹ sư phần mềm / kiến trúc sư giải pháp & lập trình viên chính, Trợ lý dự án kiêm phụ trách các vị trí chức năng chuyên môn, Business Analyst (BA), Kiểm thử chất lượng (QA) & Điều phối giải pháp.
+  + **Anh Đức:** Đóng 1 vai trò duy nhất là **Product Owner (PO)** — Định hướng tầm nhìn sản phẩm, phê duyệt tính năng, ra quyết định nghiệm thu và mục tiêu kinh doanh.
