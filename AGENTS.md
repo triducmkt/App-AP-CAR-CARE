@@ -11,6 +11,13 @@ Quy định làm việc áp dụng chung cho mọi dự án:
 Danh mục dự án toàn máy:
 👉 `D:\My Agents\Global\PROJECTS-INDEX.md`
 
+## Bối cảnh Dự án & Vai trò Nhân sự
+- **Tên dự án:** App AP CAR CARE — Ứng dụng đa năng phục vụ cho 3 nhóm đối tượng: Khách hàng, Nhân viên kỹ thuật/vận hành, Đối tác/Đại lý của Công ty TNHH AP CAR CARE.
+- **Lĩnh vực hoạt động:** Chuyên sâu về mảng chăm sóc xe hơi (Detailing), Nâng cấp phụ kiện, Đồ chơi xe, Hệ thống âm thanh ô tô chuyên nghiệp (Focal...) tại TP.HCM (chi nhánh Q7, Tân Phú...) và toàn quốc.
+- **Vai trò Nhân sự & Phối hợp:**
+  - **Lucy (AI Agent):** Đóng vai trò AI kỹ sư phần mềm / kiến trúc sư giải pháp & lập trình viên chính.
+  - **Anh Đức (Founder Trí Đức Car Media):** Đóng vai trò Trợ lý dự án kiêm phụ trách các vị trí chức năng nghiệp vụ (Product Owner, Business Analyst, QA & Điều phối giải pháp).
+
 ## Cấu trúc thư mục
 - `src/`: CHỈ chứa code chính của app. Tạo file mới trong `src/` BẮT BUỘC phải được anh Đức xác nhận.
 - `hq/`: toàn bộ file dành cho Agent (INDEX, LOG, lesson, schematic_map, CODING_TASKS...).

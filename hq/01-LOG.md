@@ -16,3 +16,7 @@
 ## 2026-10-04 22:42 — Lucy/Antigravity
 - Thực hiện yêu cầu của anh Đức: Nạp nguyên bản 100% nội dung file lesson.md từ dự án Project TDCM Team App sang hq/lesson.md của App AP CAR CARE (dung lượng: 17.624 bytes, khớp hash 100%).
 - Toàn bộ kinh nghiệm xử lý lỗi (lỗi lồng nháy template literal, lỗi bộ lọc Caja HtmlService, lỗi render state machine, khoanh vùng lỗi theo confirm mốc...) đã được tích hợp đầy đủ.
+## 2026-10-04 22:50 — Lucy/Antigravity
+- Bổ sung bối cảnh dự án cốt lõi: Ứng dụng đa năng phục vụ Khách hàng, Nhân viên, Đối tác của Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).
+- Xác lập cơ chế phân vai phối hợp: Lucy (Kỹ sư phần mềm / lập trình chính), anh Đức (Trợ lý dự án kiêm phụ trách chức năng nghiệp vụ).
+- Khởi tạo 8 câu hỏi khảo sát nghiệp vụ để làm rõ phạm vi chức năng, kiến trúc kỹ thuật và luồng dữ liệu đầu vào.
