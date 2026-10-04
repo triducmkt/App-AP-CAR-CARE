@@ -13,3 +13,6 @@
 - schematic_map.md: Đã nạp quy tắc tự động cập nhật / bỏ qua + Khung sơ đồ Mermaid mẫu + 4 trụ cột kỹ thuật (SSOT, FIELD_MAP...) + Bảng phân chia Frontend/Backend.
 - CODING_TASKS.json: Đã nạp đối tượng hướng dẫn _GUIDE (Mandatory Scan Workflow, quét dọn tàn dư Cấp độ 1 & 2, leo thang Escalation, Schema chuẩn).
 - AGENTS.md: Bổ sung đồng bộ quy trình quét scan trước khi code và chuẩn FIELD_MAP. Commit: c990f51.
+## 2026-10-04 22:42 — Lucy/Antigravity
+- Thực hiện yêu cầu của anh Đức: Nạp nguyên bản 100% nội dung file lesson.md từ dự án Project TDCM Team App sang hq/lesson.md của App AP CAR CARE (dung lượng: 17.624 bytes, khớp hash 100%).
+- Toàn bộ kinh nghiệm xử lý lỗi (lỗi lồng nháy template literal, lỗi bộ lọc Caja HtmlService, lỗi render state machine, khoanh vùng lỗi theo confirm mốc...) đã được tích hợp đầy đủ.
