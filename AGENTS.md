@@ -28,6 +28,12 @@ Danh mục dự án toàn máy:
 
 1. **Quy định tạo file:** Tuyệt đối KHÔNG tự tạo file mới bất kỳ trong `src/`. Khi cần tạo file mới, BẮT BUỘC xin phép và được anh Đức xác nhận. File không phải code app (`.md` cho agent) chỉ được tạo ở `hq/`.
 2. **Backup bắt buộc:** Trước mỗi lần coding, agent BẮT BUỘC chạy `.\backup.ps1` trên Terminal (copy `src/` vào `backup/<ID>` + ghi log). Tuyệt đối không viết code nếu chưa chạy thành công.
-3. **Quy trình sửa lỗi & chống lặp lỗi:** Cùng 1 lỗi mà anh báo chưa sửa được, đếm biến `i`. Khi `i = 3` BẮT BUỘC DỪNG NGAY: đối chiếu bản backup gần nhất (chỉ ưu tiên đoạn code mới thêm/sửa/xóa, không lan man sang file khác), dùng `hq/schematic_map.md` + `hq/lesson.md` để brainstorm và đi theo **hướng tiếp cận hoàn toàn khác**. Ghi bài học vào `hq/lesson.md` (Bug ID ERR-xxx).
-4. **Cập nhật `hq/schematic_map.md`:** BẮT BUỘC cập nhật khi đổi cấu trúc hệ thống, luồng dữ liệu Frontend-Backend hoặc thêm module/chức năng lớn. BỎ QUA khi chỉ sửa UI/UX, text, css lặt vặt.
-5. **Tracking:** sau mỗi task code, cập nhật `hq/CODING_TASKS.json` theo mẫu trong GLOBAL-RULES; git add/commit và báo mã commit 7 ký tự.
+3. **Quy trình Khởi động, Scan & Dọn dẹp tàn dư (Mandatory Scan Workflow):**
+   - Đọc `hq/schematic_map.md` để nắm luồng kiến trúc.
+   - Quét `hq/CODING_TASKS.json` từ trên xuống dưới, trái qua phải để xác định tọa độ (ID task, file, hàm, CSS class) liên quan.
+   - Review mã nguồn theo 2 cấp độ: Cấp độ 1 (quét file thao tác trực tiếp), Cấp độ 2 (quét chéo toàn bộ dự án). Tự đánh giá xóa, ẩn hoặc cô lập code cũ thừa/xung đột trước khi viết code mới.
+4. **Quy trình Sửa lỗi & Chống lặp lỗi (`/fix-stuck3`):** Cùng 1 lỗi mà anh báo chưa sửa được, đếm biến `i`. Khi `i = 3` BẮT BUỘC DỪNG NGAY: đối chiếu bản backup gần nhất (chỉ ưu tiên đoạn code mới thêm/sửa/xóa, không lan man sang file khác), dùng `hq/schematic_map.md` + `hq/lesson.md` để brainstorm và đi theo **hướng tiếp cận hoàn toàn khác**. Ghi bài học vào `hq/lesson.md` (Bug ID ERR-xxx theo mẫu chuẩn).
+5. **Cập nhật `hq/schematic_map.md`:** BẮT BUỘC cập nhật khi đổi cấu trúc hệ thống, luồng dữ liệu Frontend-Backend hoặc thêm module/chức năng lớn. BỎ QUA khi chỉ sửa UI/UX, text, css lặt vặt.
+6. **Chuẩn hóa FIELD_MAP & Cập nhật Tracking:**
+   - Áp dụng chuẩn `FIELD_MAP Pattern` khi giao tiếp Frontend - Backend hoặc đọc/ghi dữ liệu bảng.
+   - Sau mỗi task code: kiểm thử giao diện PC/Laptop xong mới commit, cập nhật task mới vào `hq/CODING_TASKS.json` theo đúng schema; `git add .` và `git commit -m "..."` và báo mã commit 7 ký tự cho anh Đức.

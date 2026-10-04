@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "_GUIDE": "QUY TRÌNH THEO DÕI & TRIỂN KHAI CODE (MANDATORY SCAN WORKFLOW)",
+    "rule_1_scan": "Trước khi code: Scan file này từ trên xuống dưới, trái qua phải để xác định tọa độ (ID task, file, hàm, CSS class) liên quan.",
+    "rule_2_cleanup": "Review mã nguồn & Dọn dẹp tàn dư trước khi code: Cấp độ 1 (quét file thao tác trực tiếp), Cấp độ 2 (quét chéo toàn bộ dự án). Xóa/ẩn/cô lập code thừa xung đột.",
+    "rule_3_escalation": "Quy tắc leo thang: Nếu sửa lỗi ở Cấp độ 1 chưa thành công, BẮT BUỘC nâng lên Cấp độ 2 quét toàn dự án.",
+    "rule_4_update": "Sau khi hoàn tất và test xong: BẮT BUỘC cập nhật thêm task mới vào file này theo đúng chuẩn schema.",
+    "schema_sample": {
+      "id": "TASK-001",
+      "env": "frontend/backend",
+      "task_name": "Tên task ngắn gọn",
+      "main_function": "hàm_chính",
+      "main_vars_css": "class_hoặc_biến",
+      "fields": "field_map_nếu_có",
+      "note": "Ghi chú ngắn gọn để truy vết"
+    }
+  }
+]
