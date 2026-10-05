@@ -139,3 +139,18 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Kiểm thử render Edge headless trên PC (1440x900) và Mobile (390x844) đều cân đối, logo và chữ đứng cạnh nhau hoàn hảo 100%.
   - Deploy thành công demo lên nhánh `gh-pages` (`89aef79`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 15:12 — Lucy/Antigravity — Nâng cấp Welcome & Login v7 (Tapered Aerodynamic Ribbon, White Glow Underlay, Moving Star Comet)
+- **Tiếp nhận chỉ đạo chi tiết từ Product Owner (anh Đức):**
+  - Dải ánh sáng gradient trắng nằm fix trực tiếp theo dải họa tiết bên dưới làm nền phát sáng (glow underlay) và co giãn bám theo dải họa tiết ở mọi kích cỡ giao diện thiết bị.
+  - Dải họa tiết chỉnh sửa cho phù hợp ảnh mẫu (`hq/brand_assets/reference_ribbon_flow.png`): vuốt nhọn (tapered) từ góc dưới bên trái, mở rộng dần và xòe vút lên góc trên bên phải theo phong cách khí động học thể thao xe sang.
+  - Khi load trang, chùm ánh sáng như ngôi sao 4 cánh di chuyển chéo từ dưới lên đồng thời với hiệu ứng slide up của dải họa tiết, bám theo đúng đường spline uốn lượn của dải họa tiết.
+- **Triển khai & Kiểm thử:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/e935bd9/`.
+  - Tạo cấu trúc SVG với đường spline uốn lượn vuốt nhọn ở mũi (X=-40, Y=835) và xòe rộng ở đuôi (X=1490, Y=165 -> 265).
+  - Tích hợp dải phát sáng trắng dịu (`stroke-width: 160px`, `filter: blur(36px)`) chạy dọc theo sống lưng dải họa tiết làm nền phát quang.
+  - Tích hợp `<animateMotion>` native SVG cho chùm sáng ngôi sao lướt mượt mà dọc theo dải họa tiết từ dưới lên góc trên bên phải đồng bộ với `slide up`.
+  - Biên dịch `src/Index.html` (139.196 bytes).
+  - Chụp ảnh kiểm thử Edge headless tại thời điểm ngôi sao đang bay (`pc_star_moving.png`) và thời điểm hoàn tất (`pc_final_v7.png`, `mob_final_v7.png`).
+  - Deploy thành công demo lên nhánh `gh-pages` (`b12b382`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.

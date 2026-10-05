@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v6 hoàn thiện tuyệt đối: Ràng buộc vị trí Logo AP và chữ CAR CARE luôn fix cố định đứng kế bên nhau trong container flexbox trên mọi thiết bị; Xóa bỏ hoàn toàn ngôi sao màu trắng góc dưới-phải; Tái tạo chính xác 100% bố cục ánh sáng gradient nền theo hình mẫu 2 của anh Đức (luồng chùm sáng Studio Volumetric Beam chiếu xiên từ trên-phải pha màu trắng dịu & xanh đen, quầng sáng xanh đen hắt từ góc dưới-trái, mặt kính Card bắt sáng viền trên và viền phải); Đã deploy trực tiếp lên GitHub Pages.
-- **Vừa xong:** Chạy `.\backup.ps1`, lưu tài liệu mẫu vào `hq/brand_assets/`, biên dịch `src/Index.html` (136.690 bytes), deploy thành công demo lên nhánh `gh-pages` (`89aef79`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
-- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp và duyệt giao diện v6 để chuyển sang tích hợp logic backend xác thực qua Google Sheet ID 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 14:57
+- **Trạng thái:** Welcome & Login v7 hoàn thiện điện ảnh: Dải ánh sáng gradient trắng nền nằm fix trực tiếp theo dải họa tiết làm nền phát quang mờ dịu, co giãn bám sát 100% trên mọi kích cỡ thiết bị; Dải họa tiết vuốt nhọn từ góc dưới-trái và mở rộng xòe vút lên góc trên-phải theo chuẩn khí động học; Chùm ánh sáng ngôi sao 4 cánh quang học di chuyển chéo uốn lượn dọc theo đường spline từ dưới lên trên đồng thời với hiệu ứng slide up; Logo AP và chữ CAR CARE luôn fix cố định cạnh nhau; Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1`, lưu ảnh mẫu `reference_ribbon_flow.png`, tạo template v7 (`scratch/template_v7.html`), biên dịch `src/Index.html` (139.196 bytes), kiểm thử render Edge headless thành công, deploy demo lên nhánh `gh-pages` (`b12b382`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Bước tiếp theo:** Anh Đức kiểm tra trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 15:12
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

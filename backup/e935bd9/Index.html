@@ -58,11 +58,12 @@
     }
 
     /* ==========================================================================
-       1. BỐ CỤC ÁNH SÁNG GRADIENT NỀN THEO CHUẨN HÌNH MẪU CỦA ANH ĐỨC
+       1. BỐ CỤC ÁNH SÁNG GRADIENT NỀN (CHÍNH XÁC THEO HÌNH MẪU CỦA ANH ĐỨC)
        - Quầng xanh đen ở góc dưới-trái (Bottom-Left)
-       - Quầng xanh đen ở góc trên-phải (Top-Right)
-       - Dải ánh sáng gradient trắng nằm fix bám theo dải họa tiết
-       - Ngôi sao di chuyển chéo theo đường line từ dưới lên khi slide up
+       - Quầng trắng dịu & xanh đen ở góc trên-phải (Top-Right)
+       - Luồng chùm sáng Studio Volumetric Beam chiếu xiên từ trên-phải
+       - Họa tiết dải sóng uốn lượn (Ribbon) slide up sau cùng
+       - Tia sáng laser quang học quét xéo 45 độ
        ========================================================================== */
     
     /* Quầng sáng xanh đen ở góc dưới bên trái */
@@ -73,7 +74,7 @@
       width: 80vw;
       height: 80vh;
       background: radial-gradient(circle at 25% 75%, 
-        rgba(18, 36, 62, 0.5) 0%, 
+        rgba(18, 36, 62, 0.48) 0%, 
         rgba(10, 22, 40, 0.32) 35%, 
         rgba(4, 9, 18, 0.16) 60%, 
         transparent 75%
@@ -83,7 +84,7 @@
       z-index: 1;
     }
 
-    /* Quầng sáng xanh đen ở góc trên bên phải */
+    /* Quầng sáng xanh đen & trắng dịu ở góc trên bên phải */
     .bg-ambient-tr {
       position: absolute;
       top: -20%;
@@ -91,17 +92,44 @@
       width: 95vw;
       height: 95vh;
       background: radial-gradient(ellipse 75% 65% at 85% 15%, 
-        rgba(35, 75, 125, 0.38) 0%, 
-        rgba(18, 40, 72, 0.28) 35%, 
-        rgba(8, 18, 34, 0.16) 65%, 
+        rgba(255, 255, 255, 0.18) 0%, 
+        rgba(165, 205, 255, 0.14) 22%, 
+        rgba(32, 65, 110, 0.42) 42%, 
+        rgba(12, 24, 46, 0.25) 65%, 
         transparent 82%
       );
-      filter: blur(45px);
+      filter: blur(40px);
       pointer-events: none;
       z-index: 2;
     }
 
-    /* DẢI HỌA TIẾT & DẢI ÁNH SÁNG TRẮNG NỀN & NGÔI SAO DI CHUYỂN CHÉO */
+    /* Luồng chùm sáng Studio Volumetric Beam hắt xiên từ góc trên-phải */
+    .bg-volumetric-beam {
+      position: absolute;
+      top: -35%;
+      right: -25%;
+      width: 145vw;
+      height: 145vh;
+      pointer-events: none;
+      z-index: 3;
+      background: 
+        conic-gradient(from 207deg at 88% 12%, 
+          transparent 0deg, 
+          rgba(18, 42, 75, 0.32) 12deg, 
+          rgba(85, 140, 215, 0.18) 22deg, 
+          rgba(255, 255, 255, 0.15) 28deg, 
+          rgba(255, 255, 255, 0.24) 31deg, 
+          rgba(255, 255, 255, 0.15) 34deg, 
+          rgba(110, 165, 240, 0.2) 40deg, 
+          rgba(22, 50, 90, 0.32) 50deg, 
+          transparent 68deg
+        );
+      filter: blur(18px);
+      opacity: 0;
+      animation: beamFadeIn 2.4s cubic-bezier(0.16, 1, 0.3, 1) 2.6s forwards;
+    }
+
+    /* Dải sóng kim loại kéo nghiêng (Ribbon SVG) xuất hiện SAU CÙNG và slide up */
     .bg-ribbon-layer {
       position: absolute;
       inset: 0;
@@ -109,8 +137,7 @@
       z-index: 4;
       opacity: 0;
       transform: translateY(60px);
-      /* Xuất hiện sau cùng trong chuỗi animation và slide up */
-      animation: ribbonSlideUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 4.2s forwards;
+      animation: ribbonSlideUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 4.3s forwards;
     }
 
     .bg-ribbon-svg {
@@ -120,8 +147,42 @@
       object-fit: cover;
     }
 
+    /* Tia sáng laser quét xéo 45 độ theo dải sóng ngay thời điểm slide up */
+    .diagonal-light-sweep {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      transform: rotate(-35deg);
+      mix-blend-mode: screen;
+      animation: diagonalSweepAnim 2.2s cubic-bezier(0.2, 0.8, 0.25, 1) 4.45s forwards;
+    }
+
+    .diagonal-light-sweep::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -40%;
+      width: 35%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(66, 133, 244, 0.08) 25%, 
+        rgba(138, 180, 248, 0.65) 45%, 
+        #FFFFFF 50%, 
+        rgba(138, 180, 248, 0.75) 55%, 
+        rgba(66, 133, 244, 0.15) 75%, 
+        transparent 100%
+      );
+      box-shadow: 0 0 50px rgba(138, 180, 248, 0.7), 0 0 100px rgba(66, 133, 244, 0.4);
+      animation: sweepLaser 2.2s cubic-bezier(0.2, 0.8, 0.25, 1) 4.45s forwards;
+    }
+
     /* ==========================================================================
-       2. ÁNH SÁNG QUANG HỌC BAN ĐẦU & INTRO LOGO TẠI TÂM (0s -> 3.0s)
+       2. ÁNH SÁNG QUANG HỌC BAN ĐẦU & INTRO LOGO TẠI TÂM (0s -> 3.2s)
        ========================================================================== */
     .optic-core {
       position: absolute;
@@ -634,15 +695,31 @@
     /* ==========================================================================
        7. KEYFRAMES ANIMATION ĐỒNG BỘ
        ========================================================================== */
+    @keyframes beamFadeIn {
+      to { opacity: 1; }
+    }
+
     @keyframes ribbonSlideUp {
       0% {
         opacity: 0;
         transform: translateY(60px);
       }
       100% {
-        opacity: 1;
+        opacity: 0.85;
         transform: translateY(0);
       }
+    }
+
+    @keyframes diagonalSweepAnim {
+      0%   { opacity: 0; }
+      20%  { opacity: 1; }
+      80%  { opacity: 0.9; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes sweepLaser {
+      0%   { left: -40%; }
+      100% { left: 140%; }
     }
 
     @keyframes opticCoreBurst {
@@ -764,144 +841,50 @@
 </head>
 <body>
   <div class="stage">
-    <!-- 1. BỐ CỤC ÁNH SÁNG NỀN: QUẦNG XANH ĐEN GÓC DƯỚI-TRÁI VÀ GÓC TRÊN-PHẢI -->
+    <!-- 1. BỐ CỤC ÁNH SÁNG GRADIENT NỀN THEO HÌNH MẪU CỦA ANH ĐỨC -->
+    <!-- Quầng sáng xanh đen góc dưới bên trái -->
     <div class="bg-ambient-bl"></div>
+
+    <!-- Quầng sáng trắng dịu & xanh đen góc trên bên phải -->
     <div class="bg-ambient-tr"></div>
 
-    <!-- 2. DẢI HỌA TIẾT (VUỐT NHỌN GÓC DƯỚI-TRÁI, XÒE RỘNG GÓC TRÊN-PHẢI)
-            + DẢI ÁNH SÁNG GRADIENT TRẮNG BÁM THEO LÀM NỀN
-            + CHÙM ÁNH SÁNG NGÔI SAO DI CHUYỂN CHÉO TỪ DƯỚI LÊN ĐỒNG THỜI VỚI SLIDE UP -->
+    <!-- Luồng chùm sáng Studio Volumetric Beam chiếu xiên từ góc trên-phải -->
+    <div class="bg-volumetric-beam"></div>
+
+    <!-- Họa tiết dải sóng kim loại kéo nghiêng (Ribbon SVG) -->
     <div class="bg-ribbon-layer">
       <svg class="bg-ribbon-svg" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
         <defs>
-          <!-- Gradient dải ánh sáng trắng nền (White Glow Underlay) ôm sát dải họa tiết -->
-          <linearGradient id="whiteGlowGrad" x1="0%" y1="90%" x2="100%" y2="20%">
-            <stop offset="0%" stop-color="#4285F4" stop-opacity="0.1"/>
-            <stop offset="20%" stop-color="#8AB4F8" stop-opacity="0.3"/>
+          <linearGradient id="ribbonGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4285F4" stop-opacity="0.12"/>
+            <stop offset="25%" stop-color="#8AB4F8" stop-opacity="0.25"/>
             <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.55"/>
-            <stop offset="80%" stop-color="#FFFFFF" stop-opacity="0.75"/>
-            <stop offset="100%" stop-color="#C2DCFF" stop-opacity="0.85"/>
+            <stop offset="75%" stop-color="#8AB4F8" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#4285F4" stop-opacity="0.15"/>
           </linearGradient>
-
-          <!-- Gradient thân dải lụa kim loại chính -->
-          <linearGradient id="ribbonBodyGrad" x1="0%" y1="85%" x2="100%" y2="25%">
-            <stop offset="0%" stop-color="#1A3355" stop-opacity="0.15"/>
-            <stop offset="25%" stop-color="#2D5A96" stop-opacity="0.35"/>
-            <stop offset="55%" stop-color="#709BD2" stop-opacity="0.5"/>
-            <stop offset="85%" stop-color="#B8D5FA" stop-opacity="0.6"/>
-            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.75"/>
+          <linearGradient id="lineGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+            <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.45"/>
+            <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.1"/>
           </linearGradient>
-
-          <!-- Gradient các đường vân sợi kim loại song song -->
-          <linearGradient id="fineLineGrad" x1="0%" y1="85%" x2="100%" y2="25%">
-            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.1"/>
-            <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.5"/>
-            <stop offset="70%" stop-color="#FFFFFF" stop-opacity="0.85"/>
-            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-          </linearGradient>
-
-          <!-- Bộ lọc mờ cho dải ánh sáng trắng nền -->
-          <filter id="ribbonGlowBlur" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="36" result="blur"/>
-          </filter>
-
-          <!-- Hào quang cho chùm sáng ngôi sao -->
-          <radialGradient id="starGlowGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
-            <stop offset="25%" stop-color="#8AB4F8" stop-opacity="0.9"/>
-            <stop offset="55%" stop-color="#4285F4" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#4285F4" stop-opacity="0"/>
-          </radialGradient>
         </defs>
-
-        <!-- A. DẢI ÁNH SÁNG GRADIENT TRẮNG LÀM NỀN (NẰM FIX VÀ BÁM THEO DẢI HỌA TIẾT) -->
-        <!-- Dải phát quang trắng dịu tỏa rộng (Volumetric White Radiant Stream) -->
-        <path d="M -50,835 C 260,805 480,685 720,595 C 960,505 1200,355 1490,215" 
-              stroke="url(#whiteGlowGrad)" 
-              stroke-width="160" 
-              stroke-linecap="round" 
-              fill="none" 
-              filter="url(#ribbonGlowBlur)" 
-              opacity="0.78" />
-
-        <path d="M -50,835 C 260,805 480,685 720,595 C 960,505 1200,355 1490,215" 
-              stroke="#FFFFFF" 
-              stroke-width="70" 
-              stroke-linecap="round" 
-              fill="none" 
-              filter="url(#ribbonGlowBlur)" 
-              opacity="0.5" />
-
-        <!-- B. THÂN DẢI HỌA TIẾT: VUỐT NHỌN GÓC DƯỚI-TRÁI VÀ XÒE RỘNG GÓC TRÊN-PHẢI -->
-        <!-- Khối dải lụa aerodynamic vuốt nhọn ở mũi (X=-40, Y=835) và mở rộng về đuôi (X=1490, Y=170 -> 260) -->
-        <path d="M -40,835 
-                 C 260,815 480,705 720,615 
-                 C 960,525 1200,380 1490,265 
-                 L 1490,165 
-                 C 1200,330 960,485 720,575 
-                 C 480,665 260,795 -40,833 Z" 
-              fill="url(#ribbonBodyGrad)" 
-              opacity="0.55" />
-
-        <!-- C. CÁC ĐƯỜNG VÂN SỢI KIM LOẠI SONG SONG (VUỐT TỪ MŨI NHỌN XÒE DẦN LÊN TRÊN-PHẢI) -->
-        <!-- Sợi viền sáng trên cùng -->
-        <path d="M -40,833 C 260,795 480,665 720,575 C 960,485 1200,330 1490,165" 
-              stroke="url(#fineLineGrad)" stroke-width="2.5" fill="none" opacity="0.85" />
-
-        <!-- Các sợi vân kim loại song song chạy bên trong thân dải -->
-        <path d="M -40,833 C 260,800 480,675 720,585 C 960,495 1200,342 1490,190" 
-              stroke="url(#fineLineGrad)" stroke-width="1.6" fill="none" opacity="0.6" />
-
-        <path d="M -40,834 C 260,805 480,685 720,595 C 960,505 1200,355 1490,215" 
-              stroke="url(#fineLineGrad)" stroke-width="2" fill="none" opacity="0.75" />
-
-        <path d="M -40,834 C 260,810 480,695 720,605 C 960,515 1200,368 1490,240" 
-              stroke="url(#fineLineGrad)" stroke-width="1.4" fill="none" opacity="0.55" />
-
-        <!-- Sợi viền sáng dưới cùng -->
-        <path d="M -40,835 C 260,815 480,705 720,615 C 960,525 1200,380 1490,265" 
-              stroke="url(#fineLineGrad)" stroke-width="2.2" fill="none" opacity="0.7" />
-
-        <!-- D. CHÙM ÁNH SÁNG NGÔI SAO DI CHUYỂN CHÉO TỪ DƯỚI LÊN ĐỒNG THỜI VỚI SLIDE UP -->
-        <!-- Ngôi sao di chuyển dọc theo đúng đường tâm của dải họa tiết -->
-        <g id="starComet" opacity="0">
-          <!-- Hào quang tỏa sáng của ngôi sao -->
-          <circle cx="0" cy="0" r="42" fill="url(#starGlowGrad)" />
-          <!-- Tia sáng ngang -->
-          <line x1="-36" y1="0" x2="36" y2="0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.95" />
-          <!-- Tia sáng dọc -->
-          <line x1="0" y1="-36" x2="0" y2="36" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.95" />
-          <!-- Tia sáng chéo 45 độ -->
-          <line x1="-18" y1="-18" x2="18" y2="18" stroke="#8AB4F8" stroke-width="1.6" stroke-linecap="round" opacity="0.8" />
-          <line x1="18" y1="-18" x2="-18" y2="18" stroke="#8AB4F8" stroke-width="1.6" stroke-linecap="round" opacity="0.8" />
-          <!-- Ngôi sao 4 cánh sắc sảo ở lõi -->
-          <path d="M 0,-18 C 1.2,-5 5,-1.2 18,0 C 5,1.2 1.2,5 0,18 C -1.2,5 -5,1.2 -18,0 C -5,-1.2 -1.2,-5 0,-18 Z" fill="#FFFFFF" />
-          <circle cx="0" cy="0" r="5" fill="#FFFFFF" />
-
-          <!-- Chuyển động lướt dọc theo đúng đường line dải họa tiết từ dưới lên góc trên bên phải -->
-          <animateMotion 
-            path="M -50,835 C 260,805 480,685 720,595 C 960,505 1200,355 1490,215" 
-            begin="4.2s" 
-            dur="1.75s" 
-            fill="freeze"
-            calcMode="spline"
-            keyTimes="0; 1"
-            keySplines="0.22 0.8 0.25 1"
-          />
-          <!-- Độ trong suốt: hiện ra khi bắt đầu và mờ dần khi chạm tới đích -->
-          <animate 
-            attributeName="opacity" 
-            values="0; 1; 1; 0.9; 0" 
-            keyTimes="0; 0.12; 0.75; 0.92; 1" 
-            begin="4.2s" 
-            dur="1.75s" 
-            fill="freeze" 
-          />
-        </g>
+        <!-- Dải sóng uốn lượn chính -->
+        <path d="M-60,780 C260,740 460,630 680,510 C920,380 1140,210 1520,-20" stroke="url(#ribbonGrad)" stroke-width="64" stroke-linecap="round" opacity="0.6"/>
+        <path d="M-60,780 C260,740 460,630 680,510 C920,380 1140,210 1520,-20" stroke="#FFFFFF" stroke-width="2" opacity="0.45"/>
+        <!-- Các đường gân vân kim loại song song -->
+        <path d="M-60,795 C260,755 460,645 680,525 C920,395 1140,225 1520,-5" stroke="url(#lineGrad)" stroke-width="1.2" opacity="0.4"/>
+        <path d="M-60,788 C260,748 460,638 680,518 C920,388 1140,218 1520,-12" stroke="url(#lineGrad)" stroke-width="1" opacity="0.5"/>
+        <path d="M-60,772 C260,732 460,622 680,502 C920,372 1140,202 1520,-28" stroke="url(#lineGrad)" stroke-width="1" opacity="0.5"/>
+        <path d="M-60,764 C260,724 460,614 680,494 C920,364 1140,194 1520,-36" stroke="url(#lineGrad)" stroke-width="1.2" opacity="0.4"/>
+        <path d="M-60,756 C260,716 460,606 680,486 C920,356 1140,186 1520,-44" stroke="url(#lineGrad)" stroke-width="1" opacity="0.3"/>
       </svg>
     </div>
 
-    <!-- 3. ÁNH SÁNG QUANG HỌC BAN ĐẦU Ở TRUNG TÂM -->
+    <!-- Tia sáng xéo 45 độ quét theo dải sóng -->
+    <div class="diagonal-light-sweep"></div>
+
+    <!-- 2. ÁNH SÁNG QUANG HỌC BAN ĐẦU Ở TRUNG TÂM -->
     <div class="optic-core"></div>
     <div class="optic-laser"></div>
     <div class="optic-spike-v"></div>
@@ -913,7 +896,7 @@
       <div class="hero-intro-glint"></div>
     </div>
 
-    <!-- 4. KHUNG THẺ KÍNH MỜ GLASSMORPHISM (CĂN GIỮA HOÀN HẢO BẰNG FLEXBOX) -->
+    <!-- 3. KHUNG THẺ KÍNH MỜ GLASSMORPHISM (CĂN GIỮA HOÀN HẢO BẰNG FLEXBOX) -->
     <div class="glass-card">
       <!-- HEADER THƯƠNG HIỆU: RÀNG BUỘC CỐ ĐỊNH LOGO VÀ CHỮ LUÔN ĐỨNG KẾ BÊN NHAU -->
       <div class="card-brand-header">

@@ -99,10 +99,11 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
   - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
   - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
   - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
-- **Họa tiết kéo nghiêng ở nền (Background Ribbon Pattern):**
-  - Dải sóng uốn lượn vân kim loại/aerodynamic chéo từ góc dưới-trái lên góc trên-phải.
-  - Xuất hiện **SAU CÙNG** trong chuỗi animation khi tải trang và **slide up**.
-  - **Ngay thời điểm slide up, có tia sáng quang học quét xéo 45 độ** từ góc dưới bên trái sang góc trên bên phải, tốc độ êm ái sang trọng.
+- **Họa tiết kéo nghiêng ở nền (Background Aerodynamic Ribbon Stream):**
+  - Dải họa tiết **vuốt nhọn (tapered)** từ góc dưới bên trái, mở rộng dần và xòe vút lên góc trên bên phải theo phong cách khí động học thể thao siêu sang.
+  - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải họa tiết, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(36px)`), co giãn bám theo dải họa tiết đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
+  - Xuất hiện **SAU CÙNG** trong chuỗi animation khi tải trang (delay ~4.2s) và **slide up**.
+  - **Chùm ánh sáng ngôi sao di chuyển chéo (Moving Optical Star Comet):** Đồng thời khi dải họa tiết slide up, có một chùm ánh sáng như ngôi sao 4 cánh quang học lướt di chuyển chéo dọc theo đúng đường cong spline trung tâm của dải họa tiết từ góc dưới-trái lên góc trên-phải với nhịp lướt êm ái, điện ảnh.
 - **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
   - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.
   - Thông báo lỗi/trạng thái màu đỏ mềm mại (`#FF6B6B`), font 11.5px hiển thị dưới link (như trong hình mẫu 2).

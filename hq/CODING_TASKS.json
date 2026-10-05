@@ -41,5 +41,14 @@
     "main_vars_css": ".card-brand-header .brand-logo-slot .brand-text-slot .bg-ambient-bl .bg-ambient-tr .bg-volumetric-beam .form-feedback",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Ràng buộc Logo AP và chữ CAR CARE trong .card-brand-header flexbox cố định vĩnh viễn trên mọi kích thước màn hình; Bỏ hẳn ngôi sao màu trắng góc dưới-phải; Tái tạo 100% ánh sáng gradient nền chuẩn hình mẫu 2 (chùm sáng xiên góc trên-phải với quầng trắng dịu & xanh đen, quầng xanh đen góc dưới-trái hắt lên, thẻ kính viền bắt sáng sắc nét); Bổ sung thông báo lỗi đỏ mềm mại."
+  },
+  {
+    "id": "TASK-004",
+    "env": "frontend",
+    "task_name": "Welcome & Login v7 (Tapered Ribbon, White Glow Underlay, Moving Star Comet): Dải sáng trắng nền fix theo dải họa tiết, vuốt nhọn góc dưới-trái xòe vút lên trên-phải, chùm sáng ngôi sao lướt theo đường curve",
+    "main_function": "loginForm submit, setFeedback, animateMotion starComet native SVG",
+    "main_vars_css": ".bg-ribbon-layer .bg-ribbon-svg #whiteGlowGrad #ribbonBodyGrad #fineLineGrad #starComet #starGlowGrad",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Dải ánh sáng gradient trắng nằm fix và bám theo dải họa tiết làm nền phát quang mờ dịu, co giãn 100% theo dải họa tiết trên mọi kích cỡ thiết bị; Dải họa tiết vuốt nhọn ở góc dưới-trái và mở rộng xòe vút lên góc trên-phải; Chùm ánh sáng ngôi sao 4 cánh di chuyển chéo dọc theo đúng đường spline uốn lượn từ dưới lên trên đồng thời với hiệu ứng slide up."
   }
 ]

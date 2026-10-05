@@ -73,3 +73,13 @@
 - **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v6: Ràng buộc vị trí Logo AP và chữ CAR CARE luôn đứng cạnh nhau trong `.card-brand-header` flexbox, loại bỏ hoàn toàn ngôi sao màu trắng góc dưới-phải; Tái tạo 100% bố cục ánh sáng gradient nền chuẩn hình mẫu 2 (chùm sáng Studio Volumetric Beam hắt xiên từ góc trên-phải với quầng trắng dịu & xanh đen, quầng sáng xanh đen hắt góc dưới-trái, viền thẻ kính bắt sáng sắc nét); Đã deploy demo lên GitHub Pages.
 - **File đã sửa:** src/Index.html, hq/brand_assets/lighting_reference.png (mới), hq/brand_assets/mobile_bug_sample.png (mới), hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
 - **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json cập nhật TASK-002.
+---
+**Thời gian:** 2026-10-05 15:09:20
+**Mã ID trước khi sửa:** e935bd9
+**Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
+
+## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/e935bd9/)
+- **Prompt yêu cầu của user:** "dải ánh sáng gradient trắng chưa đúng. nó sẽ nằm fix theo dải họa tiết bên dưới làm nền cho dải họa tiết và co giãn bám theo dải họa tiết ở mọi kích cỡ giao diện thiết bị. dải họa tiết cũng cần chỉnh sửa cho phù hợp ảnh mẫu đính kèm. dải họa tiết sẽ vuốt nhọn từ góc dưới bên trái đi lên góc trên bên phải và khi load trang sẽ có chùm ánh sáng như ngôi sao di chuyển chéo từ dưới lên đồng thời với hiệu ứng slide up của dải họa tiết, theo đúng đường line bắt chéo ngang giao diện login app của dải họa tiết này."
+- **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v7: Dải ánh sáng gradient trắng nền nằm fix trực tiếp theo dải họa tiết làm nền phát quang mờ ảo, co giãn bám theo dải họa tiết ở mọi kích cỡ thiết bị; Dải họa tiết vuốt nhọn ở góc dưới-trái và mở rộng xòe vút lên góc trên-phải; Chùm ánh sáng ngôi sao 4 cánh quang học di chuyển chéo uốn lượn dọc theo đường spline từ dưới lên trên đồng thời với hiệu ứng slide up; Đã deploy demo lên GitHub Pages.
+- **File đã sửa:** src/Index.html, hq/brand_assets/reference_ribbon_flow.png (mới), hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
+- **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json thêm TASK-004.
