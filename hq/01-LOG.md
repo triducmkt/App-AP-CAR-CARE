@@ -123,3 +123,19 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Biên dịch `src/Index.html` (108,909 byte).
   - Deploy thành công demo lên nhánh `gh-pages` (`b112fad`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 14:57 — Lucy/Antigravity — Nâng cấp Welcome & Login v6 (Fixed Brand Header, True Reference Lighting, Remove White Star)
+- **Tiếp nhận phản hồi chi tiết từ Product Owner (anh Đức):**
+  - Khắc phục triệt để lỗi logo AP bị lệch vị trí trên Mobile (đè lên ô Tên đăng nhập): Ràng buộc vĩnh viễn Logo AP và chữ CAR CARE AUDIO AND ACCESSORIES cùng nằm trong container flexbox `.card-brand-header`, luôn cố định đứng kế bên nhau chuẩn xác trên mọi thiết bị và độ phân giải.
+  - Bỏ hẳn ngôi sao màu trắng ở góc dưới bên phải màn hình.
+  - Phân tích và tái tạo chính xác 100% bố cục ánh sáng gradient trong nền theo hình mẫu 2 (`hq/brand_assets/lighting_reference.png`):
+    + Luồng chùm sáng Studio Volumetric Beam chiếu xiên từ góc trên-phải xuống dưới-trái (kết hợp màu trắng dịu và xanh đen).
+    + Quầng sáng xanh đen sâu thẳm ở góc dưới bên trái hắt lên tôn vinh dải sóng kim loại.
+    + Thẻ Card kính mờ đón ánh sáng đèn: Cạnh trên và cạnh phải có viền sáng ánh kim sắc sảo, bề mặt kính gradient phản chiếu từ trên-phải xuống.
+    + Bổ sung dòng thông báo trạng thái/lỗi màu đỏ mềm mại (`#FF6B6B`) hiển thị tinh tế dưới link Quên mật khẩu.
+- **Triển khai & Kiểm thử:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/3cdc821/`.
+  - Biên dịch `src/Index.html` (136.690 bytes).
+  - Kiểm thử render Edge headless trên PC (1440x900) và Mobile (390x844) đều cân đối, logo và chữ đứng cạnh nhau hoàn hảo 100%.
+  - Deploy thành công demo lên nhánh `gh-pages` (`89aef79`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.

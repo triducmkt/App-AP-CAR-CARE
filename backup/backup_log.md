@@ -63,3 +63,13 @@
 - **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v5: Khung thẻ kính mờ Glassmorphism Card bo tròn góc lớn 26px, Inputs và Nút Đăng nhập 3D hình viên thuốc (Capsule) màu trắng ngà Off-White sắc sảo; Dải sóng kim loại nền (Ribbon SVG) uốn lượn xuất hiện sau cùng và slide up với tia sáng quang học quét xéo 45 độ; Ngôi sao quang học 4 cánh góc dưới-phải; Đã deploy demo lên GitHub Pages.
 - **File đã sửa:** src/Index.html, hq/brand_assets/mockup_reference.png (mới), hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
 - **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json thêm TASK-002.
+---
+**Thời gian:** 2026-10-05 14:54:01
+**Mã ID trước khi sửa:** 3cdc821
+**Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
+
+## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/3cdc821/)
+- **Prompt yêu cầu của user:** "ok thiết kế đã đẹp hơn. cần điều chỉnh chi tiết: xem hình đính kèm 1, logo bị sai lệch ở các giao diện hoặc loại thiết bị hiển thị khác nhau, cần ràng buộc vị trí logo và hình Car care kế bên luôn fix đứng kế bên cạnh nhau; dưới góc phải bỏ hẳn ngôi sao màu trắng luôn; trong hình đính kèm 2 là hình mẫu, hãy quan sát phân tích ánh sáng gradient trong nền (có cả phần màu trắng và màu xanh đen), phân tích kĩ bố cục của các ánh sáng này để áp dụng giống hệt vào giao diện"
+- **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v6: Ràng buộc vị trí Logo AP và chữ CAR CARE luôn đứng cạnh nhau trong `.card-brand-header` flexbox, loại bỏ hoàn toàn ngôi sao màu trắng góc dưới-phải; Tái tạo 100% bố cục ánh sáng gradient nền chuẩn hình mẫu 2 (chùm sáng Studio Volumetric Beam hắt xiên từ góc trên-phải với quầng trắng dịu & xanh đen, quầng sáng xanh đen hắt góc dưới-trái, viền thẻ kính bắt sáng sắc nét); Đã deploy demo lên GitHub Pages.
+- **File đã sửa:** src/Index.html, hq/brand_assets/lighting_reference.png (mới), hq/brand_assets/mobile_bug_sample.png (mới), hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
+- **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json cập nhật TASK-002.

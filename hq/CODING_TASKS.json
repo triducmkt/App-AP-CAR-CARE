@@ -32,5 +32,14 @@
     "main_vars_css": ".glass-card .bg-ribbon-layer .bg-ribbon-svg .diagonal-light-sweep .corner-star .input-capsule .btn-capsule .logo-hero-wrap .brand-slot",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Khung thẻ kính mờ Glassmorphism Card bo góc 26px, input và button hình viên thuốc Capsule bo tròn 2 đầu, nút Đăng nhập 3D trắng ngà Off-White sắc sảo. Họa tiết dải sóng kim loại ở nền xuất hiện sau cùng và slide up với tia sáng quét xéo 45 độ cực kỳ sang trọng."
+  },
+  {
+    "id": "TASK-003",
+    "env": "frontend",
+    "task_name": "Welcome & Login v6 (Fixed Brand Header & True Reference Lighting): Logo & Chữ CAR CARE fix cố định cạnh nhau, ánh sáng gradient chuẩn hình mẫu 2, bỏ ngôi sao trắng",
+    "main_function": "loginForm submit handler, setFeedback trạng thái lỗi, modal Quên mật khẩu",
+    "main_vars_css": ".card-brand-header .brand-logo-slot .brand-text-slot .bg-ambient-bl .bg-ambient-tr .bg-volumetric-beam .form-feedback",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Ràng buộc Logo AP và chữ CAR CARE trong .card-brand-header flexbox cố định vĩnh viễn trên mọi kích thước màn hình; Bỏ hẳn ngôi sao màu trắng góc dưới-phải; Tái tạo 100% ánh sáng gradient nền chuẩn hình mẫu 2 (chùm sáng xiên góc trên-phải với quầng trắng dịu & xanh đen, quầng xanh đen góc dưới-trái hắt lên, thẻ kính viền bắt sáng sắc nét); Bổ sung thông báo lỗi đỏ mềm mại."
   }
 ]

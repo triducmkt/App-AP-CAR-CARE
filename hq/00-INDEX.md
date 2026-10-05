@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v5 hoàn thiện theo chuẩn mockup của anh Đức: Khung thẻ kính mờ Glassmorphism bo tròn góc lớn, Inputs và Nút Đăng nhập 3D hình viên thuốc (Capsule) màu trắng ngà Off-White sắc sảo, dải sóng kim loại nền (Ribbon) xuất hiện sau cùng và slide up với tia sáng quét xéo 45 độ cực kỳ sang trọng, ngôi sao quang học 4 cánh góc dưới-phải. Đã deploy demo lên GitHub Pages.
-- **Vừa xong:** Khắc phục triệt để tiến trình kiểm thử nền, biên dịch `src/Index.html`, deploy demo thành công lên nhánh `gh-pages` (`b112fad`), cập nhật `hq/design_aesthetic_memo.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
-- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp và duyệt giao diện v5 để chuyển sang kết nối xác thực tài khoản qua Google Sheet và phát triển các luồng màn hình tiếp theo.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 14:38
+- **Trạng thái:** Welcome & Login v6 hoàn thiện tuyệt đối: Ràng buộc vị trí Logo AP và chữ CAR CARE luôn fix cố định đứng kế bên nhau trong container flexbox trên mọi thiết bị; Xóa bỏ hoàn toàn ngôi sao màu trắng góc dưới-phải; Tái tạo chính xác 100% bố cục ánh sáng gradient nền theo hình mẫu 2 của anh Đức (luồng chùm sáng Studio Volumetric Beam chiếu xiên từ trên-phải pha màu trắng dịu & xanh đen, quầng sáng xanh đen hắt từ góc dưới-trái, mặt kính Card bắt sáng viền trên và viền phải); Đã deploy trực tiếp lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1`, lưu tài liệu mẫu vào `hq/brand_assets/`, biên dịch `src/Index.html` (136.690 bytes), deploy thành công demo lên nhánh `gh-pages` (`89aef79`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp và duyệt giao diện v6 để chuyển sang tích hợp logic backend xác thực qua Google Sheet ID 1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 14:57
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

@@ -75,30 +75,37 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
 ---
 
 ## 6. QUY CHUẨN FORM & GIAO DIỆN CHÍNH THỨC (GLASSMORPHISM CARD & CAPSULE SPEC - THEO MOCKUP ANH ĐỨC)
-- **Khung thẻ kính mờ (Glassmorphism Central Card):**
+- **Khung thẻ kính mờ (Glassmorphism Central Card - Theo sát hình mẫu 2):**
   - Kích thước vừa vặn cân đối (rộng 384px trên PC, min(calc(100vw - 32px), 340px) trên Mobile), bo tròn góc lớn 26px (22px trên mobile).
-  - Nền kính mờ tối màu sang trọng `rgba(26, 28, 35, 0.42)`, `backdrop-filter: blur(28px)`, viền nét mảnh màu kim loại `1px solid rgba(255, 255, 255, 0.16)`.
-  - Đổ bóng sâu trầm `box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95)`, viền sáng phản chiếu nhẹ cạnh trên (`inset 0 1px 1px rgba(255, 255, 255, 0.3)`).
-- **Header trong Card:**
-  - Logo AP tròn nền đen chữ trắng (đường kính 52px trên PC, 44px trên mobile) đặt cạnh cụm chữ thương hiệu vector gốc ("CAR CARE / AUDIO AND ACCESSORIES") theo tỉ lệ vàng.
+  - Nền kính bắt sáng từ luồng đèn góc trên-phải: `linear-gradient(142deg, rgba(255,255,255,0.15) 0%, rgba(36,44,58,0.46) 38%, rgba(14,18,26,0.72) 100%)`, `backdrop-filter: blur(28px)`.
+  - Viền kính sắc nét: Cạnh trên và cạnh phải bắt sáng mạnh (`border-top: 1px solid rgba(255,255,255,0.52); border-right: 1px solid rgba(255,255,255,0.3)`), cạnh trái và dưới mờ dịu (`1px solid rgba(255,255,255,0.16)`).
+  - Đổ bóng sâu trầm: `box-shadow: 0 35px 85px rgba(0,0,0,0.96), inset 0 1px 1px rgba(255,255,255,0.42)`.
+- **RÀNG BUỘC CỐ ĐỊNH LOGO VÀ CHỮ THƯƠNG HIỆU (BẮT BUỘC VĨNH VIỄN):**
+  - Logo AP tròn và chữ CAR CARE AUDIO AND ACCESSORIES **BẮT BUỘC nằm chung trong một container flexbox duy nhất: `.card-brand-header`**.
+  - Tuyệt đối không dùng toạ độ pixel bay độc lập để tránh sai lệch trên các thiết bị/độ phân giải khác nhau.
+  - Logo và chữ luôn cố định đứng kế bên nhau chuẩn xác trên mọi màn hình từ 320px đến 4K.
+- **BỐ CỤC ÁNH SÁNG GRADIENT NỀN (THEO SÁT HÌNH MẪU 2):**
+  - **Nền gốc:** Đen sâu tuyền `#020408`.
+  - **Góc trên-phải (Top-Right):** Nguồn sáng chính gồm quầng sáng trắng dịu & xanh đen (`rgba(255,255,255,0.18)` lan sang `rgba(32,65,110,0.42)`), kết hợp chùm tia sáng Studio Volumetric Beam chiếu xiên sắc nét từ trên-phải xuống dưới-trái.
+  - **Góc dưới-trái (Bottom-Left):** Quầng sáng xanh đen huyền bí `rgba(18,36,62,0.48)` hắt lên tôn vinh dải sóng.
+  - **BỎ HẲN NGÔI SAO MÀU TRẮNG:** Tuyệt đối không để ngôi sao trắng ở góc dưới bên phải.
 - **Ô nhập liệu hình viên thuốc (Capsule Inputs):**
   - Bo tròn hoàn toàn hai đầu (`border-radius: 9999px`), chiều cao 46px (44px trên mobile), padding thoáng rộng 22px (`padding: 0 22px`).
-  - Nền đen mờ siêu nhẹ `rgba(255, 255, 255, 0.035)`, viền mảnh `1px solid rgba(255, 255, 255, 0.14)`.
+  - Nền đen mờ siêu nhẹ `rgba(255, 255, 255, 0.035)`, viền mảnh `1px solid rgba(255, 255, 255, 0.15)`.
   - Placeholder bạc mờ `rgba(255, 255, 255, 0.42)`, khi gõ chữ hiển thị trắng tuyền `#FFFFFF`.
-  - Khi focus: Viền sáng ánh kim `rgba(255, 255, 255, 0.85)` kèm tỏa sáng nhẹ dịu `box-shadow: 0 0 16px rgba(255, 255, 255, 0.22)`.
+  - Khi focus: Viền sáng ánh kim `rgba(255, 255, 255, 0.85)` kèm tỏa sáng nhẹ dịu `box-shadow: 0 0 16px rgba(255, 255, 255, 0.25)`.
 - **Nút Đăng nhập 3D hình viên thuốc (Capsule 3D Off-White Button):**
   - Bo tròn viên thuốc (`border-radius: 9999px`), chiều cao 48px (46px trên mobile), viền sắc sảo `1px solid rgba(255, 255, 255, 0.85)`.
   - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
   - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
   - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
-  - Vệt sáng kim loại nhẹ nhàng lướt qua khi nút xuất hiện.
 - **Họa tiết kéo nghiêng ở nền (Background Ribbon Pattern):**
-  - Dải sóng uốn lượn vân kim loại/aerodynamic chéo từ góc dưới-trái lên góc trên-phải (stroke gradient xanh Google, trắng, bạc).
-  - Xuất hiện **SAU CÙNG** trong chuỗi animation khi tải trang (delay ~4.3s) và **slide up**.
+  - Dải sóng uốn lượn vân kim loại/aerodynamic chéo từ góc dưới-trái lên góc trên-phải.
+  - Xuất hiện **SAU CÙNG** trong chuỗi animation khi tải trang và **slide up**.
   - **Ngay thời điểm slide up, có tia sáng quang học quét xéo 45 độ** từ góc dưới bên trái sang góc trên bên phải, tốc độ êm ái sang trọng.
-- **Ngôi sao quang học 4 cánh (Corner Optical Star):**
-  - Đặt ở góc dưới bên phải màn hình, lấp lánh nhẹ nhàng tinh tế.
-- **Liên kết "Quên mật khẩu?":** Đặt ngay bên dưới nút Đăng nhập, font Inter thanh mảnh, màu xám bạc mờ, hover sáng trắng nhẹ, click mở modal hỗ trợ.
+- **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
+  - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.
+  - Thông báo lỗi/trạng thái màu đỏ mềm mại (`#FF6B6B`), font 11.5px hiển thị dưới link (như trong hình mẫu 2).
 
 ---
 
