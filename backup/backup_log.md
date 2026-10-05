@@ -129,7 +129,7 @@
 **Mã ID trước khi sửa:** 75bc0e2
 **Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
 
-## Mã ID: PENDING_COMMIT (backup trước khi sửa: backup/75bc0e2/)
+## Mã ID: 0af2214 (backup trước khi sửa: backup/75bc0e2/)
 - **Prompt yêu cầu của user:** "ok, giờ hãy học cách SPA login chuyển trang từ code của dự án TDCM Team App để tạo trang Home và log in thành công từ giao diện log in hiện tại này với user id "DUC" và mk là "1111". trang home có logo AP, có giao diện với tính năng đăng bài đa kênh: dán nội dung ô text long, up 1 hình hoặc nhiều hình và danh sách check box tùy chọn kênh: youtube, fb, titkok. bên cạnh mỗi kênh có thêm icon x hay v thể hiện trạng thái đăng thành công hay chưa. cuối cùng là nút Đăng bài."
 - **Kết quả trả lời của Agent:** Hoàn tất tính năng SPA Chuyển trang & Trang Home Quản trị Đăng bài Đa kênh (Multi-Channel Cross-Posting Hub): Xác thực đăng nhập thành công với User ID DUC / Mật khẩu 1111 (và backend Google Apps Script); Lưu phiên làm việc an toàn qua localStorage theo chuẩn TDCM Team App; Chuyển mượt giữa Login và Home; Trang Home có Header Logo AP, thông tin User Tăng Trí Đức (Product Owner), nút Đăng xuất; Giao diện Đăng bài Đa kênh với ô Text Long (bộ đếm từ/ký tự, hashtag gợi ý), Uploader up 1 hoặc nhiều ảnh kèm lưới preview và xóa từng ảnh, danh sách checkbox kênh YouTube, Facebook, TikTok kèm icon trạng thái v (thành công) và x (chưa đăng/thất bại); Nút bấm 3D Đăng bài; Đã deploy demo lên GitHub Pages.
 - **File đã sửa:** src/Code.gs, src/Index.html, hq/schematic_map.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
