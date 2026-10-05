@@ -99,15 +99,17 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
   - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
   - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
   - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
-- **Họa tiết kéo nghiêng ở nền (Background Silk Ribbon Stream - Chuẩn v9 theo sát hình mẫu):**
+- **Họa tiết kéo nghiêng ở nền (Background Silk Ribbon Stream - Chuẩn v10 theo sát hình mẫu):**
   - Dải họa tiết **vuốt thon nhọn ở góc dưới bên phải** và **xòe rộng mềm mại lên góc trên bên trái** theo hình mẫu tham chiếu (`hq/brand_assets/reference_ribbon_flow.png`).
   - Các đường line trắng trong dải lụa: **nhiều, nhuyễn, thanh mảnh (0.9px - 1.5px)**, độ mờ nhẹ dịu (opacity 0.4 - 0.75), không trắng đậm quá, tạo cảm giác dải lụa phát quang siêu thực.
   - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải lụa, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(38px)`), co giãn bám theo dải lụa đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
-  - **Chùm ánh sáng ngôi sao di chuyển chéo (Needle-Sharp Optical Star Comet - Chuẩn v9):**
-    - **Kích thước nhỏ lại 50%:** Lõi kim cương 9px (so với 18px cũ), điểm sáng trung tâm 2.2px (so với 4.5px cũ), quầng hào quang r=23px (so với r=46px cũ).
-    - **Tia sáng kéo dài, vuốt nhọn mịn như mũi kim:** Tia ngang kéo dài đến 58px mỗi bên (tổng sải 116px), tia dọc kéo dài 46px mỗi bên (tổng sải 92px), các đầu tia vuốt cong nhọn mượt mà (tapered bezier curves), kèm 4 tia phụ 45 độ thanh mảnh 19px, tạo hiệu ứng chùm sáng quang học cực kỳ sắc sảo và tinh xảo.
-    - **Thời điểm khởi động:** Bắt đầu animate di chuyển **gối đầu ngay khi logo AP vừa xuất hiện xong (2.2s)**.
-    - **Quỹ đạo & Tốc độ:** Lướt bám sát theo đường spline dải lụa từ góc dưới-phải lên góc trên-trái, tốc độ **chậm dần (decelerating ease-out: `0.12 0.75 0.22 1`)** trong 2.4s cực kỳ điện ảnh và đằm thắm.
+  - **Chùm ánh sáng ngôi sao di chuyển chéo (16-Point Needle-Sharp Optical Starburst - Chuẩn v10):**
+    - **Tia ngang 90px:** Mỗi bên kéo dài 90px (tổng sải 180px), vuốt nhọn mịn như mũi kiếm.
+    - **Tia dọc dài 120px:** Mỗi bên kéo dài 120px (tổng sải 240px), tạo vệt sáng quang học anamorphic cao cấp sắc bén.
+    - **4 tia chéo chính 45 độ:** Kéo dài 52px mỗi bên, thanh mảnh sắc nét.
+    - **Thêm 8 tia phụ phân bố đều:** Bố trí tại các góc 22.5 độ và 67.5 độ, dài 34px mỗi bên, hoàn thiện cấu trúc chùm sao 16 tia sáng tròn đầy và phân bố đối xứng hoàn hảo.
+    - **Điểm sáng tâm lớn hơn & rực rỡ:** Lõi kim cương 15px, chấm sáng trung tâm 5.5px kèm quầng phát sáng trong 9px, hào quang trắng rực rỡ r=38px.
+    - **Thời điểm khởi động & Quỹ đạo:** Animate di chuyển gối đầu ở thời điểm 2.2s, lướt chậm dần (`decelerating ease-out: 0.12 0.75 0.22 1`) dọc theo dải lụa.
 - **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
   - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.
   - Thông báo lỗi/trạng thái màu đỏ mềm mại (`#FF6B6B`), font 11.5px hiển thị dưới link (như trong hình mẫu 2).

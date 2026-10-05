@@ -797,12 +797,11 @@
             <feGaussianBlur stdDeviation="38" result="blur"/>
           </filter>
 
-          <!-- Hào quang trắng tỏa sáng của chùm ngôi sao (tâm lớn, rực rỡ hơn) -->
+          <!-- Hào quang trắng tỏa sáng của chùm ngôi sao -->
           <radialGradient id="starWhiteGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
-            <stop offset="25%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-            <stop offset="50%" stop-color="#E2EEFF" stop-opacity="0.6"/>
-            <stop offset="75%" stop-color="#8AB4F8" stop-opacity="0.25"/>
+            <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+            <stop offset="65%" stop-color="#8AB4F8" stop-opacity="0.35"/>
             <stop offset="100%" stop-color="#4285F4" stop-opacity="0"/>
           </radialGradient>
         </defs>
@@ -871,54 +870,30 @@
         <path d="M 1480,821 C 1180,808 960,695 720,612 C 480,530 260,395 -40,265" 
               stroke="url(#fineLineGrad)" stroke-width="1.3" fill="none" opacity="0.6" />
 
-        <!-- D. CHÙM ÁNH SÁNG NGÔI SAO MÀU TRẮNG QUANG HỌC (CHUẨN V10 THEO YÊU CẦU ANH ĐỨC):
-                + TIA NGANG 90px (MỖI BÊN 90px, TỔNG SẢI 180px)
-                + TIA DỌC 120px (MỖI BÊN 120px, TỔNG SẢI 240px)
-                + 4 TIA CHÉO CHÍNH (45 ĐỘ, DÀI 52px)
-                + THÊM 8 TIA PHỤ PHÂN BỐ ĐỀU (22.5 ĐỘ VÀ 67.5 ĐỘ, DÀI 34px)
-                + ĐIỂM SÁNG TÂM LỚN HƠN, RỰC RỠ ĐẲNG CẤP
-                + ANIMATE GỐI ĐẦU Ở THỜI ĐIỂM LOGO AP VỪA XUẤT HIỆN XONG (2.2S) -->
+        <!-- D. CHÙM ÁNH SÁNG NGÔI SAO MÀU TRẮNG QUANG HỌC (NHỎ LẠI 50%, TIA SÁNG KÉO DÀI, VUỐT NHỌN MỊN VÀ SẮC SẢO)
+                ANIMATE GỐI ĐẦU Ở THỜI ĐIỂM LOGO AP VỪA XUẤT HIỆN XONG (2.2S) -->
         <g id="starComet" opacity="0">
-          <!-- Hào quang màu trắng tỏa rộng (bán kính r=38) -->
-          <circle cx="0" cy="0" r="38" fill="url(#starWhiteGlow)" />
+          <!-- Hào quang màu trắng dịu glow (thu nhỏ 50% từ r=46 xuống r=23) -->
+          <circle cx="0" cy="0" r="23" fill="url(#starWhiteGlow)" />
 
-          <!-- TIA NGANG 90PX (mỗi bên 90px, vuốt nhọn mịn như lưỡi kiếm mũi kim) -->
-          <path d="M 0,-1.8 C 22,-0.6 55,-0.15 90,0 C 55,0.15 22,0.6 0,1.8 C -22,0.6 -55,0.15 -90,0 C -55,-0.15 -22,-0.6 0,-1.8 Z" fill="#FFFFFF" opacity="0.95" />
-          <line x1="-88" y1="0" x2="88" y2="0" stroke="#FFFFFF" stroke-width="0.9" opacity="1" />
+          <!-- Tia sáng ngang kéo dài vuốt nhọn mịn như lưỡi kiếm (tapered needle horizontal spike) -->
+          <path d="M 0,-1.4 C 14,-0.45 38,-0.12 58,0 C 38,0.12 14,0.45 0,1.4 C -14,0.45 -38,0.12 -58,0 C -38,-0.12 -14,-0.45 0,-1.4 Z" fill="#FFFFFF" opacity="0.95" />
+          <line x1="-56" y1="0" x2="56" y2="0" stroke="#FFFFFF" stroke-width="0.75" opacity="1" />
 
-          <!-- TIA DỌC 120PX (mỗi bên 120px, vuốt nhọn mịn quang học anamorphic sắc bén) -->
-          <path d="M -1.8,0 C -0.6,-28 -0.15,-75 0,-120 C 0.15,-75 0.6,-28 1.8,0 C 0.6,28 0.15,75 0,120 C -0.15,75 -0.6,28 -1.8,0 Z" fill="#FFFFFF" opacity="0.95" />
-          <line x1="0" y1="-118" x2="0" y2="118" stroke="#FFFFFF" stroke-width="0.9" opacity="1" />
+          <!-- Tia sáng dọc kéo dài vuốt nhọn mịn sắc sảo (tapered needle vertical spike) -->
+          <path d="M -1.2,0 C -0.4,-10 -0.12,-30 0,-48 C 0.12,-30 0.4,-10 1.2,0 C 0.4,10 0.12,30 0,48 C -0.12,30 -0.4,10 -1.2,0 Z" fill="#FFFFFF" opacity="0.95" />
+          <line x1="0" y1="-46" x2="0" y2="46" stroke="#FFFFFF" stroke-width="0.75" opacity="1" />
 
-          <!-- 4 TIA CHÉO CHÍNH TẠI GÓC 45 ĐỘ (dài 52px) -->
+          <!-- 4 tia chéo phụ 45 độ vuốt nhọn thanh mảnh (độ dài 19px) -->
           <g transform="rotate(45)">
-            <path d="M 0,-1.2 C 12,-0.4 32,-0.1 52,0 C 32,0.1 12,0.4 0,1.2 C -12,0.4 -32,0.1 -52,0 C -32,-0.1 -12,-0.4 0,-1.2 Z" fill="#FFFFFF" opacity="0.85" />
-            <path d="M -1.2,0 C -0.4,-12 -0.1,-32 0,-52 C 0.1,-32 0.4,-12 1.2,0 C 0.4,12 0.1,32 0,52 C -0.1,32 -0.4,12 -1.2,0 Z" fill="#FFFFFF" opacity="0.85" />
-            <line x1="-50" y1="0" x2="50" y2="0" stroke="#FFFFFF" stroke-width="0.65" opacity="0.9" />
-            <line x1="0" y1="-50" x2="0" y2="50" stroke="#FFFFFF" stroke-width="0.65" opacity="0.9" />
+            <path d="M 0,-0.8 C 4,-0.25 12,-0.08 19,0 C 12,0.08 4,0.25 0,0.8 C -4,0.25 -12,0.08 -19,0 C -12,-0.08 -4,-0.25 0,-0.8 Z" fill="#FFFFFF" opacity="0.8" />
+            <path d="M -0.8,0 C -0.25,-4 -0.08,-12 0,-19 C 0.08,-12 0.25,-4 0.8,0 C 0.25,4 0.08,12 0,19 C -0.08,12 -0.25,4 -0.8,0 Z" fill="#FFFFFF" opacity="0.8" />
           </g>
 
-          <!-- 8 TIA PHỤ PHÂN BỐ ĐỀU (4 tia tại 22.5 độ và 4 tia tại 67.5 độ, dài 34px) -->
-          <g transform="rotate(22.5)">
-            <path d="M 0,-0.8 C 8,-0.25 20,-0.06 34,0 C 20,0.06 8,0.25 0,0.8 C -8,0.25 -20,0.06 -34,0 C -20,-0.06 -8,-0.25 0,-0.8 Z" fill="#FFFFFF" opacity="0.75" />
-            <path d="M -0.8,0 C -0.25,-8 -0.06,-20 0,-34 C 0.06,-20 0.25,-8 0.8,0 C 0.25,8 0.06,20 0,34 C -0.06,20 -0.25,8 -0.8,0 Z" fill="#FFFFFF" opacity="0.75" />
-            <line x1="-32" y1="0" x2="32" y2="0" stroke="#FFFFFF" stroke-width="0.5" opacity="0.8" />
-            <line x1="0" y1="-32" x2="0" y2="32" stroke="#FFFFFF" stroke-width="0.5" opacity="0.8" />
-          </g>
-          <g transform="rotate(67.5)">
-            <path d="M 0,-0.8 C 8,-0.25 20,-0.06 34,0 C 20,0.06 8,0.25 0,0.8 C -8,0.25 -20,0.06 -34,0 C -20,-0.06 -8,-0.25 0,-0.8 Z" fill="#FFFFFF" opacity="0.75" />
-            <path d="M -0.8,0 C -0.25,-8 -0.06,-20 0,-34 C 0.06,-20 0.25,-8 0.8,0 C 0.25,8 0.06,20 0,34 C -0.06,20 -0.25,8 -0.8,0 Z" fill="#FFFFFF" opacity="0.75" />
-            <line x1="-32" y1="0" x2="32" y2="0" stroke="#FFFFFF" stroke-width="0.5" opacity="0.8" />
-            <line x1="0" y1="-32" x2="0" y2="32" stroke="#FFFFFF" stroke-width="0.5" opacity="0.8" />
-          </g>
-
-          <!-- NGÔI SAO KIM CƯƠNG 4 CÁNH SẮC BÉN TẠI TÂM (LỚN HƠN) -->
-          <path d="M 0,-15 C 1.2,-4.5 4.5,-1.2 15,0 C 4.5,1.2 1.2,4.5 0,15 C -1.2,4.5 -4.5,1.2 -15,0 C -4.5,-1.2 -1.2,-4.5 0,-15 Z" fill="#FFFFFF" />
-          
-          <!-- ĐIỂM SÁNG TÂM LỚN HƠN, RỰC RỠ QUANG HỌC -->
-          <circle cx="0" cy="0" r="9" fill="#FFFFFF" opacity="0.45" />
-          <circle cx="0" cy="0" r="5.5" fill="#FFFFFF" />
-          <circle cx="0" cy="0" r="2.5" fill="#FFFFFF" />
+          <!-- Ngôi sao 4 cánh sắc bén tại tâm (thu nhỏ 50% từ r=18 xuống r=9) -->
+          <path d="M 0,-9 C 0.7,-2.8 2.8,-0.7 9,0 C 2.8,0.7 0.7,2.8 0,9 C -0.7,2.8 -2.8,0.7 -9,0 C -2.8,-0.7 -0.7,-2.8 0,-9 Z" fill="#FFFFFF" />
+          <!-- Điểm sáng trung tâm siêu mịn (thu nhỏ 50% từ r=4.5 xuống r=2.2) -->
+          <circle cx="0" cy="0" r="2.2" fill="#FFFFFF" />
 
           <!-- Quỹ đạo di chuyển chậm dần từ góc dưới-phải chéo lên góc trên-trái -->
           <animateMotion 

@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v9 hoàn thiện tinh xảo theo chỉ đạo của anh Đức: Vùng ánh sáng xanh đen studio (Bottom-Left & Top-Right) được tăng độ rõ nét 15-20%, tạo chiều sâu studio showroom xe sang nổi bật; Ngôi sao ánh sáng trên dải lụa được thu nhỏ 50% (lõi kim cương 9px, điểm sáng 2.2px, quầng hào quang 23px) cực kỳ nhỏ gọn tinh tế; Các tia sáng của ngôi sao được kéo dài vuốt nhọn mịn như mũi kim (tapered needle horizontal 58px & vertical 46px), sắc sảo và điện ảnh; Đã deploy demo lên GitHub Pages.
-- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `09bd7dd`), tạo template v9 (`scratch/template_v9.html`), biên dịch `src/Index.html` (140.237 bytes), kiểm thử render Edge headless trên PC (`pc_star_v9.png`, `pc_final_v9.png`) & Mobile (`mob_final_v9.png`), deploy demo lên nhánh `gh-pages` (`a01c618`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Trạng thái:** Welcome & Login v10 nâng cấp chùm sáng ngôi sao quang học chuẩn điện ảnh: Tia ngang 90px (sải 180px), tia dọc dài 120px (sải 240px) vuốt nhọn mịn quang học anamorphic sắc sảo; 4 tia chéo 45 độ (52px); Bổ sung 8 tia phụ phân bố đều tại góc 22.5 độ và 67.5 độ (34px); Điểm sáng tâm lớn hơn và rực rỡ (lõi kim cương 15px, điểm sáng 5.5px, hào quang trắng r=38px); Ánh sáng xanh studio rõ nét hoàn hảo; Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `d5468c3`), tạo template v10 (`scratch/template_v10.html`), biên dịch `src/Index.html` (142.220 bytes), kiểm thử render Edge headless trên PC (`pc_star_v10.png`, `pc_final_v10.png`) & Mobile (`mob_final_v10.png`), deploy demo lên nhánh `gh-pages` (`818de05`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
 - **Bước tiếp theo:** Anh Đức trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 16:05
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 16:17
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

@@ -192,3 +192,22 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v9.png`, `pc_final_v9.png`, `mob_final_v9.png`.
   - Deploy thành công demo lên nhánh `gh-pages` (`a01c618`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 16:17 — Lucy/Antigravity — Nâng cấp Welcome & Login v10 (16-Point Anamorphic Starburst: 90px H, 120px V, 8 Even Secondary Rays, Radiant Core)
+- **Tiếp nhận chỉ đạo chi tiết từ Product Owner (anh Đức):**
+  - Sửa tia ngang dài 90px.
+  - Sửa tia dọc dài 120px.
+  - Thêm 8 tia phụ nữa phân bố đều của ngôi sao.
+  - Ở giữa điểm sáng tâm lớn hơn.
+- **Triển khai & Kiểm thử:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/d5468c3/`.
+  - Tái cấu trúc chùm sáng ngôi sao `#starComet`:
+    + Tia ngang dài 90px mỗi bên (tổng sải 180px) vuốt nhọn mịn khí động học kèm laser hairline 0.9px.
+    + Tia dọc dài 120px mỗi bên (tổng sải 240px) tạo vệt quang học anamorphic điện ảnh sắc bén.
+    + 4 tia chéo chính 45 độ dài 52px mỗi bên.
+    + Thêm 8 tia phụ phân bố đều tại góc 22.5 độ và 67.5 độ, dài 34px mỗi bên, tạo thành cấu trúc chùm sao 16 tia sáng tròn đầy và cân đối tuyệt đối.
+    + Điểm sáng tâm lớn hơn và rực rỡ: Lõi kim cương 15px, chấm tâm 5.5px, vòng phát quang 9px, quầng hào quang `#starWhiteGlow` mở rộng r=38px.
+  - Biên dịch `src/Index.html` (142.220 bytes).
+  - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v10.png`, `pc_final_v10.png`, `mob_final_v10.png`.
+  - Deploy thành công demo lên nhánh `gh-pages` (`818de05`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
