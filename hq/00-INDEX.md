@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã lưu trữ toàn bộ quy chuẩn thiết kế nhận diện thương hiệu vào `hq/design_aesthetic_memo.md`, cập nhật kiến trúc Google Apps Script + Google Sheet ID vào `hq/schematic_map.md`, và tạo TASK-001 trong `hq/CODING_TASKS.json`.
-- **Vừa xong:** Khắc phục lỗi màn hình đen [ERR-005], tắt hoàn toàn task chạy nền, đẩy toàn bộ mã nguồn lên GitHub repo: https://github.com/triducmkt/App-AP-CAR-CARE.
-- **Bước tiếp theo:** Product Owner kiểm tra trải nghiệm giao diện và định hướng triển khai các tính năng chuyên sâu tiếp theo (Quản lý dịch vụ, Lịch hẹn, Phân quyền).
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-04 23:23
+- **Trạng thái:** Welcome & Login v2 đã rebuild xong: logo AP đơn (tròn, không viền xanh, đổ bóng nhẹ) + ảnh chữ CAR CARE / AUDIO AND ACCESSORIES, kịch bản motion 7 bước, ô nhập dùng placeholder, đã bỏ toàn bộ text thừa. Ảnh gốc lưu ở `hq/brand_assets/`.
+- **Vừa xong:** Rebuild `src/Index.html`, ghi log/lesson ERR-006, cập nhật TASK-001, kiểm thử Edge headless (PC + mobile).
+- **Bước tiếp theo:** Anh Đức xem demo (GitHub Pages) và phản hồi tinh chỉnh nhịp animation/độ sáng; sau đó nối backend thật `checkLogin` (Google Sheet) và làm các màn hình tiếp theo.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 11:20
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư:** Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

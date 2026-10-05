@@ -57,3 +57,12 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   + Mỗi khi cung cấp demo cho anh Đức, Agent BẮT BUỘC chỉ đưa link truy cập nhanh (bấm click trực tiếp mở cửa sổ trình duyệt tương tác ngay).
   + Tuyệt đối không đưa file code HTML hoặc các dạng file mã nguồn khác trừ khi anh Đức yêu cầu cụ thể.
 - Đã cập nhật vào D:\My Agents\Global\GLOBAL-RULES.md và chạy script sync-rules.ps1 đồng bộ sang toàn bộ Claude, Codex, Gemini và AI-HQ.
+- **Lucy** – 2026-10-05 08:38 – Thực hiện redesign giao diện Welcome & Login: blackout 0.5s → light streak → logo fade+glint → shadow → scale‑up + translate → brand text slide‑right → form inputs staggered (username → password → button). Đồng nhất PC & mobile.
+
+## 2026-10-05 11:20 — Lucy/Antigravity — Rebuild Welcome & Login v2
+- Yêu cầu anh Đức: đổi logo AP đơn (ảnh 1), bỏ viền xanh, đổ bóng tinh tế; chữ bên cạnh = ảnh 2 (CAR CARE / AUDIO AND ACCESSORIES) + animation slide-right; bỏ mọi text thừa; Tên đăng nhập/Mật khẩu làm placeholder.
+- Làm: viết lại hoàn toàn `src/Index.html` theo kịch bản 7 bước (đen 0.5s → tia sáng loé → logo fade + tia ngang → đổ bóng → logo thu nhỏ & lên cao → chữ slide-right → ô user → ô pass → nút). Ánh sáng hắt góc trên-phải, nền #000. Ô nhập trắng, placeholder đen mờ; nút gradient xanh. Font Helvetica/Arial đồng bộ chữ logo.
+- Ảnh gốc lưu ở `hq/brand_assets/`. Logo cắt tròn trong suốt; chữ chuyển nền đen → trong suốt (chữ trắng); nhúng base64 vào Index.html (GAS 1 file).
+- Backend: submit gọi `google.script.run.checkLogin` nếu chạy trong GAS, ngoài GAS thì chế độ demo.
+- Đã kiểm thử bằng Edge headless (PC final + giữa animation + mobile).
+- Tồn đọng trước đó: commit d6b5ef0 (bản sai, trỏ tới ảnh không tồn tại) chưa push → đã thay bằng bản này.

@@ -135,3 +135,8 @@ ode -e "Mã code"), hoặc nếu phải tạo file thì đưa vào thư mục t�
   2. Bổ sung cơ chế tự kích hoạt: kiểm tra document.readyState === 'loading' để chạy ngay mà không bị lỡ sự kiện DOMContentLoaded.
   3. Trước khi xuất file, luôn chạy lệnh kiểm thử cú pháp bằng Node.js: 
 ode -e "new Function(scriptCode)" để đảm bảo 100% không có lỗi cú pháp.
+## ERR-006 - Demo hien ban cu / anh khong ton tai / backup sai thoi diem (2026-10-05)
+- Trieu chung: anh Duc mo link demo van thay giao dien cu; ban code moi tro toi assets/logo_ap_white.png khong co trong repo.
+- Nguyen nhan: (1) commit xong nhung KHONG push nen GitHub Pages khong doi; (2) tham chieu anh bang URL gia dinh chua ton tai; (3) chay backup.ps1 SAU khi da ghi de src/ nen backup chua ban moi thay vi ban cu.
+- Cach xu ly: luon chay backup.ps1 TRUOC khi sua code; nhung anh base64 truc tiep vao Index.html (chay duoc ca trong GAS lan GitHub Pages); push roi moi bao link demo va kiem tra bang curl.
+- Meo moi truong: tool chay lenh nuot ky tu dollar trong powershell -Command, luon viet script .ps1 roi chay bang -File. Start-Process -ArgumentList phai tu boc nhay kep quanh duong dan co khoang trang. Test hien thi: msedge --headless=new --screenshot --virtual-time-budget=ms (tu thoat, khong de lai tien trinh).

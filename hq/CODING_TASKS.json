@@ -18,10 +18,10 @@
   {
     "id": "TASK-001",
     "env": "frontend & backend",
-    "task_name": "Design Welcome & Login Demo Page (PC & Mobile) with AP Logo Motion Graphic",
-    "main_function": "doGet, runWelcomeSequence, handleLoginSubmit",
-    "main_vars_css": ".ap-welcome-container, .ap-logo-circle, .ap-brand-title, .ap-login-box, .ap-btn-luxury",
+    "task_name": "Welcome & Login v2 (rebuild 2026-10-05): logo AP đơn + ảnh chữ CAR CARE, kịch bản motion 7 bước, placeholder-only",
+    "main_function": "doGet, loginForm submit handler (google.script.run.checkLogin / demo fallback)",
+    "main_vars_css": "CSS vars --L --gap --TW --s0 --lx --ly --tx --fy; .flash .streak .logo-pos .logo-fade .logo .brand-pos .brand .form .fi .field .btn .ambient; keyframes flash/logoFade/logoShadow/streak/logoMove/brandIn/formIn",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
-    "note": "Màn hình chào mừng và đăng nhập sang trọng (Black/White/Google Blue). 4 giai đoạn motion graphic chuyển động logo AP + 2 ô input + nút login đồng bộ cho cả PC và Mobile."
+    "note": "Timeline: 0-0.5s đen -> 0.5 tia sáng loé -> 1.0 logo fade + tia ngang -> 1.9 đổ bóng -> 2.4 logo thu nhỏ + lên cao -> 2.95 chữ slide-right -> 3.3/3.42/3.54 ô user/ô pass/nút. Ảnh logo/chữ nhúng base64 (xử lý bằng hq/brand_assets gốc). Bỏ toàn bộ text thừa + viền xanh quanh logo. Responsive @media max-width 520px."
   }
 ]
