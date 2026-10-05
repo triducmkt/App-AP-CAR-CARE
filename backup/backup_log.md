@@ -99,7 +99,7 @@
 **Mã ID trước khi sửa:** 09bd7dd
 **Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
 
-## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/09bd7dd/)
+## Mã ID: 3a50ea6 (backup trước khi sửa: backup/09bd7dd/)
 - **Prompt yêu cầu của user:** "giao diện login đã ok. điều chỉnh vùng ánh sáng xanh đen studio rõ hơn 10-20%. như hình đính kèm giao diện hiện tại vùng ánh sáng xanh này gần như không có. điều chỉnh ngôi sao ánh sáng di chuyển animate ở dải lụa họa tiết cần sắc sảo hơn, tia sáng của ngôi sao kéo dài, vuốt nhọn các đầu tia sáng mịn và dài hơn và độ lớn ngôi sao cần nhỏ lại 50%."
 - **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v9: Tăng độ rõ vùng ánh sáng xanh đen studio 15-20% ở cả 2 góc trên-phải và dưới-trái tạo độ sâu showroom xe sang rõ nét; Chùm sáng ngôi sao thu nhỏ kích thước 50% (lõi 9px, halo 23px), các tia sáng kéo dài (sải ngang 116px, sải dọc 92px), vuốt cong nhọn mịn như mũi kim (tapered needle spikes) cực kỳ sắc sảo và điện ảnh; Đã deploy demo lên GitHub Pages.
 - **File đã sửa:** src/Index.html, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
