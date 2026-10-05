@@ -103,13 +103,14 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
   - Dải họa tiết **vuốt thon nhọn ở góc dưới bên phải** và **xòe rộng mềm mại lên góc trên bên trái** theo hình mẫu tham chiếu (`hq/brand_assets/reference_ribbon_flow.png`).
   - Các đường line trắng trong dải lụa: **nhiều, nhuyễn, thanh mảnh (0.9px - 1.5px)**, độ mờ nhẹ dịu (opacity 0.4 - 0.75), không trắng đậm quá, tạo cảm giác dải lụa phát quang siêu thực.
   - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải lụa, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(38px)`), co giãn bám theo dải lụa đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
-  - **Chùm ánh sáng ngôi sao di chuyển chéo (16-Point Needle-Sharp Optical Starburst - Chuẩn v10):**
-    - **Tia ngang 90px:** Mỗi bên kéo dài 90px (tổng sải 180px), vuốt nhọn mịn như mũi kiếm.
-    - **Tia dọc dài 120px:** Mỗi bên kéo dài 120px (tổng sải 240px), tạo vệt sáng quang học anamorphic cao cấp sắc bén.
-    - **4 tia chéo chính 45 độ:** Kéo dài 52px mỗi bên, thanh mảnh sắc nét.
-    - **Thêm 8 tia phụ phân bố đều:** Bố trí tại các góc 22.5 độ và 67.5 độ, dài 34px mỗi bên, hoàn thiện cấu trúc chùm sao 16 tia sáng tròn đầy và phân bố đối xứng hoàn hảo.
-    - **Điểm sáng tâm lớn hơn & rực rỡ:** Lõi kim cương 15px, chấm sáng trung tâm 5.5px kèm quầng phát sáng trong 9px, hào quang trắng rực rỡ r=38px.
-    - **Thời điểm khởi động & Quỹ đạo:** Animate di chuyển gối đầu ở thời điểm 2.2s, lướt chậm dần (`decelerating ease-out: 0.12 0.75 0.22 1`) dọc theo dải lụa.
+  - **Chùm ánh sáng quang học di chuyển chéo (Cinematic Optical Lens Flare - Chuẩn v11 giống 100% hình mẫu tham chiếu):**
+    - **Tâm chùm sáng (Supernova Radiant Core):** Lõi ánh sáng trắng cực đại với quầng hào quang phát quang mềm mại bao quanh tâm (cx=0, cy=0).
+    - **Bộ 3 tia laser ngang Anamorphic (Triple Anamorphic Streaks):** 1 tia laser chính kéo dài xuyên suốt ngang qua tâm chùm sáng + 2 tia laser song song thanh mảnh chạy lệch ở phía trên và dưới, mô phỏng thấu kính Anamorphic cao cấp trong điện ảnh Hollywood.
+    - **Vòng tròn Halo Lens (Circular Halo Ring):** Vòng hào quang tròn bao bọc đồng tâm quanh lõi thấu kính.
+    - **Hệ gai nhiễu xạ (Diffraction Spikes):** Các tia nhọn thanh mảnh vuốt dài theo phương thẳng đứng và phương chéo nghiêng (~-30°).
+    - **Hệ thống bóng mờ quang học & hạt Bokeh (Multi-element Lens Ghosts & Bokeh Discs):** Các đốm sáng quang học và đĩa bokeh tròn xếp dọc theo trục chéo thấu kính (đốm sáng nhỏ ở góc trên-trái; đốm lấp lánh và đĩa bokeh mờ ở góc dưới-phải).
+    - **Màu sắc & Glow:** Toàn bộ ánh sáng là màu trắng tinh khiết (`#FFFFFF`) với hiệu ứng glow phát quang dịu mắt, hòa trộn mềm mại với dải lụa qua chế độ `mix-blend-mode: screen`.
+    - **Thời điểm khởi động & Quỹ đạo:** Animate di chuyển gối đầu ở thời điểm 2.2s (ngay khi logo AP tròn lớn vừa xuất hiện xong), lướt chậm dần (`decelerating ease-out: 0.12 0.75 0.22 1`) từ góc dưới-phải chéo lên góc trên-trái theo đúng đường line bám sát dải lụa.
 - **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
   - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.
   - Thông báo lỗi/trạng thái màu đỏ mềm mại (`#FF6B6B`), font 11.5px hiển thị dưới link (như trong hình mẫu 2).

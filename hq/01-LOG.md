@@ -211,3 +211,30 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v10.png`, `pc_final_v10.png`, `mob_final_v10.png`.
   - Deploy thành công demo lên nhánh `gh-pages` (`818de05`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 19:20 — Lucy/Antigravity — Nâng cấp Welcome & Login v11 (Cinematic Optical Lens Flare 100% Giống Hình Mẫu Tham Chiếu)
+- **Tiếp nhận chỉ đạo chi tiết từ Product Owner (anh Đức):**
+  - "hãy đổi ngôi sao ánh sáng thành chùm sáng với hình dạng giống 100% như ảnh đính kèm này, màu ánh sáng trắng có glow"
+- **Phân tích quang học & Trích xuất hình mẫu tham chiếu (`media_1791201947024.png`):**
+  - Hình mẫu là một hiệu ứng chùm sáng quang học thấu kính điện ảnh (Cinematic Optical Lens Flare) phức hợp:
+    1. Lõi trung tâm bức xạ cực đại (Supernova Core) với quầng hào quang phát quang mềm mại bao quanh tâm.
+    2. Bộ 3 tia laser ngang Anamorphic: 1 tia chính dài xuyên suốt ngang qua tâm chùm sáng + 2 tia laser song song thanh mảnh chạy lệch ở phía trên và dưới.
+    3. Vòng tròn Halo Lens bao bọc đồng tâm quanh thấu kính.
+    4. Hệ gai nhiễu xạ (Diffraction Spikes) vuốt dài theo phương thẳng đứng và phương chéo nghiêng (~-30°).
+    5. Hệ thống bóng mờ quang học đa lớp và hạt Bokeh tròn (Multi-element Lens Ghosts & Bokeh Discs) xếp dọc theo trục chéo thấu kính (đốm sáng nhỏ ở góc trên-trái; đốm lấp lánh và đĩa bokeh mờ ở góc dưới-phải).
+    6. Toàn bộ chùm sáng là màu trắng tinh khiết (`#FFFFFF`) có glow phát quang dịu mắt.
+- **Triển khai & Tinh chỉnh kỹ thuật:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/809f7ec/`.
+  - Phân tích tọa độ tâm bức xạ trong ảnh gốc: `CX=242, CY=128`.
+  - Thuật toán bóc tách quang học nâng cao (`scratch/test_clean4.ps1`):
+    + Khử triệt để nền caro xanh đậm và các ký tự mờ watermark của ảnh gốc, chỉ giữ lại photon ánh sáng quang học thực thụ.
+    + Làm mịn vùng bóng mờ quang học và khử toàn bộ nhiễu biên cạnh.
+    + Chuyển đổi toàn bộ độ sáng thành sắc trắng tinh khiết (`#FFFFFF`) với kênh alpha chuẩn hóa theo hàm mũ `alpha = Pow(norm, 0.85) * 255`.
+  - Tích hợp vào SVG `#starComet` trong `template_v11.html`:
+    + Đặt chùm sáng quang học với chế độ hòa trộn `mix-blend-mode: screen` và `filter: drop-shadow(0 0 12px rgba(255,255,255,0.8))`.
+    + Căn chỉnh chính xác điểm sáng tâm `(242, 128)` trùng với tọa độ `(0, 0)` của chuyển động `animateMotion` trên dải lụa phát quang.
+    + Quỹ đạo di chuyển mượt mà, gối đầu bắt đầu lúc 2.2s (khi logo AP hoàn tất lộ diện), lướt chậm dần và hòa quyện vào dải lụa.
+  - Biên dịch `src/Index.html` (317.091 bytes).
+  - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v11.png`, `pc_star_mid_v11.png`, `pc_final_v11.png`, `mob_final_v11.png`.
+  - Deploy thành công demo lên nhánh `gh-pages` (`3b17659`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.

@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v10 nâng cấp chùm sáng ngôi sao quang học chuẩn điện ảnh: Tia ngang 90px (sải 180px), tia dọc dài 120px (sải 240px) vuốt nhọn mịn quang học anamorphic sắc sảo; 4 tia chéo 45 độ (52px); Bổ sung 8 tia phụ phân bố đều tại góc 22.5 độ và 67.5 độ (34px); Điểm sáng tâm lớn hơn và rực rỡ (lõi kim cương 15px, điểm sáng 5.5px, hào quang trắng r=38px); Ánh sáng xanh studio rõ nét hoàn hảo; Đã deploy demo lên GitHub Pages.
-- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `d5468c3`), tạo template v10 (`scratch/template_v10.html`), biên dịch `src/Index.html` (142.220 bytes), kiểm thử render Edge headless trên PC (`pc_star_v10.png`, `pc_final_v10.png`) & Mobile (`mob_final_v10.png`), deploy demo lên nhánh `gh-pages` (`818de05`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Trạng thái:** Welcome & Login v11 nâng cấp chùm ánh sáng quang học Cinematic Optical Lens Flare giống 100% hình mẫu tham chiếu: Lõi sáng Supernova rực rỡ với quầng sáng mềm mại; Bộ 3 tia laser ngang Anamorphic (1 tia chính xuyên tâm + 2 tia song song lệch); Vòng tròn Halo Lens bao quanh thấu kính; Hệ gai nhiễu xạ thẳng đứng và xiên chéo; Hệ thống bóng mờ quang học đa lớp và hạt Bokeh tròn dọc theo trục chéo thấu kính; Ánh sáng màu trắng tinh khiết có glow phát quang dịu mắt; Lướt chậm dần dọc theo dải lụa phát quang gối đầu ngay sau khi logo AP hoàn tất xuất hiện; Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `809f7ec`), trích xuất và tinh chỉnh quang học chùm sáng từ hình mẫu tham chiếu (`scratch/flare_clean4.png`), tạo template v11 (`scratch/template_v11.html`), biên dịch `src/Index.html` (317.091 bytes), kiểm thử render Edge headless trên PC (`pc_star_v11.png`, `pc_star_mid_v11.png`, `pc_final_v11.png`) & Mobile (`mob_final_v11.png`), deploy demo lên nhánh `gh-pages` (`3b17659`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
 - **Bước tiếp theo:** Anh Đức trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 16:17
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 19:18
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

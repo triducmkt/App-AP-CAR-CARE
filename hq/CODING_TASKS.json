@@ -77,5 +77,15 @@
     "main_vars_css": "#starComet #starWhiteGlow",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Nâng cấp tia ngang 90px (sải 180px), tia dọc dài 120px (sải 240px), 4 tia chéo 52px, 8 tia phụ phân bố đều tại 22.5 độ và 67.5 độ dài 34px, điểm sáng tâm lớn hơn và rực rỡ (lõi kim cương 15px, chấm sáng 5.5px, hào quang trắng r=38px)."
+  },
+  {
+    "id": "TASK-008",
+    "env": "frontend",
+    "task_name": "Welcome & Login v11 (Cinematic Optical Lens Flare 100% Giống Hình Mẫu Tham Chiếu): Lõi sáng Supernova, 3 tia laser ngang Anamorphic, vòng tròn halo lens, gai nhiễu xạ và hệ thống bóng mờ quang học bokeh",
+    "main_function": "loginForm submit, setFeedback, animateMotion starComet with optical lens flare asset and clean alpha mask",
+    "main_vars_css": "#starComet image #starWhiteGlow",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Thay thế chùm sáng ngôi sao thành chùm sáng quang học thấu kính điện ảnh giống 100% hình mẫu tham chiếu: Lõi sáng Supernova, 3 tia laser ngang Anamorphic, vòng tròn halo lens, gai nhiễu xạ, bóng mờ quang học và đĩa bokeh dọc theo trục chéo; Màu ánh sáng trắng tinh khiết có glow phát quang dịu mắt; Khử sạch watermark và nhiễu viền."
   }
 ]
+
