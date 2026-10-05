@@ -18,10 +18,10 @@
   {
     "id": "TASK-001",
     "env": "frontend & backend",
-    "task_name": "Welcome & Login v3 (hoàn thiện 05/10/2026): Font Roboto/Roboto Condensed chuẩn AP, Ánh sáng 3D Studio & Anamorphic Laser, Overlapping Motion, Link Quên mật khẩu",
+    "task_name": "Welcome & Login v4 (tinh chỉnh tối giản 05/10/2026): Input Border xám khói nền mờ thoáng đãng, Nút Đăng nhập Off-White chữ đen tracking thoáng, Font Inter, Link Quên mật khẩu",
     "main_function": "doGet, loginForm submit handler (checkLogin backend/demo), modal Quên mật khẩu",
     "main_vars_css": "CSS vars --L --gap --TW --s0 --lx --ly --tx --fy; .studio-beam .optic-core .optic-laser .optic-spike-v .optic-halo .logo-container .logo-specular-glint .brand-container .sync-obj .input-field .btn-login .forgot-link .modal-overlay",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
-    "note": "Font: Roboto 700 / Roboto Condensed 300-400 chuẩn bản gốc AP. Lighting: Anamorphic laser streak + vertical spike + volumetric studio beam. Motion: Overlapping sync (mỗi object bắt đầu trước khi object trước dừng). Đã thêm link và modal Quên mật khẩu."
+    "note": "Border xám khói nét mảnh rgba(255,255,255,0.15) nền mờ nhẹ 2.5%, padding thoáng 24px whitespace. Nút Đăng nhập off-white #F4F4F6 chữ đen #0A0A0D, font weight 500 Medium, tracking 0.28em thoáng nhẹ. Font Inter hiện đại. Link Quên mật khẩu. Giữ nguyên 3D optical flare & overlapping sync motion."
   }
 ]

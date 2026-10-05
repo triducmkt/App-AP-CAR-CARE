@@ -43,3 +43,13 @@
 - **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v3 (Font Roboto / Roboto Condensed chính xác 100% từ tư liệu gốc, ánh sáng 3D Volumetric Beam + Anamorphic Laser Streak + Chrome Specular Glint, overlapping sync motion mượt mà, link & modal Quên mật khẩu), cập nhật design_aesthetic_memo.md và thiết lập Bước 0 review thiết kế vào AGENTS.md.
 - **File đã sửa:** src/Index.html, AGENTS.md, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
 - **Vị trí sửa:** Toàn bộ file src/Index.html; AGENTS.md dòng 38-43; hq/design_aesthetic_memo.md toàn diện; hq/00-INDEX.md phần trạng thái.
+---
+**Thời gian:** 2026-10-05 13:49:27
+**Mã ID trước khi sửa:** 6ff6391
+**Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
+
+## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/6ff6391/)
+- **Prompt yêu cầu của user:** "cải tiến: giữ phong cách tối giản tuyệt đối, nút đăng nhập nên là màu trắng ngà (off-white) chữ đen, hoặc nền đen viền mảnh màu bạc/xám khói tinh tế, khi hover/active sẽ sáng nhẹ lên; Thay vì dùng ô màu trắng đặc dễ gây chói mắt trên nền đen, hãy chuyển sang dạng Border thanh lịch (nền trong suốt hoặc đen mờ nhẹ, viền nét mảnh màu xám khói rgba(255,255,255,0.15)). Khi người dùng bấm vào (focus), viền chuyển sang màu trắng sáng hoặc ánh kim. Tăng độ rộng (padding) của input thoáng hơn một chút để tạo cảm giác 'thở' (whitespace), đúng chất tối giản.; các text dùng font chữ gọn gàng, hiện đại (như Inter hoặc Helvetica Neue). nút bấm đăng nhập text nên giảm độ dày xuống mức Regular hoặc Medium để giao diện nhẹ nhàng, thanh thoát hơn. Chữ viết hoa ở nút bấm nên có khoảng cách ký tự (tracking) thoáng nhẹ thay vì dính chặt vào nhau."
+- **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v4 (Extreme Minimalist Luxury): Input dạng Border xám khói nét mảnh trên nền đen mờ, padding thoáng 24px whitespace, focus viền trắng sáng ánh kim; Nút Đăng nhập màu trắng ngà Off-White chữ đen, font Medium 500, tracking thoáng 0.28em, hover phát sáng nhẹ; Typography Inter hiện đại; Cập nhật design_aesthetic_memo.md và deploy demo v4.
+- **File đã sửa:** src/Index.html, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
+- **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/CODING_TASKS.json dòng 21-25.

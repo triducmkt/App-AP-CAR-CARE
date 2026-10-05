@@ -89,3 +89,22 @@ ode -e "new Function(...)" đạt chuẩn 100%.
 - **Triển khai:**
   - Biên dịch `src/Index.html` (101,490 byte).
   - Deploy lên nhánh `gh-pages` bằng `.\deploy-demo.ps1`.
+
+## 2026-10-05 13:52 — Lucy/Antigravity — Tinh chỉnh Giao diện Welcome & Login v4 (Extreme Minimalist Luxury)
+- **Nâng cấp Ô Nhập liệu (Inputs):**
+  - Loại bỏ hoàn toàn khối màu trắng đặc gây chói mắt.
+  - Chuyển sang dạng Border thanh lịch: nền trong suốt mờ nhẹ (`rgba(255, 255, 255, 0.025)`), viền xám khói nét mảnh (`1px solid rgba(255, 255, 255, 0.15)`), bo góc 12px.
+  - Tăng độ rộng padding thoáng đãng (`padding: 0 24px`, cao 54px) tạo không gian "thở" (whitespace) chuẩn tối giản.
+  - Chữ gõ vào màu trắng `#FFFFFF`, placeholder xám khói (`rgba(255, 255, 255, 0.38)`).
+  - Khi focus: viền chuyển sang màu trắng sáng ánh kim (`rgba(255, 255, 255, 0.75)`), tỏa sáng nhẹ.
+- **Nâng cấp Nút Đăng nhập (Login Button):**
+  - Chuyển sang màu trắng ngà cao cấp (Off-White `#F4F4F6`), chữ đen tuyền (`#0A0A0D`).
+  - Giảm độ dày chữ xuống mức **Medium (500)** tạo cảm giác nhẹ nhàng, thanh thoát.
+  - Tăng khoảng cách ký tự (tracking) thoáng nhẹ (`0.28em`), canh giữa hoàn hảo (`text-indent: 0.28em`).
+  - Khi hover/active: sáng nhẹ lên (`#FFFFFF`, box-shadow trắng dịu), lướt tia sáng sheen tinh tế.
+- **Typography:**
+  - Áp dụng font **Inter** hiện đại, sắc nét và thanh lịch cho toàn bộ UI body, inputs, button và link.
+- **Triển khai & Kiểm thử:**
+  - Biên dịch `src/Index.html` (101,370 byte).
+  - Kiểm thử render Edge headless trên cả PC (1440x900) và Mobile (390x844).
+  - Deploy lên nhánh `gh-pages` bằng `.\deploy-demo.ps1`.

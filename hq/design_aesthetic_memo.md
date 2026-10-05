@@ -74,11 +74,20 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
 
 ---
 
-## 6. QUY CHUẨN FORM & TRẢI NGHIỆM ĐĂNG NHẬP
-- **Ô nhập liệu (Inputs):** Nền trắng `#FFFFFF`, bo góc 12px, chữ đen `#111111`, font Roboto.
-- **Placeholder:** Nhập sẵn "Tên đăng nhập" và "Mật khẩu" với chữ đen mờ (`rgba(0, 0, 0, 0.42)`). Tự động mất khi người dùng bắt đầu gõ. Không đặt nhãn bên ngoài ô.
-- **Nút Đăng nhập:** Nền gradient xanh Google ánh kim, bo góc 12px, chữ in hoa "ĐĂNG NHẬP" màu trắng, có hiệu ứng sheen lướt qua.
-- **Liên kết "Quên mật khẩu?":** Đặt ngay bên dưới nút Đăng nhập, màu chữ xám bạc, hover sáng xanh Google, có thể click để mở thông báo/modal cấp lại mật khẩu.
+## 6. QUY CHUẨN FORM & TRẢI NGHIỆM ĐĂNG NHẬP (MINIMALIST LUXURY REFINEMENT)
+- **Typography UI:** Sử dụng font chữ gọn gàng, hiện đại **Inter / Helvetica Neue** cho toàn bộ UI body, ô nhập, placeholder, nút bấm và liên kết.
+- **Ô nhập liệu (Inputs - Border thanh lịch):**
+  - Tuyệt đối không dùng khối màu trắng đặc gây chói mắt trên nền đen.
+  - Chuyển sang dạng Border thanh lịch: nền trong suốt đen mờ nhẹ (`rgba(255, 255, 255, 0.025)`), viền nét mảnh màu xám khói (`1px solid rgba(255, 255, 255, 0.15)`), bo góc 12px.
+  - Tăng độ rộng (padding) thoáng đãng (`padding: 0 24px`, cao 54px) tạo không gian "thở" (whitespace) chuẩn tối giản.
+  - Chữ gõ vào màu trắng `#FFFFFF`, placeholder xám khói mờ (`rgba(255, 255, 255, 0.38)`), tự mất khi gõ.
+  - Khi focus: viền chuyển sang màu trắng sáng / ánh kim (`rgba(255, 255, 255, 0.75)`), tỏa sáng nhẹ.
+- **Nút Đăng nhập (Login Button - Off-White Luxury):**
+  - Màu trắng ngà cao cấp (`#F4F4F6`), chữ đen tuyền (`#0A0A0D`).
+  - Độ dày chữ giảm xuống mức **Medium (500)** để giao diện nhẹ nhàng, thanh thoát.
+  - Khoảng cách ký tự (tracking/letter-spacing) thoáng nhẹ (`0.28em`), canh giữa chuẩn xác.
+  - Khi hover/active: sáng nhẹ lên (`#FFFFFF`, box-shadow trắng dịu), phản chiếu tinh tế.
+- **Liên kết "Quên mật khẩu?":** Đặt ngay bên dưới nút Đăng nhập, font Inter thanh mảnh, màu xám bạc, hover sáng trắng nhẹ, click mở modal hỗ trợ.
 
 ---
 

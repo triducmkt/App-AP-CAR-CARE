@@ -1,9 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
-- **Trạng thái:** Welcome & Login v3 hoàn thiện: Font chính xác 100% theo bản gốc thương hiệu AP (Roboto Bold + Roboto Condensed), hệ thống ánh sáng 3D quang học (Volumetric Studio Beam + Anamorphic Laser Streak + Chrome Specular Glint), chuyển động gối đầu đồng bộ (Overlapping sync), bổ sung link & modal "Quên mật khẩu?". Đã cập nhật `hq/design_aesthetic_memo.md` và đưa BƯỚC 0 vào `AGENTS.md`.
-- **Vừa xong:** Biên dịch `src/Index.html`, deploy demo lên nhánh `gh-pages` (commit `838fa29`), cập nhật `hq/design_aesthetic_memo.md`, `AGENTS.md`, `hq/CODING_TASKS.json`.
-- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp và duyệt chuẩn giao diện Welcome/Login để tiến hành nối API Google Sheet và các module tiếp theo.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 12:12
+## TRẠNG THÁI HIỆN TẠI
+- **Trạng thái:** Welcome & Login v4 hoàn thiện: Phong cách tối giản tuyệt đối (Border xám khói nét mảnh trên nền đen mờ nhẹ, padding thoáng đãng whitespace), Nút Đăng nhập màu trắng ngà (Off-White) chữ đen sang trọng với font weight Medium & tracking thoáng nhẹ, Typography Inter hiện đại, link Quên mật khẩu? thanh thoát. Giữ trọn hệ thống ánh sáng 3D quang học và nhịp chuyển động gối đầu.
+- **Vừa xong:** Biên dịch `src/Index.html`, deploy demo lên nhánh `gh-pages`, cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/CODING_TASKS.json`.
+- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp bản v4 và chỉ đạo triển khai kết nối logic xác thực tài khoản Google Sheet và các màn hình phân quyền.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 13:52
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
