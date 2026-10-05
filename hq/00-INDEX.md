@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v7 hoàn thiện điện ảnh: Dải ánh sáng gradient trắng nền nằm fix trực tiếp theo dải họa tiết làm nền phát quang mờ dịu, co giãn bám sát 100% trên mọi kích cỡ thiết bị; Dải họa tiết vuốt nhọn từ góc dưới-trái và mở rộng xòe vút lên góc trên-phải theo chuẩn khí động học; Chùm ánh sáng ngôi sao 4 cánh quang học di chuyển chéo uốn lượn dọc theo đường spline từ dưới lên trên đồng thời với hiệu ứng slide up; Logo AP và chữ CAR CARE luôn fix cố định cạnh nhau; Đã deploy demo lên GitHub Pages.
-- **Vừa xong:** Chạy `.\backup.ps1`, lưu ảnh mẫu `reference_ribbon_flow.png`, tạo template v7 (`scratch/template_v7.html`), biên dịch `src/Index.html` (139.196 bytes), kiểm thử render Edge headless thành công, deploy demo lên nhánh `gh-pages` (`b12b382`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
-- **Bước tiếp theo:** Anh Đức kiểm tra trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 15:12
+- **Trạng thái:** Welcome & Login v8 hoàn thiện điện ảnh theo sát 100% hình mẫu: Dải họa tiết lụa vuốt thon nhọn ở góc dưới-phải và xòe rộng lên góc trên-trái; Các đường line trắng nhiều, nhuyễn, mảnh (0.9px - 1.5px), mờ nhẹ tinh tế không bị đậm; Dải ánh sáng gradient trắng nằm fix bám làm nền phát sáng (glow underlay) theo dải lụa; Chùm ánh sáng ngôi sao 4 cánh màu trắng glow bắt đầu di chuyển gối đầu ở thời điểm logo AP vừa xuất hiện xong (2.2s), lướt chậm dần (decelerating ease-out) từ góc dưới-phải lên góc trên-trái dọc theo dải lụa; Giữ nguyên vùng ánh sáng xanh studio hoàn hảo; Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `21ae0fa`), tạo template v8 (`scratch/template_v8.html`), biên dịch `src/Index.html` (139.213 bytes), kiểm thử render Edge headless thành công trên PC (`pc_final_v8.png`, `pc_star_v8.png`) & Mobile (`mob_final_v8.png`), deploy demo lên nhánh `gh-pages` (`fe2f08a`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Bước tiếp theo:** Anh Đức trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 15:26
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

@@ -50,5 +50,14 @@
     "main_vars_css": ".bg-ribbon-layer .bg-ribbon-svg #whiteGlowGrad #ribbonBodyGrad #fineLineGrad #starComet #starGlowGrad",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Dải ánh sáng gradient trắng nằm fix và bám theo dải họa tiết làm nền phát quang mờ dịu, co giãn 100% theo dải họa tiết trên mọi kích cỡ thiết bị; Dải họa tiết vuốt nhọn ở góc dưới-trái và mở rộng xòe vút lên góc trên-phải; Chùm ánh sáng ngôi sao 4 cánh di chuyển chéo dọc theo đúng đường spline uốn lượn từ dưới lên trên đồng thời với hiệu ứng slide up."
+  },
+  {
+    "id": "TASK-005",
+    "env": "frontend",
+    "task_name": "Welcome & Login v8 (Inverted Silk Ribbon Flow, Fine Lines, Early Decelerating Star Comet): Dải lụa vuốt nhọn dưới-phải xòe lên trên-trái, line nhuyễn tinh tế, ngôi sao lướt từ 2.2s",
+    "main_function": "loginForm submit, setFeedback, animateMotion starComet with decelerating keySplines",
+    "main_vars_css": ".bg-ribbon-layer .bg-ribbon-svg #whiteGlowUnderlay #starWhiteGlow .ribbon-fine-line",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Sửa dải lụa vuốt thon nhọn ở góc dưới-phải và xòe rộng lên góc trên-trái bám 100% theo hình mẫu reference_ribbon_flow.png; 12 đường line trắng nhuyễn siêu mảnh mờ nhẹ tinh tế; Dải sáng gradient trắng nền ôm sát sống lưng dải lụa; Chùm sáng ngôi sao trắng glow khởi động gối đầu ngay khi logo AP xuất hiện xong (2.2s), lướt chậm dần từ dưới-phải lên trên-trái dọc theo dải lụa; Giữ nguyên vùng ánh sáng xanh studio."
   }
 ]

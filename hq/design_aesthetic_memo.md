@@ -99,11 +99,14 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
   - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
   - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
   - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
-- **Họa tiết kéo nghiêng ở nền (Background Aerodynamic Ribbon Stream):**
-  - Dải họa tiết **vuốt nhọn (tapered)** từ góc dưới bên trái, mở rộng dần và xòe vút lên góc trên bên phải theo phong cách khí động học thể thao siêu sang.
-  - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải họa tiết, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(36px)`), co giãn bám theo dải họa tiết đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
-  - Xuất hiện **SAU CÙNG** trong chuỗi animation khi tải trang (delay ~4.2s) và **slide up**.
-  - **Chùm ánh sáng ngôi sao di chuyển chéo (Moving Optical Star Comet):** Đồng thời khi dải họa tiết slide up, có một chùm ánh sáng như ngôi sao 4 cánh quang học lướt di chuyển chéo dọc theo đúng đường cong spline trung tâm của dải họa tiết từ góc dưới-trái lên góc trên-phải với nhịp lướt êm ái, điện ảnh.
+- **Họa tiết kéo nghiêng ở nền (Background Silk Ribbon Stream - Chuẩn v8 theo sát hình mẫu):**
+  - Dải họa tiết **vuốt thon nhọn ở góc dưới bên phải** và **xòe rộng mềm mại lên góc trên bên trái** theo hình mẫu tham chiếu (`hq/brand_assets/reference_ribbon_flow.png`).
+  - Các đường line trắng trong dải lụa: **nhiều, nhuyễn, thanh mảnh (0.9px - 1.5px)**, độ mờ nhẹ dịu (opacity 0.4 - 0.75), không trắng đậm quá, tạo cảm giác dải lụa phát quang siêu thực.
+  - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải lụa, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(38px)`), co giãn bám theo dải lụa đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
+  - **Chùm ánh sáng ngôi sao di chuyển chéo (Decelerating Optical Star Comet):**
+    - Màu trắng tinh khôi, glow hào quang mờ dịu (`#starWhiteGlow`), lõi ngôi sao 4 cánh quang học.
+    - **Thời điểm khởi động:** Bắt đầu animate di chuyển **gối đầu ngay khi logo AP vừa xuất hiện xong (2.2s)**, không phải chờ đến cuối.
+    - **Quỹ đạo & Tốc độ:** Lướt bám sát theo đường spline dải lụa từ góc dưới-phải lên góc trên-trái, tốc độ **chậm dần (decelerating ease-out: `0.12 0.75 0.22 1`)** trong 2.4s cực kỳ điện ảnh và đằm thắm.
 - **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
   - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.
   - Thông báo lỗi/trạng thái màu đỏ mềm mại (`#FF6B6B`), font 11.5px hiển thị dưới link (như trong hình mẫu 2).

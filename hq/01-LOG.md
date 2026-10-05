@@ -154,3 +154,21 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Chụp ảnh kiểm thử Edge headless tại thời điểm ngôi sao đang bay (`pc_star_moving.png`) và thời điểm hoàn tất (`pc_final_v7.png`, `mob_final_v7.png`).
   - Deploy thành công demo lên nhánh `gh-pages` (`b12b382`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 15:26 — Lucy/Antigravity — Nâng cấp Welcome & Login v8 (Inverted Silk Ribbon Flow, Fine Lines, Early Decelerating Star Comet)
+- **Tiếp nhận chỉ đạo chi tiết từ Product Owner (anh Đức):**
+  - Giữ nguyên các vùng ánh sáng xanh studio đã đẹp.
+  - Sửa dải họa tiết lụa theo chiều ngược lại: Vuốt thon nhọn ở góc dưới-phải và xòe rộng lên góc trên-trái.
+  - Các đường line trắng trong dải lụa: Phải nhiều, nhuyễn, mảnh tinh tế, không trắng đậm quá (follow 100% theo hình mẫu `reference_ribbon_flow.png`).
+  - Dải ánh sáng gradient trắng nền nằm fix bám làm nền phát sáng (glow underlay) theo dải lụa và co giãn bám sát trên mọi kích cỡ thiết bị.
+  - Chùm ánh sáng ngôi sao màu trắng glow: Bắt đầu animate di chuyển gối đầu ở thời điểm logo AP vừa xuất hiện xong (2.2s), di chuyển chậm dần (decelerating ease-out) từ góc dưới-phải chéo bám theo đường line khi slide up lên góc trên-trái.
+- **Triển khai & Kiểm thử:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/21ae0fa/`.
+  - Thiết kế cấu trúc SVG dải lụa vuốt thon nhọn ở góc dưới-phải (`X=1480, Y=820`), uốn lượn chéo qua sau thẻ login (`X=720, Y=590`), lên góc trên-trái (`X=-40, Y=175 -> 265`) xòe rộng mềm mại.
+  - Tích hợp 12 đường line siêu mảnh (`0.9px - 1.5px`), nhuyễn, mờ nhẹ (`opacity 0.4 - 0.75`).
+  - Dải ánh sáng gradient trắng nền (`stroke-width: 160px`, `filter: blur(38px)`, `opacity: 0.75`) ôm sát sống lưng dải lụa.
+  - Chùm sáng ngôi sao màu trắng 4 cánh quang học lướt mượt mà với `<animateMotion>` bắt đầu từ 2.2s, tốc độ chậm dần (`keySplines="0.12 0.75 0.22 1"`).
+  - Biên dịch `src/Index.html` (139.213 bytes).
+  - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v8.png`, `pc_final_v8.png`, `mob_final_v8.png`.
+  - Deploy thành công demo lên nhánh `gh-pages` (`fe2f08a`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
