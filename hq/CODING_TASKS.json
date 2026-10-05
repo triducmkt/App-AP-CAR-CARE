@@ -23,5 +23,14 @@
     "main_vars_css": "CSS vars --L --gap --TW --s0 --lx --ly --tx --fy; .studio-beam .optic-core .optic-laser .optic-spike-v .optic-halo .logo-container .logo-specular-glint .brand-container .sync-obj .input-field .btn-login .forgot-link .modal-overlay",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Border xám khói nét mảnh rgba(255,255,255,0.15) nền mờ nhẹ 2.5%, padding thoáng 24px whitespace. Nút Đăng nhập off-white #F4F4F6 chữ đen #0A0A0D, font weight 500 Medium, tracking 0.28em thoáng nhẹ. Font Inter hiện đại. Link Quên mật khẩu. Giữ nguyên 3D optical flare & overlapping sync motion."
+  },
+  {
+    "id": "TASK-002",
+    "env": "frontend",
+    "task_name": "Welcome & Login v5 (Mockup chính thức 05/10/2026): Glassmorphism Card, Capsule inputs & Button 3D Off-White, Background Ribbon slide up & 45deg laser sweep, Corner star",
+    "main_function": "loginForm submit, modal Quên mật khẩu, build.ps1 SVG ribbon & 45deg sweep",
+    "main_vars_css": ".glass-card .bg-ribbon-layer .bg-ribbon-svg .diagonal-light-sweep .corner-star .input-capsule .btn-capsule .logo-hero-wrap .brand-slot",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Khung thẻ kính mờ Glassmorphism Card bo góc 26px, input và button hình viên thuốc Capsule bo tròn 2 đầu, nút Đăng nhập 3D trắng ngà Off-White sắc sảo. Họa tiết dải sóng kim loại ở nền xuất hiện sau cùng và slide up với tia sáng quét xéo 45 độ cực kỳ sang trọng."
   }
 ]

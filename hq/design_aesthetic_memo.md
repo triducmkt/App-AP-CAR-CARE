@@ -74,20 +74,31 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
 
 ---
 
-## 6. QUY CHUẨN FORM & TRẢI NGHIỆM ĐĂNG NHẬP (MINIMALIST LUXURY REFINEMENT)
-- **Typography UI:** Sử dụng font chữ gọn gàng, hiện đại **Inter / Helvetica Neue** cho toàn bộ UI body, ô nhập, placeholder, nút bấm và liên kết.
-- **Ô nhập liệu (Inputs - Border thanh lịch):**
-  - Tuyệt đối không dùng khối màu trắng đặc gây chói mắt trên nền đen.
-  - Chuyển sang dạng Border thanh lịch: nền trong suốt đen mờ nhẹ (`rgba(255, 255, 255, 0.025)`), viền nét mảnh màu xám khói (`1px solid rgba(255, 255, 255, 0.15)`), bo góc 12px.
-  - Tăng độ rộng (padding) thoáng đãng (`padding: 0 24px`, cao 54px) tạo không gian "thở" (whitespace) chuẩn tối giản.
-  - Chữ gõ vào màu trắng `#FFFFFF`, placeholder xám khói mờ (`rgba(255, 255, 255, 0.38)`), tự mất khi gõ.
-  - Khi focus: viền chuyển sang màu trắng sáng / ánh kim (`rgba(255, 255, 255, 0.75)`), tỏa sáng nhẹ.
-- **Nút Đăng nhập (Login Button - Off-White Luxury):**
-  - Màu trắng ngà cao cấp (`#F4F4F6`), chữ đen tuyền (`#0A0A0D`).
-  - Độ dày chữ giảm xuống mức **Medium (500)** để giao diện nhẹ nhàng, thanh thoát.
-  - Khoảng cách ký tự (tracking/letter-spacing) thoáng nhẹ (`0.28em`), canh giữa chuẩn xác.
-  - Khi hover/active: sáng nhẹ lên (`#FFFFFF`, box-shadow trắng dịu), phản chiếu tinh tế.
-- **Liên kết "Quên mật khẩu?":** Đặt ngay bên dưới nút Đăng nhập, font Inter thanh mảnh, màu xám bạc, hover sáng trắng nhẹ, click mở modal hỗ trợ.
+## 6. QUY CHUẨN FORM & GIAO DIỆN CHÍNH THỨC (GLASSMORPHISM CARD & CAPSULE SPEC - THEO MOCKUP ANH ĐỨC)
+- **Khung thẻ kính mờ (Glassmorphism Central Card):**
+  - Kích thước vừa vặn cân đối (rộng 384px trên PC, min(calc(100vw - 32px), 340px) trên Mobile), bo tròn góc lớn 26px (22px trên mobile).
+  - Nền kính mờ tối màu sang trọng `rgba(26, 28, 35, 0.42)`, `backdrop-filter: blur(28px)`, viền nét mảnh màu kim loại `1px solid rgba(255, 255, 255, 0.16)`.
+  - Đổ bóng sâu trầm `box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95)`, viền sáng phản chiếu nhẹ cạnh trên (`inset 0 1px 1px rgba(255, 255, 255, 0.3)`).
+- **Header trong Card:**
+  - Logo AP tròn nền đen chữ trắng (đường kính 52px trên PC, 44px trên mobile) đặt cạnh cụm chữ thương hiệu vector gốc ("CAR CARE / AUDIO AND ACCESSORIES") theo tỉ lệ vàng.
+- **Ô nhập liệu hình viên thuốc (Capsule Inputs):**
+  - Bo tròn hoàn toàn hai đầu (`border-radius: 9999px`), chiều cao 46px (44px trên mobile), padding thoáng rộng 22px (`padding: 0 22px`).
+  - Nền đen mờ siêu nhẹ `rgba(255, 255, 255, 0.035)`, viền mảnh `1px solid rgba(255, 255, 255, 0.14)`.
+  - Placeholder bạc mờ `rgba(255, 255, 255, 0.42)`, khi gõ chữ hiển thị trắng tuyền `#FFFFFF`.
+  - Khi focus: Viền sáng ánh kim `rgba(255, 255, 255, 0.85)` kèm tỏa sáng nhẹ dịu `box-shadow: 0 0 16px rgba(255, 255, 255, 0.22)`.
+- **Nút Đăng nhập 3D hình viên thuốc (Capsule 3D Off-White Button):**
+  - Bo tròn viên thuốc (`border-radius: 9999px`), chiều cao 48px (46px trên mobile), viền sắc sảo `1px solid rgba(255, 255, 255, 0.85)`.
+  - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
+  - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
+  - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
+  - Vệt sáng kim loại nhẹ nhàng lướt qua khi nút xuất hiện.
+- **Họa tiết kéo nghiêng ở nền (Background Ribbon Pattern):**
+  - Dải sóng uốn lượn vân kim loại/aerodynamic chéo từ góc dưới-trái lên góc trên-phải (stroke gradient xanh Google, trắng, bạc).
+  - Xuất hiện **SAU CÙNG** trong chuỗi animation khi tải trang (delay ~4.3s) và **slide up**.
+  - **Ngay thời điểm slide up, có tia sáng quang học quét xéo 45 độ** từ góc dưới bên trái sang góc trên bên phải, tốc độ êm ái sang trọng.
+- **Ngôi sao quang học 4 cánh (Corner Optical Star):**
+  - Đặt ở góc dưới bên phải màn hình, lấp lánh nhẹ nhàng tinh tế.
+- **Liên kết "Quên mật khẩu?":** Đặt ngay bên dưới nút Đăng nhập, font Inter thanh mảnh, màu xám bạc mờ, hover sáng trắng nhẹ, click mở modal hỗ trợ.
 
 ---
 

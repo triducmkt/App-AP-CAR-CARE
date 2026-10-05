@@ -108,3 +108,18 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Biên dịch `src/Index.html` (101,370 byte).
   - Kiểm thử render Edge headless trên cả PC (1440x900) và Mobile (390x844).
   - Deploy lên nhánh `gh-pages` bằng `.\deploy-demo.ps1`.
+
+## 2026-10-05 14:38 — Lucy/Antigravity — Nâng cấp Welcome & Login v5 (Glassmorphism Card, Capsule inputs & Button 3D, Background Ribbon 45deg Sweep)
+- **Tiếp nhận yêu cầu từ Product Owner (anh Đức):**
+  - Tái thiết kế toàn bộ bố cục theo sát hình mockup đính kèm (`hq/brand_assets/mockup_reference.png`).
+  - Khung thẻ kính mờ Glassmorphism Card đặt ở trung tâm, bo tròn góc lớn 26px, viền kim loại mảnh, đổ bóng sâu 3D.
+  - 2 ô input và nút Đăng nhập đều có hình viên thuốc (Capsule) bo tròn hoàn toàn 2 đầu.
+  - Nút Đăng nhập 3D màu trắng ngà Off-White với viền sắc sảo và đổ bóng khối.
+  - Họa tiết dải sóng kim loại ở nền (Ribbon SVG) xuất hiện SAU CÙNG trong chuỗi animation khi tải trang và slide up.
+  - Ngay thời điểm slide up có tia sáng quang học quét xéo 45 độ từ góc dưới-trái sang góc trên-phải.
+  - Ngôi sao quang học 4 cánh lấp lánh ở góc dưới bên phải.
+- **Triển khai:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/ba3a3f5/`.
+  - Biên dịch `src/Index.html` (108,909 byte).
+  - Deploy thành công demo lên nhánh `gh-pages` (`b112fad`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.

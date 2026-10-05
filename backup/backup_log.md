@@ -53,3 +53,13 @@
 - **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v4 (Extreme Minimalist Luxury): Input dạng Border xám khói nét mảnh trên nền đen mờ, padding thoáng 24px whitespace, focus viền trắng sáng ánh kim; Nút Đăng nhập màu trắng ngà Off-White chữ đen, font Medium 500, tracking thoáng 0.28em, hover phát sáng nhẹ; Typography Inter hiện đại; Cập nhật design_aesthetic_memo.md và deploy demo v4.
 - **File đã sửa:** src/Index.html, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
 - **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/CODING_TASKS.json dòng 21-25.
+---
+**Thời gian:** 2026-10-05 14:10:22
+**Mã ID trước khi sửa:** ba3a3f5
+**Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
+
+## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/ba3a3f5/)
+- **Prompt yêu cầu của user:** "hãy thay đổi , sửa lại, điều chỉnh để giao diện như hình đính kèm. đồng thời các hiệu ứng chuyển động giữ nguyên như trước. họa tiết kéo nghiêng ở nền sẽ xuất hiện sau cùng trong chuỗi animation lúc tải trang và slide up, ngay thời điểm slide up có tia sáng đi xéo theo họa tiết đi 45 độ từ góc dưới bên trái sang góc trên bên phải, tốc độ sao cho trông premium sang trọng"
+- **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v5: Khung thẻ kính mờ Glassmorphism Card bo tròn góc lớn 26px, Inputs và Nút Đăng nhập 3D hình viên thuốc (Capsule) màu trắng ngà Off-White sắc sảo; Dải sóng kim loại nền (Ribbon SVG) uốn lượn xuất hiện sau cùng và slide up với tia sáng quang học quét xéo 45 độ; Ngôi sao quang học 4 cánh góc dưới-phải; Đã deploy demo lên GitHub Pages.
+- **File đã sửa:** src/Index.html, hq/brand_assets/mockup_reference.png (mới), hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
+- **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json thêm TASK-002.

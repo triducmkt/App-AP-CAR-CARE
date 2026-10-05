@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v4 hoàn thiện: Phong cách tối giản tuyệt đối (Border xám khói nét mảnh trên nền đen mờ nhẹ, padding thoáng đãng whitespace), Nút Đăng nhập màu trắng ngà (Off-White) chữ đen sang trọng với font weight Medium & tracking thoáng nhẹ, Typography Inter hiện đại, link Quên mật khẩu? thanh thoát. Giữ trọn hệ thống ánh sáng 3D quang học và nhịp chuyển động gối đầu.
-- **Vừa xong:** Biên dịch `src/Index.html`, deploy demo lên nhánh `gh-pages`, cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/CODING_TASKS.json`.
-- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp bản v4 và chỉ đạo triển khai kết nối logic xác thực tài khoản Google Sheet và các màn hình phân quyền.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 13:52
+- **Trạng thái:** Welcome & Login v5 hoàn thiện theo chuẩn mockup của anh Đức: Khung thẻ kính mờ Glassmorphism bo tròn góc lớn, Inputs và Nút Đăng nhập 3D hình viên thuốc (Capsule) màu trắng ngà Off-White sắc sảo, dải sóng kim loại nền (Ribbon) xuất hiện sau cùng và slide up với tia sáng quét xéo 45 độ cực kỳ sang trọng, ngôi sao quang học 4 cánh góc dưới-phải. Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Khắc phục triệt để tiến trình kiểm thử nền, biên dịch `src/Index.html`, deploy demo thành công lên nhánh `gh-pages` (`b112fad`), cập nhật `hq/design_aesthetic_memo.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp và duyệt giao diện v5 để chuyển sang kết nối xác thực tài khoản qua Google Sheet và phát triển các luồng màn hình tiếp theo.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 14:38
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
