@@ -86,6 +86,15 @@
     "main_vars_css": "#starComet image #starWhiteGlow",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Thay thế chùm sáng ngôi sao thành chùm sáng quang học thấu kính điện ảnh giống 100% hình mẫu tham chiếu: Lõi sáng Supernova, 3 tia laser ngang Anamorphic, vòng tròn halo lens, gai nhiễu xạ, bóng mờ quang học và đĩa bokeh dọc theo trục chéo; Màu ánh sáng trắng tinh khiết có glow phát quang dịu mắt; Khử sạch watermark và nhiễu viền."
+  },
+  {
+    "id": "TASK-009",
+    "env": "frontend/backend",
+    "task_name": "SPA Chuyển Trang & Hub Đăng Bài Đa Kênh: Đăng nhập DUC/1111, Quản lý phiên Session, Trang Home đăng bài YouTube/Facebook/TikTok kèm icon X/V",
+    "main_function": "switchSpaView, initUserSession, checkLogin (DUC/1111), publishMultiChannelPost, handleFiles, setChannelStatus",
+    "main_vars_css": ".spa-view #viewLogin #viewHome .home-header .publisher-layout .channel-status-badge.status-success .channel-status-badge.status-failed .btn-publish-3d",
+    "fields": "USER_FIELD_MAP (username, password, role, branch), POST_FIELD_MAP (id, content, imageCount, channels, status, author, createdAt)",
+    "note": "Tạo cấu trúc SPA chuyển cảnh không reload trang giữa Login và Home; Xác thực DUC/1111; Quản lý session localStorage theo chuẩn TDCM Team App; Trang Home trang bị Header Logo AP và Profile User Tăng Trí Đức; Giao diện Đăng bài Đa kênh với Textarea long, uploader up 1 hoặc nhiều ảnh kèm grid thumbnail xóa từng ảnh, checkbox 3 kênh YouTube/Facebook/TikTok kèm icon trạng thái V (xanh lá) và X (đỏ); Nút bấm 3D đăng bài và nhật ký bài đăng gần đây."
   }
 ]
 

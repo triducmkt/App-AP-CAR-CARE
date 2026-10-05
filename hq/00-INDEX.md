@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v11 nâng cấp chùm ánh sáng quang học Cinematic Optical Lens Flare giống 100% hình mẫu tham chiếu: Lõi sáng Supernova rực rỡ với quầng sáng mềm mại; Bộ 3 tia laser ngang Anamorphic (1 tia chính xuyên tâm + 2 tia song song lệch); Vòng tròn Halo Lens bao quanh thấu kính; Hệ gai nhiễu xạ thẳng đứng và xiên chéo; Hệ thống bóng mờ quang học đa lớp và hạt Bokeh tròn dọc theo trục chéo thấu kính; Ánh sáng màu trắng tinh khiết có glow phát quang dịu mắt; Lướt chậm dần dọc theo dải lụa phát quang gối đầu ngay sau khi logo AP hoàn tất xuất hiện; Đã deploy demo lên GitHub Pages.
-- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `809f7ec`), trích xuất và tinh chỉnh quang học chùm sáng từ hình mẫu tham chiếu (`scratch/flare_clean4.png`), tạo template v11 (`scratch/template_v11.html`), biên dịch `src/Index.html` (317.091 bytes), kiểm thử render Edge headless trên PC (`pc_star_v11.png`, `pc_star_mid_v11.png`, `pc_final_v11.png`) & Mobile (`mob_final_v11.png`), deploy demo lên nhánh `gh-pages` (`3b17659`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
-- **Bước tiếp theo:** Anh Đức trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 19:18
+- **Trạng thái:** Hoàn tất tính năng SPA Chuyển trang & Trang Home Quản trị Đăng bài Đa kênh (Multi-Channel Cross-Posting Hub): Xác thực đăng nhập thành công với User ID `DUC` / Mật khẩu `1111` (và backend Google Apps Script); Lưu phiên làm việc an toàn qua `localStorage` theo chuẩn TDCM Team App; Chuyển mượt giữa Login và Home; Trang Home có Header Logo AP, thông tin User Tăng Trí Đức (Product Owner), nút Đăng xuất; Giao diện Đăng bài Đa kênh với ô Text Long (bộ đếm từ/ký tự, hashtag gợi ý), Uploader up 1 hoặc nhiều ảnh kèm lưới preview và xóa từng ảnh, danh sách checkbox kênh YouTube, Facebook, TikTok kèm icon trạng thái `v` (thành công) và `x` (chưa đăng/thất bại); Nút bấm 3D Đăng bài; Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `75bc0e2`), nâng cấp backend `src/Code.gs` (FIELD_MAP POST_FIELD_MAP, publishMultiChannelPost, xác thực DUC/1111), tạo `scratch/template_v12.html` và biên dịch `src/Index.html` (388.833 bytes), kiểm thử Edge headless chuyển trang và đăng bài (`pc_login_before_submit.png`, `pc_home_after_login.png`, `pc_home_published.png`, `mob_home_published.png`), deploy demo lên nhánh `gh-pages` (`fb14ae9`), cập nhật tài liệu HQ.
+- **Bước tiếp theo:** Anh Đức trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Home đăng bài đa kênh để tiếp tục tích hợp API Google Sheets hoặc kết nối các module tính năng tiếp theo.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 22:25
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

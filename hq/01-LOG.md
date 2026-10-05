@@ -238,3 +238,32 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v11.png`, `pc_star_mid_v11.png`, `pc_final_v11.png`, `mob_final_v11.png`.
   - Deploy thành công demo lên nhánh `gh-pages` (`3b17659`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 22:25 — Lucy/Antigravity — Nâng cấp SPA Chuyển Trang & Trang Home Đăng Bài Đa Kênh (Multi-Channel Cross-Posting Hub)
+- **Tiếp nhận chỉ đạo chi tiết từ Product Owner (anh Đức):**
+  - "ok, giờ hãy học cách SPA login chuyển trang từ code của dự án TDCM Team App để tạo trang Home và log in thành công từ giao diện log in hiện tại này với user id 'DUC' và mk là '1111'. trang home có logo AP, có giao diện với tính năng đăng bài đa kênh: dán nội dung ô text long, up 1 hình hoặc nhiều hình và danh sách check box tùy chọn kênh: youtube, fb, titkok. bên cạnh mỗi kênh có thêm icon x hay v thể hiện trạng thái đăng thành công hay chưa. cuối cùng là nút Đăng bài."
+- **Nghiên cứu kiến trúc TDCM Team App (`D:\My Agents\Projects\Project TDCM Team App`):**
+  - Tham chiếu cấu trúc quản lý phiên qua `localStorage` (`appUserSession`), kiến trúc chuyển cảnh SPA mượt mà không reload trang (`switchSpaView`), cơ chế phân định view và bảo toàn token/session.
+- **Triển khai & Tinh chỉnh kỹ thuật:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/75bc0e2/`.
+  - Cập nhật backend `src/Code.gs`:
+    + Cập nhật `checkLogin` hỗ trợ xác thực tài khoản Product Owner đặc quyền `username: DUC`, `password: 1111`.
+    + Khởi tạo `POST_FIELD_MAP` chuẩn hóa cấu trúc dữ liệu bài đăng đa kênh theo FIELD_MAP Pattern.
+    + Thêm API `publishMultiChannelPost(postData)` phục vụ xử lý xuất bản lên YouTube, Facebook, TikTok.
+  - Xây dựng hệ thống SPA Views trong `src/Index.html`:
+    + View 1 (`#viewLogin`): Giữ nguyên trọn vẹn màn hình Welcome & Login v11 (chùm sáng quang học Cinematic Lens Flare, dải lụa phát quang, studio lighting, form capsule).
+    + View 2 (`#viewHome`): Giao diện Trang Chủ - Hub Đăng Bài Đa Kênh AP Car Care:
+      1. **Header Navbar:** Logo AP tròn chuẩn vector/b64, chữ thương hiệu CAR CARE AUDIO AND ACCESSORIES, widget người dùng hiển thị "Tăng Trí Đức (DUC) - Product Owner", nút "Đăng xuất" bảo mật.
+      2. **Ô soạn thảo Text Long:** Textarea rộng rãi hỗ trợ dán bài dài, bộ đếm số từ và ký tự real-time, các nút chèn hashtag nhanh (`#APCarCare`, `#DetailingXeHoi`, `#FocalAudio`), nút Xóa nhanh.
+      3. **Media Uploader (1 hoặc nhiều hình):** Dropzone kéo thả hiện đại, input `multiple`, hiển thị danh sách ảnh xem trước dạng lưới (Preview Grid) kèm nút xóa (`×`) từng ảnh và bộ đếm số lượng ảnh.
+      4. **Danh sách kênh & Icon X / V:**
+         - YouTube: icon YouTube đỏ, tên kênh Official.
+         - Facebook: icon Facebook xanh, Fanpage AP Car Care.
+         - TikTok: icon TikTok neon, kênh @apcarcare_vietnam.
+         - Mỗi kênh trang bị huy hiệu trạng thái: Trạng thái chờ (`• Chờ`), Trạng thái thành công (**`✓ Đã đăng (v)`** màu xanh ngọc phát quang), Trạng thái chưa chọn/thất bại (**`✕ Chưa đăng (x)`** màu đỏ nổi bật).
+      5. **Nút Đăng bài 3D:** Khối 3D bo tròn viên thuốc off-white sang trọng, hiệu ứng sheen lướt sáng kim loại khi hover, kích hoạt tiến trình mô phỏng đăng bài tuần tự, cập nhật icon `v`/`x` trực tiếp trên từng kênh và ghi vào "Nhật ký bài đăng phiên này".
+  - Kiểm thử giao diện bằng Edge headless:
+    + Chuyển trang từ Login sang Home với `DUC` / `1111`: `pc_login_before_submit.png`, `pc_home_after_login.png`.
+    + Đăng bài đa kênh hiển thị icon `v` và `x`: `pc_home_published.png`, `mob_home_published.png`.
+  - Deploy thành công demo lên nhánh `gh-pages` (`fb14ae9`).
+  - Cập nhật `hq/schematic_map.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.

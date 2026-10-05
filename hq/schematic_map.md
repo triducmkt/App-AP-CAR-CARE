@@ -31,7 +31,11 @@ flowchart TD
     end
 
     API_AUTH -->|Trả về JSON Payload {status, user, role}| CLIENT
-    CLIENT -->|Đăng nhập thành công| APP_MAIN[Giao diện Làm Việc Chính]
+    CLIENT -->|Đăng nhập thành công (DUC/1111)| SPA_ROUTER[SPA View Router / Session Manager]
+    SPA_ROUTER -->|switchSpaView('home')| HOME_VIEW[Trang Chủ Home - Multi-Channel Publisher]
+    HOME_VIEW -->|Đăng bài đa kênh| API_PUBLISH[Hàm publishMultiChannelPost()]
+    API_PUBLISH --> POST_MAP[POST_FIELD_MAP]
+    POST_MAP --> GSHEET
 ```
 
 ---
@@ -39,34 +43,45 @@ flowchart TD
 ## 2. CÁC TRỤ CỘT KỸ THUẬT & NGUYÊN TẮC THIẾT KẾ
 
 1. **Single Source of Truth (SSOT):** Dữ liệu lưu trữ tập trung tại Google Sheet ID `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0`.
-2. **FIELD_MAP Pattern (Bắt buộc):** Ánh xạ cấu trúc cột từ Sheet (Tên đăng nhập, Mật khẩu, Họ tên, Nhóm quyền: Khách hàng / Nhân viên / Đại lý, Chi nhánh: Q7 / Tân Phú...) ra Frontend Key, không hardcode số thứ tự cột.
-3. **Optimistic & Seamless Animation:** Chuyển động Logo AP 3D mượt mà, không giật lag trên cả trình duyệt PC và Mobile Safari/Chrome.
-4. **Data Isolation & Clean Code:** Tách bạch rõ ràng giữa tầng Render giao diện và tầng Xử lý logic / Gọi API.
+2. **FIELD_MAP Pattern (Bắt buộc):**
+   - `USER_FIELD_MAP`: Ánh xạ cấu trúc cột Users từ Sheet ra Frontend Key.
+   - `POST_FIELD_MAP`: Ánh xạ dữ liệu bài đăng đa kênh (ID, nội dung, số ảnh, danh sách kênh, trạng thái, tác giả, thời gian).
+3. **SPA View Architecture (TDCM Team App Pattern):**
+   - Chuyển đổi giữa `#viewLogin` và `#viewHome` không reload trang.
+   - Quản lý phiên làm việc qua `localStorage.getItem('apUserSession')`.
+4. **Optimistic Multi-Channel Feedback:** Cập nhật trạng thái từng kênh trực quan bằng icon `v` (thành công) và `x` (chưa đăng/thất bại) kèm toast và nhật ký bài đăng phiên làm việc.
 
 ---
 
-## 3. BẢN ĐỒ MODULE & TỌA ĐỘ FILE CODE ĐỀ XUẤT (`src/`)
+## 3. BẢN ĐỒ MODULE & TỌA ĐỘ FILE CODE HIỆN TẠI (`src/`)
 
-### 3.1. Frontend Modules (`src/`)
+### 3.1. Frontend Modules (`src/Index.html`)
 | File / Component | Chức năng chính | Hàm / Biến quan trọng |
 |---|---|---|
-| `Index.html` | Màn hình Welcome chào mừng + Form Đăng nhập PC & Mobile | `runWelcomeSequence()`, `handleLoginSubmit()`, `toggleMobileView()` |
+| `Index.html` (`#viewLogin`) | Màn hình Welcome chào mừng + Form Đăng nhập PC & Mobile | `setFeedback()`, `loginForm submit (DUC/1111)`, `switchSpaView()` |
+| `Index.html` (`#viewHome`) | Trang Home Đăng bài đa kênh (YouTube, Facebook, TikTok) | `initUserSession()`, `handleFiles()`, `setChannelStatus()`, `btnPublish click`, `addPostToHistory()` |
 
 ### 3.2. Backend / API / Database (`src/`)
 | Module / File | Vai trò | Điểm kết nối dữ liệu |
 |---|---|---|
-| `Code.gs` | Điều phối Web App (`doGet`), API xác thực tài khoản | `checkLogin(credentials)`, `getAppConfig()` |
+| `Code.gs` | Điều phối Web App (`doGet`), API xác thực tài khoản & Đăng bài | `checkLogin(credentials)`, `publishMultiChannelPost(postData)`, `getAppConfig()` |
 | `appsscript.json` | Cấu hình manifest Apps Script (timezone, runtime V8) | V8 Runtime |
 
 ---
 
 ## 4. TỌA ĐỘ HÀM VÀ TRẠNG THÁI (STATE MAP)
-- **`AppConfig`**:
-  - `SHEET_ID`: `"1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0"`
-  - `BRAND_NAME`: `"AP CAR CARE AUDIO & ACCESSORIES"`
-  - `PRIMARY_COLORS`: `{ black: "#000000", white: "#FFFFFF", googleBlue: "#4285F4" }`
-- **`USER_FIELD_MAP`** (Dự kiến cho xác thực):
+- **`USER_FIELD_MAP`**:
   - `username` -> Cột Tên Đăng Nhập
   - `password` -> Cột Mật Khẩu
-  - `role` -> Cột Phân Quyền (Khách hàng / Kỹ thuật / Đại lý)
+  - `fullName` -> Cột Họ và Tên
+  - `role` -> Cột Phân Quyền (Product Owner / Quản trị viên / Khách hàng / Kỹ thuật / Đại lý)
   - `branch` -> Cột Chi Nhánh (Q7 / Tân Phú / Toàn quốc)
+- **`POST_FIELD_MAP`**:
+  - `id` -> Mã bài viết
+  - `content` -> Nội dung bài viết (Text Long)
+  - `imageCount` -> Số lượng ảnh đính kèm
+  - `channels` -> Danh sách kênh xuất bản (YouTube, Facebook, TikTok)
+  - `status` -> Trạng thái (Đã đăng `v` / Thất bại `x`)
+  - `author` -> Tác giả bài viết (`Tăng Trí Đức (DUC)`)
+  - `createdAt` -> Thời gian đăng bài
+
