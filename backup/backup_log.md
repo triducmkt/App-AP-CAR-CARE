@@ -88,7 +88,7 @@
 **Mã ID trước khi sửa:** 21ae0fa
 **Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
 
-## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/21ae0fa/)
+## Mã ID: 58fb52f (backup trước khi sửa: backup/21ae0fa/)
 - **Prompt yêu cầu của user:** "quay lại version trước và sửa dải họa tiết vuốt nhọn theo chiều ngược lại: vuốt nhọn ở góc dưới-phải và xòe rộng lên góc trên-trái. các đường line trắng trong dải họa tiết lụa này phải nhiều, nhuyễn, không trắng đậm quá (follow 100% theo hình mẫu). các vùng ánh sáng xanh studio đã đẹp, không thay đổi gì nữa. Dải ánh sáng gradient trắng nằm fix bám theo dải họa tiết lụa. Chùm ánh sáng ngôi sao màu trắng, glow, bắt đầu animate di chuyển gối đầu ở thời điểm logo AP vừa xuất hiện xong, di chuyển chậm dần từ góc dưới-phải chéo bám theo đường line khi slide up."
 - **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v8: Dải họa tiết lụa vuốt thon nhọn ở góc dưới-phải và xòe rộng mềm mại lên góc trên-trái (follow 100% theo hình mẫu reference_ribbon_flow.png); 12 đường line trắng nhiều, nhuyễn, thanh mảnh tinh tế, độ mờ nhẹ dịu; Dải ánh sáng gradient trắng nằm fix ôm sát sống lưng dải lụa làm nền phát sáng (glow underlay) co giãn theo mọi kích cỡ thiết bị; Chùm ánh sáng ngôi sao 4 cánh màu trắng glow khởi động gối đầu ngay khi logo AP xuất hiện xong (2.2s), lướt chậm dần (decelerating ease-out) từ góc dưới-phải lên góc trên-trái dọc theo dải lụa; Giữ nguyên các vùng ánh sáng xanh studio hoàn hảo; Đã deploy demo lên GitHub Pages.
 - **File đã sửa:** src/Index.html, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
