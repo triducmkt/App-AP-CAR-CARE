@@ -1,65 +1,91 @@
 # Tài Liệu Định Chuẩn Thiết Kế Giao Diện & Trải Nghiệm (Design Aesthetic Memo)
 **Dự án:** App AP CAR CARE  
-**Áp dụng:** Xuyên suốt toàn bộ dự án (PC & Mobile)  
-**Ngày ban hành:** 04/10/2026 — Phê duyệt bởi Product Owner: anh Đức  
+**Áp dụng:** BẮT BUỘC XUYÊN SUỐT TOÀN BỘ DỰ ÁN (PC & Mobile)  
+**Phê duyệt:** Product Owner: anh Đức  
+**Cập nhật lần cuối:** 05/10/2026 (Lucy / Antigravity)  
 
 ---
 
-## 1. TRIẾT LÝ THIẾT KẾ (DESIGN PHILOSOPHY)
+## ⚠️ QUY TẮC BẮT BUỘC DÀNH CHO TOÀN BỘ AI AGENT (MANDATORY GATEWAY)
+> **Mỗi khi nhận bất kỳ yêu cầu nào liên quan đến UI/UX, giao diện, chuyển động, typography, màu sắc hoặc tính năng mới:**  
+> Agent **BẮT BUỘC** phải gọi `view_file` đọc toàn bộ file này **TRƯỚC KHI** suy nghĩ giải pháp, lập kế hoạch hoặc viết bất kỳ dòng code nào.  
+> Mọi thiết kế mới phải đối chiếu nghiêm ngặt với các tiêu chuẩn bên dưới để đảm bảo tính nhất quán 100% thương hiệu.
+
+---
+
+## 1. TRIẾT LÝ THIẾT KẾ CỐT LÕI (CORE DESIGN PHILOSOPHY)
 - **Phong cách chủ đạo:** **Ultra-Luxury, Automotive Premium, Minimalist, High-Tech**.
-- **Cảm hứng & Tinh thần:** Lấy cảm hứng từ không gian studio ánh sáng cao cấp của các dòng xe siêu sang (như Mercedes-Benz S-Class). Tôn vinh vẻ đẹp cơ khí tinh xảo, bề mặt sơn đen bóng gương (piano black clear-coat), các đường chỉ viền chrome sắc sảo và ánh sáng công nghệ tinh tế.
-- **Tiêu chí thị giác:** Đơn giản, thoáng đãng, sang trọng, không rườm rà nhưng toát lên đẳng cấp của một trung tâm dịch vụ xe hơi chuyên nghiệp hàng đầu.
+- **Cảm hứng:** Không gian studio ánh sáng cao cấp của các thương hiệu xe siêu sang (như Mercedes-Benz S-Class, Maybach, Porsche).
+- **Tiêu chí tối thượng:** 
+  - **Tối giản đỉnh cao (Extreme Minimalism):** Chỉ giữ lại các thành phần cốt lõi cần thiết nhất cho người dùng. Tuyệt đối không thêm text khẩu hiệu, badge phụ, chú thích kỹ thuật backend hay thông số thừa thãi.
+  - **Sang trọng & Huyền bí:** Không gian nền đen tuyền obsidian kết hợp ánh sáng 3D quang học hắt góc tạo chiều sâu thị giác vô tận.
 
 ---
 
-## 2. BẢNG MÀU CHỦ ĐẠO (CORE COLOR PALETTE)
+## 2. QUY CHUẨN TYPOGRAPHY (CHÍNH THỨC TỪ BẢN GỐC THƯƠNG HIỆU AP)
+*(Được xác thực 100% từ tài liệu gốc `business-docs/logo/font logo AP.png` và file vector `business-docs/logo/Logo AP.pdf`)*
 
-| Màu sắc | Mã Hex | Ý nghĩa & Vị trí ứng dụng |
+| Vai trò Typography | Tên Font chính thức | Trọng số (Weight) | Thay thế tương đương Web | Vị trí áp dụng |
+|---|---|---|---|---|
+| **Primary Brand (Chữ thương hiệu chính)** | **Roboto** | Bold (700) / Black (900) | `Roboto:wght@700` | Tiêu đề "CAR CARE", Nút hành động chính (Primary Button), Heading quan trọng |
+| **Sub-brand & Slogan (Phụ bản)** | **Myriad Variable Concept SemiCondensed** | Light (300) / Regular (400) | `Roboto Condensed:wght@300;400` | Dòng "AUDIO AND ACCESSORIES", nhãn phụ, tag thể loại |
+| **Giao diện người dùng (UI / Body / Input)** | **Roboto** | Regular (400) / Medium (500) | `Roboto:wght@400;500` | Ô nhập liệu (Inputs), placeholder, nội dung bảng biểu, text mô tả |
+| **Liên kết & Điều hướng phụ** | **Roboto** | Regular (400) | `Roboto:wght@400` | Link "Quên mật khẩu?", breadcrumb, footer link |
+
+---
+
+## 3. BẢNG MÀU CHỦ ĐẠO (CORE COLOR PALETTE)
+
+| Màu sắc | Mã Hex / CSS | Ý nghĩa & Vị trí ứng dụng |
 |---|---|---|
-| **Đen tuyền (Deep Obsidian Black)** | `#000000` / `#08090B` | Màu nền chủ đạo toàn app, tạo chiều sâu vô tận, tương phản cực đại, phong cách phòng sơn/studio xe sang. |
-| **Đen khói / Xám than (Charcoal / Card Surface)** | `#121418` / `#1A1D24` | Bề mặt các thẻ card, ô nhập liệu (inputs), hiệu ứng kính mờ (glassmorphism), viền tinh tế. |
-| **Trắng tinh khôi (Pure White)** | `#FFFFFF` / `#F5F6FA` | Typography chính, logo, icon, text có độ tương phản cao, dễ đọc trong môi trường xưởng và ngoài trời. |
-| **Xanh dương nhạt (Google Blue Accent)** | `#4285F4` (Phụ: `#8AB4F8`) | Điểm nhấn công nghệ (accent color): viền focus ô nhập, nút hành động chính (primary button), hiệu ứng phát sáng nhẹ (subtle cyan/blue glow), thanh trạng thái. |
-| **Xám kim loại (Metallic Silver)** | `#70798C` / `#8E95A5` | Text phụ (subtext), viền mờ (subtle borders), placeholder input. |
+| **Đen tuyền (Deep Obsidian Black)** | `#000000` | Màu nền chủ đạo toàn màn hình (Background). Nền đen thuần túy làm tôn trọn vẹn logo và ánh sáng quang học. |
+| **Xanh Google (Google Blue Primary)** | `#4285F4` | Màu nhận diện công nghệ chủ đạo: Nút bấm chính, viền focus khi nhập liệu, thanh tiến trình. |
+| **Xanh Google Nhạt (Google Blue Light / Glow)** | `#8AB4F8` | Điểm nhấn phát sáng (Glow), viền halo, tia sáng laser quang học, màu hover liên kết. |
+| **Xanh Google Đậm (Google Blue Dark)** | `#1A5FD4` | Điểm chuyển màu gradient cho nút bấm sang trọng (`linear-gradient(135deg, #8AB4F8, #4285F4, #1A5FD4)`). |
+| **Trắng tinh khôi (Pure White)** | `#FFFFFF` | Nền ô nhập liệu (Inputs), logo chữ trắng, icon nổi bật. |
+| **Xám kim loại / Muted (Subtext & Placeholder)** | `#8E95A5` / `rgba(0,0,0,0.42)` | Placeholder trong ô nhập, text phụ, icon mờ. |
 
 ---
 
-## 3. TƯ LIỆU THƯƠNG HIỆU & LOGO AP CAR CARE
-- **Tập tin logo gốc:** `business-docs/logo/Logo AP nen den chu trang.png` (và bản vector `business-docs/logo/Logo AP.ai`).
-- **Quy chuẩn hiển thị:** Logo tròn AP với nền đen chữ trắng sắc nét, bao quanh bởi viền kim loại mảnh hoặc ánh sáng Google Blue nhẹ.
-- **Slogan & Tên thương hiệu phụ bản:** `"AP CAR CARE AUDIO & ACCESSORIES"` (Chuyên sâu mảng âm thanh Focal, đồ chơi và phụ kiện ô tô cao cấp).
+## 4. QUY CHUẨN ÁNH SÁNG 3D QUANG HỌC (3D OPTICAL & VOLUMETRIC LIGHTING)
+Tuyệt đối không dùng các vệt mờ gradient phẳng giả tạo. Ánh sáng của AP CAR CARE phải sắc nét và có độ sâu 3D như quay phim studio xe hơi:
+1. **Ánh sáng Studio 3D (Volumetric Light Beam):** Luồng sáng hắt từ góc trên-phải (`top-right`) chiếu xiên xuống tạo chiều sâu không gian phòng tối/showroom xe sang.
+2. **Tia sáng quang học ngang (Anamorphic Laser Streak):** Tia laser siêu mảnh, sắc bén như lưỡi dao, lõi trắng rực rỡ và viền phát sáng xanh `#8AB4F8`.
+3. **Tia nhiễu xạ quang học (Diffraction Spike):** Tia sáng dọc mảnh tâm giao với tia ngang tạo điểm nhấn ngôi sao quang học (optical starburst) trước khi logo xuất hiện.
+4. **Vệt phản chiếu kim loại Chrome (Specular Glint Sweep):** Vệt sáng quét góc 35–45 độ lướt qua bề mặt logo AP tròn, tạo cảm giác logo bằng kim loại chrome thật bóng loáng.
 
 ---
 
-## 4. KỊCH BẢN CHUYỂN ĐỘNG & MOTION GRAPHIC (INTRO & LOGIN ANIMATION)
-Kịch bản hiệu ứng chào mừng (Welcome Sequence) được chia làm 4 giai đoạn mượt mà (smooth easing cubic-bezier):
+## 5. KỊCH BẢN CHUYỂN ĐỘNG GỐI ĐẦU ĐỒNG BỘ (OVERLAPPING / CASCADED MOTION)
+Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đầu liên tục (overlapping/staggered sync), **không chờ thành phần trước dừng lại mới bắt đầu**:
+1. **0.0s – 0.7s:** Màn đen tuyền tĩnh lặng (`#000000`).
+2. **0.7s – 1.8s:** Chùm tia sáng quang học 3D bùng nở ở trung tâm màn hình (Anamorphic Streak + Star Core).
+3. **1.25s – 2.4s:** Logo AP tròn hiện dần ra với hiệu ứng fade-in mượt mà từ tâm.
+4. **1.8s – 2.8s:** Vệt sáng Chrome quét qua bề mặt logo; logo bắt đầu nổi bóng 3D tinh tế (subtle ambient shadow).
+5. **2.9s – 4.1s:** Logo AP mượt mà thu nhỏ và dịch chuyển lên vị trí trên cao.
+6. **3.3s – 4.4s:** **Khi logo đang dịch chuyển (chưa kết thúc)**, ảnh chữ thương hiệu ("CAR CARE / AUDIO AND ACCESSORIES") lập tức trượt từ trái sang (slide-right) lộ diện kế bên logo.
+7. **3.65s – 4.6s:** **Khi chữ chưa kết thúc**, ô Tên đăng nhập lập tức trượt lên và hiện rõ.
+8. **3.9s – 4.85s:** Ô Mật khẩu nối tiếp ngay sau.
+9. **4.15s – 5.1s:** Nút Đăng nhập nối tiếp ngay sau kèm hiệu ứng tia sáng quét bề mặt.
+10. **4.4s – 5.35s:** Link "Quên mật khẩu?" nhẹ nhàng hiện ra bên dưới.
+11. **3.0s – 5.6s:** Luồng sáng Studio 3D hắt từ góc trên-phải dần định hình không gian hoàn thiện.
 
-1. **Giai đoạn 1 (0.0s – 0.5s):** 
-   - Màn hình đen tuyền tuyệt đối (`#000000`), không gian yên tĩnh, tạo cảm giác hồi hộp, sang trọng như khi bước vào showroom xe sang.
-2. **Giai đoạn 2 (0.5s – 1.8s):** 
-   - Logo tròn AP xuất hiện dần dần (Fade-in + 3D subtle tilt rotation + Soft scale up) với kích thước lớn ở chính giữa màn hình.
-   - Hiệu ứng ánh sáng xanh Google (`#4285F4`) quét nhẹ qua viền tròn của logo như ánh đèn pha LED projector của Mercedes S-Class.
-3. **Giai đoạn 3 (1.8s – 2.8s):** 
-   - Logo tròn mượt mà zoom nhỏ lại (scale down từ `1.4` về `1.0`), dịch chuyển nhẹ về vị trí chuẩn.
-   - Dòng chữ thương hiệu đẳng cấp `"AP CAR CARE AUDIO & ACCESSORIES"` trượt xuất hiện kế bên (trên PC) hoặc phía dưới logo (trên Mobile) với hiệu ứng dãn chữ (letter-spacing expansion).
-4. **Giai đoạn 4 (2.8s – 3.8s):** 
-   - Khung đăng nhập (Login Box) xuất hiện từ dưới lên (Slide up + Fade-in với hiệu ứng kính đen mờ glassmorphism).
-   - Xuất hiện đồng bộ 2 ô nhập liệu: `"Tên đăng nhập"` và `"Mật khẩu"` với viền phát sáng khi focus.
-   - Nút `"ĐĂNG NHẬP"` bo góc tinh tế, chuyển màu xanh Google ánh kim khi hover/active.
-
----
-
-## 5. ĐỒNG BỘ ĐA THIẾT BỊ (RESPONSIVE PC & MOBILE)
-- **Phiên bản PC / Laptop:**
-  - Bố cục trung tâm cinematic tỷ lệ 16:9, card đăng nhập nằm gọn gàng với viền ánh sáng tinh tế, nền có thể tương tác với hiệu ứng 3D Parallax hoặc gradient studio sâu thẳm.
-- **Phiên bản Mobile:**
-  - Thiết kế Touch-first: nút bấm kích thước tối thiểu 48px, bàn phím số/chữ mở tự nhiên, khoảng cách lề chuẩn công thái học (ergonomic thumb zone), không bị vỡ bố cục khi xoay ngang/dọc.
+*Tốc độ: Toàn bộ animation phải đằm thắm (thời lượng 0.9s – 1.2s mỗi đối tượng), dùng đường cong cubic-bezier mượt mà (`cubic-bezier(0.22, 1, 0.36, 1)`).*
 
 ---
 
-## 6. NỀN TẢNG CÔNG NGHỆ & KHO DỮ LIỆU (PHASE 1)
-- **Nền tảng App:** Google Apps Script (GAS) Web App + HTML5/CSS3/Modern Vanilla JavaScript (không phụ thuộc thư viện nặng, load tức thì).
-- **Backend Data Source:** Google Sheet ID:
-  👉 `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0`  
-  Link: `https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit?usp=sharing`
-- **FIELD_MAP Pattern:** Mọi thao tác đọc/ghi thông tin người dùng, mật khẩu, phân quyền và dữ liệu từ Sheet đều phải tuân thủ chuẩn FIELD_MAP.
+## 6. QUY CHUẨN FORM & TRẢI NGHIỆM ĐĂNG NHẬP
+- **Ô nhập liệu (Inputs):** Nền trắng `#FFFFFF`, bo góc 12px, chữ đen `#111111`, font Roboto.
+- **Placeholder:** Nhập sẵn "Tên đăng nhập" và "Mật khẩu" với chữ đen mờ (`rgba(0, 0, 0, 0.42)`). Tự động mất khi người dùng bắt đầu gõ. Không đặt nhãn bên ngoài ô.
+- **Nút Đăng nhập:** Nền gradient xanh Google ánh kim, bo góc 12px, chữ in hoa "ĐĂNG NHẬP" màu trắng, có hiệu ứng sheen lướt qua.
+- **Liên kết "Quên mật khẩu?":** Đặt ngay bên dưới nút Đăng nhập, màu chữ xám bạc, hover sáng xanh Google, có thể click để mở thông báo/modal cấp lại mật khẩu.
+
+---
+
+## 7. QUY TRÌNH DUYỆT & REVIEW BẮT BUỘC TRƯỚC KHI CODE (CHECKLIST)
+Mỗi Agent trước khi triển khai bất kỳ module nào tiếp theo phải tự kiểm tra 5 điều kiện:
+- [ ] 1. Đã view_file đọc lại `hq/design_aesthetic_memo.md` chưa?
+- [ ] 2. Font chữ đã dùng đúng Roboto (Bold/Regular) và Roboto Condensed chưa?
+- [ ] 3. Bảng màu đã dùng đúng chuẩn Đen tuyền `#000000` + Xanh Google `#4285F4` + Trắng `#FFFFFF` chưa?
+- [ ] 4. Giao diện có bị rườm rà thừa thãi không? Đã loại bỏ hết các badge/text kỹ thuật chưa?
+- [ ] 5. Đã chạy script `.\backup.ps1` trước khi can thiệp code chưa?

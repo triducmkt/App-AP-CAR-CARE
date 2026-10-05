@@ -18,10 +18,10 @@
   {
     "id": "TASK-001",
     "env": "frontend & backend",
-    "task_name": "Welcome & Login v2 (rebuild 2026-10-05): logo AP đơn + ảnh chữ CAR CARE, kịch bản motion 7 bước, placeholder-only",
-    "main_function": "doGet, loginForm submit handler (google.script.run.checkLogin / demo fallback)",
-    "main_vars_css": "CSS vars --L --gap --TW --s0 --lx --ly --tx --fy; .flash .streak .logo-pos .logo-fade .logo .brand-pos .brand .form .fi .field .btn .ambient; keyframes flash/logoFade/logoShadow/streak/logoMove/brandIn/formIn",
+    "task_name": "Welcome & Login v3 (hoàn thiện 05/10/2026): Font Roboto/Roboto Condensed chuẩn AP, Ánh sáng 3D Studio & Anamorphic Laser, Overlapping Motion, Link Quên mật khẩu",
+    "main_function": "doGet, loginForm submit handler (checkLogin backend/demo), modal Quên mật khẩu",
+    "main_vars_css": "CSS vars --L --gap --TW --s0 --lx --ly --tx --fy; .studio-beam .optic-core .optic-laser .optic-spike-v .optic-halo .logo-container .logo-specular-glint .brand-container .sync-obj .input-field .btn-login .forgot-link .modal-overlay",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
-    "note": "Timeline: 0-0.5s đen -> 0.5 tia sáng loé -> 1.0 logo fade + tia ngang -> 1.9 đổ bóng -> 2.4 logo thu nhỏ + lên cao -> 2.95 chữ slide-right -> 3.3/3.42/3.54 ô user/ô pass/nút. Ảnh logo/chữ nhúng base64 (xử lý bằng hq/brand_assets gốc). Bỏ toàn bộ text thừa + viền xanh quanh logo. Responsive @media max-width 520px."
+    "note": "Font: Roboto 700 / Roboto Condensed 300-400 chuẩn bản gốc AP. Lighting: Anamorphic laser streak + vertical spike + volumetric studio beam. Motion: Overlapping sync (mỗi object bắt đầu trước khi object trước dừng). Đã thêm link và modal Quên mật khẩu."
   }
 ]

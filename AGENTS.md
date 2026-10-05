@@ -36,6 +36,7 @@ Danh mục dự án toàn máy:
 1. **Quy định tạo file:** Tuyệt đối KHÔNG tự tạo file mới bất kỳ trong `src/`. Khi cần tạo file mới, BẮT BUỘC xin phép và được anh Đức xác nhận. File không phải code app (`.md` cho agent) chỉ được tạo ở `hq/`.
 2. **Backup & Revert bắt buộc:** Trước mỗi lần coding, agent BẮT BUỘC chạy `.\backup.ps1` trên Terminal (copy `src/` vào `backup/<ID>` + ghi log). Tuyệt đối không viết code nếu chưa chạy thành công. Khi nhận lệnh `/revert-local (mã ID)`, chạy ngay `.\revert-local.ps1 -TargetHash <mã ID>` để khôi phục code an toàn.
 3. **Quy trình Khởi động, Scan & Dọn dẹp tàn dư (Mandatory Scan Workflow):**
+   - **BƯỚC 0 (TIÊU CHUẨN THIẾT KẾ & BRAND IDENTITY - BẮT BUỘC):** Trước khi suy nghĩ giải pháp hoặc viết code bất kỳ thành phần UI/UX, giao diện, chuyển động hay tính năng nào, Agent BẮT BUỘC phải gọi `view_file` đọc file `hq/design_aesthetic_memo.md`. Đối chiếu nghiêm ngặt yêu cầu của anh Đức với bảng chuẩn Font (Roboto, Roboto Condensed), Hệ màu (Obsidian Black, Google Blue, Pure White), Chuẩn ánh sáng 3D và Phong cách tối giản trước khi triển khai.
    - Đọc `hq/schematic_map.md` để nắm luồng kiến trúc.
    - Quét `hq/CODING_TASKS.json` từ trên xuống dưới, trái qua phải để xác định tọa độ (ID task, file, hàm, CSS class) liên quan.
    - Review mã nguồn theo 2 cấp độ: Cấp độ 1 (quét file thao tác trực tiếp), Cấp độ 2 (quét chéo toàn bộ dự án). Tự đánh giá xóa, ẩn hoặc cô lập code cũ thừa/xung đột trước khi viết code mới.

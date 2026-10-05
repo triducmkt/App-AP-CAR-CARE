@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
-## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v2 đã rebuild xong: logo AP đơn (tròn, không viền xanh, đổ bóng nhẹ) + ảnh chữ CAR CARE / AUDIO AND ACCESSORIES, kịch bản motion 7 bước, ô nhập dùng placeholder, đã bỏ toàn bộ text thừa. Ảnh gốc lưu ở `hq/brand_assets/`.
-- **Vừa xong:** Rebuild `src/Index.html`, ghi log/lesson ERR-006, cập nhật TASK-001, kiểm thử Edge headless (PC + mobile).
-- **Bước tiếp theo:** Anh Đức xem demo (GitHub Pages) và phản hồi tinh chỉnh nhịp animation/độ sáng; sau đó nối backend thật `checkLogin` (Google Sheet) và làm các màn hình tiếp theo.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 11:20
+- **Trạng thái:** Welcome & Login v3 hoàn thiện: Font chính xác 100% theo bản gốc thương hiệu AP (Roboto Bold + Roboto Condensed), hệ thống ánh sáng 3D quang học (Volumetric Studio Beam + Anamorphic Laser Streak + Chrome Specular Glint), chuyển động gối đầu đồng bộ (Overlapping sync), bổ sung link & modal "Quên mật khẩu?". Đã cập nhật `hq/design_aesthetic_memo.md` và đưa BƯỚC 0 vào `AGENTS.md`.
+- **Vừa xong:** Biên dịch `src/Index.html`, deploy demo lên nhánh `gh-pages` (commit `838fa29`), cập nhật `hq/design_aesthetic_memo.md`, `AGENTS.md`, `hq/CODING_TASKS.json`.
+- **Bước tiếp theo:** Anh Đức trải nghiệm link demo trực tiếp và duyệt chuẩn giao diện Welcome/Login để tiến hành nối API Google Sheet và các module tiếp theo.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 12:12
+
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư:** Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

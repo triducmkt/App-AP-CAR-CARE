@@ -66,3 +66,26 @@ ode -e "new Function(...)" đạt chuẩn 100%.
 - Backend: submit gọi `google.script.run.checkLogin` nếu chạy trong GAS, ngoài GAS thì chế độ demo.
 - Đã kiểm thử bằng Edge headless (PC final + giữa animation + mobile).
 - Tồn đọng trước đó: commit d6b5ef0 (bản sai, trỏ tới ảnh không tồn tại) chưa push → đã thay bằng bản này.
+
+## 2026-10-05 12:12 — Lucy/Antigravity — Nâng cấp Welcome & Login v3 & Thiết lập Quy trình Chuẩn hóa Thiết kế
+- **Research Font từ tư liệu gốc:**
+  - Khám phá file `business-docs/logo/font logo AP.png` và vector `business-docs/logo/Logo AP.pdf`: Dòng chính "CAR CARE" sử dụng **Roboto Bold (700)**; dòng phụ "AUDIO AND ACCESSORIES" sử dụng **Myriad Variable Concept SemiCondensed** / **Roboto Condensed (300; 400)**.
+  - Đã nạp Google Fonts Roboto & Roboto Condensed cho toàn bộ typography (ô input, placeholder, nút đăng nhập, link phụ).
+- **Nâng cấp Hệ thống Ánh sáng 3D Quang học (Optical & Volumetric Studio Lighting):**
+  - Bổ sung Anamorphic Laser Streak sắc nét với lõi trắng và viền xanh phát sáng 3 lớp.
+  - Thêm tia nhiễu xạ quang học dọc (Vertical Diffraction Spike) 90 độ tạo điểm nhấn ngôi sao quang học.
+  - Thêm vệt sáng Chrome kim loại (Specular Glint Sweep) quét 35 độ qua mặt logo AP tròn.
+  - Thêm luồng sáng Studio 3D (Volumetric Light Cone) hắt xiên từ góc trên-phải (`top-right`) xuống tạo chiều sâu không gian phòng tối/showroom xe sang.
+- **Tối ưu Nhịp chuyển động Gối đầu Đồng bộ (Overlapping / Cascaded Sync Motion):**
+  - Tốc độ đằm hơn, thời lượng 0.9s - 1.2s mỗi đối tượng.
+  - Chuyển động liên tục gối đầu: Logo vừa di chuyển -> Chữ lập tức trượt từ trái sang -> Ô Username trượt lên -> Ô Password nối tiếp -> Nút Đăng nhập nối tiếp -> Link Quên mật khẩu hiện ra.
+- **Bổ sung Tính năng Quên mật khẩu:**
+  - Thêm link `Quên mật khẩu?` bên dưới nút Đăng nhập với hiệu ứng hover xanh Google.
+  - Khi click hiển thị Modal kính mờ Glassmorphism sang trọng hướng dẫn người dùng liên hệ quản trị viên/hotline.
+- **Thiết lập Quy trình Bắt buộc (Mandatory Design Review Gateway):**
+  - Cập nhật toàn diện `hq/design_aesthetic_memo.md` với đầy đủ chuẩn Font, Màu sắc, Ánh sáng 3D, Kịch bản Overlapping Motion, Tiêu chí tối giản và Checklist 5 bước.
+  - Bổ sung **BƯỚC 0 (TIÊU CHUẨN THIẾT KẾ & BRAND IDENTITY)** vào `AGENTS.md` (ở gốc dự án): Bắt buộc mọi Agent trước khi viết code bất kỳ thành phần giao diện nào đều phải `view_file` đọc lại `hq/design_aesthetic_memo.md` để đối chiếu chuẩn.
+  - Cập nhật `hq/00-INDEX.md` và `hq/CODING_TASKS.json`.
+- **Triển khai:**
+  - Biên dịch `src/Index.html` (101,490 byte).
+  - Deploy lên nhánh `gh-pages` bằng `.\deploy-demo.ps1`.
