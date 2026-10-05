@@ -172,3 +172,23 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v8.png`, `pc_final_v8.png`, `mob_final_v8.png`.
   - Deploy thành công demo lên nhánh `gh-pages` (`fe2f08a`).
   - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+## 2026-10-05 16:05 — Lucy/Antigravity — Nâng cấp Welcome & Login v9 (Enhanced Studio Blue Ambient, Needle-Sharp 50% Scaled Star Comet)
+- **Tiếp nhận phản hồi chi tiết từ Product Owner (anh Đức):**
+  - Giao diện login đã ok.
+  - Điều chỉnh vùng ánh sáng xanh đen studio rõ hơn 10-20% (trước đó vùng ánh sáng xanh này gần như không thấy rõ trên nền đen).
+  - Điều chỉnh ngôi sao ánh sáng di chuyển animate ở dải lụa họa tiết:
+    + Cần sắc sảo hơn, tia sáng của ngôi sao kéo dài, vuốt nhọn các đầu tia sáng mịn và dài hơn.
+    + Độ lớn ngôi sao cần nhỏ lại 50%.
+- **Triển khai & Kiểm thử:**
+  - Chạy `.\backup.ps1` lưu bản trước khi sửa vào `backup/09bd7dd/`.
+  - Tinh chỉnh hệ thống ánh sáng studio:
+    + `.bg-ambient-bl`: Tăng độ rõ 15-20% với sắc xanh đen sapphire sâu thẳm (`rgba(30,68,126,0.70)`), mở rộng bán kính và tạo chiều sâu studio hắt lên tôn vinh dải lụa.
+    + `.bg-ambient-tr`: Tăng độ rõ 15-20% với quầng xanh studio (`rgba(48,105,185,0.58)`) kết hợp dải wash xiên 220 độ (`rgba(36,85,160,0.25)`), tạo luồng sáng studio chiếu từ trên-phải xuống rõ nét, hài hòa.
+  - Tái thiết kế toàn diện chùm sáng ngôi sao `#starComet`:
+    + Thu nhỏ 50% kích thước tổng thể: Lõi kim cương 9px (so với 18px), chấm sáng trung tâm 2.2px (so với 4.5px), quầng hào quang 23px (so với 46px).
+    + Các tia sáng kéo dài và vuốt nhọn mịn như mũi kim (tapered bezier needles): Tia ngang sải dài 58px mỗi bên (116px), tia dọc sải dài 46px mỗi bên (92px), 4 tia phụ 45 độ dài 19px, lõi laser hairline 0.75px.
+  - Biên dịch `src/Index.html` (140.237 bytes).
+  - Kiểm thử render Edge headless trên PC và Mobile chụp ảnh màn hình xác nhận: `pc_star_v9.png`, `pc_final_v9.png`, `mob_final_v9.png`.
+  - Deploy thành công demo lên nhánh `gh-pages` (`a01c618`).
+  - Cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.

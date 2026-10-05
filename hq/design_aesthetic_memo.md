@@ -84,10 +84,10 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
   - Logo AP tròn và chữ CAR CARE AUDIO AND ACCESSORIES **BẮT BUỘC nằm chung trong một container flexbox duy nhất: `.card-brand-header`**.
   - Tuyệt đối không dùng toạ độ pixel bay độc lập để tránh sai lệch trên các thiết bị/độ phân giải khác nhau.
   - Logo và chữ luôn cố định đứng kế bên nhau chuẩn xác trên mọi màn hình từ 320px đến 4K.
-- **BỐ CỤC ÁNH SÁNG GRADIENT NỀN (THEO SÁT HÌNH MẪU 2):**
+- **BỐ CỤC ÁNH SÁNG GRADIENT NỀN (THEO SÁT HÌNH MẪU 2 - NÂNG CẤP V9 RÕ HƠN 15-20%):**
   - **Nền gốc:** Đen sâu tuyền `#020408`.
-  - **Góc trên-phải (Top-Right):** Nguồn sáng chính gồm quầng sáng trắng dịu & xanh đen (`rgba(255,255,255,0.18)` lan sang `rgba(32,65,110,0.42)`), kết hợp chùm tia sáng Studio Volumetric Beam chiếu xiên sắc nét từ trên-phải xuống dưới-trái.
-  - **Góc dưới-trái (Bottom-Left):** Quầng sáng xanh đen huyền bí `rgba(18,36,62,0.48)` hắt lên tôn vinh dải sóng.
+  - **Góc trên-phải (Top-Right):** Nguồn sáng studio rõ ràng, gồm quầng sáng xanh sapphire (`rgba(48,105,185,0.58)` lan sang `rgba(25,62,115,0.42)`), kết hợp dải wash xiên 220 độ (`rgba(36,85,160,0.25)`) chiếu xiên sắc nét từ trên-phải xuống dưới-trái (rõ hơn 15-20% so với trước).
+  - **Góc dưới-trái (Bottom-Left):** Quầng sáng xanh đen studio huyền bí `rgba(30,68,126,0.70)` hắt lên tôn vinh dải lụa (rõ hơn 15-20% so với trước).
   - **BỎ HẲN NGÔI SAO MÀU TRẮNG:** Tuyệt đối không để ngôi sao trắng ở góc dưới bên phải.
 - **Ô nhập liệu hình viên thuốc (Capsule Inputs):**
   - Bo tròn hoàn toàn hai đầu (`border-radius: 9999px`), chiều cao 46px (44px trên mobile), padding thoáng rộng 22px (`padding: 0 22px`).
@@ -99,13 +99,14 @@ Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đ
   - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
   - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
   - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
-- **Họa tiết kéo nghiêng ở nền (Background Silk Ribbon Stream - Chuẩn v8 theo sát hình mẫu):**
+- **Họa tiết kéo nghiêng ở nền (Background Silk Ribbon Stream - Chuẩn v9 theo sát hình mẫu):**
   - Dải họa tiết **vuốt thon nhọn ở góc dưới bên phải** và **xòe rộng mềm mại lên góc trên bên trái** theo hình mẫu tham chiếu (`hq/brand_assets/reference_ribbon_flow.png`).
   - Các đường line trắng trong dải lụa: **nhiều, nhuyễn, thanh mảnh (0.9px - 1.5px)**, độ mờ nhẹ dịu (opacity 0.4 - 0.75), không trắng đậm quá, tạo cảm giác dải lụa phát quang siêu thực.
   - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải lụa, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(38px)`), co giãn bám theo dải lụa đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
-  - **Chùm ánh sáng ngôi sao di chuyển chéo (Decelerating Optical Star Comet):**
-    - Màu trắng tinh khôi, glow hào quang mờ dịu (`#starWhiteGlow`), lõi ngôi sao 4 cánh quang học.
-    - **Thời điểm khởi động:** Bắt đầu animate di chuyển **gối đầu ngay khi logo AP vừa xuất hiện xong (2.2s)**, không phải chờ đến cuối.
+  - **Chùm ánh sáng ngôi sao di chuyển chéo (Needle-Sharp Optical Star Comet - Chuẩn v9):**
+    - **Kích thước nhỏ lại 50%:** Lõi kim cương 9px (so với 18px cũ), điểm sáng trung tâm 2.2px (so với 4.5px cũ), quầng hào quang r=23px (so với r=46px cũ).
+    - **Tia sáng kéo dài, vuốt nhọn mịn như mũi kim:** Tia ngang kéo dài đến 58px mỗi bên (tổng sải 116px), tia dọc kéo dài 46px mỗi bên (tổng sải 92px), các đầu tia vuốt cong nhọn mượt mà (tapered bezier curves), kèm 4 tia phụ 45 độ thanh mảnh 19px, tạo hiệu ứng chùm sáng quang học cực kỳ sắc sảo và tinh xảo.
+    - **Thời điểm khởi động:** Bắt đầu animate di chuyển **gối đầu ngay khi logo AP vừa xuất hiện xong (2.2s)**.
     - **Quỹ đạo & Tốc độ:** Lướt bám sát theo đường spline dải lụa từ góc dưới-phải lên góc trên-trái, tốc độ **chậm dần (decelerating ease-out: `0.12 0.75 0.22 1`)** trong 2.4s cực kỳ điện ảnh và đằm thắm.
 - **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
   - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.

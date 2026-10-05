@@ -59,5 +59,14 @@
     "main_vars_css": ".bg-ribbon-layer .bg-ribbon-svg #whiteGlowUnderlay #starWhiteGlow .ribbon-fine-line",
     "fields": "USER_FIELD_MAP (username, password, role, branch)",
     "note": "Sửa dải lụa vuốt thon nhọn ở góc dưới-phải và xòe rộng lên góc trên-trái bám 100% theo hình mẫu reference_ribbon_flow.png; 12 đường line trắng nhuyễn siêu mảnh mờ nhẹ tinh tế; Dải sáng gradient trắng nền ôm sát sống lưng dải lụa; Chùm sáng ngôi sao trắng glow khởi động gối đầu ngay khi logo AP xuất hiện xong (2.2s), lướt chậm dần từ dưới-phải lên trên-trái dọc theo dải lụa; Giữ nguyên vùng ánh sáng xanh studio."
+  },
+  {
+    "id": "TASK-006",
+    "env": "frontend",
+    "task_name": "Welcome & Login v9 (Enhanced Studio Blue Ambient, Needle-Sharp 50% Scaled Star Comet): Ánh sáng xanh rõ hơn 15-20%, ngôi sao nhỏ lại 50% tia kéo dài vuốt nhọn mịn",
+    "main_function": "loginForm submit, setFeedback, animateMotion starComet tapered needle rays",
+    "main_vars_css": ".bg-ambient-bl .bg-ambient-tr #starComet #starWhiteGlow",
+    "fields": "USER_FIELD_MAP (username, password, role, branch)",
+    "note": "Tăng độ rõ ánh sáng xanh đen studio 15-20% ở cả 2 vùng góc trên-phải và dưới-trái tạo độ sâu showroom siêu sang; Chùm sáng ngôi sao thu nhỏ kích thước 50%, các tia sáng kéo dài sải 116px ngang và 92px dọc, vuốt cong nhọn mịn như mũi kim (tapered needle spikes) cực kỳ sắc sảo và điện ảnh."
   }
 ]

@@ -1,10 +1,10 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Welcome & Login v8 hoàn thiện điện ảnh theo sát 100% hình mẫu: Dải họa tiết lụa vuốt thon nhọn ở góc dưới-phải và xòe rộng lên góc trên-trái; Các đường line trắng nhiều, nhuyễn, mảnh (0.9px - 1.5px), mờ nhẹ tinh tế không bị đậm; Dải ánh sáng gradient trắng nằm fix bám làm nền phát sáng (glow underlay) theo dải lụa; Chùm ánh sáng ngôi sao 4 cánh màu trắng glow bắt đầu di chuyển gối đầu ở thời điểm logo AP vừa xuất hiện xong (2.2s), lướt chậm dần (decelerating ease-out) từ góc dưới-phải lên góc trên-trái dọc theo dải lụa; Giữ nguyên vùng ánh sáng xanh studio hoàn hảo; Đã deploy demo lên GitHub Pages.
-- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `21ae0fa`), tạo template v8 (`scratch/template_v8.html`), biên dịch `src/Index.html` (139.213 bytes), kiểm thử render Edge headless thành công trên PC (`pc_final_v8.png`, `pc_star_v8.png`) & Mobile (`mob_final_v8.png`), deploy demo lên nhánh `gh-pages` (`fe2f08a`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+- **Trạng thái:** Welcome & Login v9 hoàn thiện tinh xảo theo chỉ đạo của anh Đức: Vùng ánh sáng xanh đen studio (Bottom-Left & Top-Right) được tăng độ rõ nét 15-20%, tạo chiều sâu studio showroom xe sang nổi bật; Ngôi sao ánh sáng trên dải lụa được thu nhỏ 50% (lõi kim cương 9px, điểm sáng 2.2px, quầng hào quang 23px) cực kỳ nhỏ gọn tinh tế; Các tia sáng của ngôi sao được kéo dài vuốt nhọn mịn như mũi kim (tapered needle horizontal 58px & vertical 46px), sắc sảo và điện ảnh; Đã deploy demo lên GitHub Pages.
+- **Vừa xong:** Chạy `.\backup.ps1` (snapshot `09bd7dd`), tạo template v9 (`scratch/template_v9.html`), biên dịch `src/Index.html` (140.237 bytes), kiểm thử render Edge headless trên PC (`pc_star_v9.png`, `pc_final_v9.png`) & Mobile (`mob_final_v9.png`), deploy demo lên nhánh `gh-pages` (`a01c618`), cập nhật `hq/design_aesthetic_memo.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
 - **Bước tiếp theo:** Anh Đức trải nghiệm thực tế trên link demo trực tiếp và duyệt giao diện Welcome & Login để chuyển sang tích hợp phân quyền tài khoản Google Sheet và các module quản lý.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 15:26
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-05 16:05
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ

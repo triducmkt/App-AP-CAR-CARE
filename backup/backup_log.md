@@ -4,9 +4,9 @@
 **Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
 
 ---
-**Thá»i gian revert:** 2026-10-04 22:44:01
-**Revert vá» báº£n ID:** 8adbc11
-**Tráº¡ng thÃ¡i:** ÄÃ£ khÃ´i phá»¥c thÃ nh cÃ´ng toÃ n bá»™ thÆ° má»¥c src/ tá»« backup/8adbc11.
+**Thá» i gian revert:** 2026-10-04 22:44:01
+**Revert vá»  báº£n ID:** 8adbc11
+**Tráº¡ng thÃ¡i:** Ä Ã£ khÃ´i phá»¥c thÃ nh cÃ´ng toÃ n bá»™ thÆ° má»¥c src/ tá»« backup/8adbc11.
 ---
 **Thời gian:** 2026-10-04 23:10:14
 **Mã ID trước khi sửa:** 84bf45f
@@ -94,3 +94,13 @@
 - **File đã sửa:** src/Index.html, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
 - **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json thêm TASK-005.
 
+---
+**Thời gian:** 2026-10-05 16:02:05
+**Mã ID trước khi sửa:** 09bd7dd
+**Trạng thái:** Đã sao lưu tự động thư mục src/ bằng script backup.ps1.
+
+## Mã ID: (chuẩn bị commit) (backup trước khi sửa: backup/09bd7dd/)
+- **Prompt yêu cầu của user:** "giao diện login đã ok. điều chỉnh vùng ánh sáng xanh đen studio rõ hơn 10-20%. như hình đính kèm giao diện hiện tại vùng ánh sáng xanh này gần như không có. điều chỉnh ngôi sao ánh sáng di chuyển animate ở dải lụa họa tiết cần sắc sảo hơn, tia sáng của ngôi sao kéo dài, vuốt nhọn các đầu tia sáng mịn và dài hơn và độ lớn ngôi sao cần nhỏ lại 50%."
+- **Kết quả trả lời của Agent:** Nâng cấp Welcome & Login v9: Tăng độ rõ vùng ánh sáng xanh đen studio 15-20% ở cả 2 góc trên-phải và dưới-trái tạo độ sâu showroom xe sang rõ nét; Chùm sáng ngôi sao thu nhỏ kích thước 50% (lõi 9px, halo 23px), các tia sáng kéo dài (sải ngang 116px, sải dọc 92px), vuốt cong nhọn mịn như mũi kim (tapered needle spikes) cực kỳ sắc sảo và điện ảnh; Đã deploy demo lên GitHub Pages.
+- **File đã sửa:** src/Index.html, hq/design_aesthetic_memo.md, hq/00-INDEX.md, hq/01-LOG.md, hq/CODING_TASKS.json
+- **Vị trí sửa:** src/Index.html (thay toàn bộ); hq/design_aesthetic_memo.md mục 6; hq/00-INDEX.md phần trạng thái; hq/01-LOG.md; hq/CODING_TASKS.json thêm TASK-006.
