@@ -307,3 +307,9 @@ ode -e "new Function(...)" đạt chuẩn 100%.
      - Chương 6: CI/CD & Environment (Phân tách Dev/Staging/Prod qua `ScriptProperties`, quy trình 6 bước bắt buộc `.\backup.ps1` $\rightarrow$ Quét 2 cấp $\rightarrow$ Code $\rightarrow$ `/fix-stuck3` $\rightarrow$ Update `hq/` $\rightarrow$ Git Commit 7 ký tự, mô hình Sếp CLI – Thợ IDE).
 - **Quét & Tổng hợp Quy trình / Rules từ `Project TDCM Team App`:**
   - Đã rà soát toàn bộ `hq/` và `src/` (`AA_ReadMe.gs`, `Code.gs`, `AuditLog.gs`, `Automation.gs`) của TDCM Team App và đúc kết thành 6 nhóm quy chuẩn kỹ thuật trình anh Đức phê duyệt.
+
+## 2026-10-11 16:35 — Lucy/Antigravity — Phê duyệt & Ban hành Chính thức Bộ Quy Chuẩn Kỹ Thuật TDCM Team App (Ma trận `FIELD_MAP` 4D + `OptiSync V5`) vào `AGENTS.md` và `hq/schematic_map.md`
+- **Tiếp nhận phê duyệt từ Product Owner (anh Đức):** `"ok duyệt tiến hành nhe e. đã viết xong 2 file cốt lõi 4 và 5 chưa?"`
+- **Thực thi tích hợp quy chuẩn:**
+  - Cập nhật `AGENTS.md` (Mục 6, 7, 8): Ban hành bắt buộc chuẩn Ma trận đa chiều `FIELD_MAP` ($1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$), cơ chế đồng bộ 5 trụ cột `OptiSync V5`, bố cục dòng Google Sheets (`HEADER_ROW = 10, MIN_DATA_ROW = 12`), `Single-Read Snapshot`, `Rolling 3,000-Row Audit Log` và quy tắc nén ảnh `<canvas>` chống tràn Base64.
+  - Cập nhật `hq/schematic_map.md` (Mục 2 & Mục 5): Đồng bộ kiến trúc Ma trận 4D, 5 trụ cột `OptiSync V5`, 4 cổng RPC chuẩn và liên kết trực tiếp tới trọn bộ 5 File Kiến trúc Cốt lõi trong `hq/sme-os-core/`.

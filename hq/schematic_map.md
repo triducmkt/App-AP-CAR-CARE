@@ -40,16 +40,27 @@ flowchart TD
 
 ---
 
-## 2. CÁC TRỤ CỘT KỸ THUẬT & NGUYÊN TẮC THIẾT KẾ
+## 2. CÁC TRỤ CỘT KỸ THUẬT & NGUYÊN TẮC THIẾT KẾ (CHUẨN SME OS & TDCM TEAM APP)
 
-1. **Single Source of Truth (SSOT):** Dữ liệu lưu trữ tập trung tại Google Sheet ID `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0`.
-2. **FIELD_MAP Pattern (Bắt buộc):**
-   - `USER_FIELD_MAP`: Ánh xạ cấu trúc cột Users từ Sheet ra Frontend Key.
-   - `POST_FIELD_MAP`: Ánh xạ dữ liệu bài đăng đa kênh (ID, nội dung, số ảnh, danh sách kênh, trạng thái, tác giả, thời gian).
-3. **SPA View Architecture (TDCM Team App Pattern):**
-   - Chuyển đổi giữa `#viewLogin` và `#viewHome` không reload trang.
-   - Quản lý phiên làm việc qua `localStorage.getItem('apUserSession')`.
-4. **Optimistic Multi-Channel Feedback:** Cập nhật trạng thái từng kênh trực quan bằng icon `v` (thành công) và `x` (chưa đăng/thất bại) kèm toast và nhật ký bài đăng phiên làm việc.
+1. **Single Source of Truth (SSOT) & Chuẩn Dòng Vật Lý (`PM_CONFIG`):**
+   - Dữ liệu lưu trữ tập trung tại Google Sheet Master ID `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0` (Phase 1) và tiến hóa lên **Next.js + Cloudflare Pages + Supabase PostgreSQL + Cloudflare R2** (Phase 2).
+   - Chuẩn bố cục dòng vật lý cho các bảng nghiệp vụ lớn: Dòng 1–9 (Summary/Config), **Dòng 10 (`HEADER_ROW = 10`)**, Dòng 11 (Hướng dẫn), **Từ Dòng 12 (`MIN_DATA_ROW = 12`)** là dữ liệu bản ghi thực tế.
+2. **Ma trận Ánh xạ Đa chiều `GLOBAL_SCHEMA_MATRIX` ($1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$ — Bắt buộc 100%):**
+   - **1D Vector (`FIELD_MAP`):** Ánh xạ trường trong 1 bảng `{ sheetHeader, col, idx: letterToColIndex(col), frontendKey, type, visible, width, defaultVal }`. Tuyệt đối không hardcode `row[2]`.
+   - **2D Matrix ($n \times m$ — `GLOBAL_DB_MAP[Table][Field]` & `PROJECT_PRICING[BranchOrTier][ServiceCode]`):** Quản lý tập trung toàn bộ **10 Bảng Core Business Objects** (`Lead`, `Customer`, `Order`, `Task`, `Product_Asset`, `Staff`, `Partner`, `Inventory_Item`, `Financial_Transaction`, `Warranty_Care`) và **4 Bảng System Tables** (`Sys_Config_Matrix`, `Sys_Automation_Queue`, `Audit_Logs`, `Sys_Sequence_Counter`).
+   - **3D Matrix ($n \times m \times k$ — `ROLE_MATRIX[Role] × PERMISSION_GROUPS × FIELD_MAP`):** Kiểm soát quyền hạn theo 3 chiều `(Bảng × Trường/Hành động × Vai trò)` qua hàm cổng duy nhất `canPerformAction(user, tableName, rowData, fieldKey, actionType)`.
+   - **4D Tensor ($n \times m \times k \times t$ — `TASK_AUTOMATION_RULES` & `getLockedStatuses()`):** Kiểm soát tự động hóa & khóa ô theo 4 chiều `(Bảng × Trường × Vai trò × Trạng thái/Sự kiện)` — tự động khóa trường khi đơn/task chuyển trạng thái (`locks`) và tự động điền ngày/chuyển bước (`autoFill`).
+3. **Cơ chế Đồng bộ 5 Trụ cột `OptiSync V5` (Client-Server Logistics):**
+   - **Trụ cột 1 — Central `AppStore`:** Mọi thay đổi trên UI phải đi qua `AppStore.dispatchAction(payload)`.
+   - **Trụ cột 2 — Optimistic UI & Ghost RAM (`recentEdits` 15s):** Phản hồi giao diện trong `0.001s` + lá chắn 15 giây chống ghi đè ngược.
+   - **Trụ cột 3 — Debounce Batching (8s Truck):** Gom lô các thao tác sửa liên tiếp trong 8 giây rồi đẩy 1 lần qua `api_batch_sync`.
+   - **Trụ cột 4 — Smart Polling & Traffic Yielding:** Tự động nhường đường khi người dùng đang gõ phím hoặc mở Modal.
+   - **Trụ cột 5 — Data Mixer, Hash Diffing & Navigation Guard:** Trộn `Server Data + recentEdits + pendingQueue`, phân trang 100–150 dòng/trang không giật cuộn, chặn đóng tab (`beforeunload`) khi còn hàng đợi chưa lưu.
+4. **4 Cổng Giao tiếp RPC Hợp nhất & Bảo vệ Hạ tầng Backend:**
+   - **4 Cổng chuẩn:** `api_query(requestJson)`, `api_mutate(requestJson)`, `api_batch_sync(batchJson)`, `doPost(e)` (Website Sensor Webhook).
+   - **An toàn Backend:** Khóa đồng thời `LockService.getScriptLock()`, đọc 1 lần vào RAM (`getDatabaseSnapshot` + Dual-Update Sheet & RAM), ngắt an toàn ở phút 4.5 (`< 270.000ms`), và **Rolling 3.000-Row Audit Log** (chèn tại dòng 12, cắt ở dòng 3.000).
+5. **SPA View Architecture & Optimistic Multi-Channel Feedback:**
+   - Chuyển đổi giữa `#viewLogin`, `#viewHome` và các phân hệ nghiệp vụ không reload trang; quản lý phiên qua `localStorage.getItem('apUserSession')`.
 
 ---
 
@@ -69,7 +80,7 @@ flowchart TD
 
 ---
 
-## 4. TỌA ĐỘ HÀM VÀ TRẠNG THÁI (STATE MAP)
+## 4. TỌA ĐỘ HÀM VÀ TRẠNG THÁI HIỆN CÓ (STATE MAP)
 - **`USER_FIELD_MAP`**:
   - `username` -> Cột Tên Đăng Nhập
   - `password` -> Cột Mật Khẩu
@@ -84,4 +95,15 @@ flowchart TD
   - `status` -> Trạng thái (Đã đăng `v` / Thất bại `x`)
   - `author` -> Tác giả bài viết (`Tăng Trí Đức (DUC)`)
   - `createdAt` -> Thời gian đăng bài
+
+---
+
+## 5. LIÊN KẾT BỘ 5 FILE KIẾN TRÚC CỐT LÕI SME OS (`hq/sme-os-core/`)
+- `hq/sme-os-core/00-CONTEXT-MASTER-PROMPT.md`: Hiến pháp 10 Điều, 8 Nguyên tắc Thiết kế, Chiến lược Ngôn ngữ 4 Tầng.
+- `hq/sme-os-core/01-PRODUCT-PHILOSOPHY.md`: Triết lý Thiết kế Sản phẩm (17 Chương + Phụ lục A).
+- `hq/sme-os-core/02-BUSINESS-ARCHITECTURE.md`: Kiến trúc Kinh doanh SME (15 Chương).
+- `hq/sme-os-core/03-SYSTEM-ARCHITECTURE.md`: Kiến trúc Hệ thống 7 Lớp & Event-Driven (15 Chương).
+- `hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md`: Kiến trúc Ứng dụng, 10 Core Schemas, Ma trận 4D `GLOBAL_SCHEMA_MATRIX` & 14 Module Contracts (6 Chương).
+- `hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md`: Kiến trúc Công nghệ Phase 1 (GAS/Sheets) $\rightarrow$ Phase 2 (Next.js/Supabase/R2) & SDLC 6 Bước (Chương 0 + 6 Chương).
+
 

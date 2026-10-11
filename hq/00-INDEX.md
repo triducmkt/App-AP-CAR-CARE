@@ -1,13 +1,12 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã hoàn tất 100% việc viết chi tiết toàn bộ 6 chương của **File 4 (`hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md`)** và Chương 0 + 6 chương của **File 5 (`hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md`)** theo phương thức 2 (hoàn thiện trọn bộ 1 lần), tuân thủ nghiêm ngặt cấu trúc 7 mục PRD của `00-PROMPT-MASTER-VIET-5-FILE.md` và `00-DIEU-LUAT-PROMPT-RULE.md`. Đồng thời đã quét toàn diện bộ quy trình, rules và kiến trúc kỹ thuật của dự án **Project TDCM Team App** (đặc biệt là kiến trúc Ma trận đa chiều `FIELD_MAP` $1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$ và cơ chế đồng bộ **OptiSync V5**) để trình anh Đức (PO) phê duyệt áp dụng chính thức cho dự án.
+- **Trạng thái:** Đã hoàn tất 100% trọn bộ **5 File Kiến trúc Cốt lõi SME OS (`01` → `05`)** tại `hq/sme-os-core/` (trong đó File 4 `04-APPLICATION-ARCHITECTURE.md` dài 388 dòng / 50.371 bytes và File 5 `05-TECHNOLOGY-ARCHITECTURE.md` dài 466 dòng / 30.892 bytes đã được viết đầy đủ tất cả các chương theo chuẩn 7 mục PRD). Đồng thời, theo phê duyệt của anh Đức (PO), đã chính thức ban hành và tích hợp toàn bộ **6 Nhóm Quy Chuẩn Kỹ Thuật từ TDCM Team App** (Ma trận đa chiều `FIELD_MAP` $1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$, cơ chế đồng bộ 5 trụ cột **OptiSync V5**, chuẩn dòng `HEADER_ROW=10 / MIN_DATA_ROW=12`, Single-Read Snapshot và Rolling 3.000-Row Audit Log) vào `AGENTS.md` và `hq/schematic_map.md`.
 - **Vừa xong:**
-  1. Hoàn thành bản đặc tả PRD đầy đủ cho `hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md` (6 chương: Mục tiêu & 3-Layer Architecture, 10 Core Object Schemas + 4 System Tables + Ma trận đa chiều `GLOBAL_SCHEMA_MATRIX` $n \times m \times k \times t$, 14 Module Contracts, Website Sensor Architecture, UI Architecture & OptiSync V5, 4 cổng Unified RPC Gateway).
-  2. Hoàn thành bản đặc tả PRD đầy đủ cho `hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md` (Giữ nguyên 100% Chương 0 & 10 Điều Hiến pháp SME OS + viết trọn vẹn 6 chương: Mục tiêu hạ tầng Zero-Cost, Lộ trình tiến hóa Phase 1 GAS/Sheets sang Phase 2 Low-cost/Free SME Stack Next.js/Cloudflare Pages/Supabase/Cloudflare R2 kèm 5 chỉ số kích hoạt, Frontend Stack, Backend Stack chống Timeout 6 phút & `LockService`, Database & Storage Stack với `HEADER_ROW=10 / MIN_DATA_ROW=12` & Rolling Audit Log 3.000 dòng, CI/CD & SDLC 6 bước).
-  3. Tổng hợp danh mục 6 nhóm Quy trình & Rules tinh hoa từ **TDCM Team App** trình anh Đức duyệt.
-- **Bước tiếp theo:** Chờ anh Đức (PO) duyệt danh sách Rules & Kiến trúc Ma trận `FIELD_MAP` đa chiều ($1D \rightarrow 4D$) từ TDCM Team App để chuẩn hóa vào bộ khung vận hành và bắt đầu giai đoạn thiết kế/triển khai các module nghiệp vụ của App AP CAR CARE / SME OS.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-11 15:32
+  1. Hoàn thiện 100% nội dung chi tiết 6 chương của `hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md` và Chương 0 + 6 chương của `hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md`.
+  2. Cập nhật chính thức bộ quy tắc Ma trận `GLOBAL_SCHEMA_MATRIX` ($1D \rightarrow 4D$), `OptiSync V5` và chuẩn hạ tầng Google Sheets/GAS từ TDCM Team App vào `AGENTS.md` và `hq/schematic_map.md`.
+- **Bước tiếp theo:** Sẵn sàng bước vào giai đoạn khởi tạo cấu trúc bảng dữ liệu thực tế (Master Database Sheets) và code các phân hệ nghiệp vụ V1 của **App AP CAR CARE / SME OS** theo chỉ đạo tiếp theo của anh Đức.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-11 16:35
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
