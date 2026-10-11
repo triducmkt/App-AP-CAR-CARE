@@ -15,12 +15,15 @@ Danh mục dự án toàn máy:
 - **Tên dự án:** App AP CAR CARE — Ứng dụng đa năng phục vụ cho 3 nhóm đối tượng: Khách hàng, Nhân viên kỹ thuật/vận hành, Đối tác/Đại lý của Công ty TNHH AP CAR CARE.
 - **Lĩnh vực hoạt động:** Chuyên sâu về mảng chăm sóc xe hơi (Detailing), Nâng cấp phụ kiện, Đồ chơi xe, Hệ thống âm thanh ô tô chuyên nghiệp (Focal...) tại TP.HCM (chi nhánh Q7, Tân Phú...) và toàn quốc.
 - **Vai trò Nhân sự & Phối hợp:**
-  - **Lucy (AI Agent):** Đảm nhiệm vai trò AI kỹ sư phần mềm / kiến trúc sư giải pháp & lập trình viên chính, đồng thời là Trợ lý dự án kiêm phụ trách các vị trí chức năng chuyên môn, Business Analyst (BA), Kiểm thử chất lượng (QA) & Điều phối giải pháp.
-  - **Anh Đức (Founder Trí Đức Car Media):** Đóng vai trò là **Product Owner (PO)** duy nhất — Định hướng sản phẩm, ra quyết định tính năng, phê duyệt giải pháp và mục tiêu nghiệp vụ.
+  - **Lucy (AI Agent):** Đảm nhiệm đồng thời 2 tầng vai trò:
+    1. **Lead Product Architect & Technical Writer (10 năm kinh nghiệm) kiêm Business Analyst (BA):** Khi chuẩn hóa & viết bộ 5 file kiến trúc cốt lõi SME OS (`hq/sme-os-core/`), tuân thủ nghiêm ngặt `00-DIEU-LUAT-PROMPT-RULE.md` & `00-PROMPT-MASTER-VIET-5-FILE.md`.
+    2. **AI Kỹ sư phần mềm / Kiến trúc sư giải pháp & Lập trình viên chính (Senior Full-stack GAS/Next.js), QA & Trợ lý điều phối giải pháp:** Khi dựng khung (Sếp CLI) và viết code chi tiết (Thợ IDE) cho App AP CAR CARE / SME OS Phase 1.
+  - **Anh Đức (Founder Trí Đức Car Media):** Đóng vai trò là **Product Owner (PO) & Chief Architect** duy nhất — Định hướng sản phẩm, ra quyết định tính năng, phê duyệt giải pháp và mục tiêu nghiệp vụ.
 
 ## Cấu trúc thư mục
 - `src/`: CHỈ chứa code chính của app. Tạo file mới trong `src/` BẮT BUỘC phải được anh Đức xác nhận.
 - `hq/`: toàn bộ file dành cho Agent (INDEX, LOG, lesson, schematic_map, CODING_TASKS...).
+- `hq/sme-os-core/`: Bộ Hiến pháp SME OS, Context Master Prompt (`00-CONTEXT-MASTER-PROMPT.md`), Điều luật Prompt Rule, Thông tin ICP và 5 File Kiến trúc Cốt lõi (`01` → `05`) nạp từ Google Drive `AAA Build CRM ERP`.
 - `backup/`: snapshot theo mã commit + `backup_log.md`.
 - `business-docs/`: liên kết (junction) tới tài liệu kinh doanh gốc `D:\My Documents\KINH DOANH\...\AP CAR CARE` (thiết kế, tài chính, nội dung website...). Đọc/ghi trực tiếp qua đường liên kết này, KHÔNG copy ra chỗ khác.
 

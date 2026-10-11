@@ -267,3 +267,21 @@ ode -e "new Function(...)" đạt chuẩn 100%.
     + Đăng bài đa kênh hiển thị icon `v` và `x`: `pc_home_published.png`, `mob_home_published.png`.
   - Deploy thành công demo lên nhánh `gh-pages` (`fb14ae9`).
   - Cập nhật `hq/schematic_map.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`, `hq/CODING_TASKS.json`, `backup/backup_log.md`.
+
+
+## 2026-10-11 15:15 — Lucy/Antigravity — Nạp Context Master Prompt & 5 File Kiến Trúc Cốt Lõi SME OS từ Google Drive (`AAA Build CRM ERP`)
+- **Tiếp nhận chỉ đạo từ Product Owner (anh Đức):**
+  - Nạp toàn bộ dữ liệu, context, vai trò nhân sự và 5 file guideline cốt lõi của dự án từ thư mục Google Drive `J:\My Drive\TRÍ ĐỨC CAR MEDIA\AAA Build CRM ERP` vào thư mục `hq/` của dự án hiện tại (`hq/sme-os-core/`).
+  - Lên kế hoạch tổng thể (chưa bắt tay viết) để triển khai chi tiết từng chương cho **File 4 (Application Architecture)** và **File 5 (Technology Architecture)**.
+- **Thực thi nạp dữ liệu vào `hq/sme-os-core/`:**
+  - `00-CONTEXT-MASTER-PROMPT.md`: Tổng hợp Context Master Prompt, 10 Điều Hiến pháp SME OS, 8 Nguyên tắc Sản phẩm, Chiến lược Ngôn ngữ 4 tầng và Vai trò kép của Lucy (Lead Product Architect / Technical Writer 10 năm kinh nghiệm & Senior Full-stack Developer / QA).
+  - `00-DIEU-LUAT-PROMPT-RULE.md`: Nguyên bản `ĐIỀU LUẬT PROMPT RULE CỦA DỰ ÁN.gdoc` (4.247 ký tự).
+  - `00-PROMPT-MASTER-VIET-5-FILE.md`: Nguyên bản `prompt master Viết 5 file tài liệu .gdoc` (4.624 ký tự).
+  - `00-THONG-TIN-CHUNG-DU-AN-SME-OS.md`: Nguyên bản `Thông tin chung dự án build app SME OS.gdoc` (3.488 ký tự — 4 Persona ICP).
+  - `00-HD-ANTIGRAVITY-CLI-IDE.md` & `00-SETTING-ANTIGRAVITY-IDE.md`: Nguyên bản 2 tài liệu quy trình CLI/IDE & chống code quá mức.
+  - `01-PRODUCT-PHILOSOPHY.md`: Nguyên bản File 1 `(OFFICIAL) 1. Triết lý Thiết kế app SME OS` (118.048 ký tự — 17 chương + Phụ lục A).
+  - `02-BUSINESS-ARCHITECTURE.md`: Nguyên bản File 2 `(OFFICIAL) 2. Kiến trúc Kinh doanh` (138.111 ký tự — 15 chương).
+  - `03-SYSTEM-ARCHITECTURE.md`: Nguyên bản File 3 `(OFFICIAL) 3. Kiến trúc hệ thống app SME OS` (263.225 ký tự — 15 chương).
+  - `04-APPLICATION-ARCHITECTURE.md`: Nguyên bản File 4 `(OFFICIAL) 4. Kiến trúc Ứng dụng` (1.292 ký tự — Đề cương 6 chương).
+  - `05-TECHNOLOGY-ARCHITECTURE.md`: Nguyên bản File 5 `(OFFICIAL) 5. Kiến trúc Công nghệ` (3.967 ký tự — Chương 0 + 10 Điều Hiến pháp + Đề cương 6 chương).
+- **Cập nhật quản trị:** Cập nhật `AGENTS.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`.
