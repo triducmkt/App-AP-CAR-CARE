@@ -285,3 +285,25 @@ ode -e "new Function(...)" đạt chuẩn 100%.
   - `04-APPLICATION-ARCHITECTURE.md`: Nguyên bản File 4 `(OFFICIAL) 4. Kiến trúc Ứng dụng` (1.292 ký tự — Đề cương 6 chương).
   - `05-TECHNOLOGY-ARCHITECTURE.md`: Nguyên bản File 5 `(OFFICIAL) 5. Kiến trúc Công nghệ` (3.967 ký tự — Chương 0 + 10 Điều Hiến pháp + Đề cương 6 chương).
 - **Cập nhật quản trị:** Cập nhật `AGENTS.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`.
+
+## 2026-10-11 15:32 — Lucy/Antigravity — Hoàn tất Viết Trọn Bộ File 4 & File 5 (Phương thức 2) + Tổng hợp Tinh hoa Quy trình/Rules từ TDCM Team App
+- **Tiếp nhận chỉ đạo từ Product Owner (anh Đức):**
+  - Viết trọn vẹn cả 2 file `04-APPLICATION-ARCHITECTURE.md` và `05-TECHNOLOGY-ARCHITECTURE.md` theo Phương thức 2 (hoàn tất toàn bộ các chương 1 lần).
+  - Quét toàn bộ quy trình, rules đang có của dự án `Project TDCM Team App` để tổng hợp và liệt kê cho anh Đức duyệt áp dụng sang dự án này (đặc biệt là các rule tổ chức, sắp xếp, kiểm tra và hệ thống `FIELD_MAP` ma trận đa chiều $n \times m \times k$ 3 chiều, 4 chiều).
+- **Thực thi Hoàn thiện Bộ Tài liệu Kiến trúc Cốt lõi (`hq/sme-os-core/`):**
+  1. **`04-APPLICATION-ARCHITECTURE.md` (Hoàn thành 6/6 chương theo chuẩn 7 mục PRD):**
+     - Chương 1: Mục tiêu & Kiến trúc Phân lớp 3 tầng (`UI Layer` $\rightarrow$ `Application Service Layer` $\rightarrow$ `Data Access & Matrix Mapper Layer`).
+     - Chương 2: Core Object Schema & Ma trận Đa chiều `GLOBAL_SCHEMA_MATRIX` ($1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$): Đặc tả đầy đủ 10 bảng Core Business Objects (`Lead`, `Customer`, `Order`, `Task`, `Product_Asset`, `Staff`, `Partner`, `Inventory_Item`, `Financial_Transaction`, `Warranty_Care`), 4 bảng System Tables (`Sys_Config_Matrix`, `Sys_Automation_Queue`, `Audit_Logs`, `Sys_Sequence_Counter`), cùng cơ chế tiến hóa `FIELD_MAP` từ 1D sang 4D.
+     - Chương 3: Module Contract Specification cho toàn bộ 14 Modules chuẩn hóa (`Inputs`, `Outputs`, `Events Emitted`, `Events Consumed`, `Validation Rules`, `Error Codes`).
+     - Chương 4: Website Sensor Architecture (Cổng `doPost` Webhook Ingest, chuẩn hóa SĐT Việt Nam `normalizeVNPhone`, chống trùng lặp `Deduplication` và tự động ghép nối `Lead` $\leftrightarrow$ `Customer`).
+     - Chương 5: UI Architecture (3 nhóm giao diện, nguyên lý 3-Click Rule, tích hợp cơ chế **OptiSync V5** chống độ trễ GAS và tạo tự động Table/Form từ `FIELD_MAP`).
+     - Chương 6: API & Integration Specification (Quy hoạch toàn bộ giao tiếp về 4 cổng RPC chuẩn: `api_query`, `api_mutate`, `api_batch_sync`, `doPost`).
+  2. **`05-TECHNOLOGY-ARCHITECTURE.md` (Giữ nguyên 100% Chương 0 + 10 Điều Hiến pháp & Hoàn thành 6/6 chương theo chuẩn 7 mục PRD):**
+     - Chương 1: Mục tiêu & Ranh giới hạ tầng ("Business Architecture là tài sản, Technology chỉ là implementation", TCO = $0 ở Phase 1, SLA Response Time $< 5\text{s}$, Optimistic UI $< 50\text{ms}$).
+     - Chương 2: Chiến lược Tiến hóa Công nghệ Phase 1 (GAS/Sheets/Drive) $\rightarrow$ Phase 2 Low-cost/Free SME Stack (**Next.js + Cloudflare Pages + Supabase PostgreSQL + Cloudflare R2 Zero-Egress + Upstash Redis + Gemini Flash/Pro API**), kèm 5 chỉ số kích hoạt chuyển đổi (Migration Trigger Metrics) và kịch bản di trú 4 bước không viết lại code nghiệp vụ.
+     - Chương 3: Frontend Stack (`HtmlService` Modular SPA, SSR Bootstrap Injection ngay trong `doGet`, quy tắc mặc định PC/Laptop, nén ảnh `<canvas>` xuống $< 300\text{KB}$ tại trình duyệt và quy tắc an toàn Base64).
+     - Chương 4: Backend Stack (GAS V8 Runtime, thứ tự nạp file `.gs`, khóa đồng thời `LockService.getScriptLock()`, kỹ thuật **Single-Read Snapshot** + ngắt an toàn ở phút 4.5 chống lỗi 6-Minute Timeout, `CacheService`).
+     - Chương 5: Database & Storage Stack (Chuẩn bố cục dòng vật lý `HEADER_ROW = 10, MIN_DATA_ROW = 12`, chống lệch cột bằng `letterToColIndex`, cơ chế **Rolling 3.000-Row Audit Log** chèn tại dòng 12 + xuất CSV lưu trữ lạnh, cây thư mục Google Drive theo Năm/Tháng/Mã Đơn).
+     - Chương 6: CI/CD & Environment (Phân tách Dev/Staging/Prod qua `ScriptProperties`, quy trình 6 bước bắt buộc `.\backup.ps1` $\rightarrow$ Quét 2 cấp $\rightarrow$ Code $\rightarrow$ `/fix-stuck3` $\rightarrow$ Update `hq/` $\rightarrow$ Git Commit 7 ký tự, mô hình Sếp CLI – Thợ IDE).
+- **Quét & Tổng hợp Quy trình / Rules từ `Project TDCM Team App`:**
+  - Đã rà soát toàn bộ `hq/` và `src/` (`AA_ReadMe.gs`, `Code.gs`, `AuditLog.gs`, `Automation.gs`) của TDCM Team App và đúc kết thành 6 nhóm quy chuẩn kỹ thuật trình anh Đức phê duyệt.

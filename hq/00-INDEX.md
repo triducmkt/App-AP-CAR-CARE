@@ -1,10 +1,13 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã nạp thành công 100% Bộ Hiến pháp, Context Master Prompt, Vai trò nhân sự và Toàn bộ 5 File Kiến trúc Cốt lõi của dự án SME OS từ Google Drive (`J:\My Drive\TRÍ ĐỨC CAR MEDIA\AAA Build CRM ERP`) vào thư mục `hq/sme-os-core/` của dự án hiện tại. Đã lập kế hoạch tổng thể (Execution Plan) để chuẩn bị triển khai viết chi tiết từng chương cho **File 4 (Application Architecture - 6 chương)** và **File 5 (Technology Architecture - 6 chương)** theo đúng chuẩn `Document Intake` và `Prompt Master`.
-- **Vừa xong:** Trích xuất nguyên bản 10 tài liệu từ Google Drive `AAA Build CRM ERP` và lưu trữ chuẩn Markdown tại `hq/sme-os-core/` (`00-CONTEXT-MASTER-PROMPT.md`, `00-DIEU-LUAT-PROMPT-RULE.md`, `00-PROMPT-MASTER-VIET-5-FILE.md`, `00-THONG-TIN-CHUNG-DU-AN-SME-OS.md`, `00-HD-ANTIGRAVITY-CLI-IDE.md`, `00-SETTING-ANTIGRAVITY-IDE.md`, và 5 file `01` → `05`); cập nhật vai trò của Lucy và quy chiếu vào `AGENTS.md`, `hq/00-INDEX.md`, `hq/01-LOG.md`.
-- **Bước tiếp theo:** Chờ anh Đức (PO) duyệt lộ trình triển khai viết chi tiết từng chương của File 4 (`04-APPLICATION-ARCHITECTURE.md`) và File 5 (`05-TECHNOLOGY-ARCHITECTURE.md`) theo quy tắc xử lý từng chương một.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-11 15:15
+- **Trạng thái:** Đã hoàn tất 100% việc viết chi tiết toàn bộ 6 chương của **File 4 (`hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md`)** và Chương 0 + 6 chương của **File 5 (`hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md`)** theo phương thức 2 (hoàn thiện trọn bộ 1 lần), tuân thủ nghiêm ngặt cấu trúc 7 mục PRD của `00-PROMPT-MASTER-VIET-5-FILE.md` và `00-DIEU-LUAT-PROMPT-RULE.md`. Đồng thời đã quét toàn diện bộ quy trình, rules và kiến trúc kỹ thuật của dự án **Project TDCM Team App** (đặc biệt là kiến trúc Ma trận đa chiều `FIELD_MAP` $1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$ và cơ chế đồng bộ **OptiSync V5**) để trình anh Đức (PO) phê duyệt áp dụng chính thức cho dự án.
+- **Vừa xong:**
+  1. Hoàn thành bản đặc tả PRD đầy đủ cho `hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md` (6 chương: Mục tiêu & 3-Layer Architecture, 10 Core Object Schemas + 4 System Tables + Ma trận đa chiều `GLOBAL_SCHEMA_MATRIX` $n \times m \times k \times t$, 14 Module Contracts, Website Sensor Architecture, UI Architecture & OptiSync V5, 4 cổng Unified RPC Gateway).
+  2. Hoàn thành bản đặc tả PRD đầy đủ cho `hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md` (Giữ nguyên 100% Chương 0 & 10 Điều Hiến pháp SME OS + viết trọn vẹn 6 chương: Mục tiêu hạ tầng Zero-Cost, Lộ trình tiến hóa Phase 1 GAS/Sheets sang Phase 2 Low-cost/Free SME Stack Next.js/Cloudflare Pages/Supabase/Cloudflare R2 kèm 5 chỉ số kích hoạt, Frontend Stack, Backend Stack chống Timeout 6 phút & `LockService`, Database & Storage Stack với `HEADER_ROW=10 / MIN_DATA_ROW=12` & Rolling Audit Log 3.000 dòng, CI/CD & SDLC 6 bước).
+  3. Tổng hợp danh mục 6 nhóm Quy trình & Rules tinh hoa từ **TDCM Team App** trình anh Đức duyệt.
+- **Bước tiếp theo:** Chờ anh Đức (PO) duyệt danh sách Rules & Kiến trúc Ma trận `FIELD_MAP` đa chiều ($1D \rightarrow 4D$) từ TDCM Team App để chuẩn hóa vào bộ khung vận hành và bắt đầu giai đoạn thiết kế/triển khai các module nghiệp vụ của App AP CAR CARE / SME OS.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-11 15:32
 
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
