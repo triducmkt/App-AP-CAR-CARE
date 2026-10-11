@@ -69,32 +69,36 @@ flowchart TD
 ### 3.1. Frontend Modules (`src/Index.html`)
 | File / Component | Chức năng chính | Hàm / Biến quan trọng |
 |---|---|---|
-| `Index.html` (`#viewLogin`) | Màn hình Welcome chào mừng + Form Đăng nhập PC & Mobile | `setFeedback()`, `loginForm submit (DUC/1111)`, `switchSpaView()` |
-| `Index.html` (`#viewHome`) | Trang Home Đăng bài đa kênh (YouTube, Facebook, TikTok) | `initUserSession()`, `handleFiles()`, `setChannelStatus()`, `btnPublish click`, `addPostToHistory()` |
+| `Index.html` (`#viewLogin`) | Màn hình Welcome chào mừng v11 + Form Đăng nhập PC & Mobile | `setFeedback()`, `loginForm submit (DUC/1111)`, `switchSpaView()` |
+| `Index.html` (`#apSidebar`) | Sidebar Trái Obsidian Glass: Logo Công ty White-Label + Avatar User đa năng (9 màu yêu thích, nén Canvas, đổi SĐT/MK) + 6 Tab Phòng Ban AP CAR CARE 2026 + Tab Cài Đặt dưới cùng | `buildUniversalAvatar()`, `compressImageToBase64()`, `renderSidebarUserCard()`, `AppStore.switchDepartment()` |
+| `Index.html` (`#pane_DEPT_EXEC`) | Tab 1 — Ban Giám Đốc & HĐQT: 4 Thẻ KPI + Sơ đồ Tổ chức 6 Tầng AP CAR CARE 2026 tương tác + Bảng Kiểm toán Xoay vòng | `renderAuditLogTable()`, `AppStore.switchDepartment()` |
+| `Index.html` (`#pane_DEPT_MKT`) | Tab 2 (Active mặc định) — Phòng TT-MKT: Trạm Đăng Bài Đa Kênh (YouTube, Facebook, TikTok với dấu `v`/`x`) + Phễu Leads Đa Kênh (`GLOBAL_DB_MAP["Leads"]`) | `btnPublish click`, `handleFiles()`, `setChannelStatus()`, `renderDynamicMatrixTable('Leads')` |
+| `Index.html` (`#pane_DEPT_SERVICE`) | Tab 3 — Khối Dịch Vụ & Kỹ Thuật (Tân Phú & Q7): Điều phối Lệnh sửa chữa RO (`Orders` kèm khóa tự động 4D) + Kho Phụ kiện & Âm thanh Focal (`Inventory_SKU`) | `renderDynamicMatrixTable('Orders')`, `toggleRowStatus4D()`, `renderDynamicMatrixTable('Inventory_SKU')` |
+| `Index.html` (`#pane_DEPT_HR`) | Tab 4 — Phòng Nhân Sự (HR): Danh bạ Nhân sự 6 Tầng (`Staff`) & Phân quyền 3D | `renderDynamicMatrixTable('Staff')` |
+| `Index.html` (`#pane_DEPT_ACADEMY`) | Tab 5 — Phòng Đào Tạo (AP Education): Quản lý Học viên Detailing Tầng 1 (`Tasks`) | `renderDynamicMatrixTable('Tasks')` |
+| `Index.html` (`#pane_DEPT_FINANCE`) | Tab 6 — Phòng Kế Toán - Hành Chính & KTNB: Sổ quỹ Thu - Chi (`Finance_Transactions`) + Ma trận Giá 2D (`PROJECT_PRICING`) | `renderDynamicMatrixTable('Finance_Transactions')`, `renderPricing2DTable()` |
+| `Index.html` (`#pane_SETTINGS`) | Tab Cài Đặt (Dưới cùng Sidebar): Khoác Áo Theme Giao Diện (On/Off) + Quản lý 6 Vị Trí Thay Logo White-Label + Giám sát 14 Module Contracts (`M01` → `M14`) | `applyThemeSkinToDOM()`, `applyAllLogoSlotsToDOM()`, `renderSettingsThemeCards()`, `renderSettingsLogoSlots()`, `renderModules14Table()` |
 
 ### 3.2. Backend / API / Database (`src/`)
 | Module / File | Vai trò | Điểm kết nối dữ liệu |
 |---|---|---|
-| `Code.gs` | Điều phối Web App (`doGet`), API xác thực tài khoản & Đăng bài | `checkLogin(credentials)`, `publishMultiChannelPost(postData)`, `getAppConfig()` |
-| `appsscript.json` | Cấu hình manifest Apps Script (timezone, runtime V8) | V8 Runtime |
+| `Code.gs` | Hạ tầng 5 File Cốt Lõi SME OS: `PM_CONFIG` (Header dòng 10, Data dòng 12), Ma trận 4D (`GLOBAL_DB_MAP`, `PROJECT_PRICING`, `ROLE_MATRIX`, `TASK_AUTOMATION_RULES`), `DataMapper`, `MODULE_CONTRACTS_REGISTRY` (`M01` → `M14`), `EVENT_BUS`, 4 Cổng RPC (`doGet`, `doPost`, `api_query`, `api_batch_sync`), White-Label & Theme APIs | `checkLogin()`, `updateUserProfile()`, `publishMultiChannelPost()`, `getWhiteLabelAndSystemBundle()`, `saveBrandLogoSlot()`, `toggleThemeSkin()`, `getDatabaseSnapshot()`, `logSystemAudit()` |
+| `appsscript.json` | Cấu hình manifest Apps Script (timezone `Asia/Ho_Chi_Minh`, runtime V8) | V8 Runtime |
 
 ---
 
-## 4. TỌA ĐỘ HÀM VÀ TRẠNG THÁI HIỆN CÓ (STATE MAP)
-- **`USER_FIELD_MAP`**:
-  - `username` -> Cột Tên Đăng Nhập
-  - `password` -> Cột Mật Khẩu
-  - `fullName` -> Cột Họ và Tên
-  - `role` -> Cột Phân Quyền (Product Owner / Quản trị viên / Khách hàng / Kỹ thuật / Đại lý)
-  - `branch` -> Cột Chi Nhánh (Q7 / Tân Phú / Toàn quốc)
-- **`POST_FIELD_MAP`**:
-  - `id` -> Mã bài viết
-  - `content` -> Nội dung bài viết (Text Long)
-  - `imageCount` -> Số lượng ảnh đính kèm
-  - `channels` -> Danh sách kênh xuất bản (YouTube, Facebook, TikTok)
-  - `status` -> Trạng thái (Đã đăng `v` / Thất bại `x`)
-  - `author` -> Tác giả bài viết (`Tăng Trí Đức (DUC)`)
-  - `createdAt` -> Thời gian đăng bài
+## 4. TỌA ĐỘ MA TRẬN CẤU HÌNH WHITE-LABEL & SƠ ĐỒ PHÒNG BAN
+- **`LOGO_SLOT_FIELD_MAP` & `DEFAULT_BRAND_LOGO_SLOTS` (6 Vị trí thay Logo/Thương hiệu cho dự án khác):**
+  1. `SLOT_SIDEBAR_COMPANY_LOGO` -> `#sidebarCompanyLogoImg` (Logo Công ty trên đỉnh Sidebar Trái)
+  2. `SLOT_LOGIN_HERO_EMBLEM` -> `.hero-intro-img, .brand-logo-img` (Logo Tròn màn hình Login)
+  3. `SLOT_LOGIN_BRAND_TITLE` -> `#sidebarBrandTitle` (Tên thương hiệu chính)
+  4. `SLOT_LOGIN_BRAND_SLOGAN` -> `#sidebarBrandSub` (Slogan / Phân hệ dưới tên thương hiệu)
+  5. `SLOT_WORKSPACE_HEADER_BADGE` -> `#workspaceHeaderBadgeText` (Badge thương hiệu góc phải Topbar)
+  6. `SLOT_COMPANY_HOTLINE_WEB` -> `#sidebarFooterHotline` (Thông tin Hotline & Website chân Sidebar)
+- **`THEME_FIELD_MAP` & `DEFAULT_THEME_SKINS` (Bộ Khoác Áo Giao Diện On/Off):**
+  1. `THEME_AP_SIGNATURE_GLASS` (Default **ON**): Nền làm việc Trắng Xám Nhạt `#F2F4F8`, Sidebar & Nút Đen Obsidian Gradient Glass, Đường Line Xanh Google Blue `#4285F4` / Glow `#8AB4F8`.
+  2. `THEME_TDCM_ENTERPRISE_BLUE` (**OFF**): Giao diện Deep Navy Glass & Ice White cho dự án tư vấn SME.
+  3. `THEME_FOCAL_AUDIO_GOLD` (**OFF**): Giao diện Hắc Kim Carbon Black Glass & Focal Gold.
 
 ---
 

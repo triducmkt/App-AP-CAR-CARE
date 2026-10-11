@@ -313,3 +313,21 @@ ode -e "new Function(...)" đạt chuẩn 100%.
 - **Thực thi tích hợp quy chuẩn:**
   - Cập nhật `AGENTS.md` (Mục 6, 7, 8): Ban hành bắt buộc chuẩn Ma trận đa chiều `FIELD_MAP` ($1D \rightarrow 2D \rightarrow 3D \rightarrow 4D$), cơ chế đồng bộ 5 trụ cột `OptiSync V5`, bố cục dòng Google Sheets (`HEADER_ROW = 10, MIN_DATA_ROW = 12`), `Single-Read Snapshot`, `Rolling 3,000-Row Audit Log` và quy tắc nén ảnh `<canvas>` chống tràn Base64.
   - Cập nhật `hq/schematic_map.md` (Mục 2 & Mục 5): Đồng bộ kiến trúc Ma trận 4D, 5 trụ cột `OptiSync V5`, 4 cổng RPC chuẩn và liên kết trực tiếp tới trọn bộ 5 File Kiến trúc Cốt lõi trong `hq/sme-os-core/`.
+
+## 2026-10-11 20:06 — Lucy/Antigravity — Chuẩn Hóa Toàn Bộ Hệ Thống Theo 5 File Cốt Lõi SME OS, Xây Dựng Workspace 6 Phòng Ban AP CAR CARE 2026, Tab Cài Đặt Dưới Cùng Sidebar, Khoác Áo Theme On/Off & 6 Vị Trí Thay Logo White-Label
+- **Tiếp nhận chỉ đạo từ Product Owner (anh Đức):**
+  - Kiểm tra và chuẩn hóa toàn bộ file hệ thống (`src/Code.gs`, `src/Index.html`) theo chuẩn quy hoạch trong 5 file cốt lõi SME OS, đảm bảo quy hoạch và code sẵn toàn bộ hạ tầng ngay từ đầu.
+  - Xây dựng giao diện `#viewHome` chứa các tab Sidebar bên trái: mỗi tab là 1 phòng ban theo **Sơ đồ phòng ban của AP CAR CARE (`Cơ cấu tổ chức AP CAR CARE - 2026.pdf`)**, dưới cùng của Sidebar bên trái có **Tab Cài đặt**.
+  - Chuyển trang **Đăng bài đa kênh** hiện tại vào trong **Tab Phòng TT-MKT**.
+  - Lưu trữ Backend các vị trí cần thay Logo giao diện (`LOGO_SLOT_FIELD_MAP`) và bộ Theme (`THEME_FIELD_MAP`) để khi tái sử dụng cho dự án khác chỉ cần bật/tắt (On/Off) như thay một bộ quần áo.
+  - Áp dụng vị trí và luồng liên quan của Sidebar, Avatar User và Logo công ty từ `Project TDCM Team App` sang trang Home của AP CAR CARE.
+  - Chuẩn màu sắc & thẩm mỹ: Giữ 3 màu chủ đạo; phần nền chính dùng làm việc của app có màu **trắng xám nhạt (`#F2F4F8`)** dễ nhìn; Sidebar và các nút dùng màu **đen gradient hiệu ứng glass**; các đường line trang trí màu **xanh có glow sáng** tạo điểm nhấn.
+- **Triển khai & Kiểm thử:**
+  - Chạy `.\backup.ps1` lưu snapshot trước khi sửa vào `backup/9156b1f/`.
+  - Nâng cấp toàn diện `src/Code.gs` (661 dòng): Quy hoạch đầy đủ `PM_CONFIG`, `AP_ORG_DEPARTMENTS_MATRIX`, `LOGO_SLOT_FIELD_MAP`, `THEME_FIELD_MAP`, Ma trận 4D `GLOBAL_SCHEMA_MATRIX` (10 bảng Core + `MKT_Posts`, `PROJECT_PRICING`, `ROLE_MATRIX`, `TASK_AUTOMATION_RULES`), `DataMapper`, 14 Module Contracts (`M01` → `M14`), `EVENT_BUS`, `getDatabaseSnapshot`, `logSystemAudit` (Rolling 3.000 dòng) và 4 cổng RPC (`doGet`, `doPost`, `api_query`, `api_batch_sync`).
+  - Nâng cấp toàn diện `src/Index.html`:
+    + Giữ nguyên 100% màn hình Welcome & Login v11 (`#viewLogin`).
+    + Thiết kế `#viewHome` với Sidebar Trái Obsidian Glass, Logo Công ty White-Label, Avatar User đa năng (`buildUniversalAvatar`, nén ảnh `<canvas>`, 9 màu yêu thích, đổi SĐT/Mật khẩu), 6 Tab Phòng Ban AP CAR CARE 2026 + Tab Cài Đặt ở dưới cùng Sidebar.
+    + Chuyển Trạm Đăng Bài Đa Kênh vào Tab `Phòng TT - MKT` (Active mặc định khi đăng nhập).
+    + Xây dựng Tab `Cài Đặt Hệ Thống` với bộ công tắc Khoác Áo Theme On/Off và trình quản lý 6 vị trí Logo/Thương hiệu White-Label.
+  - Kiểm tra cú pháp JS/GAS bằng Node VM (`Code.gs syntax OK`, `Index.html script syntax OK`) và deploy thành công lên GitHub Pages (`99670fd`).

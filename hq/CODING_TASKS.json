@@ -95,6 +95,15 @@
     "main_vars_css": ".spa-view #viewLogin #viewHome .home-header .publisher-layout .channel-status-badge.status-success .channel-status-badge.status-failed .btn-publish-3d",
     "fields": "USER_FIELD_MAP (username, password, role, branch), POST_FIELD_MAP (id, content, imageCount, channels, status, author, createdAt)",
     "note": "Tạo cấu trúc SPA chuyển cảnh không reload trang giữa Login và Home; Xác thực DUC/1111; Quản lý session localStorage theo chuẩn TDCM Team App; Trang Home trang bị Header Logo AP và Profile User Tăng Trí Đức; Giao diện Đăng bài Đa kênh với Textarea long, uploader up 1 hoặc nhiều ảnh kèm grid thumbnail xóa từng ảnh, checkbox 3 kênh YouTube/Facebook/TikTok kèm icon trạng thái V (xanh lá) và X (đỏ); Nút bấm 3D đăng bài và nhật ký bài đăng gần đây."
+  },
+  {
+    "id": "TASK-010",
+    "env": "frontend & backend",
+    "task_name": "Chuẩn hóa Toàn Diện Hệ Thống theo 5 File Cốt Lõi SME OS & TDCM Team App: Workspace Đa Phòng Ban (Sơ đồ 6 Tầng AP CAR CARE 2026), Chuyển Đăng Bài Đa Kênh vào Phòng TT-MKT, Tab Cài Đặt dưới cùng Sidebar, Khoác Áo Theme On/Off & 6 Vị Trí Logo White-Label",
+    "main_function": "AppStore.dispatchAction, AppStore.switchDepartment, buildUniversalAvatar, compressImageToBase64, applyThemeSkinToDOM, applyAllLogoSlotsToDOM, renderDynamicMatrixTable, toggleRowStatus4D, api_query, api_batch_sync, doPost, saveBrandLogoSlot, toggleThemeSkin, updateUserProfile, getDatabaseSnapshot, logSystemAudit",
+    "main_vars_css": "--ap-workspace-bg (#F2F4F8) --ap-sidebar-bg --ap-btn-dark-glass --ap-accent-blue --ap-accent-glow; .ap-sidebar .ap-dept-tab-btn .btn-dark-glass .ap-glow-line-h .ap-glow-line-left .ap-universal-avatar .ap-matrix-table .ap-org-tiers .ap-theme-card .ap-logo-slot-item",
+    "fields": "GLOBAL_DB_MAP (10 Core Tables + MKT_Posts), LOGO_SLOT_FIELD_MAP (6 White-Label Slots), THEME_FIELD_MAP (3 Theme Skins On/Off), AP_ORG_DEPARTMENTS_MATRIX (6 Phòng ban + Settings), PROJECT_PRICING (2D), ROLE_MATRIX (3D), TASK_AUTOMATION_RULES (4D)",
+    "note": "Quy hoạch sẵn 100% hạ tầng 5 File Cốt Lõi SME OS ngay từ đầu (4D Matrix, 14 Module Contracts M01->M14, Event Bus, OptiSync V5 8s Batch Truck + 15s Ghost RAM, Single-Read Snapshot, Rolling 3,000-Row Audit Log); Sidebar Trái chứa Logo Công ty + Avatar User đa năng (nén Canvas < 300KB, 9 màu yêu thích, đổi SĐT/MK chuẩn TDCM Team) + 6 Tab Phòng Ban AP CAR CARE 2026 + Tab Cài Đặt ở dưới cùng Sidebar; Chuyển trang Đăng Bài Đa Kênh vào Phòng TT-MKT; Nền làm việc chính màu trắng xám nhạt (#F2F4F8), Sidebar & Nút màu đen Obsidian Gradient hiệu ứng Glass, đường line trang trí màu xanh có glow sáng."
   }
 ]
 
