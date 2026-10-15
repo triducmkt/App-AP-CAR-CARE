@@ -6,11 +6,11 @@
     <title>Kế Hoạch Truyền Thông & MKT Tháng 11/2026 - AP Car Care</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* AP Car Care Official White & Blue Theme (#4285F4) */
-            --bg-page: #f1f5f9;
+            /* AP Car Care Brand Design Guideline: Clean White & AP Blue (#4285F4) */
+            --bg-page: #edf2f7;
             --bg-slide: #ffffff;
             --bg-card: #f8fafc;
             --bg-card-subtle: #ffffff;
@@ -20,13 +20,13 @@
             --color-accent-orange: #ff9600;
             --color-accent-green: #10b981;
             --color-accent-red: #ea4335;
-            --text-heading: #111827;
+            --text-heading: #0f172a;
             --text-body: #334155;
             --text-muted: #64748b;
             --border-light: #e2e8f0;
-            --border-blue: rgba(66, 133, 244, 0.35);
-            --glow-blue: 0 10px 25px rgba(66, 133, 244, 0.16);
-            --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
+            --border-blue: rgba(66, 133, 244, 0.4);
+            --glow-blue: 0 10px 25px rgba(66, 133, 244, 0.18);
+            --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -47,12 +47,12 @@
             height: 100vh;
             width: 100vw;
             background-image: 
-                radial-gradient(circle at 10% 15%, rgba(66, 133, 244, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 90% 85%, rgba(255, 150, 0, 0.05) 0%, transparent 45%),
-                linear-gradient(135deg, #eef2f6 0%, #f8fafc 100%);
+                radial-gradient(circle at 10% 15%, rgba(66, 133, 244, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 90% 85%, rgba(255, 150, 0, 0.06) 0%, transparent 45%),
+                linear-gradient(135deg, #e2e8f0 0%, #f8fafc 100%);
         }
 
-        /* 16:9 Presentation Container */
+        /* 16:9 Presentation Frame */
         .presentation-container {
             width: 95vw;
             max-width: 1440px;
@@ -60,7 +60,7 @@
             background: var(--bg-slide);
             border: 1px solid var(--border-light);
             border-radius: 18px;
-            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12), var(--glow-blue);
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.14), var(--glow-blue);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -85,13 +85,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 35px 55px 75px 55px;
+            padding: 30px 50px 70px 50px;
             display: none;
             flex-direction: column;
             justify-content: space-between;
             z-index: 2;
             opacity: 0;
-            transform: translateX(25px);
+            transform: translateX(20px);
             transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
@@ -107,7 +107,7 @@
             justify-content: space-between;
             align-items: flex-start;
             border-bottom: 1px solid var(--border-light);
-            padding-bottom: 14px;
+            padding-bottom: 12px;
             position: relative;
         }
 
@@ -116,9 +116,10 @@
             position: absolute;
             bottom: -1px;
             left: 0;
-            width: 120px;
-            height: 2px;
-            background: var(--color-primary);
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), #1a73e8);
+            border-radius: 2px;
         }
 
         .brand-pill {
@@ -132,15 +133,15 @@
             color: var(--color-primary);
             text-transform: uppercase;
             background: var(--color-primary-light);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
             border: 1px solid var(--border-blue);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .slide-title {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 23px;
+            font-weight: 900;
             color: var(--text-heading);
             letter-spacing: -0.3px;
             text-transform: uppercase;
@@ -151,7 +152,7 @@
         }
 
         .slide-subtitle {
-            font-size: 13px;
+            font-size: 12.5px;
             color: var(--text-muted);
             margin-top: 2px;
             font-weight: 500;
@@ -169,7 +170,7 @@
             color: var(--color-primary);
             border: 1px solid var(--border-blue);
             box-shadow: 0 2px 6px rgba(66, 133, 244, 0.12);
-            padding: 4px 10px;
+            padding: 3px 10px;
             border-radius: 6px;
             font-weight: 700;
             font-size: 11px;
@@ -179,7 +180,7 @@
         /* Slide Body Layouts */
         .slide-body {
             flex: 1;
-            padding: 20px 0 10px 0;
+            padding: 18px 0 8px 0;
             display: flex;
             gap: 20px;
             overflow: hidden;
@@ -192,17 +193,10 @@
             width: 100%;
         }
 
-        .col-3 {
+        .col-custom-split {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 18px;
-            width: 100%;
-        }
-
-        .col-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 22px;
             width: 100%;
         }
 
@@ -211,7 +205,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-light);
             border-radius: 12px;
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -232,11 +226,6 @@
             box-shadow: var(--glow-blue);
         }
 
-        .card-orange {
-            background: linear-gradient(145deg, #ffffff, #fffaf0);
-            border: 1px solid rgba(255, 150, 0, 0.35);
-        }
-
         .card-header-badge {
             font-size: 10px;
             font-weight: 800;
@@ -245,7 +234,7 @@
             padding: 3px 8px;
             border-radius: 4px;
             width: fit-content;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .badge-blue { background: var(--color-primary-light); color: var(--color-primary-dark); border: 1px solid var(--border-blue); }
@@ -253,28 +242,28 @@
         .badge-green { background: #ecfdf5; color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); }
 
         .card-title {
-            font-size: 16px;
+            font-size: 15.5px;
             font-weight: 800;
             color: var(--text-heading);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1.35;
         }
 
         .card-desc {
-            font-size: 12.5px;
+            font-size: 12px;
             color: var(--text-body);
-            line-height: 1.5;
-            margin-bottom: 12px;
+            line-height: 1.45;
+            margin-bottom: 10px;
         }
 
         .highlight-box {
             background: #ffffff;
             border-left: 3px solid var(--color-primary);
-            padding: 10px 12px;
+            padding: 8px 10px;
             border-radius: 0 6px 6px 0;
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--text-body);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
             margin-top: auto;
         }
 
@@ -282,51 +271,51 @@
             color: var(--color-primary-dark);
         }
 
-        /* Metric Box for Review Slide */
+        /* Metric Grid */
         .metric-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 14px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .metric-card {
             background: #ffffff;
             border: 1px solid var(--border-light);
             border-radius: 8px;
-            padding: 10px 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            padding: 8px 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .metric-val {
             font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             color: var(--color-primary);
             line-height: 1.2;
         }
 
         .metric-lbl {
-            font-size: 10.5px;
+            font-size: 10px;
             color: var(--text-muted);
             text-transform: uppercase;
-            font-weight: 600;
-            margin-top: 3px;
+            font-weight: 700;
+            margin-top: 2px;
         }
 
-        /* Deal Bullet List */
+        /* Bullet List */
         .deal-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 7px;
-            font-size: 12px;
+            gap: 6px;
+            font-size: 11.5px;
             color: var(--text-body);
         }
 
         .deal-list li {
             position: relative;
-            padding-left: 18px;
+            padding-left: 16px;
             line-height: 1.4;
         }
 
@@ -338,49 +327,101 @@
             font-weight: 900;
         }
 
-        /* Timeline Items */
-        .timeline-box {
+        /* Image Display Containers */
+        .media-container {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+        }
+
+        .media-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .media-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.85));
+            color: #ffffff;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Browser Mockup Wrapper */
+        .browser-mockup {
+            border: 1px solid var(--border-blue);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--glow-blue);
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .browser-top {
+            background: #f1f5f9;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .browser-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .browser-url {
+            margin-left: 8px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 2px 10px;
+            font-size: 10px;
+            color: var(--color-primary);
+            font-family: monospace;
+            flex: 1;
+        }
+
+        /* SVG Chart Styles */
+        .chart-box {
             background: #ffffff;
             border: 1px solid var(--border-light);
             border-radius: 10px;
-            padding: 14px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            justify-content: center;
+            align-items: center;
             box-shadow: var(--shadow-card);
-        }
-
-        .timeline-box.active-phase {
-            border-color: var(--color-primary);
-            box-shadow: var(--glow-blue);
-            background: linear-gradient(180deg, #ffffff, #f0f7ff);
-        }
-
-        .timeline-tag {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--color-primary);
-        }
-
-        .timeline-heading {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: var(--text-heading);
-        }
-
-        .timeline-text {
-            font-size: 11.5px;
-            color: var(--text-muted);
-            line-height: 1.45;
+            height: 100%;
         }
 
         /* Controls Footer */
         .deck-controls {
             position: absolute;
-            bottom: 16px;
-            left: 55px;
-            right: 55px;
+            bottom: 14px;
+            left: 50px;
+            right: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -410,15 +451,15 @@
             background: #ffffff;
             border: 1px solid var(--border-light);
             color: var(--text-heading);
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 13px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             transition: all 0.2s;
         }
 
@@ -426,21 +467,21 @@
             background: var(--color-primary);
             color: #ffffff;
             border-color: var(--color-primary);
-            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
         }
 
         .print-btn {
             background: var(--color-primary);
             border: 1px solid var(--color-primary);
             color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 11px;
+            padding: 5px 12px;
+            border-radius: 18px;
+            font-size: 10.5px;
             font-weight: 700;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            box-shadow: 0 3px 10px rgba(66, 133, 244, 0.25);
+            box-shadow: 0 3px 8px rgba(66, 133, 244, 0.25);
             transition: all 0.2s;
         }
 
@@ -485,7 +526,7 @@
                 position: relative !important;
                 page-break-after: always;
                 height: 100vh !important;
-                padding: 35px !important;
+                padding: 30px !important;
             }
             .deck-controls, .progress-bar-container, .top-accent-bar {
                 display: none !important;
@@ -498,109 +539,87 @@
     <div class="presentation-container">
         <div class="top-accent-bar"></div>
 
-        <!-- ================= SLIDE 1: REVIEW BÁO CÁO THÁNG TRƯỚC (BẮT BUỘC) ================= -->
+        <!-- ================= SLIDE 1: REVIEW BÁO CÁO THÁNG TRƯỚC (CÓ BIỂU ĐỒ MINH HỌA) ================= -->
         <div class="slide active" id="slide-1">
             <div class="slide-header">
                 <div>
-                    <div class="brand-pill">AP CAR CARE — PERFORMANCE & AUDIT</div>
+                    <div class="brand-pill">AP CAR CARE — PERFORMANCE AUDIT</div>
                     <div class="slide-title">BÁO CÁO REVIEW CHUYÊN SÂU <span>THÁNG 10/2026</span></div>
-                    <div class="slide-subtitle">Tổng Hợp Hiệu Quả Truyền Thông, Content MKT & Performance Ads Trước Thềm Kế Hoạch Mới</div>
+                    <div class="slide-subtitle">Tổng Hợp Hiệu Quả Truyền Thông, Content MKT & Performance Ads — Căn Cứ Lập Kế Hoạch Mới</div>
                 </div>
                 <div class="header-meta">
-                    <div>Được duyệt bởi Trí Đức Car Media</div>
-                    <div class="branch-badge">Audit Tân Phú & Quận 7</div>
+                    <div>Kiểm duyệt: Trí Đức Car Media</div>
+                    <div class="branch-badge">Hệ Thống Tân Phú & Quận 7</div>
                 </div>
             </div>
 
             <div class="slide-body">
-                <div class="col-3">
-                    <!-- Cột 1: Chỉ số Truyền Thông & Content -->
-                    <div class="card card-blue">
-                        <div>
-                            <div class="card-header-badge badge-blue">1. Truyền Thông & Content</div>
-                            <div class="metric-grid">
-                                <div class="metric-card">
-                                    <div class="metric-val">142.5K</div>
-                                    <div class="metric-lbl">Lượt Tiếp Cận (Reach)</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">5.8%</div>
-                                    <div class="metric-lbl">Tỷ Lệ Tương Tác</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">24 Bài</div>
-                                    <div class="metric-lbl">Xuất Bản Đa Kênh</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">28.4%</div>
-                                    <div class="metric-lbl">Open Rate Zalo OA</div>
-                                </div>
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Dữ liệu & Điểm nghẽn -->
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-val">142.5K</div>
+                                <div class="metric-lbl">Tổng Reach Đa Kênh</div>
                             </div>
-                            <p class="card-desc"><strong>Điểm sáng:</strong> Chuỗi bài thông báo hoàn tất thi công đường Q7 đạt tương tác cao kỷ lục, kéo lại niềm tin khách hàng khu Nam Sài Gòn.</p>
+                            <div class="metric-card">
+                                <div class="metric-val">214 Lead</div>
+                                <div class="metric-lbl">Số Inbox / SĐT Mới</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">87.000đ</div>
+                                <div class="metric-lbl">CPA (Chi Phí / Lead)</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">76 Xe</div>
+                                <div class="metric-lbl">Xe Thực Tế Vào Xưởng</div>
+                            </div>
                         </div>
-                        <div class="highlight-box">
-                            <strong>Top Content:</strong> Video thực tế quy trình dán PPF chống đá văng đạt hơn 35.000 views tự nhiên.
+
+                        <div class="card card-blue" style="padding: 12px;">
+                            <div class="card-header-badge badge-orange">Chẩn Đoán Điểm Nghẽn Chuyển Đổi (Bottleneck)</div>
+                            <p class="card-desc" style="margin-bottom: 6px;">
+                                <strong>Hiện tượng:</strong> Khách hỏi giá nhiều nhưng ~42% im lặng sau báo giá (Tương đồng ca APEX).<br>
+                                <strong>Hành động gỡ nghẽn:</strong> Cố vấn Dịch vụ bổ sung cuộc gọi tư vấn 2 phút sau khi nhận SĐT; thiết kế Combo giới hạn 50 suất để kích thích đặt cọc giữ chỗ.
+                            </p>
+                            <div class="highlight-box">
+                                <strong>Quyết định:</strong> Duy trì bài 3-5-7 Zalo CSKH; scale gói Loa Focal; cắt bỏ ads rửa xe đơn lẻ.
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Cột 2: Performance Ads & Phễu Lead -->
-                    <div class="card">
-                        <div>
-                            <div class="card-header-badge badge-orange">2. Performance Ads & Lead</div>
-                            <div class="metric-grid">
-                                <div class="metric-card">
-                                    <div class="metric-val">18.6M</div>
-                                    <div class="metric-lbl">Ngân Sách Ads Đã Chi</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">214</div>
-                                    <div class="metric-lbl">Inbox / Tin Nhắn Mới</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">87K</div>
-                                    <div class="metric-lbl">CPA (Giá Mỗi Lead)</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">1.82</div>
-                                    <div class="metric-lbl">Tần Suất (Frequency)</div>
-                                </div>
-                            </div>
-                            <p class="card-desc"><strong>Điểm nghẽn phát hiện:</strong> Khách hỏi giá nhiều nhưng tỷ lệ im lặng sau báo giá chiếm ~42%. Cần bổ sung kịch bản gọi điện thoại trong 2 phút.</p>
+                    <!-- Bên Phải: BIỂU ĐỒ MINH HỌA SVG (Tuân thủ Guideline) -->
+                    <div class="chart-box">
+                        <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); margin-bottom: 6px; text-transform: uppercase;">
+                            BIỂU ĐỒ PHỄU CHUYỂN ĐỔI THÁNG 10/2026
                         </div>
-                        <div class="highlight-box" style="border-left-color: var(--color-accent-orange);">
-                            <strong>Tối ưu Ads:</strong> Quảng cáo nhóm dịch vụ Âm thanh Loa Focal có CPA tốt nhất (65k/lead).
-                        </div>
-                    </div>
+                        <svg width="100%" height="220" viewBox="0 0 360 220" style="overflow: visible;">
+                            <!-- Funnel Stages -->
+                            <!-- Stage 1: Reach -->
+                            <polygon points="20,15 340,15 290,65 70,65" fill="#4285F4" opacity="0.95" />
+                            <text x="180" y="42" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">TIẾP CẬN: 142.500 LƯỢT (100%)</text>
+                            
+                            <!-- Stage 2: Engagement / Clicks -->
+                            <polygon points="73,70 287,70 245,115 115,115" fill="#1a73e8" opacity="0.9" />
+                            <text x="180" y="96" fill="#ffffff" font-size="11.5" font-weight="bold" text-anchor="middle">TƯƠNG TÁC: 8.260 LƯỢT (5.8%)</text>
 
-                    <!-- Cột 3: Hiệu Quả Doanh Số Xưởng & Hành Động -->
-                    <div class="card card-blue">
-                        <div>
-                            <div class="card-header-badge badge-green">3. Chuyển Đổi & Hành Động</div>
-                            <div class="metric-grid">
-                                <div class="metric-card">
-                                    <div class="metric-val">76 Xe</div>
-                                    <div class="metric-lbl">Chốt Lịch Vào Xưởng</div>
-                                </div>
-                                <div class="metric-card">
-                                    <div class="metric-val">35.5%</div>
-                                    <div class="metric-lbl">Tỷ Lệ Chốt Thành Công</div>
-                                </div>
-                            </div>
-                            <ul class="deal-list">
-                                <li><strong>VIỆC CẦN DUY TRÌ:</strong> Duy trì bài đăng 3-5-7 chia sẻ mẹo chăm xe vào 2 nhóm Zalo CSKH.</li>
-                                <li><strong>VIỆC CẦN THỬ MỚI:</strong> Thiết kế Combo có tính khan hiếm (FOMO 50 suất) để thúc đẩy khách cọc sớm.</li>
-                                <li><strong>VIỆC CẦN CẮT BỎ:</strong> Tạm dừng quảng cáo bài viết đơn lẻ dịch vụ rửa xe thông thường do biên lợi nhuận thấp.</li>
-                            </ul>
-                        </div>
-                        <div class="highlight-box" style="border-left-color: var(--color-accent-green);">
-                            <strong>KẾT LUẬN REVIEW:</strong> Đủ điều kiện kích hoạt chiến dịch Tháng 11 đón đầu Tết 2027.
+                            <!-- Stage 3: Inboxes / Leads -->
+                            <polygon points="118,120 242,120 205,165 155,165" fill="#ff9600" opacity="0.95" />
+                            <text x="180" y="146" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">INBOX: 214 LEADS (CPA 87K)</text>
+
+                            <!-- Stage 4: Closed / Xe vào xưởng -->
+                            <polygon points="157,170 203,170 185,210 175,210" fill="#10b981" opacity="1" />
+                            <text x="180" y="195" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">76 XE VÀO XƯỞNG (35.5%)</text>
+                        </svg>
+                        <div style="font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 4px;">
+                            Nguồn: Meta Ads Manager, Zalo OA Analytics & Sổ theo dõi xưởng AP Car Care
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 2: TỔNG QUAN KẾ HOẠCH THÁNG 11 ================= -->
+        <!-- ================= SLIDE 2: TỔNG QUAN THÁNG 11 (CÓ ẢNH THỰC TẾ PLAYWRIGHT SCREENSHOT) ================= -->
         <div class="slide" id="slide-2">
             <div class="slide-header">
                 <div>
@@ -609,295 +628,324 @@
                     <div class="slide-subtitle">Chiến Lược Tăng Trưởng Đa Kênh — Lộ Trình Đón Đầu Tết Nguyên Đán 2027</div>
                 </div>
                 <div class="header-meta">
-                    <div>Mục Tiêu Tháng 11</div>
-                    <div class="branch-badge">Hệ Thống Tân Phú & Quận 7</div>
+                    <div>Chiến Dịch Tháng Bản Lề</div>
+                    <div class="branch-badge">Nam & Tây Sài Gòn</div>
                 </div>
             </div>
 
             <div class="slide-body">
-                <div class="col-2">
-                    <div style="display: flex; flex-direction: column; justify-content: center; padding-left: 10px;">
-                        <div style="font-family: 'Orbitron', sans-serif; color: var(--color-primary); font-size: 12px; letter-spacing: 2px; font-weight: 800; margin-bottom: 10px;">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Nội dung chiến dịch -->
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <div style="font-family: 'Orbitron', sans-serif; color: var(--color-primary); font-size: 11px; letter-spacing: 2px; font-weight: 800; margin-bottom: 6px;">
                             CAMPAIGN BIG IDEA
                         </div>
-                        <h1 style="font-size: 38px; font-weight: 900; line-height: 1.15; color: var(--text-heading); text-transform: uppercase; margin-bottom: 16px;">
+                        <h1 style="font-size: 30px; font-weight: 900; line-height: 1.15; color: var(--text-heading); text-transform: uppercase; margin-bottom: 12px;">
                             ĐẶT SỚM <span style="color: var(--color-primary);">THẢNH THƠI</span><br>CHẲNG NGẠI CHỜ ĐỢI
                         </h1>
-                        <div style="font-size: 17px; font-weight: 600; color: var(--color-primary-dark); margin-bottom: 18px; border-left: 4px solid var(--color-primary); padding-left: 14px; font-style: italic;">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 12px; border-left: 3px solid var(--color-primary); padding-left: 10px; font-style: italic;">
                             "Tân trang xế cưng chuẩn phong thái trước thềm mùa lễ hội 2027"
                         </div>
-                        <p style="font-size: 13px; color: var(--text-body); line-height: 1.6;">
-                            Khai thác tối đa lợi thế <strong>đường mới hoàn tất tại Chi nhánh Quận 7</strong> để thu hút phân khúc xe sang, đồng thời củng cố tệp khách hàng trung thành tại <strong>Tân Phú</strong> thông qua chuỗi ưu đãi giới hạn và tự động hóa CSKH Zalo.
+                        <p style="font-size: 12px; color: var(--text-body); line-height: 1.55; margin-bottom: 14px;">
+                            Khai thác tối đa lợi thế <strong>mặt tiền đường mới hoàn tất tại Chi nhánh Quận 7</strong> để thu hút tệp xe sang, SUV cao cấp khu Nam Sài Gòn. Đồng thời củng cố tệp khách quen tại <strong>Tân Phú</strong> thông qua gói ưu đãi giới hạn 50 suất và CSKH tự động.
                         </p>
-                        <div style="display: flex; gap: 20px; margin-top: 20px;">
-                            <div class="metric-card" style="flex: 1;">
-                                <div class="metric-val">02</div>
-                                <div class="metric-lbl">Trung Tâm Dịch Vụ</div>
-                            </div>
+                        
+                        <div style="display: flex; gap: 10px;">
                             <div class="metric-card" style="flex: 1;">
                                 <div class="metric-val">50 Suất</div>
-                                <div class="metric-lbl">Ưu Đãi FOMO Tháng 11</div>
+                                <div class="metric-lbl">FOMO Tháng 11</div>
                             </div>
                             <div class="metric-card" style="flex: 1;">
                                 <div class="metric-val">100%</div>
-                                <div class="metric-lbl">Tự Động Hóa Cron Zalo</div>
+                                <div class="metric-lbl">Tự Động Cron Zalo</div>
+                            </div>
+                            <div class="metric-card" style="flex: 1;">
+                                <div class="metric-val">&ge; 150K</div>
+                                <div class="metric-lbl">Mục Tiêu Reach</div>
                             </div>
                         </div>
                     </div>
 
-                    <div style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
-                        <div class="card card-blue">
-                            <div class="card-header-badge badge-blue">Trọng Tâm 1: Hero Deal Tháng 11</div>
-                            <div class="card-title">Combo Deep Cleaning & Phục Hồi Độ Bóng</div>
-                            <div class="card-desc">Tạo hiệu ứng khan hiếm (30 suất Tân Phú, 20 suất Q7) - Tặng gói Phủ Nano Kính Lái trị giá 1.200.000đ khi đặt lịch trước 24h.</div>
+                    <!-- Bên Phải: ẢNH SCREENSHOT THỰC TẾ TỪ WEBSITE APCARCARE.VN (Mockup Browser) -->
+                    <div class="browser-mockup">
+                        <div class="browser-top">
+                            <span class="browser-dot dot-red"></span>
+                            <span class="browser-dot dot-yellow"></span>
+                            <span class="browser-dot dot-green"></span>
+                            <span class="browser-url">https://apcarcare.vn (Official Portal)</span>
                         </div>
-                        <div class="card card-orange">
-                            <div class="card-header-badge badge-orange">Trọng Tâm 2: Bộ Đôi Ưu Đãi Cố Định</div>
-                            <div class="card-title">Nâng Cấp Loa (Tặng Sub) & PPF (Tặng Nội Thất)</div>
-                            <div class="card-desc">2 gói sản phẩm High-Ticket chủ lực định vị kỹ thuật tay nghề cao, thúc đẩy doanh thu đột phá dịp cuối năm.</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header-badge badge-green">Trọng Tâm 3: Hệ Thống Phễu Zalo Tự Động</div>
-                            <div class="card-title">Flash Deal Thứ 5 Zalo OA & Chăm Sóc 3-5-7</div>
-                            <div class="card-desc">Nuôi dưỡng 2 nhóm Zalo CSKH Tân Phú & Q7, lấp đầy công suất dịch vụ các ngày trong tuần (T2 - T6).</div>
+                        <div style="flex: 1; overflow: hidden; position: relative;">
+                            <img src="./assets/apcarcare_homepage_banner.png" alt="AP Car Care Homepage Banner" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="media-caption">
+                                Ảnh thật Website apcarcare.vn (Screenshot Playwright) — Banner Mùa Lễ Hội & Giờ Vàng Chăm Xe
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 3: MA TRẬN ƯU ĐÃI THÁNG 11 & CỐ ĐỊNH ================= -->
+        <!-- ================= SLIDE 3: MA TRẬN ƯU ĐÃI (CÓ ẢNH THI CÔNG PPF & ÂM THANH) ================= -->
         <div class="slide" id="slide-3">
             <div class="slide-header">
                 <div>
                     <div class="brand-pill">OFFER STRATEGY & HERO DEALS</div>
                     <div class="slide-title">CHÍNH SÁCH ƯU ĐÃI <span>THÁNG 11 & CỐ ĐỊNH</span></div>
-                    <div class="slide-subtitle">Thiết Kế Đòn Bẩy FOMO & Gói High-Ticket Đón Đầu Tết 2027</div>
+                    <div class="slide-subtitle">Thiết Kế Đòn Bẩy FOMO & Gói High-Ticket Nâng Tầm Doanh Thu Cuối Năm</div>
                 </div>
                 <div class="header-meta">
                     <div>Áp dụng: 01/11 - 30/11/2026</div>
-                    <div class="branch-badge">Toàn Hệ Thống</div>
+                    <div class="branch-badge">Toàn Hệ Thống AP</div>
                 </div>
             </div>
 
             <div class="slide-body">
-                <div class="col-3">
-                    <!-- Card 1: Deal Tháng 11 -->
-                    <div class="card card-blue">
-                        <div>
-                            <div class="card-header-badge badge-blue">Ưu Đãi Độc Quyền Tháng 11</div>
-                            <div class="card-title">COMBO DEEP CLEANING & FULL PROTECTION</div>
-                            <div class="card-desc">Gói chăm sóc toàn diện chuẩn bị đón Tết sớm:</div>
-                            <ul class="deal-list">
-                                <li>Vệ sinh & dưỡng nội thất sinh học chuyên sâu.</li>
-                                <li>Rửa khoang máy hơi nước nóng khử khuẩn.</li>
-                                <li>Hiệu chỉnh bề mặt sơn 1 bước xóa xước dăm.</li>
-                                <li><strong>TẶNG:</strong> Gói Phủ Nano Kính Lái (1.200k) + Khử mùi Ozone nội thất.</li>
-                            </ul>
+                <div class="col-custom-split">
+                    <!-- Bên Trái: 3 Gói Deal -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Deal 1: Tháng 11 -->
+                        <div class="card card-blue" style="padding: 10px 14px;">
+                            <div class="card-header-badge badge-blue">Ưu Đãi Độc Quyền Tháng 11 (FOMO)</div>
+                            <div class="card-title" style="font-size: 14px;">COMBO DEEP CLEANING & FULL PROTECTION</div>
+                            <p class="card-desc" style="margin-bottom: 6px; font-size: 11.5px;">
+                                Vệ sinh nội thất sinh học + Rửa khoang máy hơi nước nóng + Hiệu chỉnh sơn 1 bước.<br>
+                                🎁 <strong>TẶNG NGAY:</strong> Phủ Nano Kính Lái (1.200k) + Khử mùi Ozone nội thất.
+                            </p>
+                            <div style="font-size: 11px; color: var(--color-primary-dark); font-weight: 700;">
+                                ⚠️ Giới hạn đúng 50 Suất (Tân Phú: 30 suất | Quận 7: 20 suất). Đặt trước 24h.
+                            </div>
                         </div>
-                        <div class="highlight-box">
-                            <strong>GIỚI HẠN FOMO:</strong> Đúng <strong>50 Suất</strong> (Tân Phú: 30 suất | Quận 7: 20 suất). Khách đặt trước tối thiểu 24h.
+
+                        <!-- Deal 2: Loa Focal -->
+                        <div class="card" style="padding: 10px 14px;">
+                            <div class="card-header-badge badge-orange">Ưu Đãi Cố Định 1 (High-Ticket Audio)</div>
+                            <div class="card-title" style="font-size: 14px;">MUA 4 LOA CÁNH FOCAL TẶNG 1 SUB GẦM GHẾ</div>
+                            <p class="card-desc" style="margin-bottom: 0; font-size: 11.5px;">
+                                Nâng cấp dải âm Treble/Mid sắc nét, tặng Sub điện gầm ghế uy lực, cắm giắc zin 100% giữ bảo hành hãng.
+                            </p>
+                        </div>
+
+                        <!-- Deal 3: Dán PPF -->
+                        <div class="card card-blue" style="padding: 10px 14px;">
+                            <div class="card-header-badge badge-green">Ưu Đãi Cố Định 2 (High-Ticket PPF)</div>
+                            <div class="card-title" style="font-size: 14px;">DÁN PPF FULL NGOẠI THẤT TẶNG FULL PPF NỘI THẤT</div>
+                            <p class="card-desc" style="margin-bottom: 0; font-size: 11.5px;">
+                                Dán phim TPU cao cấp tự phục hồi vết xước. 🎁 <strong>TẶNG:</strong> Gói PPF nội thất trị giá đến <strong>8.000.000đ</strong>.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Card 2: Cố Định 1 - Loa Focal -->
-                    <div class="card card-orange">
-                        <div>
-                            <div class="card-header-badge badge-orange">Ưu Đãi Cố Định 1 (High-Ticket)</div>
-                            <div class="card-title">MUA 4 LOA CÁNH TẶNG 1 SUB GẦM GHẾ</div>
-                            <div class="card-desc">Đại tiệc nâng cấp âm thanh đường trường cho chủ xe:</div>
-                            <ul class="deal-list">
-                                <li>Nâng cấp dàn 4 loa cánh thương hiệu Focal chính hãng.</li>
-                                <li>Âm treble tách bạch, giọng ca sĩ ấm áp, rõ nét.</li>
-                                <li><strong>TẶNG NGAY:</strong> 01 Subwoofer điện gầm ghế uy lực, bass chắc gọn, không chiếm diện tích.</li>
-                                <li>Cam kết cắm giắc zin 100%, bảo lưu bảo hành hãng.</li>
-                            </ul>
-                        </div>
-                        <div class="highlight-box" style="border-left-color: var(--color-accent-orange);">
-                            <strong>ĐỐI TƯỢNG:</strong> Xe gia đình (Sedan, SUV 7 chỗ) muốn nghe nhạc đã tai đường dài.
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Cố Định 2 - Dán PPF Full -->
-                    <div class="card card-blue">
-                        <div>
-                            <div class="card-header-badge badge-blue">Ưu Đãi Cố Định 2 (High-Ticket)</div>
-                            <div class="card-title">DÁN PPF FULL TẶNG BỘ PPF NỘI THẤT</div>
-                            <div class="card-desc">Khiên giáp vô hình bảo vệ toàn diện xe sang:</div>
-                            <ul class="deal-list">
-                                <li>Phim PPF TPU cao cấp tự phục hồi vết xước liti.</li>
-                                <li>Chống đá văng, xước dăm cao tốc, kháng ố vàng.</li>
-                                <li><strong>TẶNG NGAY:</strong> Full bộ PPF nội thất (màn ODO, màn giải trí, cần số, taplo) trị giá tới <strong>8.000.000đ</strong>.</li>
-                                <li>Bảo hành điện tử chính hãng 5 - 10 năm.</li>
-                            </ul>
-                        </div>
-                        <div class="highlight-box">
-                            <strong>ĐỐI TƯỢNG:</strong> Xe mới bấm biển, xe sang Mercedes, BMW, Lexus, Porsche, Everest...
+                    <!-- Bên Phải: ẢNH THI CÔNG THỰC TẾ TẠI AP CAR CARE -->
+                    <div class="media-container">
+                        <img src="./assets/ap_dan_ppf.png" alt="Thi công dán PPF tại AP Car Care">
+                        <div class="media-caption">
+                            Hình ảnh thực tế: Thi công dán PPF TPU & Vệ sinh chuẩn Detailing tại AP Car Care
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 4: KẾ HOẠCH 2 TRUNG TÂM & ĐA KÊNH ================= -->
+        <!-- ================= SLIDE 4: KẾ HOẠCH 2 CHI NHÁNH (CÓ ẢNH THỰC TẾ 2 CƠ SỞ) ================= -->
         <div class="slide" id="slide-4">
             <div class="slide-header">
                 <div>
-                    <div class="brand-pill">OMNICHANNEL STRATEGY</div>
+                    <div class="brand-pill">OMNICHANNEL & LOCAL HUBS</div>
                     <div class="slide-title">KẾ HOẠCH TRIỂN KHAI <span>TÂN PHÚ & QUẬN 7</span></div>
-                    <div class="slide-subtitle">Phân Phối Nguồn Lực Đa Kênh: Fanpage, Zalo OA Thứ 5 & 2 Nhóm Zalo CSKH</div>
+                    <div class="slide-subtitle">Chiến Lược Định Vị Riêng Cho Từng Cơ Sở & Hệ Thống Kênh Zalo CSKH Tự Động</div>
                 </div>
                 <div class="header-meta">
-                    <div>Phủ Sóng Toàn Diện</div>
-                    <div class="branch-badge">Nam Sài Gòn & Tây Sài Gòn</div>
+                    <div>Trụ Sở & Flagship</div>
+                    <div class="branch-badge">Tây Sài Gòn & Nam Sài Gòn</div>
                 </div>
             </div>
 
             <div class="slide-body">
                 <div class="col-2">
-                    <!-- Chi nhánh Tân Phú -->
-                    <div class="card">
-                        <div>
-                            <div class="card-header-badge badge-blue">Trụ Sở Tân Phú — Khách Quen & Xe Gia Đình</div>
-                            <div class="card-title">CHIẾN LƯỢC: TRI ÂN & NÂNG CẤP DỌN XE</div>
-                            <p class="card-desc">Tập trung khai thác tệp khách hàng quen thuộc khu vực Tây Sài Gòn, các dòng xe gia đình, dịch vụ chăm sóc định kỳ.</p>
-                            <ul class="deal-list">
-                                <li><strong>Kênh chủ lực:</strong> Nhóm Zalo CSKH Tân Phú (Tương tác 3-5-7).</li>
-                                <li><strong>Nội dung trọng tâm:</strong> Mẹo bảo dưỡng xe đón Tết, combo làm sạch nội thất + gầm, ưu đãi tri ân thành viên cũ.</li>
-                                <li><strong>Hoạt động kích cầu:</strong> Giới thiệu bạn bè nhận voucher rửa xe Detailing cao cấp.</li>
-                            </ul>
+                    <!-- Chi Nhánh Tân Phú -->
+                    <div class="card" style="padding: 14px;">
+                        <div style="height: 130px; border-radius: 8px; overflow: hidden; margin-bottom: 10px; position: relative;">
+                            <img src="./assets/ap_tanphu_branch.jpg" alt="AP Car Care Tân Phú" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="media-caption" style="font-size: 10px;">Trụ sở Tân Phú: 46C Phan Đình Phùng</div>
                         </div>
-                        <div class="highlight-box">
-                            <strong>MỤC TIÊU TÂN PHÚ:</strong> Giữ vững doanh thu nền, hoàn thành 30 suất Combo Tháng 11 + 5 gói loa.
-                        </div>
+                        <div class="card-header-badge badge-blue">Trụ Sở Tân Phú — Khách Quen & Xe Gia Đình</div>
+                        <div class="card-title" style="font-size: 14px;">CHIẾN LƯỢC: TRI ÂN & NÂNG CẤP DỌN XE</div>
+                        <ul class="deal-list" style="margin-bottom: 8px;">
+                            <li>Khai thác tệp khách hàng quen Tây Sài Gòn qua <strong>Nhóm Zalo CSKH Tân Phú</strong>.</li>
+                            <li>Tương tác 3-5-7 chia sẻ mẹo chăm xe, tri ân thành viên cũ.</li>
+                            <li><strong>Mục tiêu:</strong> 30 suất Combo Tháng 11 + 5 gói nâng cấp loa.</li>
+                        </ul>
                     </div>
 
-                    <!-- Chi nhánh Quận 7 -->
-                    <div class="card card-blue">
-                        <div>
-                            <div class="card-header-badge badge-blue">Flagship Quận 7 — Xe Sang & Đón Trả Tận Nhà</div>
-                            <div class="card-title">CHIẾN LƯỢC: "ĐƯỜNG MỚI ĐÓN XE SANG"</div>
-                            <p class="card-desc">Tận dụng triệt để đường trước trung tâm đã hoàn tất trải nhựa đẹp, nhắm vào cộng đồng cư dân Phú Mỹ Hưng, Nhà Bè.</p>
-                            <ul class="deal-list">
-                                <li><strong>Kênh chủ lực:</strong> Fanpage Ads định vị cao cấp + Nhóm Zalo CSKH Q7.</li>
-                                <li><strong>Nội dung trọng tâm:</strong> "Đường thông hè thoáng - Ghé AP nhận ưu đãi", dịch vụ dán PPF TPU, Loa Focal, Ceramic.</li>
-                                <li><strong>Dịch vụ đột phá:</strong> Giao/nhận xe tận hầm chung cư miễn phí cho khách bận rộn.</li>
-                            </ul>
+                    <!-- Chi Nhánh Quận 7 -->
+                    <div class="card card-blue" style="padding: 14px;">
+                        <div style="height: 130px; border-radius: 8px; overflow: hidden; margin-bottom: 10px; position: relative;">
+                            <img src="./assets/ap_q7_branch.png" alt="AP Car Care Quận 7" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="media-caption" style="font-size: 10px;">Flagship Quận 7: 76 Đường số 39, P. Tân Hưng</div>
                         </div>
-                        <div class="highlight-box">
-                            <strong>MỤC TIÊU QUẬN 7:</strong> Bứt phá gói High-Ticket (PPF & Loa), hoàn thành 20 suất Combo + 4 gói PPF Full.
-                        </div>
+                        <div class="card-header-badge badge-orange">Flagship Quận 7 — "Đường Mới Đón Xe Sang"</div>
+                        <div class="card-title" style="font-size: 14px;">CHIẾN LƯỢC: ĐÓN DÒNG KHÁCH CAO CẤP KHU NAM</div>
+                        <ul class="deal-list" style="margin-bottom: 8px;">
+                            <li>Đường trước mặt đã trải nhựa hoàn tất 100% êm ái, bãi đậu xe rộng rãi.</li>
+                            <li>Đẩy mạnh dán PPF, Loa Focal, nhận và giao xe tận hầm chung cư Phú Mỹ Hưng.</li>
+                            <li><strong>Mục tiêu:</strong> 20 suất Combo Tháng 11 + 4 gói PPF Full xe.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 5: LỊCH CRON TỰ ĐỘNG & ROADMAP TẾT 2027 ================= -->
+        <!-- ================= SLIDE 5: LỊCH CRON TỰ ĐỘNG & ROADMAP (CÓ BIỂU ĐỒ GANTT TIMELINE) ================= -->
         <div class="slide" id="slide-5">
             <div class="slide-header">
                 <div>
                     <div class="brand-pill">AUTOMATION & MILESTONES</div>
-                    <div class="slide-title">LỊCH TRÌNH CRON & <span>LỘ TRÌNH TẾT 2027</span></div>
-                    <div class="slide-subtitle">Cơ Chế Bắn Tin Định Kỳ Hàng Tuần Và Lộ Trình 3 Giai Đoạn Về Đích</div>
+                    <div class="slide-title">LỊCH VẬN HÀNH CRON & <span>LỘ TRÌNH TẾT 2027</span></div>
+                    <div class="slide-subtitle">Hệ Thống Lịch Trình Tự Động Định Kỳ & 3 Giai Đoạn Hướng Tới Tết Đinh Mùi 2027</div>
                 </div>
                 <div class="header-meta">
-                    <div>Tự động hóa bởi AI Agent Lucy</div>
+                    <div>AI Agent Scheduling</div>
                     <div class="branch-badge">Cron & Timer Driven</div>
                 </div>
             </div>
 
             <div class="slide-body">
-                <div class="col-4">
-                    <!-- Cột 1: Thứ 5 Zalo OA -->
-                    <div class="timeline-box">
-                        <div class="timeline-tag">CRON: THỨ 5 (09:00)</div>
-                        <div class="timeline-heading">Zalo OA Flash Deal</div>
-                        <div class="timeline-text">
-                            - Phát sóng ưu đãi ngắn hạn cho khách theo dõi Zalo OA.<br>
-                            - Giảm 20% dàn lạnh, tặng khử mùi Ozone, voucher rửa xe ngày thường.
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Chi tiết Lịch Cron -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="card" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-blue">Cron Hàng Tuần (3-5-7) — 09:30 & 10:00</div>
+                            <div style="font-size: 12.5px; font-weight: 700; color: var(--text-heading);">Đăng Bài Fanpage & Phân Phối 2 Nhóm Zalo CSKH</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">AI tự động soạn bài kỹ thuật lên Fanpage, sau đó tóm tắt thân thiện kèm hình ảnh gửi vào 2 nhóm Zalo Tân Phú & Quận 7.</p>
+                        </div>
+
+                        <div class="card card-blue" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-orange">Cron Thứ 5 Hàng Tuần — 09:00 Sáng</div>
+                            <div style="font-size: 12.5px; font-weight: 700; color: var(--text-heading);">Zalo OA Thursday Flash Deal 72h</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">Broadcast voucher giảm 20% dàn lạnh, tặng khử mùi Ozone nhằm lấp đầy công suất ngày thường (T2 - T6).</p>
+                        </div>
+
+                        <div class="card" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-green">Chu Kỳ Hàng Tháng (Ngày 15 & Ngày 01)</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">
+                                • <strong>Ngày 15:</strong> AI review chuyên sâu & soạn kế hoạch tháng sau gửi anh Đức duyệt.<br>
+                                • <strong>Sau khi duyệt:</strong> Tự động build slide deploy link GitHub.<br>
+                                • <strong>Ngày 01:</strong> Audit toàn diện số liệu Truyền thông, Content & Ads.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Cột 2: Thứ 3-5-7 -->
-                    <div class="timeline-box">
-                        <div class="timeline-tag">CRON: T3 - T5 - T7 (10:00)</div>
-                        <div class="timeline-heading">Phân Phối 2 Nhóm Zalo</div>
-                        <div class="timeline-text">
-                            - 09:30: Lên bài Fanpage.<br>
-                            - 10:00: AI cô đọng nội dung gửi vào Nhóm Zalo CSKH Tân Phú & Q7.<br>
-                            - Kèm lời chào ấm áp của Cố vấn dịch vụ.
+                    <!-- Bên Phải: BIỂU ĐỒ ROADMAP TIMELINE SVG MINH HỌA -->
+                    <div class="chart-box">
+                        <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); margin-bottom: 8px; text-transform: uppercase;">
+                            LỘ TRÌNH CHIẾN DỊCH HƯỚNG TỚI TẾT 2027
                         </div>
-                    </div>
+                        <svg width="100%" height="220" viewBox="0 0 340 220">
+                            <!-- Milestone 1 -->
+                            <circle cx="40" cy="45" r="16" fill="#4285f4" />
+                            <text x="40" y="50" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">1</text>
+                            <line x1="40" y1="61" x2="40" y2="105" stroke="#4285f4" stroke-width="2" stroke-dasharray="3,3" />
+                            <text x="68" y="42" fill="#0f172a" font-size="12" font-weight="bold">THÁNG 11/2026: KHỞI ĐỘNG SỚM</text>
+                            <text x="68" y="58" fill="#64748b" font-size="10.5">Đặt sớm thảnh thơi - Đẩy mạnh PPF & Loa</text>
 
-                    <!-- Cột 3: Giai đoạn Tháng 12 -->
-                    <div class="timeline-box">
-                        <div class="timeline-tag">THÁNG 12/2026</div>
-                        <div class="timeline-heading">Đại Tiệc Giáng Sinh</div>
-                        <div class="timeline-text">
-                            - Chuyển dịch thông điệp: "Tân trang đón tiệc cuối năm".<br>
-                            - Đẩy mạnh Đánh bóng hiệu chỉnh sơn & Phủ Ceramic đón Noel.
-                        </div>
-                    </div>
+                            <!-- Milestone 2 -->
+                            <circle cx="40" cy="115" r="16" fill="#ff9600" />
+                            <text x="40" y="120" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">2</text>
+                            <line x1="40" y1="131" x2="40" y2="175" stroke="#ff9600" stroke-width="2" stroke-dasharray="3,3" />
+                            <text x="68" y="112" fill="#0f172a" font-size="12" font-weight="bold">THÁNG 12/2026: TÂN TRANG GIÁNG SINH</text>
+                            <text x="68" y="128" fill="#64748b" font-size="10.5">Hiệu chỉnh sơn - Phủ Ceramic bóng gương</text>
 
-                    <!-- Cột 4: Giai đoạn Giáp Tết -->
-                    <div class="timeline-box active-phase">
-                        <div class="timeline-tag" style="color: var(--color-accent-orange);">THÁNG 01/2027 (GIÁP TẾT)</div>
-                        <div class="timeline-heading">Nước Rút Về Đích</div>
-                        <div class="timeline-text">
-                            - Khóa sổ nhận dịch vụ dán đổi màu/PPF trước 23 tháng Chạp.<br>
-                            - Ưu tiên xe đặt cọc trước.<br>
-                            - Tặng phong bao lì xì may mắn AP Car Care khi nhận xe.
+                            <!-- Milestone 3 -->
+                            <circle cx="40" cy="185" r="16" fill="#10b981" />
+                            <text x="40" y="190" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">3</text>
+                            <text x="68" y="182" fill="#0f172a" font-size="12" font-weight="bold">THÁNG 01/2027: NƯỚC RÚT VỀ ĐÍCH</text>
+                            <text x="68" y="198" fill="#64748b" font-size="10.5">Khóa sổ dịch vụ nặng trước 23 Chạp - Tặng lì xì AP</text>
+                        </svg>
+                        <div style="font-size: 10px; color: var(--text-muted); text-align: center;">
+                            Kế hoạch hành động 3 giai đoạn của phòng Truyền thông & MKT
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= SLIDE 6: MỤC TIÊU KPI & PHỐI HỢP LIÊN PHÒNG BAN ================= -->
+        <!-- ================= SLIDE 6: KPI & SLA (CÓ BIỂU ĐỒ DONUT CHART MINH HỌA) ================= -->
         <div class="slide" id="slide-6">
             <div class="slide-header">
                 <div>
                     <div class="brand-pill">GOALS & SLA COORDINATION</div>
-                    <div class="slide-title">MỤC TIÊU KPI & <span>PHỐI HỢP LIÊN PHÒNG BAN</span></div>
-                    <div class="slide-subtitle">Sự Gắn Kết Giữa Marketing, Cố Vấn Dịch Vụ, Đội Ngũ Kỹ Thuật & Giám Đốc AP</div>
+                    <div class="slide-title">MỤC TIÊU KPI & <span>QUY CHUẨN PHỐI HỢP LIÊN PHÒNG BAN</span></div>
+                    <div class="slide-subtitle">Chỉ Số Cam Kết & Cơ Chế Phối Hợp MKT — Cố Vấn Dịch Vụ — Xưởng — Giám Đốc AP</div>
                 </div>
                 <div class="header-meta">
-                    <div>Cam Kết Hành Động</div>
-                    <div class="branch-badge">Goal & SLA</div>
+                    <div>SLA & Action Plan</div>
+                    <div class="branch-badge">Cam Kết Hành Động</div>
                 </div>
             </div>
 
             <div class="slide-body">
-                <div class="col-3">
-                    <div class="card card-blue">
-                        <div class="card-header-badge badge-blue">KPI Truyền Thông</div>
-                        <div class="card-title">LAN TỎA ĐA KÊNH</div>
-                        <ul class="deal-list">
-                            <li><strong>Reach toàn hệ thống:</strong> &ge; 150.000 lượt tiếp cận.</li>
-                            <li><strong>Open rate Zalo OA:</strong> &ge; 25% mỗi lượt broadcast Thứ 5.</li>
-                            <li><strong>Tương tác nhóm Zalo:</strong> Duy trì bài đăng 3-5-7 sôi nổi, &ge; 15 tương tác/tuần.</li>
-                        </ul>
+                <div class="col-custom-split">
+                    <!-- Bên Trái: KPI & SLA Table -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="card card-blue" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-blue">Cam Kết KPI Tháng 11/2026</div>
+                            <ul class="deal-list">
+                                <li><strong>Tiếp cận (Reach):</strong> &ge; 150.000 lượt tiếp cận toàn hệ thống.</li>
+                                <li><strong>Đơn hàng Combo Tháng 11:</strong> Chốt trọn 50 suất (30 Tân Phú + 20 Q7).</li>
+                                <li><strong>Gói High-Ticket:</strong> Tối thiểu 08 gói Loa Focal + 05 gói dán PPF Full xe.</li>
+                                <li><strong>Công suất ngày thường:</strong> Tăng 20% xe vào xưởng Thứ 2 - Thứ 6.</li>
+                            </ul>
+                        </div>
+
+                        <div class="card" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-green">Quy Chuẩn Phối Hợp SLA (MKT &harr; Cố Vấn Dịch Vụ)</div>
+                            <ul class="deal-list">
+                                <li><strong>Tốc độ phản hồi:</strong> Cố vấn dịch vụ phản hồi inbox dưới 5 phút, gọi điện trong 2 phút khi khách để lại SĐT.</li>
+                                <li><strong>Tạo tính khan hiếm:</strong> Báo số suất ưu đãi còn lại theo ngày để thúc đẩy cọc.</li>
+                                <li><strong>Tư liệu xưởng:</strong> Kỹ thuật/Sale gửi ảnh/clip xe thi công chất lượng cao mỗi ngày cho MKT.</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="card card-orange">
-                        <div class="card-header-badge badge-orange">KPI Doanh Số</div>
-                        <div class="card-title">CHUYỂN ĐỔI ĐƠN HÀNG</div>
-                        <ul class="deal-list">
-                            <li><strong>Combo Tháng 11:</strong> Chốt trọn 50 suất (30 Tân Phú + 20 Q7).</li>
-                            <li><strong>Gói Loa Focal:</strong> Tối thiểu 08 gói (Mua 4 tặng 1 Sub).</li>
-                            <li><strong>Dán PPF Full:</strong> Tối thiểu 05 gói (Tặng full PPF nội thất).</li>
-                            <li><strong>Công suất ngày thường:</strong> Tăng 20% xe vào xưởng T2 - T6.</li>
-                        </ul>
-                    </div>
+                    <!-- Bên Phải: BIỂU ĐỒ DONUT CHART SVG MINH HỌA -->
+                    <div class="chart-box">
+                        <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); margin-bottom: 6px; text-transform: uppercase;">
+                            PHÂN BỔ MỤC TIÊU DOANH SỐ THÁNG 11
+                        </div>
+                        <svg width="100%" height="180" viewBox="0 0 240 180">
+                            <!-- Donut Segments (Total = 100) -->
+                            <!-- Combo Tháng 11: 45% (#4285F4) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#4285F4" stroke-width="24"
+                                    stroke-dasharray="141.3 314" stroke-dashoffset="0" />
+                            <!-- Gói Loa Focal: 25% (#ff9600) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#ff9600" stroke-width="24"
+                                    stroke-dasharray="78.5 314" stroke-dashoffset="-141.3" />
+                            <!-- Dán PPF Full: 20% (#10b981) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#10b981" stroke-width="24"
+                                    stroke-dasharray="62.8 314" stroke-dashoffset="-219.8" />
+                            <!-- Dịch vụ khác: 10% (#cbd5e1) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#cbd5e1" stroke-width="24"
+                                    stroke-dasharray="31.4 314" stroke-dashoffset="-282.6" />
+                            
+                            <text x="120" y="82" font-family="'Orbitron', sans-serif" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">100%</text>
+                            <text x="120" y="96" font-size="9" fill="#64748b" text-anchor="middle">MỤC TIÊU</text>
+                        </svg>
 
-                    <div class="card">
-                        <div class="card-header-badge badge-green">Quy Chuẩn Phối Hợp (SLA)</div>
-                        <div class="card-title">MKT &harr; CỐ VẤN DỊCH VỤ</div>
-                        <ul class="deal-list">
-                            <li><strong>Phản hồi Lead:</strong> Cố vấn dịch vụ phản hồi inbox dưới 5 phút, chốt lịch hẹn vào CRM.</li>
-                            <li><strong>Tư vấn tính khan hiếm:</strong> Báo số suất ưu đãi còn lại tạo động lực chốt cọc.</li>
-                            <li><strong>Tư liệu xưởng:</strong> Kỹ thuật/Sale gửi ảnh xe thi công chất lượng cao mỗi ngày cho MKT.</li>
-                        </ul>
+                        <!-- Legend -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 100%; font-size: 9.5px; margin-top: 4px;">
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #4285F4; border-radius: 2px;"></span> Combo T11 (45%)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #ff9600; border-radius: 2px;"></span> Gói Loa (25%)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #10b981; border-radius: 2px;"></span> Dán PPF (20%)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #cbd5e1; border-radius: 2px;"></span> Khác (10%)
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
