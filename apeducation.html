@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kế Hoạch Tuyển Sinh & Truyền Thông Tháng 11/2026 - Học Viện AP Education</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* AP Education Academy Theme: Clean White, Deep Navy (#1E3A8A) & Academic Gold (#D97706) */
+            --bg-page: #f1f5f9;
+            --bg-slide: #ffffff;
+            --bg-card: #f8fafc;
+            --color-primary: #1e3a8a;
+            --color-primary-light: #eff6ff;
+            --color-accent-gold: #d97706;
+            --color-accent-gold-light: #fffbeb;
+            --color-accent-blue: #2563eb;
+            --color-accent-green: #059669;
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --border-navy: rgba(30, 58, 138, 0.35);
+            --glow-navy: 0 10px 25px rgba(30, 58, 138, 0.15);
+            --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-body);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(30, 58, 138, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 85%, rgba(217, 119, 6, 0.06) 0%, transparent 45%),
+                linear-gradient(135deg, #e2e8f0 0%, #f8fafc 100%);
+        }
+
+        /* 16:9 Presentation Frame */
+        .presentation-container {
+            width: 95vw;
+            max-width: 1440px;
+            aspect-ratio: 16 / 9;
+            background: var(--bg-slide);
+            border: 1px solid var(--border-light);
+            border-radius: 18px;
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.14), var(--glow-navy);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navy-Gold Accent Bar */
+        .top-accent-bar {
+            height: 5px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-blue), var(--color-accent-gold));
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        /* Slide Items */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px 50px 70px 50px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 2;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 12px;
+            position: relative;
+        }
+
+        .slide-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-gold));
+            border-radius: 2px;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            background: var(--color-primary-light);
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-navy);
+            margin-bottom: 4px;
+        }
+
+        .slide-title {
+            font-size: 23px;
+            font-weight: 900;
+            color: var(--text-heading);
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+        }
+
+        .slide-title span {
+            color: var(--color-primary);
+        }
+
+        .slide-subtitle {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .instructor-badge {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--color-accent-gold);
+            border: 1px solid rgba(217, 119, 6, 0.35);
+            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.12);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* Slide Body Layouts */
+        .slide-body {
+            flex: 1;
+            padding: 18px 0 8px 0;
+            display: flex;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .col-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+        }
+
+        .col-custom-split {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 22px;
+            width: 100%;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(30, 58, 138, 0.12);
+            border-color: var(--border-navy);
+        }
+
+        .card-navy {
+            background: linear-gradient(145deg, #ffffff, #f0f4ff);
+            border: 1px solid var(--border-navy);
+            box-shadow: var(--glow-navy);
+        }
+
+        .card-gold {
+            background: linear-gradient(145deg, #ffffff, #fffdfa);
+            border: 1px solid rgba(217, 119, 6, 0.35);
+        }
+
+        .card-header-badge {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            width: fit-content;
+            margin-bottom: 8px;
+        }
+
+        .badge-navy { background: var(--color-primary-light); color: var(--color-primary); border: 1px solid var(--border-navy); }
+        .badge-gold { background: var(--color-accent-gold-light); color: var(--color-accent-gold); border: 1px solid rgba(217, 119, 6, 0.3); }
+        .badge-green { background: #ecfdf5; color: #047857; border: 1px solid rgba(5, 150, 105, 0.3); }
+
+        .card-title {
+            font-size: 15.5px;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: var(--text-body);
+            line-height: 1.45;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: #ffffff;
+            border-left: 3px solid var(--color-primary);
+            padding: 8px 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 11.5px;
+            color: var(--text-body);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            margin-top: auto;
+        }
+
+        .highlight-box strong {
+            color: var(--color-primary);
+        }
+
+        /* Metric Grid */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 8px 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .metric-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--color-primary);
+            line-height: 1.2;
+        }
+
+        .metric-lbl {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* Bullet List */
+        .deal-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 11.5px;
+            color: var(--text-body);
+        }
+
+        .deal-list li {
+            position: relative;
+            padding-left: 16px;
+            line-height: 1.4;
+        }
+
+        .deal-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-accent-gold);
+            font-weight: 900;
+        }
+
+        /* Image Display Containers */
+        .media-container {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+        }
+
+        .media-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .media-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.88));
+            color: #ffffff;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* SVG Chart Styles */
+        .chart-box {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-card);
+            height: 100%;
+        }
+
+        /* Controls Footer */
+        .deck-controls {
+            position: absolute;
+            bottom: 14px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .slide-counter {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .slide-counter span {
+            color: var(--color-primary);
+            font-weight: 900;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            color: var(--text-heading);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--color-primary);
+            color: #ffffff;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
+        }
+
+        .print-btn {
+            background: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            color: #ffffff;
+            padding: 5px 12px;
+            border-radius: 18px;
+            font-size: 10.5px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            box-shadow: 0 3px 8px rgba(30, 58, 138, 0.25);
+            transition: all 0.2s;
+        }
+
+        .print-btn:hover {
+            background: #172554;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 20;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 16.66%;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-blue), var(--color-accent-gold));
+            transition: width 0.3s ease;
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                height: auto;
+                overflow: visible;
+            }
+            .presentation-container {
+                width: 100% !important;
+                max-width: none !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+            }
+            .slide {
+                display: flex !important;
+                opacity: 1 !important;
+                position: relative !important;
+                page-break-after: always;
+                height: 100vh !important;
+                padding: 30px !important;
+            }
+            .deck-controls, .progress-bar-container, .top-accent-bar {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="top-accent-bar"></div>
+
+        <!-- ================= SLIDE 1: REVIEW TUYỂN SINH THÁNG 10 (BIỂU ĐỒ FUNNEL) ================= -->
+        <div class="slide active" id="slide-1">
+            <div class="slide-header">
+                <div>
+                    <div class="brand-pill">AP EDUCATION — ACADEMY AUDIT</div>
+                    <div class="slide-title">BÁO CÁO REVIEW CHUYÊN SÂU <span>THÁNG 10/2026</span></div>
+                    <div class="slide-subtitle">Tổng Hợp Hiệu Quả Tuyển Sinh & Kênh Số — Phân Tích Điểm Nghẽn & Cơ Hội Cuối Năm</div>
+                </div>
+                <div class="header-meta">
+                    <div>Founder & Giảng viên chính: Johnny Lộc Nguyễn</div>
+                    <div class="instructor-badge">Kỹ Sư Ô Tô Bách Khoa</div>
+                </div>
+            </div>
+
+            <div class="slide-body">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Dữ liệu & Điểm nghẽn -->
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-val">98.4K</div>
+                                <div class="metric-lbl">Tổng Reach Đa Kênh</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">136 Lead</div>
+                                <div class="metric-lbl">Người Quan Tâm Khóa Học</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">115.000đ</div>
+                                <div class="metric-lbl">CPA (Giá Mỗi Lead)</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-val">08 Bạn</div>
+                                <div class="metric-lbl">Học Viên Đã Nhập Học</div>
+                            </div>
+                        </div>
+
+                        <div class="card card-navy" style="padding: 12px;">
+                            <div class="card-header-badge badge-gold">Chẩn Đoán Điểm Nghẽn Tâm Lý Học Viên</div>
+                            <p class="card-desc" style="margin-bottom: 6px;">
+                                <strong>Nỗi sợ lớn nhất:</strong> Học viên sợ "học xong không có việc làm ngay dịp Tết này" hoặc "chỉ học lý thuyết suông không được đụng vào xe thật".<br>
+                                <strong>Hành động gỡ nghẽn T11:</strong> Ký cam kết bao việc làm 12-20tr/tháng ngay khi nhập học; thực hành 100% trên xe thật tại hệ thống xưởng AP Car Care.
+                            </p>
+                            <div class="highlight-box">
+                                <strong>Chiến lược T11:</strong> Tung khóa cấp tốc đón Tết — Tặng trọn bộ máy đánh bóng cá nhân 4.5M.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bên Phải: BIỂU ĐỒ PHỄU TUYỂN SINH SVG -->
+                    <div class="chart-box">
+                        <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); margin-bottom: 6px; text-transform: uppercase;">
+                            PHỄU TUYỂN SINH THÁNG 10/2026
+                        </div>
+                        <svg width="100%" height="220" viewBox="0 0 360 220">
+                            <!-- Stage 1: Reach -->
+                            <polygon points="20,15 340,15 290,65 70,65" fill="#1e3a8a" opacity="0.95" />
+                            <text x="180" y="42" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">TIẾP CẬN VIDEO: 98.400 LƯỢT</text>
+                            
+                            <!-- Stage 2: Engagement / Video 100% -->
+                            <polygon points="73,70 287,70 245,115 115,115" fill="#2563eb" opacity="0.9" />
+                            <text x="180" y="96" fill="#ffffff" font-size="11.5" font-weight="bold" text-anchor="middle">XEM KỸ THUẬT: 14.200 LƯỢT (14.4%)</text>
+
+                            <!-- Stage 3: Inboxes / Leads -->
+                            <polygon points="118,120 242,120 205,165 155,165" fill="#d97706" opacity="0.95" />
+                            <text x="180" y="146" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">INBOX TƯ VẤN: 136 LEADS (CPA 115K)</text>
+
+                            <!-- Stage 4: Enrolled Students -->
+                            <polygon points="157,170 203,170 185,210 175,210" fill="#059669" opacity="1" />
+                            <text x="180" y="195" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">08 HỌC VIÊN CHÍNH THỨC (5.8%)</text>
+                        </svg>
+                        <div style="font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 4px;">
+                            Nguồn: Fanpage Học viện AP Education & Zalo tư vấn tuyển sinh
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 2: TỔNG QUAN KẾ HOẠCH THÁNG 11 (ẢNH LỚP HỌC THỰC TẾ) ================= -->
+        <div class="slide" id="slide-2">
+            <div class="slide-header">
+                <div>
+                    <div class="brand-pill">AP EDUCATION — THÁNG 11/2026</div>
+                    <div class="slide-title">KẾ HOẠCH TUYỂN SINH <span>THÁNG 11/2026</span></div>
+                    <div class="slide-subtitle">Chiến Dịch Khóa Nghề Cấp Tốc Đón Đầu Mùa Cao Điểm Kiếm Tiền Tết Đinh Mùi 2027</div>
+                </div>
+                <div class="header-meta">
+                    <div>Thời Điểm Vàng Học Nghề</div>
+                    <div class="instructor-badge">Khóa Cuối Cùng Năm 2026</div>
+                </div>
+            </div>
+
+            <div class="slide-body">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Thông điệp & Lý do -->
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <div style="font-family: 'Orbitron', sans-serif; color: var(--color-accent-gold); font-size: 11px; letter-spacing: 2px; font-weight: 800; margin-bottom: 6px;">
+                            CAMPAIGN BIG IDEA
+                        </div>
+                        <h1 style="font-size: 28px; font-weight: 900; line-height: 1.15; color: var(--text-heading); text-transform: uppercase; margin-bottom: 12px;">
+                            HỌC NGHỀ <span style="color: var(--color-primary);">THỰC CHIẾN</span><br>KIẾM TIỀN MÙA TẾT
+                        </h1>
+                        <div style="font-size: 13.5px; font-weight: 700; color: var(--color-accent-gold); margin-bottom: 12px; border-left: 3px solid var(--color-accent-gold); padding-left: 10px; font-style: italic;">
+                            "Học phí 1 lần — Vững nghề trọn đời. Ra nghề kịp mùa hốt bạc cuối năm!"
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-body); line-height: 1.55; margin-bottom: 14px;">
+                            Tháng 11 là mốc thời gian chốt sổ để hoàn thành khóa đào tạo 3-4 tuần, đủ thời gian tôi luyện tay nghề vững vàng để **đi làm thợ chính ngay trong tháng Chạp Tết 2027** với thu nhập từ 15-25 triệu/tháng tại chuỗi xưởng AP Car Care hoặc các gara đối tác.
+                        </p>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <div class="metric-card" style="flex: 1;">
+                                <div class="metric-val">10 Suất</div>
+                                <div class="metric-lbl">Chỉ tiêu Tháng 11</div>
+                            </div>
+                            <div class="metric-card" style="flex: 1;">
+                                <div class="metric-val">100%</div>
+                                <div class="metric-lbl">Kèm 1-1 Xe Thật</div>
+                            </div>
+                            <div class="metric-card" style="flex: 1;">
+                                <div class="metric-val">100%</div>
+                                <div class="metric-lbl">Bao Đầu Ra Việc Làm</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bên Phải: ẢNH THỰC TẾ LỚP HỌC HỌC VIỆN AP EDUCATION -->
+                    <div class="media-container">
+                        <img src="./assets/apedu_lop_hoc.jpg" alt="Lớp học thực tế Học viện AP Education">
+                        <div class="media-caption">
+                            Hình ảnh thực tế: Giờ học định hướng & lý thuyết chuyên sâu tại Học viện AP Education
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 3: MA TRẬN ƯU ĐÃI (ẢNH THỰC HÀNH TRÊN XE THẬT) ================= -->
+        <div class="slide" id="slide-3">
+            <div class="slide-header">
+                <div>
+                    <div class="brand-pill">ADMISSIONS HERO OFFER</div>
+                    <div class="slide-title">CHÍNH SÁCH ƯU ĐÃI <span>THÁNG 11 & CỐ ĐỊNH</span></div>
+                    <div class="slide-subtitle">Gói Đòn Bẩy FOMO Tặng Trọn Bộ Đồ Nghề Cá Nhân & Cam Kết Bảo Lãnh Việc Làm</div>
+                </div>
+                <div class="header-meta">
+                    <div>Khai giảng: 20/11/2026</div>
+                    <div class="instructor-badge">Đúng 10 Suất Duy Nhất</div>
+                </div>
+            </div>
+
+            <div class="slide-body">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Chi tiết Ưu đãi -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Deal 1: Tháng 11 -->
+                        <div class="card card-navy" style="padding: 10px 14px;">
+                            <div class="card-header-badge badge-gold">Độc Quyền Khóa Tháng 11 (FOMO 10 Suất)</div>
+                            <div class="card-title" style="font-size: 14px;">COMBO TÂN TRANG TAY NGHỀ ĐÓN TẾT</div>
+                            <ul class="deal-list" style="margin-bottom: 6px;">
+                                <li>🎁 <strong>TẶNG 01 BỘ ĐỒ NGHỀ CÁ NHÂN (Trị giá 4.500.000đ):</strong> Máy đánh bóng lệch tâm mini + Bộ pad mút đánh bóng 3 bước mang về sau tốt nghiệp.</li>
+                                <li>🎁 <strong>TẶNG KHÓA NÂNG CAO PPF (Trị giá 8.000.000đ):</strong> Kỹ thuật dán phim bảo vệ sơn PPF TPU chống đá văng cao tốc (Nghề hot nhất hiện nay).</li>
+                            </ul>
+                            <div style="font-size: 11px; color: var(--color-accent-gold); font-weight: 700;">
+                                ⚠️ Khóa chốt danh sách đúng 10 học viên để anh Lộc trực tiếp kèm cặp.
+                            </div>
+                        </div>
+
+                        <!-- Deal 2: Bảo Lãnh Đầu Ra -->
+                        <div class="card" style="padding: 10px 14px;">
+                            <div class="card-header-badge badge-green">Ưu Đãi Cố Định 1: Bảo Lãnh Việc Làm 100%</div>
+                            <div class="card-title" style="font-size: 14px;">KÝ CAM KẾT VIỆC LÀM NGAY KHI NHẬP HỌC</div>
+                            <p class="card-desc" style="margin-bottom: 0; font-size: 11.5px;">
+                                Tốt nghiệp đạt chuẩn được nhận vào làm việc ngay tại hệ thống AP Car Care (Tân Phú, Q7, Thủ Đức) với mức lương <strong>12.000.000đ – 20.000.000đ/tháng + Thưởng Tết</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Deal 3: Khởi Nghiệp Gara -->
+                        <div class="card card-navy" style="padding: 10px 14px;">
+                            <div class="card-header-badge badge-navy">Ưu Đãi Cố Định 2: Gói Khởi Nghiệp Làm Chủ</div>
+                            <p class="card-desc" style="margin-bottom: 0; font-size: 11.5px;">
+                                Dành cho chủ gara / học viên muốn mở xưởng: Tặng 100% <strong>Bộ quy trình SOP chuẩn vận hành gara</strong> + <strong>Bản vẽ layout xưởng chuẩn Detailing quốc tế</strong> do anh Lộc tư vấn 1-1.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bên Phải: ẢNH THỰC TẾ HỌC VIÊN KÈM CẶP TRÊN XE THẬT -->
+                    <div class="media-container">
+                        <img src="./assets/apedu_hocvien_thuchanh.jpg" alt="Học viên AP Education thực hành">
+                        <div class="media-caption">
+                            Hình ảnh thực tế: Học viên AP Education thực hành kỹ thuật đánh bóng sơn trên xe thật tại xưởng
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 4: CHƯƠNG TRÌNH ĐÀO TẠO 4 MODULE THỰC CHIẾN ================= -->
+        <div class="slide" id="slide-4">
+            <div class="slide-header">
+                <div>
+                    <div class="brand-pill">CURRICULUM & MODULES</div>
+                    <div class="slide-title">CHƯƠNG TRÌNH ĐÀO TẠO <span>4 MODULE THỰC CHIẾN</span></div>
+                    <div class="slide-subtitle">Phương Pháp "Cầm Tay Chỉ Việc" — 80% Thời Lượng Thực Hành Trực Tiếp Tại Xưởng</div>
+                </div>
+                <div class="header-meta">
+                    <div>Chứng chỉ đào tạo AP Education</div>
+                    <div class="instructor-badge">Chuẩn Detailing Quốc Tế</div>
+                </div>
+            </div>
+
+            <div class="slide-body">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: 4 Module -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="card" style="padding: 12px;">
+                            <div class="card-header-badge badge-navy">Module 1</div>
+                            <div class="card-title" style="font-size: 13.5px;">RỬA XE & NỘI THẤT DETAILING</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">
+                                • Quy trình rửa xe 3 xô chống xước.<br>
+                                • Vệ sinh & dưỡng da ghế sinh học.<br>
+                                • Vệ sinh khoang máy hơi nước nóng.<br>
+                                • Nội soi dàn lạnh khử mùi Ozone.
+                            </p>
+                        </div>
+
+                        <div class="card card-navy" style="padding: 12px;">
+                            <div class="card-header-badge badge-gold">Module 2 (Trọng Tâm)</div>
+                            <div class="card-title" style="font-size: 13.5px;">HIỆU CHỈNH SƠN & CERAMIC</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">
+                                • Đo độ dày sơn xe bằng máy điện tử.<br>
+                                • Kỹ thuật xử lý xước sâu, da cam.<br>
+                                • Đánh bóng 3 bước xóa swirl marks.<br>
+                                • Kỹ thuật phủ Ceramic bóng gương.
+                            </p>
+                        </div>
+
+                        <div class="card card-navy" style="padding: 12px;">
+                            <div class="card-header-badge badge-navy">Module 3 (High-End)</div>
+                            <div class="card-title" style="font-size: 13.5px;">DÁN PHIM BẢO VỆ SƠN PPF</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">
+                                • Kỹ thuật cắt phim thủ công & máy CNC.<br>
+                                • Kỹ thuật vuốt gạt bọt khí, giấu mép.<br>
+                                • Dán PPF chóa đèn, gương, cản trước.<br>
+                                • Xử lý mí phim không bong tróc.
+                            </p>
+                        </div>
+
+                        <div class="card" style="padding: 12px;">
+                            <div class="card-header-badge badge-green">Module 4 (Khởi Nghiệp)</div>
+                            <div class="card-title" style="font-size: 13.5px;">QUẢN TRỊ & MỞ XƯỞNG GARA</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">
+                                • Quy trình tiếp nhận & cố vấn báo giá.<br>
+                                • Quản lý định mức vật tư, hóa chất.<br>
+                                • Marketing kéo khách mở gara mới.<br>
+                                • Tuyển dụng & quản lý thợ lành nghề.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bên Phải: ẢNH THỰC TẾ DÁN PPF & XE XUẤT XƯỞNG -->
+                    <div class="media-container">
+                        <img src="./assets/ap_dan_ppf.png" alt="Thực hành dán PPF">
+                        <div class="media-caption">
+                            Module Thực hành PPF: Học viên được trực tiếp thi công trên xe sang tại hệ thống AP Car Care
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 5: LỊCH CRON TUYỂN SINH & TIMELINE (BIỂU ĐỒ ROADMAP) ================= -->
+        <div class="slide" id="slide-5">
+            <div class="slide-header">
+                <div>
+                    <div class="brand-pill">RECRUITMENT TIMELINE</div>
+                    <div class="slide-title">LỊCH VẬN HÀNH CRON & <span>LỘ TRÌNH TỐT NGHIỆP</span></div>
+                    <div class="slide-subtitle">Chiến Dịch Phân Phối Video Đào Tạo Định Kỳ & Mốc Khai Giảng Về Đích Đón Tết 2027</div>
+                </div>
+                <div class="header-meta">
+                    <div>AI Agent Scheduling</div>
+                    <div class="instructor-badge">Tuyển Sinh Đa Kênh</div>
+                </div>
+            </div>
+
+            <div class="slide-body">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: Lịch Cron -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="card" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-navy">Cron Thứ 2 - 4 - 6 (09:00 Sáng)</div>
+                            <div style="font-size: 12.5px; font-weight: 700; color: var(--text-heading);">Video Kỹ Thuật & Trải Nghiệm Học Viên</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">Phát sóng video anh Lộc chia sẻ kỹ thuật thực tế (bóc phốt dán PPF, mẹo đánh bóng) lên Fanpage/TikTok & Nhóm Zalo tư vấn nghề.</p>
+                        </div>
+
+                        <div class="card card-gold" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-gold">Cron Thứ 7 Hàng Tuần (14:00 Chiều)</div>
+                            <div style="font-size: 12.5px; font-weight: 700; color: var(--text-heading);">Thông Báo Số Suất Ưu Đãi Còn Lại (FOMO Trigger)</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">Cập nhật sĩ số khóa học: "Chỉ còn 3 suất nhận ưu đãi máy đánh bóng 4.5M cho khóa Tháng 11".</p>
+                        </div>
+
+                        <div class="card card-navy" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-green">Ngày 20/11/2026: Khai Giảng Chính Thức</div>
+                            <p class="card-desc" style="font-size: 11px; margin-bottom: 0;">
+                                • Khóa học kéo dài 4 tuần liên tục.<br>
+                                • Tốt nghiệp ngày 20/12/2026 $\rightarrow$ Đi làm thợ chính ngay mùa cao điểm Tết!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bên Phải: BIỂU ĐỒ ROADMAP TIMELINE SVG MINH HỌA -->
+                    <div class="chart-box">
+                        <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); margin-bottom: 8px; text-transform: uppercase;">
+                            LỘ TRÌNH ĐÀO TẠO & RA NGHỀ ĐÓN TẾT 2027
+                        </div>
+                        <svg width="100%" height="220" viewBox="0 0 340 220">
+                            <!-- Milestone 1 -->
+                            <circle cx="40" cy="45" r="16" fill="#1e3a8a" />
+                            <text x="40" y="50" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">1</text>
+                            <line x1="40" y1="61" x2="40" y2="105" stroke="#1e3a8a" stroke-width="2" stroke-dasharray="3,3" />
+                            <text x="68" y="42" fill="#0f172a" font-size="12" font-weight="bold">01/11 - 20/11: TUYỂN SINH 10 SUẤT</text>
+                            <text x="68" y="58" fill="#64748b" font-size="10.5">Tặng máy đánh bóng 4.5M + Khóa PPF 8M</text>
+
+                            <!-- Milestone 2 -->
+                            <circle cx="40" cy="115" r="16" fill="#d97706" />
+                            <text x="40" y="120" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">2</text>
+                            <line x1="40" y1="131" x2="40" y2="175" stroke="#d97706" stroke-width="2" stroke-dasharray="3,3" />
+                            <text x="68" y="112" fill="#0f172a" font-size="12" font-weight="bold">20/11 - 20/12: ĐÀO TẠO THỰC CHIẾN</text>
+                            <text x="68" y="128" fill="#64748b" font-size="10.5">Thực hành 100% trên xe thật tại chuỗi AP</text>
+
+                            <!-- Milestone 3 -->
+                            <circle cx="40" cy="185" r="16" fill="#059669" />
+                            <text x="40" y="190" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">3</text>
+                            <text x="68" y="182" fill="#0f172a" font-size="12" font-weight="bold">21/12 - TẾT 2027: RA NGHỀ HỐT BẠC</text>
+                            <text x="68" y="198" fill="#64748b" font-size="10.5">Nhận việc làm ngay lương 15-25tr + thưởng Tết</text>
+                        </svg>
+                        <div style="font-size: 10px; color: var(--text-muted); text-align: center;">
+                            Kế hoạch hành động đưa 100% học viên ra nghề kịp mùa Tết
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 6: KPI & CAM KẾT (BIỂU ĐỒ DONUT CHART) ================= -->
+        <div class="slide" id="slide-6">
+            <div class="slide-header">
+                <div>
+                    <div class="brand-pill">KPI & ADMISSIONS GOALS</div>
+                    <div class="slide-title">CHỈ SỐ KPI TUYỂN SINH & <span>QUY CHUẨN TƯ VẤN</span></div>
+                    <div class="slide-subtitle">Chỉ Số Cam Kết & Cơ Chế Phối Hợp Tuyển Sinh Giữa MKT, Tư Vấn Viên & Anh Lộc</div>
+                </div>
+                <div class="header-meta">
+                    <div>Cam Kết Đầu Ra 100%</div>
+                    <div class="instructor-badge">Đảm Bảo Việc Làm</div>
+                </div>
+            </div>
+
+            <div class="slide-body">
+                <div class="col-custom-split">
+                    <!-- Bên Trái: KPI & SLA Table -->
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="card card-navy" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-navy">Mục Tiêu KPI Tháng 11/2026</div>
+                            <ul class="deal-list">
+                                <li><strong>Tiếp cận (Reach):</strong> &ge; 120.000 lượt tiếp cận trên Fanpage & TikTok.</li>
+                                <li><strong>Lead học viên tiềm năng:</strong> &ge; 150 người đăng ký tư vấn nghề.</li>
+                                <li><strong>Chỉ tiêu học viên chính thức:</strong> Đạt đủ <strong>10 / 10 học viên</strong> trước 20/11.</li>
+                                <li><strong>Tỷ lệ tốt nghiệp đạt chuẩn:</strong> 100% học viên vượt qua bài test thực hành xe thật.</li>
+                            </ul>
+                        </div>
+
+                        <div class="card" style="padding: 10px 12px;">
+                            <div class="card-header-badge badge-gold">Quy Chuẩn Tư Vấn Tuyển Sinh (SLA)</div>
+                            <ul class="deal-list">
+                                <li><strong>Tốc độ phản hồi:</strong> Gọi điện tư vấn trong vòng 5 phút khi học viên để lại SĐT.</li>
+                                <li><strong>Mời lên trải nghiệm:</strong> Mời học viên đến trực tiếp xưởng AP Car Care xem lớp học và gặp gỡ anh Lộc trước khi đóng học phí.</li>
+                                <li><strong>Minh bạch hợp đồng:</strong> Ký cam kết bảo lãnh việc làm ngay trong buổi phỏng vấn nhập học.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Bên Phải: BIỂU ĐỒ DONUT CHART SVG MINH HỌA -->
+                    <div class="chart-box">
+                        <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); margin-bottom: 6px; text-transform: uppercase;">
+                            CƠ CẤU ĐỐI TƯỢNG HỌC VIÊN MỤC TIÊU
+                        </div>
+                        <svg width="100%" height="180" viewBox="0 0 240 180">
+                            <!-- Donut Segments (Total = 100) -->
+                            <!-- Thợ muốn nâng cao tay nghề PPF: 50% (#1E3A8A) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#1e3a8a" stroke-width="24"
+                                    stroke-dasharray="157 314" stroke-dashoffset="0" />
+                            <!-- Người mới muốn học nghề đón Tết: 30% (#d97706) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#d97706" stroke-width="24"
+                                    stroke-dasharray="94.2 314" stroke-dashoffset="-157" />
+                            <!-- Chủ gara học quản trị & mở xưởng: 20% (#059669) -->
+                            <circle cx="120" cy="85" r="50" fill="transparent" stroke="#059669" stroke-width="24"
+                                    stroke-dasharray="62.8 314" stroke-dashoffset="-251.2" />
+                            
+                            <text x="120" y="82" font-family="'Orbitron', sans-serif" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">100%</text>
+                            <text x="120" y="96" font-size="9" fill="#64748b" text-anchor="middle">CHỈ TIÊU</text>
+                        </svg>
+
+                        <!-- Legend -->
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 4px; width: 100%; font-size: 9.5px; margin-top: 4px;">
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #1e3a8a; border-radius: 2px;"></span> Thợ nâng tay nghề PPF & Đánh bóng (50%)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #d97706; border-radius: 2px;"></span> Người mới học nghề cấp tốc kiếm tiền Tết (30%)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span style="width: 8px; height: 8px; background: #059669; border-radius: 2px;"></span> Chủ gara học quy trình SOP & mở xưởng (20%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= DECK CONTROLS ================= -->
+        <div class="deck-controls">
+            <div class="slide-counter">SLIDE <span id="current-slide">1</span> / 6</div>
+            <div class="btn-group">
+                <button class="print-btn" onclick="window.print()">Xuất PDF / In Slide</button>
+                <button class="nav-btn" id="prev-btn" onclick="prevSlide()">❮</button>
+                <button class="nav-btn" id="next-btn" onclick="nextSlide()">❯</button>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        let current = 1;
+        const total = 6;
+
+        function showSlide(index) {
+            document.querySelectorAll('.slide').forEach((s, idx) => {
+                s.classList.remove('active');
+                if (idx === index - 1) {
+                    s.classList.add('active');
+                }
+            });
+            document.getElementById('current-slide').textContent = index;
+            document.getElementById('progress-bar').style.width = (index / total * 100) + '%';
+        }
+
+        function nextSlide() {
+            current = current < total ? current + 1 : 1;
+            showSlide(current);
+        }
+
+        function prevSlide() {
+            current = current > 1 ? current - 1 : total;
+            showSlide(current);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+    </script>
+</body>
+</html>
