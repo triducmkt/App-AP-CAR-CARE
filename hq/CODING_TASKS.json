@@ -104,6 +104,14 @@
     "main_vars_css": "--ap-workspace-bg (#F2F4F8) --ap-sidebar-bg --ap-btn-dark-glass --ap-accent-blue --ap-accent-glow; .ap-sidebar .ap-dept-tab-btn .btn-dark-glass .ap-glow-line-h .ap-glow-line-left .ap-universal-avatar .ap-matrix-table .ap-org-tiers .ap-theme-card .ap-logo-slot-item",
     "fields": "GLOBAL_DB_MAP (10 Core Tables + MKT_Posts), LOGO_SLOT_FIELD_MAP (6 White-Label Slots), THEME_FIELD_MAP (3 Theme Skins On/Off), AP_ORG_DEPARTMENTS_MATRIX (6 Phòng ban + Settings), PROJECT_PRICING (2D), ROLE_MATRIX (3D), TASK_AUTOMATION_RULES (4D)",
     "note": "Quy hoạch sẵn 100% hạ tầng 5 File Cốt Lõi SME OS ngay từ đầu (4D Matrix, 14 Module Contracts M01->M14, Event Bus, OptiSync V5 8s Batch Truck + 15s Ghost RAM, Single-Read Snapshot, Rolling 3,000-Row Audit Log); Sidebar Trái chứa Logo Công ty + Avatar User đa năng (nén Canvas < 300KB, 9 màu yêu thích, đổi SĐT/MK chuẩn TDCM Team) + 6 Tab Phòng Ban AP CAR CARE 2026 + Tab Cài Đặt ở dưới cùng Sidebar; Chuyển trang Đăng Bài Đa Kênh vào Phòng TT-MKT; Nền làm việc chính màu trắng xám nhạt (#F2F4F8), Sidebar & Nút màu đen Obsidian Gradient hiệu ứng Glass, đường line trang trí màu xanh có glow sáng."
+  },
+  {
+    "id": "TASK-011",
+    "env": "frontend & backend",
+    "task_name": "Tích Hợp Module M15: Javis OS Plug-and-Play AI Bridge (Personal Agent Connector)",
+    "main_function": "saveJavisUserBridgeConfig, getJavisUserBridgeConfig, testJavisBridgeConnection, syncJavisPayloadToDepartment, btnSidebarTestJavis, btnSidebarSaveJavis, btnTestJavisLive, btnPullJavisSample, btnImportFromJavis, renderModules14Table",
+    "main_vars_css": "#btnToggleJavisSection #bodyJavisSection #inpSidebarJavisUrl #inpSidebarJavisToken #sidebarJavisStatusBadge #btnImportFromJavis #inpJavisServerUrl #inpJavisApiToken #selJavisTargetDept #btnTestJavisLive #btnPullJavisSample #boxJavisTestResult #badgeJavisLiveStatus",
+    "fields": "MODULE_CONTRACTS_REGISTRY (M15_Javis_AI_Bridge), JAVIS_CONFIG (javisUrl, apiTokenMasked, targetDepartment, autoSyncIntervalMin)",
+    "note": "Hiện thực hóa ý tưởng kiến trúc Federated Personal Agents của anh Đức: 100% User có thể cắm nối node Javis OS cá nhân (URL + API Token) với chi phí  cho công ty; Dữ liệu output (bài viết MKT, Lead mới, Báo cáo) được định tuyến và sync tự động về đúng Dashboard phòng ban trong SME OS; Cung cấp nút Nhập từ Javis OS trong Phòng TT-MKT và Bảng điều khiển live test độ trễ/ping tại Tab Cài Đặt; Nâng cấp chuẩn 15 Module Contracts M01->M15."
   }
 ]
-

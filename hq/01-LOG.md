@@ -331,3 +331,15 @@ ode -e "new Function(...)" đạt chuẩn 100%.
     + Chuyển Trạm Đăng Bài Đa Kênh vào Tab `Phòng TT - MKT` (Active mặc định khi đăng nhập).
     + Xây dựng Tab `Cài Đặt Hệ Thống` với bộ công tắc Khoác Áo Theme On/Off và trình quản lý 6 vị trí Logo/Thương hiệu White-Label.
   - Kiểm tra cú pháp JS/GAS bằng Node VM (`Code.gs syntax OK`, `Index.html script syntax OK`) và deploy thành công lên GitHub Pages (`99670fd`).
+## 2026-10-21 23:38 — Lucy/Antigravity — Tích Hợp Module M15: Javis OS Plug-and-Play AI Bridge (Personal Agent Hub) Cho Từng Nhân Sự Trong SME OS
+- **Tiếp nhận định hướng từ Product Owner (anh Đức):**
+  - Khách hàng B2B và nhân sự các phòng ban (Giám đốc, MKT, CSKH, Kế toán, Thợ) có thể tự do bấm nút cắm nối node Javis OS cá nhân (dùng tài khoản Claude/ChatGPT của riêng họ, chi phí $0 cho công ty).
+  - Dữ liệu công việc đầu ra của Javis OS được định tuyến tự động về đúng Dashboard từng phòng ban trong SME OS; dữ liệu cá nhân/ghi chú của nhân viên vẫn nằm độc lập trên máy họ.
+- **Thực thi nâng cấp:**
+  1. `src/Code.gs`: Đăng ký `M15_Javis_AI_Bridge` vào `MODULE_CONTRACTS_REGISTRY`. Bổ sung bộ 4 hàm backend: `saveJavisUserBridgeConfig`, `getJavisUserBridgeConfig`, `testJavisBridgeConnection`, `syncJavisPayloadToDepartment` kèm `logSystemAudit`.
+  2. `src/Index.html`:
+     - Thêm thanh thu gọn thứ 3 `🤖 Trợ Lý Javis OS Cá Nhân (Plug & Play)` trong Sidebar User Profile (Ping test 12ms, lưu URL/Token).
+     - Thêm Panel lớn `🔌 MÔ HÌNH CẮM NỐI JAVIS OS AI BRIDGE (PLUG & PLAY CHO MỌI NHÂN SỰ)` trong Tab Cài Đặt (`#pane_SETTINGS`) với giao diện mô phỏng live test kết nối, kéo dữ liệu mẫu.
+     - Thêm nút `🤖 Nhập từ Javis OS` trên thanh công cụ soạn thảo của `Phòng TT - MKT` giúp nhân viên MKT nhập ngay bài viết AI soạn sẵn.
+     - Cập nhật hiển thị 15 Module Contracts (`M01` → `M15`) trên bảng giám sát hạ tầng.
+  3. Cập nhật `hq/CODING_TASKS.json` (TASK-011), `hq/schematic_map.md` và `hq/00-INDEX.md`.

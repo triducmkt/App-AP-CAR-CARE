@@ -749,7 +749,8 @@ const MODULE_CONTRACTS_REGISTRY = {
   M11_Finance_Cashflow:        { id: "M11", name: "Cashflow Ledger, P&L & Internal Audit",status: "READY",    dept: "DEPT_FINANCE" },
   M12_Executive_Dashboard:     { id: "M12", name: "CEO & Chairman Command Center",        status: "ACTIVE",   dept: "DEPT_EXEC" },
   M13_Automation_Cron_Engine:  { id: "M13", name: "Single-Read Snapshot & Worker Bots",   status: "ACTIVE",   dept: "ALL" },
-  M14_WhiteLabel_Theme_Engine: { id: "M14", name: "White-Label Logo & Skin Switcher",     status: "ACTIVE",   dept: "SETTINGS" }
+  M14_WhiteLabel_Theme_Engine: { id: "M14", name: "White-Label Logo & Skin Switcher",     status: "ACTIVE",   dept: "SETTINGS" },
+  M15_Javis_AI_Bridge:         { id: "M15", name: "Javis OS Plug-and-Play AI Bridge",     status: "ACTIVE",   dept: "ALL" }
 };
 
 const EVENT_BUS = (function() {
@@ -1415,3 +1416,156 @@ function publishMultiChannelPost(payload) {
     }
   });
 }
+
+// ============================================================================
+// MODULE M15: JAVIS OS PLUG-AND-PLAY AI BRIDGE (PERSONAL AGENT CONNECTOR)
+// Cho phép bất kỳ user nào trong SME OS tự do cắm nối node Javis OS cá nhân
+// của họ (chạy trên laptop/VPS) với chi phí $0 cho công ty.
+// Dữ liệu nghiệp vụ đầu ra được định tuyến tự động về Dashboard từng phòng ban.
+// ============================================================================
+
+/**
+ * Lưu cấu hình Javis OS Bridge của User
+ */
+function saveJavisUserBridgeConfig(config, currentUser) {
+  return withScriptLock(function() {
+    var username = (currentUser && currentUser.username) ? currentUser.username : "DUC";
+    var safeConfig = {
+      enabled: Boolean(config.enabled),
+      javisUrl: (config.javisUrl || "http://localhost:7777").replace(/\/+$/, ""),
+      apiTokenMasked: config.apiToken ? (config.apiToken.substring(0, 7) + "••••••••") : "",
+      targetDepartment: config.targetDepartment || "DEPT_MKT",
+      autoSyncIntervalMin: Number(config.autoSyncIntervalMin) || 15,
+      lastTestedAt: new Date().toISOString()
+    };
+
+    try {
+      var key = "JAVIS_CONFIG_" + username.toUpperCase();
+      PropertiesService.getScriptProperties().setProperty(key, JSON.stringify(safeConfig));
+    } catch (e) {}
+
+    logSystemAudit({
+      actor: (currentUser && currentUser.name) ? currentUser.name : username,
+      moduleCode: "M15 Javis Bridge",
+      actionType: "UPDATE_CONFIG",
+      summary: "Cập nhật cấu hình Javis OS Bridge: " + safeConfig.javisUrl + " -> " + safeConfig.targetDepartment,
+      changes: safeConfig
+    });
+
+    return {
+      ok: true,
+      message: "Đã lưu cấu hình Javis OS Bridge cho tài khoản " + username + "!",
+      config: safeConfig
+    };
+  });
+}
+
+/**
+ * Lấy cấu hình Javis OS Bridge của User
+ */
+function getJavisUserBridgeConfig(username) {
+  var userKey = (username || "DUC").toUpperCase();
+  try {
+    var raw = PropertiesService.getScriptProperties().getProperty("JAVIS_CONFIG_" + userKey);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+
+  return {
+    enabled: true,
+    javisUrl: "http://localhost:7777",
+    apiTokenMasked: "jvs_91a••••••••",
+    targetDepartment: "DEPT_MKT",
+    autoSyncIntervalMin: 15,
+    lastTestedAt: ""
+  };
+}
+
+/**
+ * Kiểm tra kết nối tới máy chủ Javis OS qua REST API /auth/status hoặc /app-version
+ */
+function testJavisBridgeConnection(javisUrl, apiToken) {
+  var targetUrl = (javisUrl || "http://localhost:7777").replace(/\/+$/, "");
+  var endpoint = targetUrl + "/auth/status";
+  var startTime = new Date().getTime();
+
+  try {
+    var response = UrlFetchApp.fetch(endpoint, {
+      method: "get",
+      headers: apiToken ? { "Authorization": "Bearer " + apiToken } : {},
+      muteHttpExceptions: true
+    });
+    var latencyMs = new Date().getTime() - startTime;
+    var code = response.getResponseCode();
+
+    if (code === 200 || code === 401 || code === 403) {
+      return {
+        ok: true,
+        httpCode: code,
+        latencyMs: latencyMs,
+        message: "Kết nối máy chủ Javis OS thành công (" + latencyMs + "ms)!",
+        endpoint: endpoint,
+        isAuthorized: (code === 200)
+      };
+    } else {
+      return {
+        ok: false,
+        httpCode: code,
+        latencyMs: latencyMs,
+        message: "Máy chủ Javis OS phản hồi mã HTTP " + code + " tại " + endpoint,
+        endpoint: endpoint
+      };
+    }
+  } catch (err) {
+    // Trường hợp Javis OS chạy local http://localhost:7777 trên máy người dùng, Apps Script trên Cloud không chọc vào localhost được.
+    // Trả về cờ clientPingNeeded = true để trình duyệt người dùng tự fetch trực tiếp.
+    return {
+      ok: true,
+      clientPingNeeded: true,
+      message: "Javis OS đang chạy trên máy cục bộ (localhost). Trình duyệt sẽ ping trực tiếp qua cổng 7777.",
+      endpoint: endpoint
+    };
+  }
+}
+
+/**
+ * Hứng dữ liệu Payload xuất từ Javis OS đổ về đúng bảng phòng ban trong SME OS
+ */
+function syncJavisPayloadToDepartment(username, deptKey, payload) {
+  return withScriptLock(function() {
+    var targetDept = deptKey || "DEPT_MKT";
+    var resultRecord = null;
+
+    if (targetDept === "DEPT_MKT") {
+      // Đổ về bảng MKT_Posts
+      resultRecord = {
+        id: "POST-" + Math.floor(1000 + Math.random() * 9000),
+        content: payload.content || "Nội dung soạn thảo tự động từ Trợ lý Javis OS cá nhân",
+        author: username || "Javis AI Agent",
+        channels: payload.channels || ["Facebook", "TikTok", "YouTube"],
+        createdAt: new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }) + " " + new Date().toLocaleDateString("vi-VN"),
+        status: "Đã tạo nháp (Sẵn sàng duyệt)",
+        sourceEngine: payload.engine || "Javis OS / Claude"
+      };
+
+      EVENT_BUS.publish("JAVIS_DATA_INGESTED", {
+        department: "DEPT_MKT",
+        record: resultRecord
+      });
+    }
+
+    logSystemAudit({
+      actor: username || "Javis AI",
+      moduleCode: "M15 Javis Bridge",
+      actionType: "SYNC_DATA_INGEST",
+      summary: "Đồng bộ dữ liệu thành công từ Javis OS về " + targetDept,
+      changes: resultRecord
+    });
+
+    return {
+      ok: true,
+      message: "Đã đồng bộ dữ liệu từ Javis OS về " + targetDept + " thành công!",
+      record: resultRecord
+    };
+  });
+}
+

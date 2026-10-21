@@ -77,7 +77,9 @@ flowchart TD
 | `Index.html` (`#pane_DEPT_HR`) | Tab 4 — Phòng Nhân Sự (HR): Danh bạ Nhân sự 6 Tầng (`Staff`) & Phân quyền 3D | `renderDynamicMatrixTable('Staff')` |
 | `Index.html` (`#pane_DEPT_ACADEMY`) | Tab 5 — Phòng Đào Tạo (AP Education): Quản lý Học viên Detailing Tầng 1 (`Tasks`) | `renderDynamicMatrixTable('Tasks')` |
 | `Index.html` (`#pane_DEPT_FINANCE`) | Tab 6 — Phòng Kế Toán - Hành Chính & KTNB: Sổ quỹ Thu - Chi (`Finance_Transactions`) + Ma trận Giá 2D (`PROJECT_PRICING`) | `renderDynamicMatrixTable('Finance_Transactions')`, `renderPricing2DTable()` |
-| `Index.html` (`#pane_SETTINGS`) | Tab Cài Đặt (Dưới cùng Sidebar): Khoác Áo Theme Giao Diện (On/Off) + Quản lý 6 Vị Trí Thay Logo White-Label + Giám sát 14 Module Contracts (`M01` → `M14`) | `applyThemeSkinToDOM()`, `applyAllLogoSlotsToDOM()`, `renderSettingsThemeCards()`, `renderSettingsLogoSlots()`, `renderModules14Table()` |
+| `Index.html` (`#pane_SETTINGS`) | Tab Cài Đặt (Dưới cùng Sidebar): Khoác Áo Theme Giao Diện (On/Off) + Quản lý 6 Vị Trí Thay Logo White-Label + Module M15 Cắm Nối Javis OS AI Bridge (Plug & Play) + Giám sát 15 Module Contracts (`M01` → `M15`) | `applyThemeSkinToDOM()`, `applyAllLogoSlotsToDOM()`, `renderSettingsThemeCards()`, `renderSettingsLogoSlots()`, `btnTestJavisLive`, `btnPullJavisSample`, `renderModules14Table()` |
+| `Index.html` (`#bodyJavisSection`) | Card Cấu Hình Javis Cá Nhân trong Sidebar: Nút thu gọn thứ 3 dưới Avatar User cho phép ping test và lưu URL/Token node Javis OS cá nhân | `bindSidebarCollapse('btnToggleJavisSection')`, `btnSidebarTestJavis`, `btnSidebarSaveJavis` |
+| `Index.html` (`#btnImportFromJavis`) | Nút Nhập Kịch Bản Nhanh từ Javis OS trong Phòng TT - MKT: Tự động kéo draft content từ node Javis OS đổ thẳng vào Textarea và kênh đăng | `btnImportFromJavis click`, `postContent.value`, `showToast()` |
 
 ### 3.2. Backend / API / Database (`src/`)
 | Module / File | Vai trò | Điểm kết nối dữ liệu |
