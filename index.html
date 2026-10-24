@@ -2693,6 +2693,438 @@
       }
     }
 
+    /* =========================================================================
+       TASK-014: KÉO THẢ SẮP XẾP NÚT SIDEBAR + LƯU JSON CÁ NHÂN HÓA (STAFF COL M)
+       & TRẠM EDIT VIDEO AI 7-SKILL + MIND-MAP SCHEMATIC CANVAS (SHEET TT-MKT)
+       ========================================================================= */
+    .ap-sidebar-drag-hint {
+      padding: 0 10px 6px;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 500;
+      color: rgba(148, 163, 184, 0.78);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .ap-dept-tab-btn[draggable="true"] {
+      cursor: grab;
+    }
+    .ap-dept-tab-btn[draggable="true"]:active {
+      cursor: grabbing;
+    }
+    .ap-dept-drag-grip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 22px;
+      color: rgba(148, 163, 184, 0.45);
+      flex-shrink: 0;
+      margin-left: -2px;
+      transition: color 0.18s ease;
+    }
+    .ap-dept-tab-btn:hover .ap-dept-drag-grip {
+      color: #60A5FA;
+    }
+    .ap-dept-tab-btn.ap-dragging {
+      opacity: 0.48;
+      border: 1px dashed #38BDF8 !important;
+      transform: scale(0.98);
+    }
+    .ap-dept-tab-btn.ap-drag-over {
+      border-top: 2px solid #38BDF8 !important;
+      background: rgba(10, 108, 255, 0.24) !important;
+    }
+
+    /* THANH HIỂN THỊ LINK URL GOOGLE SHEET BACKEND (NHÂN SỰ & TT-MKT) */
+    .ap-backend-sheet-bar {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--ap-card-alt-bg);
+      border: 1px solid var(--ap-accent-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .ap-backend-url-link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ap-accent);
+      text-decoration: none;
+      word-break: break-all;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--ap-accent-soft);
+      border: 1px solid var(--ap-accent-border);
+      transition: all 0.18s ease;
+    }
+    #viewHome[data-ap-theme="dark"] .ap-backend-url-link {
+      color: #60A5FA;
+    }
+    .ap-backend-url-link:hover {
+      text-decoration: underline;
+    }
+
+    /* BẢNG EDIT VIDEO AI & MIND-MAP SCHEMATIC CANVAS (#apVideoEditStudioPanel) */
+    .ap-video-studio-grid {
+      display: grid;
+      grid-template-columns: 430px minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    .ap-ve-left-panel {
+      background: var(--ap-card-alt-bg);
+      border: 1px solid var(--ap-border-subtle);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 760px;
+      overflow-y: auto;
+    }
+    .ap-ve-group-box {
+      background: var(--ap-card-bg);
+      border: 1px solid var(--ap-border-subtle);
+      border-radius: 10px;
+      padding: 11px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ap-ve-group-title {
+      font-family: var(--font-display);
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--ap-accent);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      border-bottom: 1px solid var(--ap-border-subtle);
+      padding-bottom: 5px;
+    }
+    #viewHome[data-ap-theme="dark"] .ap-ve-group-title {
+      color: #60A5FA;
+    }
+    .ap-ve-field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ap-ve-field-grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .ap-ve-field-grid3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .ap-ve-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ap-text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ap-ve-input,
+    .ap-ve-select {
+      width: 100%;
+      height: 33px;
+      padding: 0 9px;
+      border-radius: 7px;
+      background: var(--ap-input-bg);
+      border: 1px solid var(--ap-input-border);
+      color: var(--ap-input-text);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.18s ease;
+    }
+    .ap-ve-input.mono {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+    }
+    .ap-ve-input:focus,
+    .ap-ve-select:focus {
+      border-color: var(--ap-accent);
+    }
+    .ap-ve-file-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .ap-ve-json-textarea {
+      width: 100%;
+      min-height: 120px;
+      border-radius: 8px;
+      background: var(--ap-input-bg);
+      border: 1px solid var(--ap-input-border);
+      color: var(--ap-input-text);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.45;
+      padding: 8px 10px;
+      resize: vertical;
+      outline: none;
+    }
+
+    /* KHUNG CANVAS MIND-MAP / SCHEMATIC MAP BÊN PHẢI (CÓ MOUSE WHEEL ZOOM & DRAG NODE) */
+    .ap-ve-canvas-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+    .ap-ve-canvas-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--ap-card-alt-bg);
+      border: 1px solid var(--ap-border-subtle);
+      flex-wrap: wrap;
+    }
+    .ap-ve-palette-list {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .ap-ve-palette-chip {
+      padding: 5px 10px;
+      border-radius: 7px;
+      background: var(--ap-card-bg);
+      border: 1px dashed var(--ap-accent-border);
+      color: var(--ap-text-heading);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: grab;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.18s ease;
+    }
+    .ap-ve-palette-chip:hover {
+      border-style: solid;
+      border-color: var(--ap-accent);
+      background: var(--ap-accent-soft);
+      transform: translateY(-1px);
+    }
+    .ap-ve-zoom-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--ap-card-bg);
+      border: 1px solid var(--ap-border-subtle);
+      border-radius: 8px;
+      padding: 3px 6px;
+    }
+    .ap-ve-zoom-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid var(--ap-border-subtle);
+      background: var(--ap-card-alt-bg);
+      color: var(--ap-text-heading);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ap-ve-zoom-btn:hover {
+      border-color: var(--ap-accent);
+      color: var(--ap-accent);
+    }
+    .ap-ve-zoom-readout {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ap-text-heading);
+      min-width: 46px;
+      text-align: center;
+    }
+
+    .ap-ve-canvas-viewport {
+      position: relative;
+      width: 100%;
+      height: 690px;
+      border-radius: 12px;
+      background-color: var(--ap-card-alt-bg);
+      background-image: radial-gradient(var(--ap-border-hover) 1px, transparent 1px);
+      background-size: 22px 22px;
+      border: 1px solid var(--ap-border-subtle);
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+    .ap-ve-canvas-viewport:active {
+      cursor: grabbing;
+    }
+    .ap-ve-canvas-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1450px;
+      height: 680px;
+      transform-origin: 0 0;
+      transition: transform 0.04s linear;
+    }
+    .ap-ve-svg-edges {
+      position: absolute;
+      inset: 0;
+      width: 1450px;
+      height: 680px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .ap-ve-nodes-layer {
+      position: absolute;
+      inset: 0;
+      width: 1450px;
+      height: 680px;
+      z-index: 2;
+    }
+    .ap-ve-node {
+      position: absolute;
+      width: 218px;
+      border-radius: 11px;
+      background: var(--ap-card-bg);
+      border: 1.5px solid var(--ap-border-subtle);
+      box-shadow: var(--ap-shadow-card);
+      padding: 10px 12px;
+      cursor: move;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+    .ap-ve-node:hover {
+      border-color: var(--ap-accent);
+      box-shadow: 0 10px 26px rgba(10, 108, 255, 0.25);
+    }
+    /* Node Output Video ngoài cùng bên trái nổi bật chuẩn Studio */
+    .ap-ve-node.node-output-final {
+      width: 228px;
+      border: 2px solid #10B981;
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.14) 0%, var(--ap-card-bg) 100%);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.22);
+    }
+    .ap-ve-node.node-input-source {
+      border-left: 4px solid #F59E0B;
+    }
+    .ap-ve-node.node-skill-step {
+      border-left: 4px solid var(--ap-accent);
+    }
+    .ap-ve-node.node-custom-added {
+      border-left: 4px solid #38BDF8;
+    }
+    .ap-ve-node-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .ap-ve-node-badge {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--ap-accent-soft);
+      color: var(--ap-accent);
+      text-transform: uppercase;
+    }
+    #viewHome[data-ap-theme="dark"] .ap-ve-node-badge {
+      color: #60A5FA;
+    }
+    .ap-ve-node.node-output-final .ap-ve-node-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10B981;
+    }
+    .ap-ve-node-title {
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--ap-text-heading);
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .ap-ve-node-meta {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--ap-text-secondary);
+      line-height: 1.35;
+    }
+    .ap-ve-node-Param {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ap-text-muted);
+      background: var(--ap-card-alt-bg);
+      padding: 3px 6px;
+      border-radius: 5px;
+      border: 1px solid var(--ap-border-subtle);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ap-ve-port-dot {
+      position: absolute;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ap-accent);
+      border: 2px solid #FFFFFF;
+      transform: translateY(-50%);
+    }
+    .ap-ve-port-dot.port-left { left: -6px; }
+    .ap-ve-port-dot.port-right { right: -6px; }
+    .ap-ve-node.node-output-final .ap-ve-port-dot {
+      background: #10B981;
+    }
+    .ap-ve-node-del-btn {
+      background: transparent;
+      border: none;
+      color: var(--ap-text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 0 3px;
+    }
+    .ap-ve-node-del-btn:hover {
+      color: #EF4444;
+    }
+
+    @media (max-width: 1240px) {
+      .ap-video-studio-grid {
+        grid-template-columns: 1fr;
+      }
+      .ap-ve-left-panel {
+        max-height: none;
+      }
+      .ap-ve-canvas-viewport {
+        height: 540px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -3012,11 +3444,15 @@
         <div class="ap-divider-line"></div>
       </div>
 
-      <!-- KHU VỰC KHOẢNG GIỮA SIDEBAR TRANG HOME: 7 NÚT SHORTCUT PHÒNG BAN CHUẨN HÓA -->
+      <!-- KHU VỰC KHOẢNG GIỮA SIDEBAR TRANG HOME: 8 NÚT SHORTCUT PHÒNG BAN CHUẨN HÓA (KÉO THẢ LƯU JSON) -->
       <div class="ap-sidebar-middle-zone">
         <div class="ap-sidebar-section-label">
           <span>PHÂN HỆ PHÒNG BAN</span>
-          <span id="sidebarVisibleDeptCountBadge">7/7</span>
+          <span id="sidebarVisibleDeptCountBadge">8/8</span>
+        </div>
+        <div class="ap-sidebar-drag-hint">
+          <span>Kéo thả sắp xếp thứ tự nút</span>
+          <button type="button" id="btnResetSidebarOrder" style="background:transparent;border:none;color:#60A5FA;font-size:10px;font-weight:700;cursor:pointer;padding:0;">Mặc định</button>
         </div>
         <nav class="ap-dept-nav-list" id="sidebarDeptNav"></nav>
       </div>
@@ -3081,6 +3517,7 @@
               <option value="MKT">Nhân sự Marketing (TT-MKT)</option>
               <option value="SALE">Cố vấn Dịch vụ &amp; Sale (CVDV)</option>
               <option value="TECH">Kỹ thuật viên &amp; Quản đốc (KTV)</option>
+              <option value="HR">Nhân sự &amp; Đào tạo (HR - AP Education)</option>
               <option value="INV">Thủ kho &amp; Mua hàng (SKU)</option>
               <option value="FIN">Kế toán &amp; Kiểm toán (KTNB)</option>
               <option value="OPS">Bảo vệ Cổng &amp; Ca trực (OPS)</option>
@@ -3381,6 +3818,308 @@
               </div>
             </div>
           </div>
+
+          <!-- THANH LIÊN KẾT GOOGLE SHEET BACKEND (SHEET TT-MKT & SHEET NHÂN SỰ CỘT M) -->
+          <div class="ap-backend-sheet-bar">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="ap-status-chip done">GOOGLE SHEET BACKEND SSOT</span>
+              <span style="font-size:12px;font-weight:600;color:var(--ap-text-heading);">Sheet <code style="font-family:var(--font-mono);">TT-MKT</code> (22 Cột Field Map) &amp; Sheet <code style="font-family:var(--font-mono);">Nhân sự / Staff</code> (Cột M Cá nhân hóa JSON):</span>
+              <a href="https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit" target="_blank" rel="noopener noreferrer" class="ap-backend-url-link" id="linkBackendSheetMkt">https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit</a>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-dark-glass" onclick="window.triggerInitBackendSheets()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <span>Khởi Tạo / Đồng Bộ Sheet TT-MKT &amp; Nhân Sự</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- =====================================================================
+               BẢNG EDIT VIDEO AI 7-SKILL & MIND-MAP SCHEMATIC CANVAS (#apVideoEditStudioPanel)
+               - Bên trái: Toàn bộ trường Input mặc định luồng Edit Video + Mã JSON thiết lập
+               - Bên phải: Canvas Mind-Map / Schematic Map có đường Line nối các bước,
+                 ngoài cùng bên trái là File Video Output, kéo thả thêm Node mới & Mouse Wheel Zoom
+               ===================================================================== -->
+          <div class="home-panel" id="apVideoEditStudioPanel">
+            <div class="panel-section-title">
+              <span class="panel-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                <span>BẢNG EDIT VIDEO AI (SKILL #0 → #7) &amp; MIND-MAP SCHEMATIC CANVAS — SHEET TT-MKT</span>
+              </span>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span class="char-badge">Field Map: TT_MKT_VIDEO_FIELD_MAP (Cột B → W)</span>
+                <button type="button" class="btn-dark-glass" id="btnSaveVideoProjectToBackend" onclick="window.saveVideoStudioProjectToSheet()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  <span>LƯU CẤU HÌNH VÀO SHEET TT-MKT</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="ap-video-studio-grid">
+              <!-- CỘT TRÁI: DANH SÁCH TẤT CẢ CÁC TRƯỜNG INPUT THIẾT LẬP MẶC ĐỊNH + MÃ JSON -->
+              <div class="ap-ve-left-panel" id="veLeftConfigPanel">
+                <!-- NHÓM 1: FILE VIDEO RAW, FILE VIDEO MẪU & TÊN DỰ ÁN -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>1. NGUỒN FILE VIDEO RAW &amp; VIDEO MẪU BENCHMARK</span>
+                    <span class="char-badge">URL / Local</span>
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veProjectName"><span>Tên Dự Án / Clip Viral</span><span>Col D</span></label>
+                    <input type="text" id="veProjectName" class="ap-ve-input" value="Reels Nâng Cấp Loa Focal K2 &amp; PPF Porsche 911" oninput="window.syncVideoFormToJson()" />
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veRawVideoInput"><span>File Video Raw (URL hoặc Đường dẫn Local)</span><span>Col F</span></label>
+                    <div class="ap-ve-file-row">
+                      <input type="text" id="veRawVideoInput" class="ap-ve-input mono" value="inputs/raw_videos/clip-content-doc.mp4" oninput="window.syncVideoFormToJson()" />
+                      <input type="file" id="filePickerRawVideo" accept="video/*" style="display:none;" onchange="window.handleLocalVideoFilePick('veRawVideoInput', this)" />
+                      <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerRawVideo').click()">Chọn File</button>
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veBenchmarkVideoInput"><span>File Video Mẫu Triệu View (URL hoặc Local)</span><span>Col G</span></label>
+                    <div class="ap-ve-file-row">
+                      <input type="text" id="veBenchmarkVideoInput" class="ap-ve-input mono" value="inputs/benchmark_videos/sample-viral-apcarcare.mp4" oninput="window.syncVideoFormToJson()" />
+                      <input type="file" id="filePickerBenchmarkVideo" accept="video/*" style="display:none;" onchange="window.handleLocalVideoFilePick('veBenchmarkVideoInput', this)" />
+                      <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerBenchmarkVideo').click()">Chọn Mẫu</button>
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veOutputVideoInput"><span>File Video Output 9:16 Full HD (Node Ngoài Cùng Trái)</span><span>Col H</span></label>
+                    <input type="text" id="veOutputVideoInput" class="ap-ve-input mono" value="outputs/final_videos/final_viral_short_v2.mp4" oninput="window.syncVideoFormToJson()" />
+                  </div>
+                </div>
+
+                <!-- NHÓM 2: LOẠI CLIP, NGÀNH HÀNG, ĐỘ TUỔI & CHẾ ĐỘ ÁP DỤNG STYLE (STY-00) -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>2. LOẠI CLIP, NGÀNH HÀNG &amp; CỜ STYLE (STY-00)</span>
+                    <span class="char-badge">Skill #0 &amp; #3</span>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veIndustryDomain"><span>Ngành Hàng</span><span>Col I</span></label>
+                      <select id="veIndustryDomain" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
+                        <option value="AUTOMOTIVE" selected>AUTOMOTIVE (Ô tô &amp; Detailing AP)</option>
+                        <option value="FASHION_APPAREL">FASHION_APPAREL (Thời trang)</option>
+                        <option value="FOOD_BEVERAGE_FNB">FOOD_BEVERAGE_FNB (Ẩm thực F&amp;B)</option>
+                        <option value="BEAUTY_COSMETICS">BEAUTY_COSMETICS (Mỹ phẩm &amp; Spa)</option>
+                        <option value="CONTENT_MONETIZATION">CONTENT_MONETIZATION (Sáng tạo số)</option>
+                        <option value="REAL_ESTATE_LIVING">REAL_ESTATE_LIVING (Bất động sản)</option>
+                        <option value="PERSONAL_BRANDING">PERSONAL_BRANDING (Thương hiệu cá nhân)</option>
+                      </select>
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veVideoGoal"><span>Loại Clip / Mục Tiêu</span><span>Col J</span></label>
+                      <select id="veVideoGoal" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
+                        <option value="COMMERCIAL_CONVERSION" selected>COMMERCIAL_CONVERSION (Chuyển đổi &amp; Đặt lịch)</option>
+                        <option value="BRAND_AWARENESS">BRAND_AWARENESS (Nhận diện Showroom)</option>
+                        <option value="VIRAL_MONETIZATION">VIRAL_MONETIZATION (Kéo tương tác Triệu View)</option>
+                        <option value="COMMUNITY_LIFESTYLE">COMMUNITY_LIFESTYLE (Đào tạo AP Education)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veTargetAudience"><span>Chân Dung Khán Giả</span><span>Col K</span></label>
+                      <select id="veTargetAudience" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
+                        <option value="MATURE_PREMIUM (28-55t - Chủ xe sang)" selected>MATURE_PREMIUM (28-55t • Chủ xe sang)</option>
+                        <option value="YOUNG_ADULT (23-35t)">YOUNG_ADULT (23-35t • Năng động)</option>
+                        <option value="GEN_Z (16-24t)">GEN_Z (16-24t • Nhịp cắt nhanh)</option>
+                        <option value="UNISEX_ALL">UNISEX_ALL (Đại chúng)</option>
+                      </select>
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veApplyStyleFlag"><span>Cờ --apply-style</span><span>Col L</span></label>
+                      <select id="veApplyStyleFlag" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
+                        <option value="all" selected>all (Áp dụng toàn bộ 8 nhóm Style)</option>
+                        <option value="edit-only">edit-only (Chỉ cắt khoảng lặng &amp; ghép B-Roll)</option>
+                        <option value="sub,color,sfx,hook,title,broll,bgm,cta">Tùy chọn: sub,color,sfx,hook,title,broll,bgm,cta</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- NHÓM 3: TONE MÀU SHOWROOM, TƯƠNG PHẢN & KHỬ NHIỄU 3D (SKILL #5 - STY-08 & STY-09) -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>3. TONE MÀU, ĐỘ NÉT &amp; KHỬ HẠT 3D (SKILL #5)</span>
+                    <span class="char-badge">Col M &amp; N</span>
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veColorPreset"><span>Preset Tone Màu Chủ Đạo</span><span>STY-08</span></label>
+                    <select id="veColorPreset" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
+                      <option value="AUTOMOTIVE_SHOWROOM_HDR" selected>AUTOMOTIVE_SHOWROOM_HDR (Sơn Bóng Sâu &amp; Nội Thất Nét)</option>
+                      <option value="PORSCHE_CARBON_COBALT">PORSCHE_CARBON_COBALT (Đen Piano &amp; Xanh Cobalt CEO Anh Lộc)</option>
+                      <option value="FOCAL_WARM_GOLD">FOCAL_WARM_GOLD (Tone Vàng Âm Thanh Hi-End Ấm)</option>
+                      <option value="PLATINUM_LAB_CLEAN">PLATINUM_LAB_CLEAN (Trắng Phòng Lab Sạch &amp; Rõ Vân Da)</option>
+                    </select>
+                  </div>
+                  <div class="ap-ve-field-grid3">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veColorContrast"><span>Contrast</span></label>
+                      <input type="text" id="veColorContrast" class="ap-ve-input mono" value="1.07" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veColorSaturation"><span>Saturation</span></label>
+                      <input type="text" id="veColorSaturation" class="ap-ve-input mono" value="1.12" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veColorBrightness"><span>Brightness</span></label>
+                      <input type="text" id="veColorBrightness" class="ap-ve-input mono" value="0.015" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veLumaSharpness"><span>Luma Sharpness (unsharp)</span></label>
+                      <input type="text" id="veLumaSharpness" class="ap-ve-input mono" value="0.75 (Nét chi tiết sơn/da)" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veDenoise3D"><span>Khử nhiễu 3D (hqdn3d)</span></label>
+                      <input type="text" id="veDenoise3D" class="ap-ve-input mono" value="hqdn3d=1.5:1.5:6:6" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- NHÓM 4: NHỊP CẮT ASL, SILENCE CUT & HOOK 3S CẢM XÚC FACS (SKILL #1 & #2) -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>4. NHỊP CẮT ASL, SILENCE CUT &amp; HOOK 3S (SKILL #1 &amp; #2)</span>
+                    <span class="char-badge">Col O &amp; P</span>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veTargetDuration"><span>Thời Lượng &amp; Nhịp Cắt</span></label>
+                      <input type="text" id="veTargetDuration" class="ap-ve-input mono" value="60-90s • 16 cuts/min (ASL 3.6s)" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veSilenceCut"><span>Cắt Khoảng Lặng (silencedetect)</span></label>
+                      <input type="text" id="veSilenceCut" class="ap-ve-input mono" value="-30dB / min 0.4s (Khử ậm ờ)" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veHookWindowSec"><span>Hook 3 Giây Đầu &amp; FACS</span></label>
+                      <input type="text" id="veHookWindowSec" class="ap-ve-input mono" value="Cửa sổ 3.5s • FACS >= 80 điểm" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="vePunchInZoom"><span>Zoom Cao Trào &amp; Slow-Mo</span></label>
+                      <input type="text" id="vePunchInZoom" class="ap-ve-input mono" value="Zoom 118% + Replay 0.72x" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- NHÓM 5: PHỤ ĐỀ KHÍT 1PX, HỘP TIÊU ĐỀ H1-H3 & B-ROLL 45% (SKILL #4 & #6) -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>5. PHỤ ĐỀ KHÍT 1PX, H1/H2/H3 &amp; B-ROLL (SKILL #4 &amp; #6)</span>
+                    <span class="char-badge">Col Q &amp; R</span>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veSubtitleConfig"><span>Phụ Đề Chuẩn UTF-8</span></label>
+                      <input type="text" id="veSubtitleConfig" class="ap-ve-input mono" value="Size 40 • Khít dòng 1px • Trễ 4.0s" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veTitleBoxStyle"><span>Hộp Tiêu Đề H1/H2/H3 &amp; Safe Zone</span></label>
+                      <input type="text" id="veTitleBoxStyle" class="ap-ve-input mono" value="H1 Đỏ@0.92 + Vàng • Top 90/Bot 280px" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veBrollConfig"><span>Tỷ Lệ B-Roll Minh Chứng &amp; Khóa Né Tay Chỉ Sản Phẩm</span></label>
+                    <input type="text" id="veBrollConfig" class="ap-ve-input mono" value="B-Roll 45% • Trễ 1.8s • Cửa sổ 2.8s • Deictic Guard: ON" oninput="window.syncVideoFormToJson()" />
+                  </div>
+                </div>
+
+                <!-- NHÓM 6: ÂM THANH ĐA TẦNG, BGM DUCKING (-22dB), SFX QUẠ HD & OFFER CTA (SKILL #7) -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>6. BGM DUCKING (-22dB), 4 NHÓM SFX HD &amp; CTA (SKILL #7)</span>
+                    <span class="char-badge">Col S &amp; T</span>
+                  </div>
+                  <div class="ap-ve-field-grid2">
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veBgmConfig"><span>Nhạc Nền BGM &amp; Ducking</span></label>
+                      <input type="text" id="veBgmConfig" class="ap-ve-input mono" value="dance remix 1.mp3 • Ducking 0.08 (-22dB)" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                    <div class="ap-ve-field-row">
+                      <label class="ap-ve-label" for="veSfxConfig"><span>4 Nhóm SFX HD (44.1kHz)</span></label>
+                      <input type="text" id="veSfxConfig" class="ap-ve-input mono" value="Whoosh + Boom + Crow/Pop + Ding (0.35)" oninput="window.syncVideoFormToJson()" />
+                    </div>
+                  </div>
+                  <div class="ap-ve-field-row">
+                    <label class="ap-ve-label" for="veCtaConfig"><span>Lời Chào Hàng Offer &amp; Banner CTA Cuối Video</span></label>
+                    <input type="text" id="veCtaConfig" class="ap-ve-input" value="LIÊN HỆ AP CAR CARE NGAY - CHỈ CÒN 9 SUẤT ƯU ĐÃI!" oninput="window.syncVideoFormToJson()" />
+                  </div>
+                </div>
+
+                <!-- NHÓM 7: MÃ JSON CÁC THIẾT LẬP (PROJECT_EDL.JSON / TT-MKT FIELD MAP) -->
+                <div class="ap-ve-group-box">
+                  <div class="ap-ve-group-title">
+                    <span>7. MÃ JSON CÁC THIẾT LẬP (LIVE SYNC 2 CHIỀU)</span>
+                    <button type="button" class="btn-quick-tag" onclick="window.copyVideoStudioJson()">Copy JSON</button>
+                  </div>
+                  <textarea id="veFullConfigJsonTextarea" class="ap-ve-json-textarea" spellcheck="false" oninput="window.applyJsonTextareaToVideoStudio()"></textarea>
+                </div>
+              </div>
+
+              <!-- CỘT PHẢI: CANVAS MIND-MAP / SCHEMATIC MAP (NGOÀI CÙNG BÊN TRÁI LÀ FILE VIDEO OUTPUT + MOUSE WHEEL ZOOM + DRAG NODE) -->
+              <div class="ap-ve-canvas-wrap">
+                <div class="ap-ve-canvas-toolbar">
+                  <div class="ap-ve-palette-list">
+                    <span style="font-size:11px;font-weight:700;color:var(--ap-text-muted);text-transform:uppercase;margin-right:4px;">Kéo thả / Bấm thêm Node mới:</span>
+                    <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'BROLL')" onclick="window.addCustomVideoNodeToCanvas('BROLL')">
+                      <span>+ Node B-Roll Cận Cảnh</span>
+                    </button>
+                    <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'SFX')" onclick="window.addCustomVideoNodeToCanvas('SFX')">
+                      <span>+ Node Hiệu Ứng SFX</span>
+                    </button>
+                    <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'HOOK')" onclick="window.addCustomVideoNodeToCanvas('HOOK')">
+                      <span>+ Node Hook / Slow-Mo</span>
+                    </button>
+                    <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'COLOR')" onclick="window.addCustomVideoNodeToCanvas('COLOR')">
+                      <span>+ Node Tone Màu LUT</span>
+                    </button>
+                    <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'CUSTOM')" onclick="window.addCustomVideoNodeToCanvas('CUSTOM')">
+                      <span>+ Node Tùy Chỉnh</span>
+                    </button>
+                  </div>
+
+                  <div class="ap-ve-zoom-controls" title="Lăn con lăn chuột (Mouse Wheel) trên Canvas để Zoom In / Zoom Out">
+                    <button type="button" class="ap-ve-zoom-btn" id="btnVeZoomOut" onclick="window.adjustVideoCanvasZoom(-0.12)">-</button>
+                    <span class="ap-ve-zoom-readout" id="veZoomPercentLabel">92%</span>
+                    <button type="button" class="ap-ve-zoom-btn" id="btnVeZoomIn" onclick="window.adjustVideoCanvasZoom(0.12)">+</button>
+                    <button type="button" class="btn-quick-tag" id="btnVeZoomReset" onclick="window.resetVideoCanvasView()" style="padding:3px 8px;font-size:10.5px;">Reset</button>
+                  </div>
+                </div>
+
+                <!-- KHUNG CANVAS LÀM VIỆC EDIT VIDEO (HỖ TRỢ LĂN CHUỘT WHEEL ZOOM & KÉO THẢ NODE) -->
+                <div class="ap-ve-canvas-viewport" id="veSchematicCanvasViewport">
+                  <div class="ap-ve-canvas-stage" id="veCanvasTransformStage">
+                    <svg class="ap-ve-svg-edges" id="veCanvasSvgEdges" viewBox="0 0 1450 680" preserveAspectRatio="none"></svg>
+                    <div class="ap-ve-nodes-layer" id="veCanvasNodesLayer"></div>
+                  </div>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--ap-text-muted);flex-wrap:wrap;gap:8px;">
+                  <span>Hướng dẫn: <strong>Ngoài cùng bên trái là Node File Video Output 9:16</strong> • Kéo thả bất kỳ Node nào để di chuyển • Lăn chuột (Mouse Wheel) để Zoom In / Zoom Out toàn bộ Canvas.</span>
+                  <span id="veCanvasStatusToast" style="color:var(--ap-accent);font-weight:600;">Đã đồng bộ sơ đồ 9 Nodes &amp; JSON</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BẢNG DỮ LIỆU CÁC DỰ ÁN EDIT VIDEO ĐÃ LƯU TRONG SHEET TT-MKT Ở BACKEND -->
+          <div class="home-panel">
+            <div class="panel-section-title">
+              <span class="panel-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+                <span>DANH SÁCH DỰ ÁN EDIT VIDEO LƯU TẠI SHEET "TT-MKT" BACKEND (HEADER DÒNG 10 • DATA DÒNG 12+)</span>
+              </span>
+              <span class="char-badge">Đồng bộ trực tiếp với Google Sheet TT-MKT</span>
+            </div>
+            <div class="ap-table-wrap" id="tableContainerTtMktVideos"></div>
+          </div>
         </section>
 
         <!-- =====================================================================
@@ -3535,6 +4274,104 @@
               <span class="char-badge">Đã ẩn SĐT Khách theo Hiến pháp 3D</span>
             </div>
             <div class="ap-table-wrap" id="tableContainerOrders"></div>
+          </div>
+        </section>
+
+        <!-- =====================================================================
+             5. PHÒNG HR - ĐÀO TẠO (DEPT_HR — ĐẶT Ở GIỮA CÁC PHÒNG BAN)
+             - Quản lý Nhân sự 6 Tầng & Học viện AP Education
+             - Hiển thị Cột M "Cá nhân hóa UI (JSON)" cho từng User tại Sheet Nhân sự
+             ===================================================================== -->
+        <section class="ap-dept-pane" id="pane_DEPT_HR">
+          <div class="ap-dept-hero">
+            <div>
+              <div class="home-tag-pill">
+                <span class="home-tag-dot"></span>
+                GĐ NHÂN SỰ TĂNG TRÍ ĐỨC &amp; TP ĐÀO TẠO CÔNG TÂY • NHÂN SỰ 6 TẦNG &amp; HỌC VIỆN AP EDUCATION
+              </div>
+              <h1 class="home-title">PHÒNG HR - ĐÀO TẠO, KPI HOA HỒNG &amp; CÁ NHÂN HÓA GIAO DIỆN USER</h1>
+            </div>
+            <button type="button" class="btn-dark-glass" id="btnAddSampleStaffHr">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Tiếp Nhận Nhân Sự / Học Viên Mới</span>
+            </button>
+          </div>
+
+          <!-- THANH LIÊN KẾT GOOGLE SHEET BACKEND (SHEET NHÂN SỰ / STAFF - CỘT M CÁ NHÂN HÓA JSON) -->
+          <div class="ap-backend-sheet-bar">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="ap-status-chip done">SHEET NHÂN SỰ (STAFF) — CỘT M</span>
+              <span style="font-size:12px;font-weight:600;color:var(--ap-text-heading);">URL Google Sheet Backend lưu Cột M <code style="font-family:var(--font-mono);">Cá nhân hóa UI (JSON)</code> cho từng User:</span>
+              <a href="https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit" target="_blank" rel="noopener noreferrer" class="ap-backend-url-link" id="linkBackendSheetHr">https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit</a>
+            </div>
+            <button type="button" class="btn-dark-glass" onclick="window.saveCurrentUserSidebarPersonalizationToBackend(true)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              <span>Đồng Bộ JSON Cá Nhân Hóa Lên Sheet Nhân Sự</span>
+            </button>
+          </div>
+
+          <div class="ap-kpi-grid">
+            <div class="ap-kpi-card">
+              <div class="ap-kpi-title">TỔNG NHÂN SỰ 6 TẦNG</div>
+              <div class="ap-kpi-value" id="kpiHrTotalStaff">34 Nhân Sự</div>
+              <div class="ap-kpi-sub">Tân Phú • Quận 7 • Trụ sở</div>
+            </div>
+            <div class="ap-kpi-card">
+              <div class="ap-kpi-title">HỌC VIÊN AP EDUCATION (TẦNG 1)</div>
+              <div class="ap-kpi-value">16 Học Viên</div>
+              <div class="ap-kpi-sub">Đào tạo Detailing &amp; Âm thanh Focal</div>
+            </div>
+            <div class="ap-kpi-card">
+              <div class="ap-kpi-title">TỶ LỆ ĐẠT KPI &amp; TAY NGHỀ</div>
+              <div class="ap-kpi-value">96.2%</div>
+              <div class="ap-kpi-sub">Tự động tính hoa hồng theo RO</div>
+            </div>
+            <div class="ap-kpi-card">
+              <div class="ap-kpi-title">CỘT CÁ NHÂN HÓA UI (COL M)</div>
+              <div class="ap-kpi-value" style="color:#10B981;">Đang Bật</div>
+              <div class="ap-kpi-sub">Tự động lưu khi kéo thả Sidebar</div>
+            </div>
+          </div>
+
+          <div class="ap-ai-insight-strip">
+            <div class="ap-ai-left">
+              <div class="ap-ai-orb">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div class="ap-ai-meta">
+                <div class="ap-ai-badge-row">
+                  <span class="ap-ai-source-tag">AI HR &amp; AP EDUCATION • ĐÁNH GIÁ TAY NGHỀ &amp; CÁ NHÂN HÓA WORKSPACE</span>
+                  <span class="ap-ai-confidence">Độ tin cậy: 95%</span>
+                </div>
+                <div class="ap-ai-headline">Nhóm 8 Học viên Khóa K18 (Tân Phú) đã hoàn thành 100% bài thi Hiệu chỉnh sơn 3 bước — Đề xuất cấp chứng chỉ Detailing Bậc 1 và nâng bậc phụ cấp.</div>
+              </div>
+            </div>
+            <button type="button" class="btn-dark-glass" onclick="window.approveAiRecommendation('DEPT_HR', 'Duyệt cấp chứng chỉ Detailing Bậc 1 cho 8 Học viên Khóa K18 AP Education')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>DUYỆT CẤP CHỨNG CHỈ AP</span>
+            </button>
+          </div>
+
+          <div class="home-panel">
+            <div class="panel-section-title">
+              <span class="panel-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                <span>BẢNG NHÂN SỰ 6 TẦNG &amp; CỘT M "CÁ NHÂN HÓA UI (JSON)" TRÊN SHEET NHÂN SỰ (STAFF)</span>
+              </span>
+              <span class="char-badge">Cột M: uiPersonalizationJson (Lưu thứ tự Sidebar &amp; Theme từng User)</span>
+            </div>
+            <div class="ap-table-wrap" id="tableContainerStaffHr"></div>
+          </div>
+
+          <div class="home-panel">
+            <div class="panel-section-title">
+              <span class="panel-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                <span>CHƯƠNG TRÌNH ĐÀO TẠO THỰC CHIẾN — HỌC VIỆN AP EDUCATION (HỌC VIÊN TẦNG 1)</span>
+              </span>
+              <span class="char-badge">16 Học viên đang thực hành</span>
+            </div>
+            <div class="ap-table-wrap" id="tableContainerAcademyHr"></div>
           </div>
         </section>
 
@@ -3826,12 +4663,25 @@
             </button>
           </div>
 
-          <!-- BẢNG 1: BẬT/TẮT TOGGLE ON/OFF & DROPDOWN MULTISELECT PHÂN QUYỀN 7 PHÒNG BAN -->
+          <!-- BẢNG 0: ĐƯỜNG LINK URL GOOGLE SHEET BACKEND (SSOT NHÂN SỰ CỘT M & SHEET TT-MKT) -->
+          <div class="ap-backend-sheet-bar">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="ap-status-chip done">GOOGLE SHEET BACKEND URL</span>
+              <span style="font-size:12px;font-weight:600;color:var(--ap-text-heading);">Master Database (Sheet <code style="font-family:var(--font-mono);">Nhân sự / Staff</code> Cột M Cá nhân hóa JSON &amp; Sheet <code style="font-family:var(--font-mono);">TT-MKT</code>):</span>
+              <a href="https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit" target="_blank" rel="noopener noreferrer" class="ap-backend-url-link" id="linkBackendSheetSettings">https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit</a>
+            </div>
+            <button type="button" class="btn-dark-glass" onclick="window.triggerInitBackendSheets()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Khởi Tạo Cột M (Nhân Sự) &amp; Sheet TT-MKT</span>
+            </button>
+          </div>
+
+          <!-- BẢNG 1: BẬT/TẮT TOGGLE ON/OFF & DROPDOWN MULTISELECT PHÂN QUYỀN 8 PHÒNG BAN -->
           <div class="home-panel">
             <div class="panel-section-title">
               <span class="panel-label">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                <span>BẬT / TẮT (TOGGLE ON/OFF) &amp; DROPDOWN MULTISELECT PHÂN QUYỀN 7 SECTION PHÒNG BAN</span>
+                <span>BẬT / TẮT (TOGGLE ON/OFF) &amp; DROPDOWN MULTISELECT PHÂN QUYỀN 8 SECTION PHÒNG BAN</span>
               </span>
               <span class="char-badge">Tắt Toggle sẽ ẩn ngay nút Shortcut ở Sidebar Trang Home</span>
             </div>
@@ -3990,9 +4840,11 @@
         megaphone: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>',
         handshake: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>',
         wrench: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>',
+        users: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
         box: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>',
         wallet: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>',
         shield: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>',
+        grip: '<svg width="12" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>',
         settings: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
         sun: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>',
         moon: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>',
@@ -4005,8 +4857,11 @@
       }
 
       /* =========================================================================
-         1. KHO DỮ LIỆU KHỞI TẠO & CẤU HÌNH PHÂN QUYỀN 7 PHÒNG BAN CHUẨN SME OS
+         1. KHO DỮ LIỆU KHỞI TẠO & CẤU HÌNH PHÂN QUYỀN 8 PHÒNG BAN CHUẨN SME OS
+         (Đã bổ sung Phòng HR - Đào Tạo ở giữa & tính năng Kéo thả lưu JSON vào Cột M Sheet Nhân sự)
          ========================================================================= */
+      var BACKEND_SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit';
+
       var FAVORITE_COLORS = [
         { hex: '#0A6CFF', name: 'AP Cobalt Blue' },
         { hex: '#38BDF8', name: 'Ice Cyan' },
@@ -4024,26 +4879,29 @@
         { code: 'MKT',       label: 'Nhân sự Marketing (TT-MKT)' },
         { code: 'SALE',      label: 'Cố vấn Dịch vụ & Sale (CVDV)' },
         { code: 'TECH',      label: 'Kỹ thuật viên & Quản đốc (KTV)' },
+        { code: 'HR',        label: 'Nhân sự & Đào tạo (HR - AP Education)' },
         { code: 'INV',       label: 'Thủ kho & Mua hàng (SKU)' },
         { code: 'FIN',       label: 'Kế toán & Kiểm toán (KTNB)' },
         { code: 'OPS',       label: 'Bảo vệ Cổng & Ca trực (OPS)' }
       ];
 
       var DEFAULT_DEPT_ACCESS_MATRIX = [
-        { deptId: 'DEPT_CEO',  code: 'CEO',  name: 'Ban Giám Đốc',        subLabel: 'Điều hành & Phê duyệt AI',   icon: 'crown',     enabled: true, allowedRoles: ['ADMIN_CEO'] },
-        { deptId: 'DEPT_MKT',  code: 'MKT',  name: 'Phòng Marketing',     subLabel: 'Chiến dịch, ROAS & Đa kênh', icon: 'megaphone', enabled: true, allowedRoles: ['ADMIN_CEO', 'MKT'] },
-        { deptId: 'DEPT_SALE', code: 'SALE', name: 'Kinh Doanh & CSKH',   subLabel: 'Phễu Khách 360° & Đặt lịch', icon: 'handshake', enabled: true, allowedRoles: ['ADMIN_CEO', 'SALE', 'MKT'] },
-        { deptId: 'DEPT_TECH', code: 'TECH', name: 'Kỹ Thuật & Xưởng',    subLabel: 'Khoang xe & Lệnh RO',        icon: 'wrench',    enabled: true, allowedRoles: ['ADMIN_CEO', 'TECH', 'SALE'] },
-        { deptId: 'DEPT_INV',  code: 'KHO',  name: 'Kho & Mua Hàng',      subLabel: 'Tồn kho & Vật tư Focal',     icon: 'box',       enabled: true, allowedRoles: ['ADMIN_CEO', 'INV', 'TECH', 'FIN'] },
-        { deptId: 'DEPT_FIN',  code: 'FIN',  name: 'Kế Toán & Tài Chính', subLabel: 'Đối soát & Sổ quỹ',          icon: 'wallet',    enabled: true, allowedRoles: ['ADMIN_CEO', 'FIN'] },
-        { deptId: 'DEPT_OPS',  code: 'OPS',  name: 'Bảo Vệ & Ca Trực',    subLabel: 'Cổng xe 10s & Checklist',    icon: 'shield',    enabled: true, allowedRoles: ['ADMIN_CEO', 'OPS', 'TECH', 'SALE'] }
+        { deptId: 'DEPT_CEO',  code: 'CEO',   name: 'Ban Giám Đốc',        subLabel: 'Điều hành & Phê duyệt AI',     icon: 'crown',     enabled: true, allowedRoles: ['ADMIN_CEO'] },
+        { deptId: 'DEPT_MKT',  code: 'TT-MKT',name: 'Phòng TT - MKT',      subLabel: 'Edit Video AI, ROAS & Đa kênh',icon: 'megaphone', enabled: true, allowedRoles: ['ADMIN_CEO', 'MKT'] },
+        { deptId: 'DEPT_SALE', code: 'SALE',  name: 'Kinh Doanh & CSKH',   subLabel: 'Phễu Khách 360° & Đặt lịch',   icon: 'handshake', enabled: true, allowedRoles: ['ADMIN_CEO', 'SALE', 'MKT'] },
+        { deptId: 'DEPT_TECH', code: 'TECH',  name: 'Kỹ Thuật & Xưởng',    subLabel: 'Khoang xe & Lệnh RO',          icon: 'wrench',    enabled: true, allowedRoles: ['ADMIN_CEO', 'TECH', 'SALE'] },
+        { deptId: 'DEPT_HR',   code: 'HR-ĐT', name: 'Phòng HR - Đào Tạo',  subLabel: 'Nhân sự 6 tầng & Học viện AP', icon: 'users',     enabled: true, allowedRoles: ['ADMIN_CEO', 'HR', 'MKT', 'TECH', 'SALE', 'FIN'] },
+        { deptId: 'DEPT_INV',  code: 'KHO',   name: 'Kho & Mua Hàng',      subLabel: 'Tồn kho & Vật tư Focal',       icon: 'box',       enabled: true, allowedRoles: ['ADMIN_CEO', 'INV', 'TECH', 'FIN'] },
+        { deptId: 'DEPT_FIN',  code: 'FIN',   name: 'Kế Toán & Tài Chính', subLabel: 'Đối soát & Sổ quỹ',            icon: 'wallet',    enabled: true, allowedRoles: ['ADMIN_CEO', 'FIN'] },
+        { deptId: 'DEPT_OPS',  code: 'OPS',   name: 'Bảo Vệ & Ca Trực',    subLabel: 'Cổng xe 10s & Checklist',      icon: 'shield',    enabled: true, allowedRoles: ['ADMIN_CEO', 'OPS', 'TECH', 'SALE', 'HR'] }
       ];
 
       var DEPT_TITLES_MAP = {
         'DEPT_CEO':  'BAN GIÁM ĐỐC & PHÊ DUYỆT CHIẾN LƯỢC',
-        'DEPT_MKT':  'PHÒNG MARKETING & CHIẾN DỊCH ĐA KÊNH',
+        'DEPT_MKT':  'PHÒNG TT - MKT, BẢNG EDIT VIDEO AI & ĐA KÊNH',
         'DEPT_SALE': 'PHÒNG KINH DOANH, CSKH & ĐẶT LỊCH HẸN',
         'DEPT_TECH': 'PHÒNG KỸ THUẬT, KHOANG XE & LỆNH RO',
+        'DEPT_HR':   'PHÒNG HR - ĐÀO TẠO & CÁ NHÂN HÓA NHÂN SỰ',
         'DEPT_INV':  'PHÒNG KHO, VẬT TƯ & ĐỒNG BỘ HARAVAN SKU',
         'DEPT_FIN':  'PHÒNG KẾ TOÁN, SỔ QUỸ & KIỂM TOÁN NỘI BỘ',
         'DEPT_OPS':  'BẢO VỆ CỔNG XE 10 GIÂY & CA TRỰC',
@@ -4114,12 +4972,42 @@
             { id: 'PC-2610-01', txDate: '2026-10-24', branch: 'Trụ sở',  txType: 'CHI', category: 'Nhập lô Loa Focal Pháp & Vật tư 3M',    amount: '145.000.000 đ', paymentMethod: 'Ủy nhiệm chi',     auditor: 'Kế Toán Trưởng', auditStatus: 'Đã đối soát KTNB' }
           ],
           Staff: [
-            { id: 'NV-601', name: 'CHỦ TỊCH HĐQT', orgFloor: 'Tầng 6', department: 'Ban Giám Đốc', subUnit: 'Hội Đồng Quản Trị', role: 'Chủ tịch HĐQT', phone: '0909000001', status: 'Đang trực ca' },
-            { id: 'NV-501', name: 'ANH LỘC (CEO)', orgFloor: 'Tầng 5', department: 'Ban Giám Đốc', subUnit: 'Giám Đốc Điều Hành (CEO)', role: 'CEO', phone: '0909000002', status: 'Đang trực ca' },
-            { id: 'NV-401', name: 'TĂNG TRÍ ĐỨC',  orgFloor: 'Tầng 4', department: 'Phòng Marketing', subUnit: 'Giám Đốc Marketing & Nhân Sự', role: 'Giám đốc Khối', phone: '0909123456', status: 'Đang trực ca' },
-            { id: 'NV-402', name: 'CÔNG TÂY',      orgFloor: 'Tầng 4', department: 'Kỹ Thuật & Xưởng', subUnit: 'Giám Đốc Dịch Vụ & Đào Tạo', role: 'Giám đốc Khối', phone: '0909222333', status: 'Đang trực ca' },
-            { id: 'NV-201', name: 'HOÀNG LONG & HOÀNG MINH', orgFloor: 'Tầng 2', department: 'Kinh Doanh & CSKH', subUnit: 'Cố Vấn Dịch Vụ (CVDV Tân Phú & Q7)', role: 'CVDV', phone: '0909666777', status: 'Đang trực ca' },
-            { id: 'NV-202', name: 'NGỌC TÚ & NGỌC LỄ', orgFloor: 'Tầng 2', department: 'Kỹ Thuật & Xưởng', subUnit: 'Quản Đốc Xưởng (Tân Phú & Q7)', role: 'Quản đốc', phone: '0909888999', status: 'Đang trực ca' }
+            { id: 'NV-601', name: 'CHỦ TỊCH HĐQT', orgFloor: 'Tầng 6', department: 'Ban Giám Đốc', subUnit: 'Hội Đồng Quản Trị', role: 'Chủ tịch HĐQT', phone: '0909000001', status: 'Đang trực ca', uiPersonalizationJson: '{"sidebarOrder":["DEPT_CEO","DEPT_MKT","DEPT_SALE","DEPT_TECH","DEPT_HR","DEPT_INV","DEPT_FIN","DEPT_OPS"],"themeMode":"dark"}' },
+            { id: 'NV-501', name: 'ANH LỘC (CEO)', orgFloor: 'Tầng 5', department: 'Ban Giám Đốc', subUnit: 'Giám Đốc Điều Hành (CEO)', role: 'CEO', phone: '0909000002', status: 'Đang trực ca', uiPersonalizationJson: '{"sidebarOrder":["DEPT_CEO","DEPT_MKT","DEPT_SALE","DEPT_TECH","DEPT_HR","DEPT_INV","DEPT_FIN","DEPT_OPS"],"themeMode":"dark"}' },
+            { id: 'NV-401', name: 'TĂNG TRÍ ĐỨC',  orgFloor: 'Tầng 4', department: 'Phòng TT - MKT & HR', subUnit: 'Giám Đốc Marketing & Nhân Sự', role: 'Giám đốc Khối', phone: '0909123456', status: 'Đang trực ca', uiPersonalizationJson: '{"sidebarOrder":["DEPT_CEO","DEPT_MKT","DEPT_SALE","DEPT_TECH","DEPT_HR","DEPT_INV","DEPT_FIN","DEPT_OPS"],"themeMode":"dark"}' },
+            { id: 'NV-402', name: 'CÔNG TÂY',      orgFloor: 'Tầng 4', department: 'Kỹ Thuật & Đào Tạo', subUnit: 'Giám Đốc Dịch Vụ & Đào Tạo', role: 'Giám đốc Khối', phone: '0909222333', status: 'Đang trực ca', uiPersonalizationJson: '{"sidebarOrder":["DEPT_TECH","DEPT_HR","DEPT_INV","DEPT_SALE","DEPT_CEO","DEPT_MKT","DEPT_FIN","DEPT_OPS"],"themeMode":"dark"}' },
+            { id: 'NV-201', name: 'HOÀNG LONG & HOÀNG MINH', orgFloor: 'Tầng 2', department: 'Kinh Doanh & CSKH', subUnit: 'Cố Vấn Dịch Vụ (CVDV Tân Phú & Q7)', role: 'CVDV', phone: '0909666777', status: 'Đang trực ca', uiPersonalizationJson: '{"sidebarOrder":["DEPT_SALE","DEPT_TECH","DEPT_HR","DEPT_MKT","DEPT_OPS"],"themeMode":"dark"}' },
+            { id: 'NV-202', name: 'NGỌC TÚ & NGỌC LỄ', orgFloor: 'Tầng 2', department: 'Kỹ Thuật & Xưởng', subUnit: 'Quản Đốc Xưởng (Tân Phú & Q7)', role: 'Quản đốc', phone: '0909888999', status: 'Đang trực ca', uiPersonalizationJson: '{"sidebarOrder":["DEPT_TECH","DEPT_HR","DEPT_INV","DEPT_SALE","DEPT_OPS"],"themeMode":"dark"}' }
+          ],
+          TT_MKT: [
+            {
+              id: 'VID-2610-01',
+              createdAt: '24/10/2026 21:45',
+              projectName: 'Reels Nâng Cấp Loa Focal K2 & PPF Porsche 911',
+              author: 'Tăng Trí Đức',
+              rawVideoSource: 'inputs/raw_videos/clip-content-doc.mp4',
+              benchmarkVideoSource: 'inputs/benchmark_videos/sample-viral-apcarcare.mp4',
+              outputVideoUrl: 'outputs/final_videos/final_viral_short_v2.mp4',
+              industryDomain: 'AUTOMOTIVE',
+              videoGoal: 'COMMERCIAL_CONVERSION',
+              colorPreset: 'AUTOMOTIVE_SHOWROOM_HDR',
+              applyStyleFlag: 'all',
+              status: 'Đã xuất bản 9:16 Full HD'
+            },
+            {
+              id: 'VID-2610-02',
+              createdAt: '24/10/2026 19:20',
+              projectName: 'Quy Trình Hiệu Chỉnh Sơn 3 Bước & Phủ Ceramic Pro 9H',
+              author: 'Tăng Trí Đức',
+              rawVideoSource: 'inputs/raw_videos/ceramic-porsche-macan.mp4',
+              benchmarkVideoSource: 'inputs/benchmark_videos/sample-detailing-lab.mp4',
+              outputVideoUrl: 'outputs/final_videos/ceramic_pro_9h_short.mp4',
+              industryDomain: 'AUTOMOTIVE',
+              videoGoal: 'BRAND_AWARENESS',
+              colorPreset: 'PORSCHE_CARBON_COBALT',
+              applyStyleFlag: 'all',
+              status: 'Đã lưu cấu hình Sheet TT-MKT'
+            }
           ],
           Tasks: [
             { id: 'HV-2601', name: 'Thực hành hiệu chỉnh bề mặt sơn 3 bước & Phủ Ceramic', assignee: 'Nhóm 8 Học viên Khóa K18 (Tân Phú)', deadline: '2026-10-28', kpiReward: 'Chứng chỉ Detailing Bậc 1', status: 'Đang thực hành' },
@@ -4198,7 +5086,13 @@
             var savedAcl = localStorage.getItem('apDeptAccessMatrixV5');
             if (savedAcl) {
               var parsedAcl = JSON.parse(savedAcl);
-              if (Array.isArray(parsedAcl) && parsedAcl.length === 7) {
+              if (Array.isArray(parsedAcl) && parsedAcl.length >= 7) {
+                // Tự động chèn DEPT_HR vào giữa nếu cache cũ chỉ có 7 phòng ban
+                var hasHr = parsedAcl.some(function (item) { return item.deptId === 'DEPT_HR'; });
+                if (!hasHr) {
+                  var hrDefault = DEFAULT_DEPT_ACCESS_MATRIX[4];
+                  parsedAcl.splice(4, 0, JSON.parse(JSON.stringify(hrDefault)));
+                }
                 this.state.deptAccessConfig = parsedAcl;
               }
             }
@@ -4206,18 +5100,29 @@
             if (savedThemeMode === 'light' || savedThemeMode === 'dark') {
               this.state.activeThemeMode = savedThemeMode;
             }
+            // Khôi phục thứ tự nút Sidebar từ JSON Cá nhân hóa của User hiện tại
+            var userPrefRaw = localStorage.getItem('apUserPersonalizationV5_' + (this.state.currentUser.username || 'DUC').toUpperCase());
+            if (userPrefRaw) {
+              var userPref = JSON.parse(userPrefRaw);
+              if (userPref && Array.isArray(userPref.sidebarOrder) && userPref.sidebarOrder.length) {
+                applySavedSidebarOrderToConfig(userPref.sidebarOrder);
+              }
+            }
           } catch (e) {}
 
           this.applyThemeModeToDOM(this.state.activeThemeMode);
           this.renderAll();
+          if (typeof window.initVideoStudioCanvas === 'function') {
+            window.initVideoStudioCanvas();
+          }
 
           var self = this;
           if (typeof google !== 'undefined' && google.script && google.script.run) {
             google.script.run
               .withSuccessHandler(function (res) {
-                if (res && res.status === 'success') {
+                if (res && (res.status === 'success' || res.success)) {
                   if (res.logoSlots && res.logoSlots.length) self.state.systemBundle.logoSlots = res.logoSlots;
-                  if (res.deptAccessConfig && res.deptAccessConfig.length === 7) {
+                  if (res.deptAccessConfig && res.deptAccessConfig.length >= 8) {
                     self.state.deptAccessConfig = res.deptAccessConfig;
                   }
                   self.renderAll();
@@ -4342,7 +5247,10 @@
           renderDynamicMatrixTable('Inventory_SKU', 'tableContainerInventory');
           renderDynamicMatrixTable('Finance_Transactions', 'tableContainerFinance');
           renderDynamicMatrixTable('Staff', 'tableContainerStaff');
+          renderDynamicMatrixTable('Staff', 'tableContainerStaffHr');
           renderDynamicMatrixTable('Tasks', 'tableContainerTasks');
+          renderDynamicMatrixTable('Tasks', 'tableContainerAcademyHr');
+          renderDynamicMatrixTable('TT_MKT', 'tableContainerTtMktVideos');
           renderAuditLogTable();
           renderPricing2DTable();
           renderSettingsDeptAccessMatrix();
@@ -4379,14 +5287,157 @@
         btnQuickTheme.addEventListener('click', function () {
           var nextMode = AppStore.state.activeThemeMode === 'dark' ? 'light' : 'dark';
           AppStore.applyThemeModeToDOM(nextMode);
+          window.saveCurrentUserSidebarPersonalizationToBackend(false);
           var labelName = nextMode === 'light' ? 'AP Showroom Trắng (Sidebar Đen Gradient)' : 'AP Carbon Night (Dark Blue)';
           showPublishToast('Đã chuyển sang giao diện: ' + labelName, 'success');
         });
       }
 
       /* =========================================================================
-         4. KIỂM TRA PHÂN QUYỀN & RENDER 7 NÚT SHORTCUT PHÒNG BAN GIỮA SIDEBAR
+         4. KIỂM TRA PHÂN QUYỀN, KÉO THẢ SẮP XẾP 8 NÚT SHORTCUT SIDEBAR & LƯU JSON (CỘT M SHEET NHÂN SỰ)
          ========================================================================= */
+      var draggedSidebarDeptId = null;
+
+      function applySavedSidebarOrderToConfig(orderArray) {
+        if (!Array.isArray(orderArray) || !orderArray.length) return;
+        var currentList = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
+        var mapById = {};
+        for (var i = 0; i < currentList.length; i++) {
+          mapById[currentList[i].deptId] = currentList[i];
+        }
+        var sorted = [];
+        for (var j = 0; j < orderArray.length; j++) {
+          var id = orderArray[j];
+          if (mapById[id]) {
+            sorted.push(mapById[id]);
+            delete mapById[id];
+          }
+        }
+        for (var remId in mapById) {
+          if (Object.prototype.hasOwnProperty.call(mapById, remId)) {
+            sorted.push(mapById[remId]);
+          }
+        }
+        AppStore.state.deptAccessConfig = sorted;
+      }
+
+      window.onSidebarDeptDragStart = function (ev, deptId) {
+        draggedSidebarDeptId = deptId;
+        if (ev.dataTransfer) {
+          ev.dataTransfer.effectAllowed = 'move';
+          try { ev.dataTransfer.setData('text/plain', deptId); } catch (e) {}
+        }
+        if (ev.currentTarget) ev.currentTarget.classList.add('ap-dragging');
+      };
+
+      window.onSidebarDeptDragOver = function (ev) {
+        ev.preventDefault();
+        if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move';
+        if (ev.currentTarget) ev.currentTarget.classList.add('ap-drag-over');
+      };
+
+      window.onSidebarDeptDragLeave = function (ev) {
+        if (ev.currentTarget) ev.currentTarget.classList.remove('ap-drag-over');
+      };
+
+      window.onSidebarDeptDragEnd = function (ev) {
+        if (ev.currentTarget) {
+          ev.currentTarget.classList.remove('ap-dragging');
+          ev.currentTarget.classList.remove('ap-drag-over');
+        }
+      };
+
+      window.onSidebarDeptDrop = function (ev, targetDeptId) {
+        ev.preventDefault();
+        if (ev.currentTarget) ev.currentTarget.classList.remove('ap-drag-over');
+        var sourceId = draggedSidebarDeptId;
+        if (!sourceId && ev.dataTransfer) {
+          try { sourceId = ev.dataTransfer.getData('text/plain'); } catch (e) {}
+        }
+        if (!sourceId || sourceId === targetDeptId) return;
+
+        var list = AppStore.state.deptAccessConfig || [];
+        var srcIdx = -1;
+        var tgtIdx = -1;
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].deptId === sourceId) srcIdx = i;
+          if (list[i].deptId === targetDeptId) tgtIdx = i;
+        }
+        if (srcIdx === -1 || tgtIdx === -1) return;
+
+        var movedItem = list.splice(srcIdx, 1)[0];
+        list.splice(tgtIdx, 0, movedItem);
+        AppStore.state.deptAccessConfig = list;
+
+        renderSidebarDepartmentShortcuts();
+        renderSettingsDeptAccessMatrix();
+        window.saveCurrentUserSidebarPersonalizationToBackend(true);
+      };
+
+      window.saveCurrentUserSidebarPersonalizationToBackend = function (showToastFlag) {
+        var list = AppStore.state.deptAccessConfig || [];
+        var orderIds = [];
+        for (var i = 0; i < list.length; i++) {
+          orderIds.push(list[i].deptId);
+        }
+        var u = AppStore.state.currentUser || {};
+        var prefObj = {
+          username: u.username || 'DUC',
+          fullName: u.fullName || 'Tăng Trí Đức',
+          sidebarOrder: orderIds,
+          themeMode: AppStore.state.activeThemeMode || 'dark',
+          activeDepartment: AppStore.state.activeDepartment || 'DEPT_MKT',
+          updatedAt: new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN')
+        };
+        var jsonStr = JSON.stringify(prefObj);
+
+        try {
+          localStorage.setItem('apDeptAccessMatrixV5', JSON.stringify(list));
+          localStorage.setItem('apUserPersonalizationV5_' + (prefObj.username).toUpperCase(), jsonStr);
+        } catch (e) {}
+
+        // Cập nhật ngay Cột M (uiPersonalizationJson) của User đang đăng nhập trong bảng Staff
+        var staffRows = AppStore.state.systemBundle.seedData.Staff || [];
+        var matchedStaff = false;
+        for (var s = 0; s < staffRows.length; s++) {
+          var sName = String(staffRows[s].name || '').toUpperCase();
+          var sId = String(staffRows[s].id || '').toUpperCase();
+          if (sName.indexOf(String(u.fullName || 'ĐỨC').toUpperCase()) !== -1 || sId === String(u.username || '').toUpperCase() || (s === 2 && !matchedStaff)) {
+            staffRows[s].uiPersonalizationJson = jsonStr;
+            matchedStaff = true;
+            break;
+          }
+        }
+        renderDynamicMatrixTable('Staff', 'tableContainerStaff');
+        renderDynamicMatrixTable('Staff', 'tableContainerStaffHr');
+
+        var badgeText = document.getElementById('optiSyncStatusText');
+        if (badgeText) badgeText.textContent = 'Đã lưu JSON Cá nhân hóa (Cột M)';
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function () {
+              if (badgeText) badgeText.textContent = 'Đã lưu Cột M (Sheet Nhân sự)';
+            })
+            .withFailureHandler(function () {})
+            .saveUserUiPersonalization(prefObj.username, prefObj, u);
+        }
+
+        if (showToastFlag) {
+          showPublishToast('Đã lưu thứ tự Sidebar vào JSON Cá nhân hóa (Cột M - Sheet Nhân sự)!', 'success');
+        }
+      };
+
+      var btnResetSidebar = document.getElementById('btnResetSidebarOrder');
+      if (btnResetSidebar) {
+        btnResetSidebar.addEventListener('click', function () {
+          AppStore.state.deptAccessConfig = JSON.parse(JSON.stringify(DEFAULT_DEPT_ACCESS_MATRIX));
+          renderSidebarDepartmentShortcuts();
+          renderSettingsDeptAccessMatrix();
+          window.saveCurrentUserSidebarPersonalizationToBackend(true);
+        });
+      }
+
       function canUserAccessDepartment(deptId, roleCode) {
         var list = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
         for (var i = 0; i < list.length; i++) {
@@ -4411,6 +5462,7 @@
         var html = '';
         var visibleCount = 0;
         var firstVisibleDept = null;
+        var gripSvg = getApSvgIcon('grip');
 
         for (var i = 0; i < list.length; i++) {
           var d = list[i];
@@ -4422,7 +5474,14 @@
           var activeCls = (AppStore.state.activeDepartment === d.deptId) ? ' active' : '';
           var svgIcon = getApSvgIcon(d.icon || 'shield');
 
-          html += '<button type="button" class="ap-dept-tab-btn' + activeCls + '" data-dept="' + d.deptId + '" onclick="AppStore.switchDepartment(\'' + d.deptId + '\')">' +
+          html += '<button type="button" class="ap-dept-tab-btn' + activeCls + '" data-dept="' + d.deptId + '" draggable="true"' +
+                    ' ondragstart="window.onSidebarDeptDragStart(event, \'' + d.deptId + '\')"' +
+                    ' ondragover="window.onSidebarDeptDragOver(event)"' +
+                    ' ondragleave="window.onSidebarDeptDragLeave(event)"' +
+                    ' ondrop="window.onSidebarDeptDrop(event, \'' + d.deptId + '\')"' +
+                    ' ondragend="window.onSidebarDeptDragEnd(event)"' +
+                    ' onclick="AppStore.switchDepartment(\'' + d.deptId + '\')">' +
+                    '<span class="ap-dept-drag-grip" title="Kéo thả để sắp xếp">' + gripSvg + '</span>' +
                     '<span class="ap-dept-icon">' + svgIcon + '</span>' +
                     '<span class="ap-dept-text-wrap">' +
                       '<span class="ap-dept-name">' + escapeHtml(d.name) + '</span>' +
@@ -4433,7 +5492,7 @@
         }
 
         navEl.innerHTML = html;
-        if (countBadge) countBadge.textContent = visibleCount + '/7';
+        if (countBadge) countBadge.textContent = visibleCount + '/' + list.length;
 
         var isAdmin = (roleCode === 'ADMIN_CEO');
         if (btnSettingsSidebar) btnSettingsSidebar.style.display = isAdmin ? 'flex' : 'none';
@@ -4783,7 +5842,8 @@
           { key: 'department', label: 'Phòng ban' },
           { key: 'subUnit', label: 'Chức danh / Bộ phận' },
           { key: 'phone', label: 'Liên hệ' },
-          { key: 'status', label: 'Trạng thái', isStatus: true }
+          { key: 'status', label: 'Trạng thái', isStatus: true },
+          { key: 'uiPersonalizationJson', label: 'Cột M: Cá Nhân Hóa UI (JSON)' }
         ],
         Tasks: [
           { key: 'id', label: 'Mã Học phần' },
@@ -4792,6 +5852,17 @@
           { key: 'deadline', label: 'Hạn hoàn thành' },
           { key: 'kpiReward', label: 'Chứng chỉ / Đánh giá' },
           { key: 'status', label: 'Tiến độ', isStatus: true }
+        ],
+        TT_MKT: [
+          { key: 'id', label: 'ID Video' },
+          { key: 'createdAt', label: 'Thời gian' },
+          { key: 'projectName', label: 'Tên Dự Án / Clip Viral' },
+          { key: 'rawVideoSource', label: 'File Video Raw' },
+          { key: 'benchmarkVideoSource', label: 'File Video Mẫu' },
+          { key: 'outputVideoUrl', label: 'File Video Output 9:16' },
+          { key: 'videoGoal', label: 'Loại Clip' },
+          { key: 'colorPreset', label: 'Tone Màu' },
+          { key: 'status', label: 'Trạng thái Render', isStatus: true }
         ]
       };
 
@@ -5215,6 +6286,621 @@
             }
           }
           showPublishToast('Đã xuất bản nội dung đồng thời lên các kênh đã chọn!', 'success');
+        });
+      }
+
+      /* =========================================================================
+         11B. BẢNG EDIT VIDEO AI (SKILL #0 -> #7) & MIND-MAP SCHEMATIC CANVAS ENGINE
+         - Ngoài cùng bên trái là Node FILE VIDEO OUTPUT 9:16 FULL HD
+         - Kéo thả di chuyển mọi Node + Kéo thả / Bấm thêm Node mới + Mouse Wheel Zoom In/Out
+         - Đồng bộ 2 chiều với Mã JSON và lưu vào Sheet "TT-MKT" ở Backend
+         ========================================================================= */
+      var veCanvasState = {
+        scale: 0.92,
+        panX: 12,
+        panY: 16,
+        isPanning: false,
+        panStartX: 0,
+        panStartY: 0,
+        draggingNodeId: null,
+        nodeOffsetX: 0,
+        nodeOffsetY: 0,
+        paletteDragType: null,
+        nodes: [
+          {
+            id: 'NODE_OUTPUT_VIDEO',
+            type: 'output',
+            badge: 'OUTPUT 9:16 • COL H',
+            title: 'FILE VIDEO OUTPUT 9:16 FULL HD',
+            meta: 'Video thành phẩm xuất bản Reels / TikTok / Shorts (1080x1920 • 60fps)',
+            paramKey: 'outputVideoUrl',
+            paramText: 'outputs/final_videos/final_viral_short_v2.mp4',
+            x: 22,
+            y: 235
+          },
+          {
+            id: 'NODE_SKILL_7',
+            type: 'skill',
+            badge: 'SKILL #7 • AUDIO & CTA',
+            title: 'BGM DUCKING (-22dB) & 4 SFX HD',
+            meta: 'Hạ nhạc nền dưới giọng nói + SFX Whoosh/Boom/Quạ/Ding & Banner CTA',
+            paramKey: 'bgmSfxSummary',
+            paramText: 'dance remix 1.mp3 • Ducking 0.08 • 4 SFX',
+            x: 310,
+            y: 105
+          },
+          {
+            id: 'NODE_SKILL_6',
+            type: 'skill',
+            badge: 'SKILL #6 • SUB & TITLE',
+            title: 'PHỤ ĐỀ KHÍT 1PX & HỘP H1/H2/H3',
+            meta: 'Font Phudu / Be Vietnam Pro Size 40 • Trễ 4.0s né Hook • Safe Zone',
+            paramKey: 'subtitleSummary',
+            paramText: 'Size 40 • Khít dòng 1px • H1 Đỏ/Vàng',
+            x: 310,
+            y: 375
+          },
+          {
+            id: 'NODE_SKILL_5',
+            type: 'skill',
+            badge: 'SKILL #5 • COLOR & 3D',
+            title: 'TONE MÀU SHOWROOM & DENOISE',
+            meta: 'Closed-Loop Color Grading • Tôn độ bóng sơn Ceramic & vân da nội thất',
+            paramKey: 'colorSummary',
+            paramText: 'AUTOMOTIVE_SHOWROOM_HDR • C:1.07 S:1.12',
+            x: 590,
+            y: 105
+          },
+          {
+            id: 'NODE_SKILL_4',
+            type: 'skill',
+            badge: 'SKILL #4 • B-ROLL 45%',
+            title: 'B-ROLL MATCHER & NÉ TAY CHỈ',
+            meta: 'Ánh xạ ngữ nghĩa B-Roll cận cảnh 45% • Khóa Deictic Product Guard',
+            paramKey: 'brollSummary',
+            paramText: 'B-Roll 45% • Cửa sổ 2.8s • Deictic ON',
+            x: 590,
+            y: 375
+          },
+          {
+            id: 'NODE_SKILL_2',
+            type: 'skill',
+            badge: 'SKILL #2 • FACS HOOK 3S',
+            title: 'VI BIỂU CẢM FACS & HOOK 3 GIÂY',
+            meta: 'Chấm điểm cảm xúc FACS >= 80 • Punch-in Zoom 118% & Replay 0.72x',
+            paramKey: 'hookSummary',
+            paramText: 'Hook 3.5s • FACS >= 80 • Zoom 118%',
+            x: 870,
+            y: 105
+          },
+          {
+            id: 'NODE_SKILL_1',
+            type: 'skill',
+            badge: 'SKILL #1 • SCRIPT EDL',
+            title: 'BÓC KỊCH BẢN & CẮT KHOẢNG LẶNG',
+            meta: 'Silencedetect -30dB / 0.4s • Lọc 100% ậm ờ • Nhịp cắt 16 cuts/phút',
+            paramKey: 'pacingSummary',
+            paramText: '60-90s • 16 cuts/min • -30dB/0.4s',
+            x: 870,
+            y: 375
+          },
+          {
+            id: 'NODE_SKILL_3',
+            type: 'skill',
+            badge: 'SKILL #3 • 15 TRỤ CỘT',
+            title: 'GIẢI MÃ DNA VIDEO MẪU (STY-01..15)',
+            meta: 'Mổ xẻ 360° Video Mẫu bằng FFprobe & Gemini Vision -> 6 JSON Contracts',
+            paramKey: 'benchmarkVideoSource',
+            paramText: 'inputs/benchmark_videos/sample-viral-apcarcare.mp4',
+            x: 1150,
+            y: 105
+          },
+          {
+            id: 'NODE_INPUT_RAW',
+            type: 'input',
+            badge: 'SKILL #0 • INPUT SOURCE',
+            title: 'FILE VIDEO RAW & NGỮ CẢNH STY-00',
+            meta: 'Nguồn Video Gốc cần dựng + Ma trận Ngành hàng & Mục tiêu Chuyển đổi',
+            paramKey: 'rawVideoSource',
+            paramText: 'inputs/raw_videos/clip-content-doc.mp4',
+            x: 1150,
+            y: 375
+          }
+        ],
+        edges: [
+          { from: 'NODE_INPUT_RAW', to: 'NODE_SKILL_3' },
+          { from: 'NODE_INPUT_RAW', to: 'NODE_SKILL_1' },
+          { from: 'NODE_SKILL_3',   to: 'NODE_SKILL_2' },
+          { from: 'NODE_SKILL_3',   to: 'NODE_SKILL_1' },
+          { from: 'NODE_SKILL_2',   to: 'NODE_SKILL_5' },
+          { from: 'NODE_SKILL_1',   to: 'NODE_SKILL_4' },
+          { from: 'NODE_SKILL_5',   to: 'NODE_SKILL_7' },
+          { from: 'NODE_SKILL_4',   to: 'NODE_SKILL_6' },
+          { from: 'NODE_SKILL_7',   to: 'NODE_OUTPUT_VIDEO' },
+          { from: 'NODE_SKILL_6',   to: 'NODE_OUTPUT_VIDEO' }
+        ]
+      };
+
+      function getVeVal(id, fallback) {
+        var el = document.getElementById(id);
+        return el ? el.value : (fallback || '');
+      }
+
+      function buildCurrentVideoStudioConfigObject() {
+        var rawSrc = getVeVal('veRawVideoInput', 'inputs/raw_videos/clip-content-doc.mp4');
+        var benchSrc = getVeVal('veBenchmarkVideoInput', 'inputs/benchmark_videos/sample-viral-apcarcare.mp4');
+        var outSrc = getVeVal('veOutputVideoInput', 'outputs/final_videos/final_viral_short_v2.mp4');
+        var colorPreset = getVeVal('veColorPreset', 'AUTOMOTIVE_SHOWROOM_HDR');
+        var contrast = getVeVal('veColorContrast', '1.07');
+        var sat = getVeVal('veColorSaturation', '1.12');
+        var bright = getVeVal('veColorBrightness', '0.015');
+        var sharp = getVeVal('veLumaSharpness', '0.75');
+        var denoise = getVeVal('veDenoise3D', 'hqdn3d=1.5:1.5:6:6');
+        var dur = getVeVal('veTargetDuration', '60-90s • 16 cuts/min');
+        var sil = getVeVal('veSilenceCut', '-30dB / min 0.4s');
+        var hookW = getVeVal('veHookWindowSec', 'Cửa sổ 3.5s • FACS >= 80');
+        var zoomP = getVeVal('vePunchInZoom', 'Zoom 118% + Replay 0.72x');
+        var subCfg = getVeVal('veSubtitleConfig', 'Size 40 • Khít dòng 1px • Trễ 4.0s');
+        var titleCfg = getVeVal('veTitleBoxStyle', 'H1 Đỏ@0.92 + Vàng • Top 90/Bot 280px');
+        var brollCfg = getVeVal('veBrollConfig', 'B-Roll 45% • Trễ 1.8s • Cửa sổ 2.8s • Deictic Guard: ON');
+        var bgmCfg = getVeVal('veBgmConfig', 'dance remix 1.mp3 • Ducking 0.08 (-22dB)');
+        var sfxCfg = getVeVal('veSfxConfig', 'Whoosh + Boom + Crow/Pop + Ding (0.35)');
+        var ctaCfg = getVeVal('veCtaConfig', 'LIÊN HỆ AP CAR CARE NGAY - CHỈ CÒN 9 SUẤT ƯU ĐÃI!');
+
+        // Cập nhật text tóm tắt trên các Node trong Canvas
+        for (var i = 0; i < veCanvasState.nodes.length; i++) {
+          var n = veCanvasState.nodes[i];
+          if (n.id === 'NODE_OUTPUT_VIDEO') n.paramText = outSrc;
+          else if (n.id === 'NODE_INPUT_RAW') n.paramText = rawSrc;
+          else if (n.id === 'NODE_SKILL_3') n.paramText = benchSrc;
+          else if (n.id === 'NODE_SKILL_5') n.paramText = colorPreset + ' • C:' + contrast + ' S:' + sat;
+          else if (n.id === 'NODE_SKILL_1') n.paramText = dur + ' • ' + sil;
+          else if (n.id === 'NODE_SKILL_2') n.paramText = hookW + ' • ' + zoomP;
+          else if (n.id === 'NODE_SKILL_4') n.paramText = brollCfg;
+          else if (n.id === 'NODE_SKILL_6') n.paramText = subCfg;
+          else if (n.id === 'NODE_SKILL_7') n.paramText = bgmCfg + ' • ' + sfxCfg;
+        }
+
+        return {
+          sheetTarget: 'TT-MKT',
+          fieldMap: 'TT_MKT_VIDEO_FIELD_MAP',
+          projectName: getVeVal('veProjectName', 'Reels Nâng Cấp Loa Focal K2 & PPF Porsche 911'),
+          rawVideoSource: rawSrc,
+          benchmarkVideoSource: benchSrc,
+          outputVideoUrl: outSrc,
+          contextMatrix_STY00: {
+            industryDomain: getVeVal('veIndustryDomain', 'AUTOMOTIVE'),
+            videoGoal: getVeVal('veVideoGoal', 'COMMERCIAL_CONVERSION'),
+            targetAudience: getVeVal('veTargetAudience', 'MATURE_PREMIUM'),
+            applyStyleFlag: getVeVal('veApplyStyleFlag', 'all')
+          },
+          colorGrading_Skill5: {
+            preset: colorPreset,
+            contrast: contrast,
+            saturation: sat,
+            brightness: bright,
+            lumaSharpness: sharp,
+            denoise3D: denoise
+          },
+          pacingAndScript_Skill1: {
+            targetDurationAndAsl: dur,
+            silenceCutConfig: sil
+          },
+          emotionAndHook3s_Skill2: {
+            hookAndFacs: hookW,
+            punchInZoomAndSlowMo: zoomP
+          },
+          subtitleAndTypography_Skill6: {
+            subtitleSpec: subCfg,
+            titleBoxesAndSafeZone: titleCfg
+          },
+          brollMatcher_Skill4: {
+            brollSpec: brollCfg
+          },
+          soundDesignAndCta_Skill7: {
+            bgmDucking: bgmCfg,
+            sfxPack: sfxCfg,
+            ctaOfferBanner: ctaCfg
+          },
+          schematicCanvasGraph: {
+            zoomScale: veCanvasState.scale,
+            nodeCount: veCanvasState.nodes.length,
+            edgeCount: veCanvasState.edges.length,
+            nodes: veCanvasState.nodes.map(function (nd) {
+              return { id: nd.id, title: nd.title, x: Math.round(nd.x), y: Math.round(nd.y), paramText: nd.paramText };
+            }),
+            edges: veCanvasState.edges
+          }
+        };
+      }
+
+      window.syncVideoFormToJson = function () {
+        var cfgObj = buildCurrentVideoStudioConfigObject();
+        var jsonArea = document.getElementById('veFullConfigJsonTextarea');
+        if (jsonArea) {
+          jsonArea.value = JSON.stringify(cfgObj, null, 2);
+        }
+        renderVideoCanvasNodesAndEdges();
+      };
+
+      window.applyJsonTextareaToVideoStudio = function () {
+        var jsonArea = document.getElementById('veFullConfigJsonTextarea');
+        if (!jsonArea) return;
+        try {
+          var parsed = JSON.parse(jsonArea.value);
+          if (parsed.projectName && document.getElementById('veProjectName')) document.getElementById('veProjectName').value = parsed.projectName;
+          if (parsed.rawVideoSource && document.getElementById('veRawVideoInput')) document.getElementById('veRawVideoInput').value = parsed.rawVideoSource;
+          if (parsed.benchmarkVideoSource && document.getElementById('veBenchmarkVideoInput')) document.getElementById('veBenchmarkVideoInput').value = parsed.benchmarkVideoSource;
+          if (parsed.outputVideoUrl && document.getElementById('veOutputVideoInput')) document.getElementById('veOutputVideoInput').value = parsed.outputVideoUrl;
+          renderVideoCanvasNodesAndEdges();
+        } catch (e) {}
+      };
+
+      window.handleLocalVideoFilePick = function (targetInputId, fileInputEl) {
+        if (!fileInputEl || !fileInputEl.files || !fileInputEl.files[0]) return;
+        var f = fileInputEl.files[0];
+        var targetInp = document.getElementById(targetInputId);
+        if (targetInp) {
+          var folderPrefix = (targetInputId === 'veRawVideoInput') ? 'inputs/raw_videos/' : 'inputs/benchmark_videos/';
+          targetInp.value = folderPrefix + f.name;
+          window.syncVideoFormToJson();
+          showPublishToast('Đã chọn file video: ' + f.name, 'success');
+        }
+      };
+
+      window.copyVideoStudioJson = function () {
+        var jsonArea = document.getElementById('veFullConfigJsonTextarea');
+        if (!jsonArea) return;
+        jsonArea.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        showPublishToast('Đã sao chép Mã JSON Thiết lập Edit Video vào bộ nhớ tạm!', 'success');
+      };
+
+      function applyCanvasStageTransform() {
+        var stage = document.getElementById('veCanvasTransformStage');
+        var lbl = document.getElementById('veZoomPercentLabel');
+        if (stage) {
+          stage.style.transform = 'translate(' + Math.round(veCanvasState.panX) + 'px, ' + Math.round(veCanvasState.panY) + 'px) scale(' + veCanvasState.scale.toFixed(2) + ')';
+        }
+        if (lbl) {
+          lbl.textContent = Math.round(veCanvasState.scale * 100) + '%';
+        }
+      }
+
+      window.adjustVideoCanvasZoom = function (delta) {
+        var next = veCanvasState.scale + delta;
+        if (next < 0.40) next = 0.40;
+        if (next > 2.20) next = 2.20;
+        veCanvasState.scale = next;
+        applyCanvasStageTransform();
+      };
+
+      window.resetVideoCanvasView = function () {
+        veCanvasState.scale = 0.92;
+        veCanvasState.panX = 12;
+        veCanvasState.panY = 16;
+        applyCanvasStageTransform();
+      };
+
+      function renderVideoCanvasNodesAndEdges() {
+        var nodesLayer = document.getElementById('veCanvasNodesLayer');
+        var svgEdges = document.getElementById('veCanvasSvgEdges');
+        var statusToast = document.getElementById('veCanvasStatusToast');
+        if (!nodesLayer || !svgEdges) return;
+
+        var nodeMap = {};
+        var nodesHtml = '';
+        for (var i = 0; i < veCanvasState.nodes.length; i++) {
+          var n = veCanvasState.nodes[i];
+          nodeMap[n.id] = n;
+          var typeCls = 'node-skill-step';
+          if (n.type === 'output') typeCls = 'node-output-final';
+          else if (n.type === 'input') typeCls = 'node-input-source';
+          else if (n.type === 'custom') typeCls = 'node-custom-added';
+
+          var delBtnHtml = (n.type === 'custom')
+            ? '<button type="button" class="ap-ve-node-del-btn" onclick="window.removeCustomVideoNode(\'' + n.id + '\', event)" title="Xóa Node">×</button>'
+            : '';
+
+          nodesHtml += '<div class="ap-ve-node ' + typeCls + '" id="veNode_' + n.id + '" data-node-id="' + n.id + '"' +
+                         ' style="left:' + Math.round(n.x) + 'px;top:' + Math.round(n.y) + 'px;"' +
+                         ' onmousedown="window.startDragVideoCanvasNode(event, \'' + n.id + '\')">' +
+                         '<span class="ap-ve-port-dot port-left"></span>' +
+                         '<span class="ap-ve-port-dot port-right"></span>' +
+                         '<div class="ap-ve-node-head">' +
+                           '<span class="ap-ve-node-badge">' + escapeHtml(n.badge) + '</span>' +
+                           delBtnHtml +
+                         '</div>' +
+                         '<div class="ap-ve-node-title">' + escapeHtml(n.title) + '</div>' +
+                         '<div class="ap-ve-node-meta">' + escapeHtml(n.meta) + '</div>' +
+                         '<div class="ap-ve-node-Param">' + escapeHtml(n.paramText || '') + '</div>' +
+                       '</div>';
+        }
+        nodesLayer.innerHTML = nodesHtml;
+
+        // Vẽ các đường Line Cubic-Bezier nối các bước Mind-Map về Node Output Video ngoài cùng bên trái
+        var edgesSvgHtml = '<defs>' +
+          '<linearGradient id="veEdgeGrad" x1="100%" y1="0%" x2="0%" y2="0%">' +
+            '<stop offset="0%" stop-color="#38BDF8" stop-opacity="0.85"/>' +
+            '<stop offset="65%" stop-color="#0A6CFF" stop-opacity="0.95"/>' +
+            '<stop offset="100%" stop-color="#10B981" stop-opacity="1"/>' +
+          '</linearGradient>' +
+          '<marker id="veArrowHead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">' +
+            '<path d="M 0 1 L 7 4 L 0 7 z" fill="#10B981"/>' +
+          '</marker>' +
+        '</defs>';
+
+        for (var e = 0; e < veCanvasState.edges.length; e++) {
+          var edge = veCanvasState.edges[e];
+          var srcNode = nodeMap[edge.from];
+          var tgtNode = nodeMap[edge.to];
+          if (!srcNode || !tgtNode) continue;
+
+          // Kết nối từ cạnh trái của Node nguồn sang cạnh phải của Node đích (luồng chảy về Output ngoài cùng bên trái)
+          var x1 = srcNode.x;
+          var y1 = srcNode.y + 62;
+          var x2 = tgtNode.x + (tgtNode.type === 'output' ? 228 : 218);
+          var y2 = tgtNode.y + 62;
+
+          if (srcNode.x < tgtNode.x) {
+            x1 = srcNode.x + 218;
+            x2 = tgtNode.x;
+          }
+
+          var dx = Math.max(Math.abs(x2 - x1) * 0.48, 55);
+          var c1x = (x2 < x1) ? (x1 - dx) : (x1 + dx);
+          var c2x = (x2 < x1) ? (x2 + dx) : (x2 - dx);
+          var pathData = 'M ' + Math.round(x1) + ' ' + Math.round(y1) +
+                         ' C ' + Math.round(c1x) + ' ' + Math.round(y1) + ', ' +
+                                 Math.round(c2x) + ' ' + Math.round(y2) + ', ' +
+                                 Math.round(x2) + ' ' + Math.round(y2);
+
+          edgesSvgHtml += '<path d="' + pathData + '" fill="none" stroke="url(#veEdgeGrad)" stroke-width="2.4" stroke-dasharray="6 4" marker-end="url(#veArrowHead)" />';
+          edgesSvgHtml += '<circle cx="' + Math.round((x1 + x2) / 2) + '" cy="' + Math.round((y1 + y2) / 2) + '" r="3.5" fill="#38BDF8" />';
+        }
+        svgEdges.innerHTML = edgesSvgHtml;
+
+        if (statusToast) {
+          statusToast.textContent = 'Đang hiển thị ' + veCanvasState.nodes.length + ' Nodes & ' + veCanvasState.edges.length + ' Đường Line Mind-Map • Zoom ' + Math.round(veCanvasState.scale * 100) + '%';
+        }
+      }
+
+      window.startDragVideoCanvasNode = function (ev, nodeId) {
+        ev.stopPropagation();
+        var targetNode = null;
+        for (var i = 0; i < veCanvasState.nodes.length; i++) {
+          if (veCanvasState.nodes[i].id === nodeId) {
+            targetNode = veCanvasState.nodes[i];
+            break;
+          }
+        }
+        if (!targetNode) return;
+        veCanvasState.draggingNodeId = nodeId;
+        veCanvasState.nodeOffsetX = (ev.clientX / veCanvasState.scale) - targetNode.x;
+        veCanvasState.nodeOffsetY = (ev.clientY / veCanvasState.scale) - targetNode.y;
+      };
+
+      window.onPaletteNodeDragStart = function (ev, nodeTemplateType) {
+        veCanvasState.paletteDragType = nodeTemplateType;
+        if (ev.dataTransfer) {
+          try { ev.dataTransfer.setData('text/plain', nodeTemplateType); } catch (e) {}
+        }
+      };
+
+      window.addCustomVideoNodeToCanvas = function (templateType, customX, customY) {
+        var tType = templateType || 'CUSTOM';
+        var newId = 'NODE_CUSTOM_' + Math.floor(100 + Math.random() * 899);
+        var templates = {
+          'BROLL': {
+            badge: 'CUSTOM NODE • B-ROLL',
+            title: 'B-ROLL CẬN CẢNH THÊM MỚI',
+            meta: 'Chèn cảnh quay cận chi tiết Loa Focal / Phủ gốm Ceramic Pro 9H',
+            paramText: 'assets/broll_videos/focal_closeup.mp4 (2.5s)'
+          },
+          'SFX': {
+            badge: 'CUSTOM NODE • SFX AUDIO',
+            title: 'HIỆU ỨNG ÂM THANH SFX MỚI',
+            meta: 'Điểm nhấn âm thanh Bass Drop / Risers / Tiếng động cơ Porsche',
+            paramText: 'sfx_porsche_rev_hd.wav • Vol 0.40'
+          },
+          'HOOK': {
+            badge: 'CUSTOM NODE • HOOK ZOOM',
+            title: 'ĐIỂM NHẤN HOOK / SLOW-MO',
+            meta: 'Zoom cận 122% + Tua chậm 0.68x tại khoảnh khắc cao trào',
+            paramText: 'Zoom 122% • Slow-Mo 0.68x'
+          },
+          'COLOR': {
+            badge: 'CUSTOM NODE • COLOR LUT',
+            title: 'LỚP PHỦ MÀU CINEMATIC LUT',
+            meta: 'Tăng chiều sâu tương phản vùng tối Carbon Night & ánh đèn Studio',
+            paramText: 'LUT: AP_Showroom_Cobalt.cube'
+          },
+          'CUSTOM': {
+            badge: 'CUSTOM NODE • STEP',
+            title: 'BƯỚC XỬ LÝ VIDEO TÙY CHỈNH',
+            meta: 'Node bổ sung trong sơ đồ Mind-Map luồng dựng video tự động',
+            paramText: 'Custom Filter • Active'
+          }
+        };
+        var tpl = templates[tType] || templates.CUSTOM;
+        var spawnX = (typeof customX === 'number') ? customX : (360 + Math.floor(Math.random() * 340));
+        var spawnY = (typeof customY === 'number') ? customY : (230 + Math.floor(Math.random() * 90 - 45));
+
+        veCanvasState.nodes.push({
+          id: newId,
+          type: 'custom',
+          badge: tpl.badge,
+          title: tpl.title,
+          meta: tpl.meta,
+          paramText: tpl.paramText,
+          x: spawnX,
+          y: spawnY
+        });
+
+        // Tự động nối đường Line từ Node mới về Node Output Video ngoài cùng bên trái
+        veCanvasState.edges.push({ from: 'NODE_SKILL_5', to: newId });
+        veCanvasState.edges.push({ from: newId, to: 'NODE_OUTPUT_VIDEO' });
+
+        window.syncVideoFormToJson();
+        showPublishToast('Đã thêm [' + tpl.title + '] vào sơ đồ Canvas Edit Video!', 'success');
+      };
+
+      window.removeCustomVideoNode = function (nodeId, ev) {
+        if (ev) ev.stopPropagation();
+        veCanvasState.nodes = veCanvasState.nodes.filter(function (n) { return n.id !== nodeId; });
+        veCanvasState.edges = veCanvasState.edges.filter(function (e) { return e.from !== nodeId && e.to !== nodeId; });
+        window.syncVideoFormToJson();
+      };
+
+      window.initVideoStudioCanvas = function () {
+        var viewport = document.getElementById('veSchematicCanvasViewport');
+        if (!viewport) return;
+
+        applyCanvasStageTransform();
+        window.syncVideoFormToJson();
+
+        if (viewport.getAttribute('data-bound-canvas') === '1') return;
+        viewport.setAttribute('data-bound-canvas', '1');
+
+        // 1. Chức năng lăn chuột (Mouse Wheel) để Zoom In / Zoom Out toàn bộ Canvas làm việc Edit Video
+        viewport.addEventListener('wheel', function (ev) {
+          ev.preventDefault();
+          var delta = (ev.deltaY < 0) ? 0.08 : -0.08;
+          window.adjustVideoCanvasZoom(delta);
+        }, { passive: false });
+
+        // 2. Kéo nền Canvas để Pan di chuyển vùng nhìn
+        viewport.addEventListener('mousedown', function (ev) {
+          if (ev.target.closest('.ap-ve-node')) return;
+          veCanvasState.isPanning = true;
+          veCanvasState.panStartX = ev.clientX - veCanvasState.panX;
+          veCanvasState.panStartY = ev.clientY - veCanvasState.panY;
+        });
+
+        window.addEventListener('mousemove', function (ev) {
+          if (veCanvasState.draggingNodeId) {
+            for (var i = 0; i < veCanvasState.nodes.length; i++) {
+              if (veCanvasState.nodes[i].id === veCanvasState.draggingNodeId) {
+                veCanvasState.nodes[i].x = Math.max(8, (ev.clientX / veCanvasState.scale) - veCanvasState.nodeOffsetX);
+                veCanvasState.nodes[i].y = Math.max(8, (ev.clientY / veCanvasState.scale) - veCanvasState.nodeOffsetY);
+                break;
+              }
+            }
+            renderVideoCanvasNodesAndEdges();
+            return;
+          }
+          if (veCanvasState.isPanning) {
+            veCanvasState.panX = ev.clientX - veCanvasState.panStartX;
+            veCanvasState.panY = ev.clientY - veCanvasState.panStartY;
+            applyCanvasStageTransform();
+          }
+        });
+
+        window.addEventListener('mouseup', function () {
+          if (veCanvasState.draggingNodeId) {
+            veCanvasState.draggingNodeId = null;
+            window.syncVideoFormToJson();
+          }
+          veCanvasState.isPanning = false;
+        });
+
+        // 3. Hỗ trợ kéo thả Node mới từ thanh Palette thả trực tiếp vào vị trí bất kỳ trên Canvas
+        viewport.addEventListener('dragover', function (ev) {
+          ev.preventDefault();
+        });
+        viewport.addEventListener('drop', function (ev) {
+          ev.preventDefault();
+          var tType = veCanvasState.paletteDragType;
+          if (!tType && ev.dataTransfer) {
+            try { tType = ev.dataTransfer.getData('text/plain'); } catch (e) {}
+          }
+          if (!tType) return;
+          var rect = viewport.getBoundingClientRect();
+          var dropX = ((ev.clientX - rect.left - veCanvasState.panX) / veCanvasState.scale) - 105;
+          var dropY = ((ev.clientY - rect.top - veCanvasState.panY) / veCanvasState.scale) - 45;
+          window.addCustomVideoNodeToCanvas(tType, Math.max(20, dropX), Math.max(20, dropY));
+          veCanvasState.paletteDragType = null;
+        });
+      };
+
+      window.saveVideoStudioProjectToSheet = function () {
+        var cfgObj = buildCurrentVideoStudioConfigObject();
+        var newRecord = {
+          id: 'VID-' + Math.floor(2610 + Math.random() * 899),
+          createdAt: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + new Date().toLocaleDateString('vi-VN'),
+          projectName: cfgObj.projectName,
+          author: AppStore.state.currentUser.fullName || 'Tăng Trí Đức',
+          rawVideoSource: cfgObj.rawVideoSource,
+          benchmarkVideoSource: cfgObj.benchmarkVideoSource,
+          outputVideoUrl: cfgObj.outputVideoUrl,
+          industryDomain: cfgObj.contextMatrix_STY00.industryDomain,
+          videoGoal: cfgObj.contextMatrix_STY00.videoGoal,
+          targetAudience: cfgObj.contextMatrix_STY00.targetAudience,
+          applyStyleFlag: cfgObj.contextMatrix_STY00.applyStyleFlag,
+          colorPreset: cfgObj.colorGrading_Skill5.preset,
+          colorParamsJson: JSON.stringify(cfgObj.colorGrading_Skill5),
+          pacingParamsJson: JSON.stringify(cfgObj.pacingAndScript_Skill1),
+          hookParamsJson: JSON.stringify(cfgObj.emotionAndHook3s_Skill2),
+          subtitleTypographyJson: JSON.stringify(cfgObj.subtitleAndTypography_Skill6),
+          brollParamsJson: JSON.stringify(cfgObj.brollMatcher_Skill4),
+          audioSfxParamsJson: JSON.stringify(cfgObj.soundDesignAndCta_Skill7),
+          ctaOfferJson: JSON.stringify({ cta: cfgObj.soundDesignAndCta_Skill7.ctaOfferBanner }),
+          canvasNodesJson: JSON.stringify(cfgObj.schematicCanvasGraph.nodes),
+          fullEdlConfigJson: JSON.stringify(cfgObj),
+          status: 'Đã lưu vào Sheet TT-MKT'
+        };
+
+        if (!AppStore.state.systemBundle.seedData.TT_MKT) {
+          AppStore.state.systemBundle.seedData.TT_MKT = [];
+        }
+        AppStore.state.systemBundle.seedData.TT_MKT.unshift(newRecord);
+        renderDynamicMatrixTable('TT_MKT', 'tableContainerTtMktVideos');
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              showPublishToast((res && res.message) ? res.message : 'Đã lưu dự án Edit Video vào Sheet TT-MKT ở Backend!', 'success');
+            })
+            .withFailureHandler(function () {
+              showPublishToast('Đã lưu dự án Edit Video [' + newRecord.id + '] (Local + OptiSync Queue)!', 'success');
+            })
+            .saveTtMktVideoProject(newRecord, AppStore.state.currentUser);
+        } else {
+          showPublishToast('Đã lưu dự án Edit Video [' + newRecord.id + '] vào bảng TT-MKT thành công!', 'success');
+        }
+      };
+
+      window.triggerInitBackendSheets = function () {
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              showPublishToast((res && res.message) ? res.message : 'Đã khởi tạo Cột M (Sheet Nhân sự) & Sheet TT-MKT thành công!', 'success');
+            })
+            .withFailureHandler(function () {
+              showPublishToast('Đã đồng bộ cấu trúc FIELD_MAP cho Sheet Nhân sự (Cột M) & Sheet TT-MKT!', 'success');
+            })
+            .ensureBackendSheetsInitialized();
+        } else {
+          showPublishToast('Đã sẵn sàng cấu trúc Sheet Nhân sự (Cột M Cá nhân hóa JSON) & Sheet TT-MKT trên Backend!', 'success');
+        }
+      };
+
+      var btnAddStaffHr = document.getElementById('btnAddSampleStaffHr');
+      if (btnAddStaffHr) {
+        btnAddStaffHr.addEventListener('click', function () {
+          AppStore.state.systemBundle.seedData.Staff.unshift({
+            id: 'NV-' + Math.floor(310 + Math.random() * 89),
+            name: 'NHÂN SỰ / HỌC VIÊN MỚI',
+            orgFloor: 'Tầng 1 - Tầng 2',
+            department: 'Phòng HR - Đào Tạo',
+            subUnit: 'Học Viện Detailing & Âm Thanh AP Education',
+            role: 'KTV / Học viên',
+            phone: '0909555888',
+            status: 'Đang trực ca',
+            uiPersonalizationJson: '{"sidebarOrder":["DEPT_HR","DEPT_TECH","DEPT_MKT"],"themeMode":"dark"}'
+          });
+          AppStore.dispatchAction({ type: 'CREATE_STAFF_HR' });
+          showPublishToast('Đã thêm hồ sơ Nhân sự / Học viên mới vào bảng Nhân sự!', 'success');
         });
       }
 
