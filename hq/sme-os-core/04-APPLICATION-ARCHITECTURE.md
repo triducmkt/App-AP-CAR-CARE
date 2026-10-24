@@ -1,4 +1,20 @@
 # (OFFICIAL) FILE 4: KIẾN TRÚC ỨNG DỤNG (APPLICATION ARCHITECTURE)
+<!-- START_CONSTITUTION_TOC -->
+## ⚡ MỤC LỤC TRA CỨU NHANH HIẾN PHÁP (FAST-LOOKUP CONSTITUTION TOC)
+> **Quy tắc Bắt buộc (Mandatory Constitutional Scan & Verification Loop):**
+> 1. **Trước mỗi Prompt/Yêu cầu:** AI Agent BẮT BUỘC quét nhanh bảng mục lục này (cùng mục lục của 4 file Hiến pháp còn lại) để định vị chính xác các chương liên quan trước khi đề xuất, thiết kế hoặc viết code.
+> 2. **Vòng lặp Kiểm tra Chi tiết 1 Chương (`Deep-Chapter Verification Loop`):** Trong quá trình thực thi, bất cứ khi nào có dấu hiệu vi phạm Hiến pháp, có nghi vấn kiến trúc hoặc cần cẩn trọng kiểm tra lại, Agent BẮT BUỘC gọi `read_file` đọc trực tiếp đúng tọa độ dòng (`StartLine` – `EndLine`) của chương đó trong bảng dưới đây để đối chiếu 100% trước khi làm tiếp.
+
+| Chương / Mục | Tọa độ Dòng (`Line Range`) | Tên Chương & Chủ đề Cốt lõi | Tóm tắt Quy tắc & Nội dung Trọng tâm |
+| :--- | :---: | :--- | :--- |
+| **Chương 1** | `L30–L79` | **Mục tiêu & 5 Quy tắc Chuyển hóa Ứng dụng** | FIELD_MAP Abstraction, Modular Monolith, Event-Driven, 4-Tier Language Strategy, Version Gating |
+| **Chương 2** | `L80–L166` | **Data Architecture (10 Core Tables, 4 System Tables & Ma trận 4D FIELD_MAP)** | Chuẩn dòng 10/12, 6 cột hệ thống bắt buộc (id..audit_trail), 10 bảng nghiệp vụ & Tensor 4D (1D->4D) |
+| **Chương 3** | `L167–L224` | **Module Map (Bản đồ 14-15 Phân hệ & Hợp đồng Giao tiếp)** | Đặc tả ranh giới Inputs, Outputs, Published/Subscribed Events của từng Module (M01->M15) |
+| **Chương 4** | `L225–L279` | **Website Architecture (Cổng thông tin & Trạm Sensor Thu Lead)** | Kiến trúc Landing Page, Booking Funnel và Web Behavior Sensor |
+| **Chương 5** | `L280–L338` | **UI Architecture (Thiết kế Giao diện — Simplicity First & OptiSync V5)** | AppStore trung tâm, Ghost RAM 15s, 8s Batch Truck, Giao diện Đa phòng ban & White-Label Theme |
+| **Chương 6** | `L339–L404` | **API Architecture (4 Cổng RPC Hợp nhất & Webhook/MCP Gateway)** | api_query, api_mutate, api_batch_sync, doPost Webhook & KERNEL_McpHub |
+<!-- END_CONSTITUTION_TOC -->
+
 
 File này là bản vẽ thi công chi tiết ở tầng Ứng dụng, quy định lược đồ dữ liệu, ranh giới phân hệ, giao diện và giao thức API. Mô tả chi tiết và cụ thể vào phần thực thi cho từng chương ở file này so với các thông tin đã từng đề cập ở các file 1-2-3.
 

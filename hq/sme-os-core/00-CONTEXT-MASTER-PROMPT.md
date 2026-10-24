@@ -1,4 +1,18 @@
 # CONTEXT MASTER PROMPT & VAI TRÒ CỦA LUCY (SME OS & APP AP CAR CARE)
+<!-- START_CONSTITUTION_TOC -->
+## ⚡ BẢNG ĐIỀU PHỐI MỤC LỤC 5 FILE HIẾN PHÁP SME OS (MASTER CONSTITUTION FAST-LOOKUP INDEX)
+> **Quy định Bắt buộc Trước Mỗi Prompt (`Pre-Prompt Constitutional Scan & Deep-Chapter Loop`):**
+> Trước khi trả lời, đề xuất giải pháp hoặc thực thi bất kỳ yêu cầu/prompt nào của anh Đức, AI Agent **BẮT BUỘC** tra cứu nhanh mục lục ở đầu 5 file Hiến pháp dưới đây. Khi có bất kỳ dấu hiệu vi phạm, nghi vấn hoặc cần cẩn trọng kiểm tra lại trong lúc làm, Agent **BẮT BUỘC** chạy **Vòng lặp Kiểm tra Chi tiết 1 Chương** (`read_file` đúng tọa độ dòng `L...–L...` của chương đó) để đối chiếu nghiêm ngặt trước khi thực thi.
+
+| Mã File | Đường dẫn File Hiến pháp (`hq/sme-os-core/`) | Tọa độ Mục lục Đầu File | Phạm vi & Các Chương Trọng tâm để Tra cứu Nhanh |
+| :---: | :--- | :---: | :--- |
+| **FILE 0** | [`00-DIEU-LUAT-PROMPT-RULE.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/sme-os-core/00-DIEU-LUAT-PROMPT-RULE.md) | `L1–L15` | 7 Phần Điều luật Gốc: Vai trò AI, Quy tắc 80/20, Chiến lược Ngôn ngữ 4 Tầng, Chu trình AI 5 Tầng, Vòng lặp Kiểm tra Hiến pháp |
+| **FILE 1** | [`01-PRODUCT-PHILOSOPHY.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/sme-os-core/01-PRODUCT-PHILOSOPHY.md) | `L1–L30` | **Chương 0–17 + Phụ lục A:** Business First AI Second (`Ch.0, Ch.3`), Event-Driven (`Ch.6`), AI 5 Tầng & Approval Node (`Ch.7`), Dashboard Philosophy `<30s` (`Ch.12`), 8 Nguyên tắc Bắt buộc (`Ch.15`) |
+| **FILE 2** | [`02-BUSINESS-ARCHITECTURE.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/sme-os-core/02-BUSINESS-ARCHITECTURE.md) | `L1–L26` | **Chương 1–15:** 5 Business Goals (`Ch.2`), Capability Map (`Ch.3`), Sơ đồ Tổ chức & Phòng ban (`Ch.4`), 10 Đối tượng Kinh doanh Cốt lõi (`Ch.9`), KPI (`Ch.10`), Business Rules (`Ch.11`) |
+| **FILE 3** | [`03-SYSTEM-ARCHITECTURE.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/sme-os-core/03-SYSTEM-ARCHITECTURE.md) | `L1–L26` | **Chương 1–15:** 10 Nguyên tắc Hệ thống (`Ch.1`), Kiến trúc 7 Lớp & Data Flow (`Ch.2`), UX Layer (`Ch.3`), Platform Core Kernel/Event (`Ch.7`), Master Data SSOT (`Ch.8`), Integration MCP/API (`Ch.9`), Security (`Ch.11`) |
+| **FILE 4** | [`04-APPLICATION-ARCHITECTURE.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/sme-os-core/04-APPLICATION-ARCHITECTURE.md) | `L1–L18` | **Chương 1–6:** 5 Quy tắc Chuyển hóa (`Ch.1`), 10 Core Schemas + 4 System Tables + Ma trận 4D `FIELD_MAP` (`Ch.2`), Bản đồ 15 Modules (`Ch.3`), UI OptiSync V5 (`Ch.5`), 4 Cổng RPC & MCP Gateway (`Ch.6`) |
+| **FILE 5** | [`05-TECHNOLOGY-ARCHITECTURE.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/sme-os-core/05-TECHNOLOGY-ARCHITECTURE.md) | `L1–L18` | **Chương 0–6:** AI Collaboration Protocol & 10 Điều Hiến pháp (`Ch.0`), Lộ trình Phase 1 GAS -> Phase 2 Next.js (`Ch.2`), Frontend Stack (`Ch.3`), Backend Single-Read Snapshot (`Ch.4`), DB Dòng 10/12 & Rolling 3.000-Row (`Ch.5`) |
+<!-- END_CONSTITUTION_TOC -->
 
 > 📍 **Nguồn gốc dữ liệu (Source of Truth):** Nạp trực tiếp 100% từ thư mục Google Drive `J:\My Drive\TRÍ ĐỨC CAR MEDIA\AAA Build CRM ERP` của Product Owner Tăng Trí Đức vào `hq/sme-os-core/` ngày 2026-10-11.
 > 📍 **Hiệu lực:** Áp dụng BẮT BUỘC cho mọi phiên làm việc thiết kế tài liệu PRD/Architecture và lập trình ứng dụng trong dự án này.
@@ -71,3 +85,7 @@ Dưới sự chỉ đạo trực tiếp của **Anh Đức — Product Owner (PO
 4. **Cấu Trúc Bắt Buộc Khi Viết Mỗi Chương PRD (7 Mục Chuẩn):**
    - `(1) Mục tiêu chương` → `(2) Vai trò trong toàn hệ thống` → `(3) Giải thích chi tiết` → `(4) Ví dụ minh họa` → `(5) Best Practice` → `(6) Checklist` → `(7) Các điểm cần quyết định`.
    - Phân cấp Heading chuẩn: Tiêu đề Chương (`Heading 1`), Mục lớn như 2.1, 2.2 (`Heading 2`), Mục con 1..7 hoặc 2.1.1 (`Heading 3`), Nội dung (`Normal text`).
+
+5. **Quy Trình Tra Cứu Nhanh Mục Lục 5 File Hiến Pháp & Vòng Lặp Kiểm Tra Chi Tiết 1 Chương (`Mandatory Constitutional Scan & Verification Loop`):**
+   - **Trước mỗi khi thực thi bất kỳ prompt/yêu cầu nào của anh Đức:** Agent BẮT BUỘC tra cứu nhanh bảng mục lục ở đầu 5 file Hiến pháp (`01` $\rightarrow$ `05`) để định hình phương án thiết kế, đề xuất và thực thi bám sát Hiến pháp 100%.
+   - **Trong quá trình thực thi (Vòng lặp Kiểm tra Chi tiết 1 Chương):** Khi phát hiện dấu hiệu vi phạm Hiến pháp, có nghi vấn kiến trúc hoặc cần cẩn trọng kiểm tra lại, Agent BẮT BUỘC dừng lại đọc chi tiết đúng chương liên quan (theo tọa độ dòng `L...–L...` trên bảng mục lục đầu file), đối chiếu Checklist của chương đó và hiệu chỉnh ngay lập tức.

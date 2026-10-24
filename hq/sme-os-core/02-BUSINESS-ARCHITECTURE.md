@@ -1,4 +1,29 @@
 # (OFFICIAL) FILE 2: KIẾN TRÚC KINH DOANH (BUSINESS ARCHITECTURE)
+<!-- START_CONSTITUTION_TOC -->
+## ⚡ MỤC LỤC TRA CỨU NHANH HIẾN PHÁP (FAST-LOOKUP CONSTITUTION TOC)
+> **Quy tắc Bắt buộc (Mandatory Constitutional Scan & Verification Loop):**
+> 1. **Trước mỗi Prompt/Yêu cầu:** AI Agent BẮT BUỘC quét nhanh bảng mục lục này (cùng mục lục của 4 file Hiến pháp còn lại) để định vị chính xác các chương liên quan trước khi đề xuất, thiết kế hoặc viết code.
+> 2. **Vòng lặp Kiểm tra Chi tiết 1 Chương (`Deep-Chapter Verification Loop`):** Trong quá trình thực thi, bất cứ khi nào có dấu hiệu vi phạm Hiến pháp, có nghi vấn kiến trúc hoặc cần cẩn trọng kiểm tra lại, Agent BẮT BUỘC gọi `read_file` đọc trực tiếp đúng tọa độ dòng (`StartLine` – `EndLine`) của chương đó trong bảng dưới đây để đối chiếu 100% trước khi làm tiếp.
+
+| Chương / Mục | Tọa độ Dòng (`Line Range`) | Tên Chương & Chủ đề Cốt lõi | Tóm tắt Quy tắc & Nội dung Trọng tâm |
+| :--- | :---: | :--- | :--- |
+| **Chương 1** | `L29–L64` | **Mục tiêu và phạm vi Business Architecture** | Nguyên lý Business trước Technology; Không phụ thuộc ngành nghề; Template hóa |
+| **Chương 2** | `L65–L117` | **Business Model (Mô hình Kinh doanh & 5 Business Goals)** | ICP, 6 nhóm Stakeholder và 5 Mục tiêu: Revenue, Profit, Productivity, CX, EX |
+| **Chương 3** | `L118–L468` | **Business Capability Map (Bản đồ Năng lực Nghiệp vụ)** | Phân rã năng lực Marketing, Sales/CRM, Booking/Service, Inventory, Finance, HR |
+| **Chương 4** | `L469–L509` | **Organization Architecture (Kiến trúc Tổ chức & Phòng ban)** | Cấu trúc phòng ban, chi nhánh (Multi-Branch) và ma trận vai trò nhân sự |
+| **Chương 5** | `L510–L544` | **Business Service Catalog (Danh mục Dịch vụ & Sản phẩm)** | Chuẩn hóa gói dịch vụ, định mức vật tư (BOM), thời lượng thi công & bảo hành |
+| **Chương 6** | `L545–L606` | **Customer Architecture (Kiến trúc Quản trị Khách hàng 360)** | Vòng đời khách hàng, phân hạng (Tier), lịch sử phương tiện & điểm chạm |
+| **Chương 7** | `L607–L642` | **Employee Architecture (Kiến trúc Quản trị Nhân sự)** | Hồ sơ nhân sự, phân quyền theo vị trí, chấm công, giao việc và tính KPI/Hoa hồng |
+| **Chương 8** | `L643–L680` | **Business Process Landscape (Cảnh quan Quy trình Nghiệp vụ)** | Luồng quy trình khép kín Lead-to-Cash, Booking-to-Delivery, Procure-to-Pay |
+| **Chương 9** | `L681–L750` | **Business Object Model (10 Đối tượng Kinh doanh Cốt lõi)** | Định nghĩa 10 thực thể Master: Customer, Employee, Product, Service, Supplier, Invoice, Booking, Campaign, Task, Asset |
+| **Chương 10** | `L751–L828` | **KPI Architecture (Hệ thống Chỉ số Đo lường Hiệu suất)** | Bộ chỉ số đo lường định lượng cho CEO và từng phòng ban |
+| **Chương 11** | `L829–L892` | **Business Rules (Hệ thống Quy tắc Nghiệp vụ)** | Quy tắc định giá, chiết khấu, khóa sổ tài chính và kiểm soát tồn kho |
+| **Chương 12** | `L893–L955` | **Business Event Overview (Danh mục Sự kiện Kinh doanh)** | Các sự kiện nghiệp vụ chuẩn phát sinh từ hoạt động hàng ngày |
+| **Chương 13** | `L956–L1006` | **Business AI Overview (Ứng dụng AI trong Nghiệp vụ)** | Vai trò trợ lý AI hỗ trợ từng phòng ban và điểm chốt Approval Node |
+| **Chương 14** | `L1007–L1057` | **Business Constraints (Các Ràng buộc Nghiệp vụ)** | Giới hạn phạm vi SME, tuân thủ pháp lý và bảo mật dữ liệu thương mại |
+| **Chương 15** | `L1058–L1122` | **Deliverables (Danh mục Đầu ra Kiến trúc Kinh doanh)** | Bàn giao chuẩn mực đầu vào cho System & Application Architecture |
+<!-- END_CONSTITUTION_TOC -->
+
 
 File 2. Kiến trúc Kinh doanh (Business Architecture )
 Chương 1.

@@ -1,4 +1,21 @@
 # (OFFICIAL) FILE 5: KIẾN TRÚC CÔNG NGHỆ (TECHNOLOGY ARCHITECTURE)
+<!-- START_CONSTITUTION_TOC -->
+## ⚡ MỤC LỤC TRA CỨU NHANH HIẾN PHÁP (FAST-LOOKUP CONSTITUTION TOC)
+> **Quy tắc Bắt buộc (Mandatory Constitutional Scan & Verification Loop):**
+> 1. **Trước mỗi Prompt/Yêu cầu:** AI Agent BẮT BUỘC quét nhanh bảng mục lục này (cùng mục lục của 4 file Hiến pháp còn lại) để định vị chính xác các chương liên quan trước khi đề xuất, thiết kế hoặc viết code.
+> 2. **Vòng lặp Kiểm tra Chi tiết 1 Chương (`Deep-Chapter Verification Loop`):** Trong quá trình thực thi, bất cứ khi nào có dấu hiệu vi phạm Hiến pháp, có nghi vấn kiến trúc hoặc cần cẩn trọng kiểm tra lại, Agent BẮT BUỘC gọi `read_file` đọc trực tiếp đúng tọa độ dòng (`StartLine` – `EndLine`) của chương đó trong bảng dưới đây để đối chiếu 100% trước khi làm tiếp.
+
+| Chương / Mục | Tọa độ Dòng (`Line Range`) | Tên Chương & Chủ đề Cốt lõi | Tóm tắt Quy tắc & Nội dung Trọng tâm |
+| :--- | :---: | :--- | :--- |
+| **Chương 0** | `L32–L130` | **AI Collaboration Protocol & 10 Điều Hiến Pháp SME OS ⭐⭐⭐⭐⭐** | Working Product > Perfect Architecture (80/20), Cấm Enterprise hóa, Cấm Over-engineering, 10 Điều Hiến pháp |
+| **Chương 1** | `L131–L180` | **Mục tiêu và phạm vi Technology Architecture** | Technology chỉ là implementation; Chi phí hạ tầng Phase 1 = 0đ; Bộ ngưỡng kỹ thuật định lượng |
+| **Chương 2** | `L181–L241` | **Technology Strategy (Lộ trình Phase 1 GAS -> Phase 2 Next.js/Supabase)** | Chiến lược tiến hóa công nghệ không làm thay đổi Business Architecture |
+| **Chương 3** | `L242–L319` | **Frontend Stack (SPA HTML5/CSS3/Vanilla JS & OptiSync V5)** | Kiến trúc giao diện phản hồi tức thì 0.001s, nén ảnh Canvas < 300KB, chống lỗi Caja/Backtick |
+| **Chương 4** | `L320–L407` | **Backend Stack (Google Apps Script V8, Single-Read Snapshot & Quota Guard)** | Đọc 1 lần vào RAM, LockService, ngắt an toàn 270s, tối ưu 90% Quota |
+| **Chương 5** | `L408–L507` | **Database & Storage Stack (Google Sheets PM_CONFIG & Rolling 3,000-Row Log)** | Header dòng 10, Data dòng 12, xoay vòng log 3.000 dòng, lưu file Drive qua URL/ID |
+| **Chương 6** | `L508–L582` | **CI/CD & Environment (Git, Backup, Clasp & Quy trình Phối hợp AI Agent)** | Quy trình backup bắt buộc, kiểm thử AST, phân tách môi trường và nhân bản B2B |
+<!-- END_CONSTITUTION_TOC -->
+
 
 FILE 5. Kiến trúc Công nghệ (Technology Architecture)
 File này là bản vẽ thi công tầng Hạ tầng (Infrastructure Layer), đặc tả môi trường thực thi, ngôn ngữ lập trình, chiến lược chuyển đổi và giao thức cho AI/Dev. Mô tả chi tiết và cụ thể vào phần thực thi cho từng chương ở file này so với các thông tin đã từng đề cập ở các file 1-2-3.

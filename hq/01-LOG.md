@@ -375,3 +375,34 @@ ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint J
      - `hq/javis-rea-dossier/03-MCP-META-ZALO-COOKBOOK.md`
      - `hq/javis-rea-dossier/04-SLIDE-PRESENTATION.html`
      - `hq/javis-rea-dossier/05-SME-OS-RECONSTRUCTION-PACK.json`
+
+## 2026-10-24 17:55 — Lucy/Antigravity
+- Tiếp nhận phản hồi kiến trúc chuẩn xác từ Product Owner (anh Đức):
+  + Làm rõ nền tảng thật của Javis OS (Python 3.12 FastAPI + Node.js 22 + SQLite + Vanilla JS SPA, chạy Self-Hosted trên PC cá nhân hoặc VPS Docker, hoàn toàn không dùng Google Apps Script).
+  + Hiệu chỉnh lại lộ trình: Vì Javis OS đã đóng vai trò là Trợ lý cá nhân (Personal Edge Collector) thu thập dữ liệu đa kênh cho từng nhân sự, SME OS không viết lặp lại các trình cào lẻ mà tập trung vào:
+    1. Xây dựng **`KERNEL_McpHub`** (học từ `mcp_hub.py` của Javis) kèm 2 connector phổ biến cho SME Việt Nam là **`haravan-mcp`** (`apis.haravan.com`) và **`getfly-mcp`** (`*.getflycrm.com/api/v3`) để test thực tế khả năng kết nối từ Backend đến Frontend.
+    2. Xây dựng **Đường ống Tinh lọc & Chuẩn hóa Dữ liệu 5 Khuôn Mẫu (`5 Canonical Envelopes`)**: Đưa dữ liệu từ Javis cá nhân và Haravan/Getfly qua `Event Center (sys_events)`, chống trùng lặp theo SĐT/SKU, ghi vết vào cột `audit_trail` và lưu thẳng vào **10 Bảng Đối tượng Kinh doanh Cốt lõi (`Master Database`)** theo đúng chuẩn `One Source of Truth (SSOT)` và `4D FIELD_MAP`.
+    3. Thiết kế **Giao diện Hiển thị Đa Phòng Ban (7 Phòng ban/Vị trí)** tuân thủ 100% 5 Bộ Tài liệu Cốt lõi SME OS (`hq/sme-os-core/01..05`).
+- Đã xuất bản tài liệu thiết kế chi tiết tại `hq/javis-rea-dossier/06-SME-OS-MCP-DATA-PIPELINE-BLUEPRINT.md`.
+
+
+---
+
+## [2026-10-24 19:00] — Lucy (Antigravity / Gemini 4 Argon High) — TASK-012: Cập nhật Mục lục Tra cứu Nhanh 5 File Hiến pháp SME OS & Overhaul Toàn diện Frontend Ultra-Luxury AP CAR CARE
+- **Yêu cầu từ PO (anh Đức):**
+  1. Cập nhật Mục lục ở đầu mỗi file trong 5 file Hiến pháp SME OS để tra cứu nhanh mỗi lần tiếp nhận prompt; bổ sung vào quy trình tổng dự án bước tra cứu nhanh Mục lục 5 file Hiến pháp trước khi thực thi và **Vòng lặp Kiểm tra Chi tiết 1 Chương Hiến pháp** khi có dấu hiệu vi phạm/nghi vấn.
+  2. Overhaul toàn bộ giao diện Frontend theo style Ultra-Luxury AP CAR CARE (lược bỏ chữ nhỏ giải thích rườm rà, thêm watermark logo AP chìm mờ dưới nền các trang, nâng cấp Sidebar đen gradient với các nút shortcut phòng ban hiệu ứng chuyển động gradient khi hover/click).
+  3. Đặt 7 nút shortcut phòng ban chuẩn SME OS vào khoảng giữa Sidebar trang Home, kết nối vào 7 giao diện con đồng nhất 100%, kèm nút Cài đặt ở đáy Sidebar (phân quyền Admin) có danh sách bật/tắt Toggle On/Off từng section phòng ban (ẩn nút shortcut trang Home) và Dropdown Multiselect phân quyền user/role cho từng section.
+- **Thực thi & Kết quả:**
+  - **Phần A (Hiến pháp SME OS & Quy trình Tổng Dự án):**
+    - Đã chèn bảng `MỤC LỤC TRA CỨU NHANH HIẾN PHÁP` (`<!-- START_CONSTITUTION_TOC --> ... <!-- END_CONSTITUTION_TOC -->`) kèm tọa độ dòng chính xác vào đầu cả 5 file `hq/sme-os-core/01..05`.
+    - Đã cập nhật `AGENTS.md`, `hq/sme-os-core/00-CONTEXT-MASTER-PROMPT.md`, và `hq/sme-os-core/00-DIEU-LUAT-PROMPT-RULE.md` bổ sung **Bước 0.A (Quy trình Tra cứu nhanh Mục lục 5 File Hiến pháp & Vòng lặp Kiểm tra Chi tiết 1 Chương)**.
+  - **Phần B (Overhaul Frontend `src/Index.html` & Backend `src/Code.gs`):**
+    - Chạy `.\backup.ps1` thành công trước khi sửa code.
+    - Cập nhật `src/Code.gs`: Bổ sung `M16_MCP_Integration_Hub`, `DEFAULT_DEPT_ACCESS_CONFIG` (7 phòng ban: `DEPT_CEO`, `DEPT_MKT`, `DEPT_SALE`, `DEPT_TECH`, `DEPT_INV`, `DEPT_FIN`, `DEPT_OPS`), `saveDepartmentAccessConfig()`, `testMcpConnector()`, `ingestCanonicalEnvelope()`.
+    - Overhaul `src/Index.html` (5.389 dòng, bảo toàn 100% `#viewLogin` v11, `0` backticks trong `<script>`):
+      * Thêm Watermark Logo tròn AP CAR CARE chìm mờ (`#apWorkspaceWatermark` -> `#workspaceWatermarkLogoImg`) dưới nền toàn bộ các trang.
+      * Thiết kế lại `#apSidebar` đen Obsidian gradient với 7 nút shortcut phòng ban đặt ở giữa Sidebar (`#sidebarDeptNav`), hiệu ứng chuyển động gradient mượt khi hover/click (`.ap-dept-btn`, `@keyframes apBtnGradientPulse`).
+      * Đồng nhất 7 giao diện con (`#pane_DEPT_CEO` → `#pane_DEPT_OPS`) theo kiến trúc 4 tầng tinh gọn, sang trọng.
+      * Thiết lập nút `#btnSidebarSettings` (chỉ hiện cho quyền `ADMIN_CEO`, có thanh chuyển đổi **Xem thử quyền (`#selRolePreviewSwitcher`)** trên Topbar) và xây dựng bảng quản trị trong `#pane_SETTINGS` gồm Toggle On/Off ẩn/hiện từng phòng ban + Dropdown Multiselect phân quyền Role/User + Trạm Test MCP Hub trực tiếp.
+  - Cập nhật `hq/CODING_TASKS.json` (`TASK-012`), `hq/schematic_map.md`, `hq/00-INDEX.md`.

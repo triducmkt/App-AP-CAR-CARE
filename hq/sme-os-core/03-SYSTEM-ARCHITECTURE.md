@@ -1,4 +1,29 @@
 # (OFFICIAL) FILE 3: KIẾN TRÚC HỆ THỐNG APP SME OS (SYSTEM ARCHITECTURE)
+<!-- START_CONSTITUTION_TOC -->
+## ⚡ MỤC LỤC TRA CỨU NHANH HIẾN PHÁP (FAST-LOOKUP CONSTITUTION TOC)
+> **Quy tắc Bắt buộc (Mandatory Constitutional Scan & Verification Loop):**
+> 1. **Trước mỗi Prompt/Yêu cầu:** AI Agent BẮT BUỘC quét nhanh bảng mục lục này (cùng mục lục của 4 file Hiến pháp còn lại) để định vị chính xác các chương liên quan trước khi đề xuất, thiết kế hoặc viết code.
+> 2. **Vòng lặp Kiểm tra Chi tiết 1 Chương (`Deep-Chapter Verification Loop`):** Trong quá trình thực thi, bất cứ khi nào có dấu hiệu vi phạm Hiến pháp, có nghi vấn kiến trúc hoặc cần cẩn trọng kiểm tra lại, Agent BẮT BUỘC gọi `read_file` đọc trực tiếp đúng tọa độ dòng (`StartLine` – `EndLine`) của chương đó trong bảng dưới đây để đối chiếu 100% trước khi làm tiếp.
+
+| Chương / Mục | Tọa độ Dòng (`Line Range`) | Tên Chương & Chủ đề Cốt lõi | Tóm tắt Quy tắc & Nội dung Trọng tâm |
+| :--- | :---: | :--- | :--- |
+| **Chương 1** | `L31–L88` | **Mục tiêu & 10 Nguyên tắc Thiết kế Hệ thống** | SSOT, AI First, Event Driven, API First, Mobile First, Modular, Low Coupling, High Cohesion, Security, Config over Custom |
+| **Chương 2** | `L89–L443` | **Kiến trúc Tổng thể 7 Lớp (7-Layered Architecture) & Data Flow** | User -> Experience -> Business -> AI/Automation -> Platform (Kernel/Event) -> Infrastructure |
+| **Chương 3** | `L444–L711` | **User Experience Layer (Tầng Trải nghiệm Người dùng)** | Dashboards theo vai trò, Web Portal, Mobile Web Apps và nguyên tắc Simplicity First |
+| **Chương 4** | `L712–L869` | **Business Application Layer & Shared Business Rules** | Các phân hệ nghiệp vụ độc lập và bộ quy tắc dùng chung |
+| **Chương 5** | `L870–L1302` | **AI Brain Architecture (Kiến trúc Bộ não AI)** | Cơ chế xử lý ngữ cảnh, chấm điểm Confidence và điều phối gợi ý thông minh |
+| **Chương 6** | `L1303–L1531` | **Automation Architecture (Kiến trúc Tự động hóa Workflow)** | Trigger -> Condition -> Action tự động hóa vận hành không cần code lại |
+| **Chương 7** | `L1532–L1871` | **Platform Core (Business Kernel & Event Center)** | Hạt nhân kiểm soát Auth/RBAC/Audit và Trục điều phối sự kiện trung tâm |
+| **Chương 8** | `L1872–L2003` | **Master Data Architecture (Kiến trúc Dữ liệu Chủ SSOT)** | Quản trị nguồn dữ liệu duy nhất, chống phân mảnh và trùng lặp dữ liệu |
+| **Chương 9** | `L2004–L2178` | **Integration Architecture (Kiến trúc Tích hợp & MCP/API Gateway)** | Chuẩn kết nối Webhook, REST API, MCP Hub với các nền tảng bên thứ ba |
+| **Chương 10** | `L2179–L2263` | **Event Architecture (Kiến trúc Sự kiện Chi tiết)** | Cấu trúc Event Envelope, hàng đợi xử lý bất đồng bộ, Retry & Dead Letter Queue |
+| **Chương 11** | `L2264–L2282` | **Security Architecture (Kiến trúc Bảo mật Đa tầng)** | Cô lập dữ liệu Tenant, phân quyền 4D RBAC và nhật ký kiểm toán bất biến |
+| **Chương 12** | `L2283–L2308` | **Scalability Architecture (Kiến trúc Mở rộng Quy mô)** | Chuyển đổi mượt mà từ Phase 1 (GAS/Sheets) sang Phase 2 (Next.js/PostgreSQL) |
+| **Chương 13** | `L2309–L2398` | **Deployment Architecture (Kiến trúc Triển khai)** | Mô hình đóng gói và nhân bản nhanh cho các doanh nghiệp SME |
+| **Chương 14** | `L2399–L2441` | **Monitoring & Operations (Giám sát & Vận hành)** | Theo dõi sức khỏe hệ thống, thời gian phản hồi (Response Time) và cảnh báo lỗi |
+| **Chương 15** | `L2442–L2483` | **Roadmap Kiến trúc (Lộ trình Tiến hóa Hệ thống)** | Các mốc nâng cấp hạ tầng dựa trên ngưỡng tải thực tế |
+<!-- END_CONSTITUTION_TOC -->
+
 
 File 3. Kiến trúc hệ thống app SME OS (System Architecture)
 

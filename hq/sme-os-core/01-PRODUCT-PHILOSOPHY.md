@@ -1,4 +1,33 @@
 # (OFFICIAL) FILE 1: TRIẾT LÝ THIẾT KẾ APP SME OS (PRODUCT PHILOSOPHY)
+<!-- START_CONSTITUTION_TOC -->
+## ⚡ MỤC LỤC TRA CỨU NHANH HIẾN PHÁP (FAST-LOOKUP CONSTITUTION TOC)
+> **Quy tắc Bắt buộc (Mandatory Constitutional Scan & Verification Loop):**
+> 1. **Trước mỗi Prompt/Yêu cầu:** AI Agent BẮT BUỘC quét nhanh bảng mục lục này (cùng mục lục của 4 file Hiến pháp còn lại) để định vị chính xác các chương liên quan trước khi đề xuất, thiết kế hoặc viết code.
+> 2. **Vòng lặp Kiểm tra Chi tiết 1 Chương (`Deep-Chapter Verification Loop`):** Trong quá trình thực thi, bất cứ khi nào có dấu hiệu vi phạm Hiến pháp, có nghi vấn kiến trúc hoặc cần cẩn trọng kiểm tra lại, Agent BẮT BUỘC gọi `read_file` đọc trực tiếp đúng tọa độ dòng (`StartLine` – `EndLine`) của chương đó trong bảng dưới đây để đối chiếu 100% trước khi làm tiếp.
+
+| Chương / Mục | Tọa độ Dòng (`Line Range`) | Tên Chương & Chủ đề Cốt lõi | Tóm tắt Quy tắc & Nội dung Trọng tâm |
+| :--- | :---: | :--- | :--- |
+| **CHƯƠNG 0** | `L33–L195` | **Sứ mệnh SME OS & 10 Triết lý Cốt lõi** | Business First AI Second, SUS > 80, Onboarding < 7 ngày, 10 Triết lý gốc |
+| **Chương 1** | `L196–L273` | **Vì sao SME OS được sinh ra** | Giải quyết nỗi đau phân mảnh phần mềm & phụ thuộc Founder của SME Việt Nam |
+| **Chương 2** | `L274–L312` | **Product Vision (Tầm nhìn Sản phẩm)** | Trở thành Hệ điều hành Doanh nghiệp (Business OS) chuẩn mực cho SME |
+| **Chương 3** | `L313–L408` | **Product Philosophy (10 Triết lý Thiết kế)** | Chi tiết hóa 10 triết lý: AI Everywhere (not Chat), Event Driven, SSOT... |
+| **Chương 4** | `L409–L446` | **Định nghĩa Business Operating System** | Sự khác biệt giữa phần mềm rời rạc (SaaS tool) và Hệ điều hành SME OS |
+| **Chương 5** | `L447–L496` | **Hệ thần kinh số của Doanh nghiệp** | Cơ chế Sensor cảm biến, dẫn truyền sự kiện và phản xạ vận hành |
+| **Chương 6** | `L497–L533` | **Event Driven Architecture (Kiến trúc Hướng Sự kiện)** | Cấm Module gọi trực tiếp Module; giao tiếp 100% qua Event Center |
+| **Chương 7** | `L534–L580` | **AI Philosophy (Chu trình AI 5 Tầng)** | Observe -> Detect -> Diagnose -> Recommend (% Confidence) -> Execute (Approval Node) |
+| **Chương 8** | `L581–L648` | **AI Brain (Kiến trúc Bộ não AI 3 Tầng)** | Local AI, Vertical AI, Global AI Brain & chính sách bảo mật dữ liệu |
+| **Chương 9** | `L649–L698` | **Business Kernel (Hạt nhân Nghiệp vụ)** | Quản lý Auth, RBAC, Tenant, Audit Log và quy tắc nền tảng |
+| **Chương 10** | `L699–L749` | **Event Center (Trục Trung tâm Sự kiện)** | Trái tim điều phối Pub/Sub, Event Queue và Dead Letter Queue (DLQ) |
+| **Chương 11** | `L750–L798` | **Business Modules (Các Phân hệ Nghiệp vụ)** | Ranh giới đóng gói độc lập (Modular Forever) của các phân hệ |
+| **Chương 12** | `L799–L866` | **Dashboard Philosophy (Triết lý Bảng điều khiển)** | Hiển thị theo vai trò, tối giản (<30s hiểu ngay), gắn liền hành động |
+| **Chương 13** | `L867–L909` | **Website trong Hệ sinh thái SME OS** | Website không tách rời mà là Trạm Sensor thu Lead & Đặt lịch trực tiếp |
+| **Chương 14** | `L910–L1270` | **Roadmap (Lộ trình Phát triển V1 -> V2 -> V3)** | Kiểm soát phạm vi nghiêm ngặt từ MVP sinh tồn đến Hệ điều hành thông minh |
+| **Chương 15** | `L1271–L1328` | **Product Principles (8 Nguyên tắc Bắt buộc)** | 8 nguyên tắc kiểm chứng mọi tính năng trước khi được phép code |
+| **Chương 16** | `L1329–L1339` | **Development Constitution (Hiến pháp Phát triển)** | Quy ước 80/20, Working Product > Perfect Architecture, chống Over-coding |
+| **Chương 17** | `L1340–L1349` | **Product Positioning & Target Customer (ICP)** | Định vị phân khúc SME Việt Nam (5-100 nhân sự), ưu tiên Ngành Dịch vụ |
+| **Phụ lục A** | `L1350–L1563` | **References & Industry Research** | Tài liệu tham chiếu và nghiên cứu thực tiễn ngành |
+<!-- END_CONSTITUTION_TOC -->
+
 
 FILE 1. Triết lý Thiết kế app SME OS (Product Philosophy)
 CHƯƠNG 0. SỨ MỆNH SME OS
@@ -502,7 +531,7 @@ Khách bấm Đặt lịch → Website phát WEB_BOOKING_SUBMITTED lên Event Ce
    * EDA là Triết lý Lập trình Bắt buộc: Chuẩn mực giao tiếp không thể thay thế.
    * Zero Direct Module-to-Module Communication: Cấm 100% gọi API chéo nội bộ.
 ________________
-Chư��ng 7. AI Philosophy
+Chương 7. AI Philosophy
 1. Mục tiêu chương
    * Định hình tư duy thiết kế AI cho toàn bộ hệ thống SME OS: Khẳng định AI không phải là một Chatbot thụ động (Passive Chatbot) đứng ngoài luồng vận hành, mà là một Lớp trí tuệ bao phủ (Pervasive Intelligence) hoạt động chủ động theo chu trình 5 tầng: Observe → Detect → Diagnose → Recommend → Execute.
    * Chuẩn hóa nguyên tắc hoạt động của AI nhằm giúp đội ngũ kỹ thuật (AI Engineer, Backend Developer, UI/UX Designer) xây dựng các tính năng AI hữu ích, xuất hiện đúng ngữ cảnh tác vụ và gia tăng tối đa giá trị vận hành cho doanh nghiệp SME.

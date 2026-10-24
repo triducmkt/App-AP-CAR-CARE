@@ -38,8 +38,18 @@ Danh mục dự án toàn máy:
 
 1. **Quy định tạo file:** Tuyệt đối KHÔNG tự tạo file mới bất kỳ trong `src/`. Khi cần tạo file mới, BẮT BUỘC xin phép và được anh Đức xác nhận. File không phải code app (`.md` cho agent) chỉ được tạo ở `hq/`.
 2. **Backup & Revert bắt buộc:** Trước mỗi lần coding, agent BẮT BUỘC chạy `.\backup.ps1` trên Terminal (copy `src/` vào `backup/<ID>` + ghi log). Tuyệt đối không viết code nếu chưa chạy thành công. Khi nhận lệnh `/revert-local (mã ID)`, chạy ngay `.\revert-local.ps1 -TargetHash <mã ID>` để khôi phục code an toàn.
-3. **Quy trình Khởi động, Scan & Dọn dẹp tàn dư (Mandatory Scan Workflow):**
-   - **BƯỚC 0 (TIÊU CHUẨN THIẾT KẾ & BRAND IDENTITY - BẮT BUỘC):** Trước khi suy nghĩ giải pháp hoặc viết code bất kỳ thành phần UI/UX, giao diện, chuyển động hay tính năng nào, Agent BẮT BUỘC phải gọi `view_file` đọc file `hq/design_aesthetic_memo.md`. Đối chiếu nghiêm ngặt yêu cầu của anh Đức với bảng chuẩn Font (Roboto, Roboto Condensed), Hệ màu (Obsidian Black, Google Blue, Pure White), Chuẩn ánh sáng 3D và Phong cách tối giản trước khi triển khai.
+3. **Quy trình Khởi động, Tra cứu Mục lục 5 File Hiến pháp, Scan & Dọn dẹp tàn dư (Mandatory Constitutional & Scan Workflow):**
+   - **BƯỚC 0.A (TRA CỨU NHANH MỤC LỤC 5 FILE HIẾN PHÁP SME OS & VÒNG LẶP KIỂM TRA CHI TIẾT 1 CHƯƠNG - BẮT BUỘC TRƯỚC MỖI PROMPT):**
+     * Trước mỗi khi tiến hành thực thi bất kỳ chat/yêu cầu/prompt nào của anh Đức, Agent **BẮT BUỘC tra cứu nhanh bảng Mục lục (`FAST-LOOKUP CONSTITUTION TOC`) ở đầu 5 file Hiến pháp SME OS** trong `hq/sme-os-core/`:
+       1. `01-PRODUCT-PHILOSOPHY.md` (`L1–L30`)
+       2. `02-BUSINESS-ARCHITECTURE.md` (`L1–L26`)
+       3. `03-SYSTEM-ARCHITECTURE.md` (`L1–L26`)
+       4. `04-APPLICATION-ARCHITECTURE.md` (`L1–L18`)
+       5. `05-TECHNOLOGY-ARCHITECTURE.md` (`L1–L18`)
+       *(Cùng bảng tổng hợp tại `00-CONTEXT-MASTER-PROMPT.md` và `00-DIEU-LUAT-PROMPT-RULE.md`).*
+     * Việc tra cứu nhanh mục lục 5 file Hiến pháp giúp Agent luôn đưa ra các phương án thiết kế, đề xuất và thực thi hiệu quả, bám sát tuyệt đối Hiến pháp SME OS (Business First AI Second, Simplicity First <30s, SSOT, Event-Driven, 4D FIELD_MAP, OptiSync V5, 100% Tiếng Việt ở UI).
+     * **Vòng lặp Kiểm tra Chi tiết 1 Chương Hiến pháp (`Deep-Chapter Constitutional Verification Loop`):** Trong suốt quá trình thiết kế và thực thi, bất cứ khi nào có **dấu hiệu vi phạm Hiến pháp**, **có nghi vấn** hoặc **cần cẩn trọng kiểm tra lại**, Agent **BẮT BUỘC** kích hoạt vòng lặp kiểm tra: lấy đúng tọa độ dòng (`L...–L...`) từ mục lục đầu file Hiến pháp đó, gọi `read_file` đọc chi tiết toàn bộ chương đó, đối chiếu với Checklist cuối chương để hiệu chỉnh ngay trước khi viết code hoặc trả lời.
+   - **BƯỚC 0.B (TIÊU CHUẨN THIẾT KẾ & BRAND IDENTITY - BẮT BUỘC):** Trước khi suy nghĩ giải pháp hoặc viết code bất kỳ thành phần UI/UX, giao diện, chuyển động hay tính năng nào, Agent BẮT BUỘC phải gọi `view_file` đọc file `hq/design_aesthetic_memo.md`. Đối chiếu nghiêm ngặt yêu cầu của anh Đức với bảng chuẩn Font (Roboto, Roboto Condensed), Hệ màu (Obsidian Black, Google Blue, Pure White), Chuẩn ánh sáng 3D và Phong cách tối giản (loại bỏ hoàn toàn các câu mô tả, giải thích nhỏ rườm rà) trước khi triển khai.
    - Đọc `hq/schematic_map.md` để nắm luồng kiến trúc.
    - Quét `hq/CODING_TASKS.json` từ trên xuống dưới, trái qua phải để xác định tọa độ (ID task, file, hàm, CSS class) liên quan.
    - Review mã nguồn theo 2 cấp độ: Cấp độ 1 (quét file thao tác trực tiếp), Cấp độ 2 (quét chéo toàn bộ dự án). Tự đánh giá xóa, ẩn hoặc cô lập code cũ thừa/xung đột trước khi viết code mới.
