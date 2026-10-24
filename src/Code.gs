@@ -17,6 +17,10 @@ const PM_CONFIG = {
   WEBSITE: "www.apcarcare.vn",
   EMAIL: "apcarcare.vn@gmail.com",
 
+  // ID & URL Google Sheet Backend Chính Thức (Single Source of Truth)
+  SPREADSHEET_ID: "1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0",
+  SPREADSHEET_URL: "https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit",
+
   // Chuẩn dòng vật lý bắt buộc (Dòng 1-9: Công thức/Metadata, Dòng 10: Header, Dòng 11: Mô tả, Dòng 12+: Data)
   HEADER_ROW: 10,
   GUIDE_ROW: 11,
@@ -40,6 +44,7 @@ const PM_CONFIG = {
     FINANCE: "Finance_Transactions",
     WARRANTY: "Warranty_Care",
     MKT_POSTS: "MKT_Posts",
+    TT_MKT: "TT-MKT",
     APP_THEMES: "App_Themes",
     BRAND_LOGOS: "Brand_Logo_Slots",
     AUTOMATION_QUEUE: "Sys_Automation_Queue",
@@ -443,18 +448,20 @@ const GLOBAL_DB_MAP = {
   },
 
   // 6. BẢNG STAFF (Nhân sự 6 Tầng theo Sơ đồ Tổ chức AP CAR CARE - M10)
+  // Cột M lưu JSON Cá nhân hóa giao diện (Thứ tự kéo thả nút Sidebar, Theme, Zoom Canvas...) cho từng User
   "Staff": {
-    "Mã NV":           { sheetHeader: "Mã NV",           col: "B", frontendKey: "id",            type: "string", visible: true },
-    "Họ và tên":       { sheetHeader: "Họ và tên",       col: "C", frontendKey: "name",          type: "string", visible: true },
-    "Tầng Tổ Chức":    { sheetHeader: "Tầng Tổ Chức",    col: "D", frontendKey: "orgFloor",      type: "select", visible: true },
-    "Phòng Ban":       { sheetHeader: "Phòng Ban",       col: "E", frontendKey: "department",    type: "select", visible: true },
-    "Bộ Phận / Chi Nhánh":{ sheetHeader:"Bộ Phận",       col: "F", frontendKey: "subUnit",       type: "string", visible: true },
-    "Chức danh":       { sheetHeader: "Vai trò",         col: "G", frontendKey: "role",          type: "select", visible: true },
-    "SĐT Zalo":        { sheetHeader: "SĐT Zalo",        col: "H", frontendKey: "phone",         type: "phone",  visible: true },
-    "Mật khẩu":        { sheetHeader: "Mật khẩu",        col: "I", frontendKey: "password",      type: "password",visible:false },
-    "Ảnh Avatar":      { sheetHeader: "Ảnh Avatar",      col: "J", frontendKey: "avatar",        type: "image",  visible: true },
-    "Màu yêu thích":   { sheetHeader: "Màu sắc yêu thích",col:"K", frontendKey: "color",         type: "color",  visible: true },
-    "Trạng thái":      { sheetHeader: "Trạng thái",      col: "L", frontendKey: "status",        type: "select", visible: true }
+    "Mã NV":           { sheetHeader: "Mã NV",                  col: "B", frontendKey: "id",                    type: "string",   visible: true },
+    "Họ và tên":       { sheetHeader: "Họ và tên",              col: "C", frontendKey: "name",                  type: "string",   visible: true },
+    "Tầng Tổ Chức":    { sheetHeader: "Tầng Tổ Chức",           col: "D", frontendKey: "orgFloor",              type: "select",   visible: true },
+    "Phòng Ban":       { sheetHeader: "Phòng Ban",              col: "E", frontendKey: "department",            type: "select",   visible: true },
+    "Bộ Phận / Chi Nhánh":{ sheetHeader:"Bộ Phận",              col: "F", frontendKey: "subUnit",               type: "string",   visible: true },
+    "Chức danh":       { sheetHeader: "Vai trò",                col: "G", frontendKey: "role",                  type: "select",   visible: true },
+    "SĐT Zalo":        { sheetHeader: "SĐT Zalo",               col: "H", frontendKey: "phone",                 type: "phone",    visible: true },
+    "Mật khẩu":        { sheetHeader: "Mật khẩu",               col: "I", frontendKey: "password",              type: "password", visible: false },
+    "Ảnh Avatar":      { sheetHeader: "Ảnh Avatar",             col: "J", frontendKey: "avatar",                type: "image",    visible: true },
+    "Màu yêu thích":   { sheetHeader: "Màu sắc yêu thích",      col: "K", frontendKey: "color",                 type: "color",    visible: true },
+    "Trạng thái":      { sheetHeader: "Trạng thái",             col: "L", frontendKey: "status",                type: "select",   visible: true },
+    "Cá nhân hóa UI (JSON)": { sheetHeader: "Cá nhân hóa UI (JSON)", col: "M", frontendKey: "uiPersonalizationJson", type: "json", visible: true }
   },
 
   // 7. BẢNG PARTNERS (Đối tác / Đại lý B2B & CTV - M07)
@@ -513,11 +520,39 @@ const GLOBAL_DB_MAP = {
     "Trạng thái YouTube":{sheetHeader:"Trạng thái YouTube",col:"I",frontendKey: "youtubeStatus", type: "string", visible: true },
     "Trạng thái Facebook":{sheetHeader:"Trạng thái Facebook",col:"J",frontendKey:"facebookStatus",type: "string", visible: true },
     "Trạng thái TikTok":{ sheetHeader:"Trạng thái TikTok",col: "K", frontendKey: "tiktokStatus",  type: "string", visible: true }
+  },
+
+  // 12. BẢNG TT-MKT (Trạm Dựng Video AI 7-Skill & Mind-Map Schematic Canvas - Sheet "TT-MKT")
+  "TT-MKT": {
+    "ID Dự Án Video":                   { sheetHeader: "ID Dự Án Video",                   col: "B", frontendKey: "id",                     type: "string",   visible: true },
+    "Ngày tạo":                         { sheetHeader: "Ngày tạo",                         col: "C", frontendKey: "createdAt",              type: "datetime", visible: true },
+    "Tên Dự Án / Clip":                 { sheetHeader: "Tên Dự Án / Clip",                 col: "D", frontendKey: "projectName",            type: "string",   visible: true },
+    "Nhân sự phụ trách":                { sheetHeader: "Nhân sự phụ trách",                col: "E", frontendKey: "author",                 type: "string",   visible: true },
+    "File Video Raw (URL/Local)":       { sheetHeader: "File Video Raw (URL/Local)",       col: "F", frontendKey: "rawVideoSource",         type: "string",   visible: true },
+    "File Video Mẫu (URL/Local)":       { sheetHeader: "File Video Mẫu (URL/Local)",       col: "G", frontendKey: "benchmarkVideoSource",   type: "string",   visible: true },
+    "File Video Output 9:16":           { sheetHeader: "File Video Output 9:16",           col: "H", frontendKey: "outputVideoUrl",         type: "string",   visible: true },
+    "Ngành hàng (Industry Domain)":     { sheetHeader: "Ngành hàng (Industry Domain)",     col: "I", frontendKey: "industryDomain",         type: "select",   visible: true },
+    "Mục tiêu Clip (Video Goal)":       { sheetHeader: "Mục tiêu Clip (Video Goal)",       col: "J", frontendKey: "videoGoal",              type: "select",   visible: true },
+    "Chân dung & Độ tuổi Khán giả":     { sheetHeader: "Chân dung & Độ tuổi Khán giả",     col: "K", frontendKey: "targetAudience",         type: "select",   visible: true },
+    "Chế độ Style (--apply-style)":     { sheetHeader: "Chế độ Style (--apply-style)",     col: "L", frontendKey: "applyStyleFlag",         type: "select",   visible: true },
+    "Preset Tone Màu":                  { sheetHeader: "Preset Tone Màu",                  col: "M", frontendKey: "colorPreset",            type: "select",   visible: true },
+    "Thông số Màu & Denoise (JSON)":    { sheetHeader: "Thông số Màu & Denoise (JSON)",    col: "N", frontendKey: "colorParamsJson",        type: "json",     visible: true },
+    "Nhịp cắt ASL & Silence Cut (JSON)":{ sheetHeader: "Nhịp cắt ASL & Silence Cut (JSON)",col: "O", frontendKey: "pacingParamsJson",       type: "json",     visible: true },
+    "Hook 3s & Cảm xúc FACS (JSON)":    { sheetHeader: "Hook 3s & Cảm xúc FACS (JSON)",    col: "P", frontendKey: "hookParamsJson",         type: "json",     visible: true },
+    "Phụ đề 1px & Tiêu đề H1-H3 (JSON)":{ sheetHeader: "Phụ đề 1px & Tiêu đề H1-H3 (JSON)",col: "Q", frontendKey: "subtitleTypographyJson", type: "json",     visible: true },
+    "B-Roll 45% & Deictic Guard (JSON)":{ sheetHeader: "B-Roll 45% & Deictic Guard (JSON)",col: "R", frontendKey: "brollParamsJson",        type: "json",     visible: true },
+    "Âm thanh BGM Ducking & SFX (JSON)":{ sheetHeader: "Âm thanh BGM Ducking & SFX (JSON)",col: "S", frontendKey: "audioSfxParamsJson",     type: "json",     visible: true },
+    "Ưu đãi Offer & CTA (JSON)":        { sheetHeader: "Ưu đãi Offer & CTA (JSON)",        col: "T", frontendKey: "ctaOfferJson",           type: "json",     visible: true },
+    "Sơ đồ Node Canvas Mind-Map (JSON)":{ sheetHeader: "Sơ đồ Node Canvas Mind-Map (JSON)",col: "U", frontendKey: "canvasNodesJson",        type: "json",     visible: true },
+    "Mã JSON Thiết lập Tổng":           { sheetHeader: "Mã JSON Thiết lập Tổng",           col: "V", frontendKey: "fullEdlConfigJson",      type: "json",     visible: true },
+    "Trạng thái Render":                { sheetHeader: "Trạng thái Render",                col: "W", frontendKey: "status",                 type: "select",   visible: true }
   }
 };
 
-// Alias tương thích ngược cho POST_FIELD_MAP
+// Alias tương thích ngược cho POST_FIELD_MAP & TT_MKT_VIDEO_FIELD_MAP
 const POST_FIELD_MAP = GLOBAL_DB_MAP["MKT_Posts"];
+const TT_MKT_VIDEO_FIELD_MAP = GLOBAL_DB_MAP["TT-MKT"];
+GLOBAL_DB_MAP["TT_MKT"] = GLOBAL_DB_MAP["TT-MKT"];
 
 /**
  * CHIỀU 2 (2D): MA TRẬN BẢNG GIÁ & ĐỊNH MỨC THEO CHI NHÁNH / KHỐI (PROJECT_PRICING)
@@ -758,27 +793,27 @@ const MODULE_CONTRACTS_REGISTRY = {
 };
 
 // ============================================================================
-// 6B. CẤU HÌNH BẬT/TẮT (TOGGLE ON/OFF) & PHÂN QUYỀN MULTI-SELECT 7 PHÒNG BAN
-// Phục vụ quản trị ẩn/hiện nút Shortcut ở khoảng giữa Sidebar Trang Home
+// 6B. CẤU HÌNH BẬT/TẮT (TOGGLE ON/OFF) & PHÂN QUYỀN MULTI-SELECT 8 PHÒNG BAN
+// Phục vụ quản trị ẩn/hiện & kéo thả sắp xếp nút Shortcut ở khoảng giữa Sidebar Trang Home
 // ============================================================================
 const DEFAULT_DEPT_ACCESS_CONFIG = [
   {
-    deptId: "DEPT_CEO",
+    deptId: "DEPT_EXEC",
     code: "BGD-CEO",
     name: "Ban Giám Đốc",
     subLabel: "Điều hành & Phê duyệt AI",
     icon: "crown",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ"]
   },
   {
     deptId: "DEPT_MKT",
     code: "TT-MKT",
-    name: "Phòng Marketing",
-    subLabel: "Chiến dịch, ROAS & Đa kênh",
+    name: "Phòng TT - MKT",
+    subLabel: "Edit Video AI, ROAS & Đa kênh",
     icon: "megaphone",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO", "MKT"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "SALE_MKT"]
   },
   {
     deptId: "DEPT_SALE",
@@ -787,43 +822,52 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     subLabel: "Phễu Khách 360° & Đặt lịch",
     icon: "handshake",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO", "SALE", "MKT"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "SALE_MKT", "QUAN_DOC"]
   },
   {
-    deptId: "DEPT_TECH",
+    deptId: "DEPT_WORKSHOP",
     code: "KY-THUAT",
     name: "Kỹ Thuật & Xưởng",
     subLabel: "Khoang xe & Lệnh RO",
     icon: "wrench",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO", "TECH", "SALE"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "KTV_CHINH", "SALE_MKT"]
   },
   {
-    deptId: "DEPT_INV",
+    deptId: "DEPT_HR",
+    code: "HR-DT",
+    name: "Phòng HR - Đào Tạo",
+    subLabel: "Nhân sự 6 tầng & Học viện AP",
+    icon: "users",
+    enabled: true,
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "SALE_MKT", "KTV_CHINH", "KE_TOAN"]
+  },
+  {
+    deptId: "DEPT_PARTS",
     code: "KHO-SKU",
     name: "Kho & Mua Hàng",
     subLabel: "Tồn kho & Vật tư Focal",
     icon: "box",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO", "INV", "TECH", "FIN"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "KE_TOAN"]
   },
   {
-    deptId: "DEPT_FIN",
+    deptId: "DEPT_FINANCE",
     code: "KE-TOAN",
     name: "Kế Toán & Tài Chính",
     subLabel: "Đối soát & Sổ quỹ",
     icon: "wallet",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO", "FIN"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "KE_TOAN"]
   },
   {
-    deptId: "DEPT_OPS",
+    deptId: "DEPT_PARTNER",
     code: "BAO-VE",
     name: "Bảo Vệ & Ca Trực",
     subLabel: "Cổng xe 10s & Checklist",
     icon: "shield",
     enabled: true,
-    allowedRoles: ["ADMIN_CEO", "OPS", "TECH", "SALE"]
+    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "KTV_CHINH", "SALE_MKT"]
   }
 ];
 
@@ -879,16 +923,38 @@ function withScriptLock(callbackFn) {
 }
 
 /**
+ * Kết nối tới Google Spreadsheet Backend (Ưu tiên ActiveSpreadsheet, fallback về PM_CONFIG.SPREADSHEET_ID)
+ */
+function getTargetSpreadsheet() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss) return ss;
+  } catch (e) {}
+  try {
+    if (PM_CONFIG.SPREADSHEET_ID) {
+      return SpreadsheetApp.openById(PM_CONFIG.SPREADSHEET_ID);
+    }
+  } catch (e2) {}
+  return null;
+}
+
+/**
  * Đọc 1 lần duy nhất toàn bộ Sheet vào RAM (Single-Read Snapshot)
  */
 function getDatabaseSnapshot(sheetName) {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getTargetSpreadsheet();
     if (!ss) return { rows: [], lastRow: 0 };
     var sheet = ss.getSheetByName(sheetName);
+    if (!sheet && sheetName === "Staff") {
+      sheet = ss.getSheetByName("Nhân sự");
+    }
+    if (!sheet && sheetName === "TT_MKT") {
+      sheet = ss.getSheetByName("TT-MKT");
+    }
     if (!sheet) return { rows: [], lastRow: 0 };
     var lastRow = sheet.getLastRow();
-    if (lastRow < PM_CONFIG.MIN_DATA_ROW) return { rows: [], lastRow: lastRow };
+    if (lastRow < PM_CONFIG.MIN_DATA_ROW) return { rows: [], lastRow: lastRow, sheet: sheet };
     var values = sheet.getRange(
       PM_CONFIG.MIN_DATA_ROW,
       1,
@@ -956,15 +1022,41 @@ function getSeedDepartmentData() {
       mktPublishedPostsCount: 42
     },
     Staff: [
-      { id: "NV-601", name: "CHỦ TỊCH HĐQT", orgFloor: "Tầng 6", department: "Ban Giám Đốc & HĐQT", subUnit: "Hội Đồng Quản Trị", role: ROLES.CHAIRMAN, phone: "0909000001", color: "#4285F4", status: "Đang công tác" },
-      { id: "NV-501", name: "ANH LỘC (CEO)", orgFloor: "Tầng 5", department: "Ban Giám Đốc & HĐQT", subUnit: "Giám Đốc Điều Hành (CEO)", role: ROLES.CEO, phone: "0909000002", color: "#34A853", status: "Đang công tác" },
-      { id: "NV-401", name: "TĂNG TRÍ ĐỨC", orgFloor: "Tầng 4", department: "Phòng TT - MKT", subUnit: "Giám Đốc TT & MKT kiêm GĐ Nhân Sự", role: ROLES.DIRECTOR, phone: "0909123456", color: "#4285F4", status: "Đang công tác" },
-      { id: "NV-402", name: "CÔNG TÂY", orgFloor: "Tầng 4", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "Giám Đốc Dịch Vụ kiêm Trưởng Phòng Đào Tạo", role: ROLES.DIRECTOR, phone: "0909222333", color: "#FBBC05", status: "Đang công tác" },
-      { id: "NV-403", name: "KẾ TOÁN TRƯỞNG", orgFloor: "Tầng 4", department: "Phòng Kế Toán - Hành Chính", subUnit: "Quản trị Tài chính & KTNB", role: ROLES.DIRECTOR, phone: "0909444555", color: "#EA4335", status: "Đang công tác" },
-      { id: "NV-301", name: "HOÀNG LONG", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "CVDV — Chi nhánh AP Tân Phú", role: ROLES.CVDV, phone: "0909301301", color: "#00BCD4", status: "Đang công tác" },
-      { id: "NV-302", name: "NGỌC TÚ", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "Quản đốc Trung tâm — AP Tân Phú", role: ROLES.MANAGER, phone: "0909302302", color: "#8E24AA", status: "Đang công tác" },
-      { id: "NV-303", name: "HOÀNG MINH", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "CVDV — Chi nhánh AP Quận 7", role: ROLES.CVDV, phone: "0909303303", color: "#00BCD4", status: "Đang công tác" },
-      { id: "NV-304", name: "NGỌC LỄ", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "Quản đốc Trung tâm — AP Quận 7", role: ROLES.MANAGER, phone: "0909304304", color: "#8E24AA", status: "Đang công tác" }
+      { id: "NV-601", name: "CHỦ TỊCH HĐQT", orgFloor: "Tầng 6", department: "Ban Giám Đốc & HĐQT", subUnit: "Hội Đồng Quản Trị", role: ROLES.CHAIRMAN, phone: "0909000001", color: "#4285F4", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_EXEC","DEPT_MKT","DEPT_SALE","DEPT_WORKSHOP","DEPT_HR","DEPT_PARTS","DEPT_FINANCE","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-501", name: "ANH LỘC (CEO)", orgFloor: "Tầng 5", department: "Ban Giám Đốc & HĐQT", subUnit: "Giám Đốc Điều Hành (CEO)", role: ROLES.CEO, phone: "0909000002", color: "#34A853", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_EXEC","DEPT_MKT","DEPT_SALE","DEPT_WORKSHOP","DEPT_HR","DEPT_PARTS","DEPT_FINANCE","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-401", name: "TĂNG TRÍ ĐỨC", orgFloor: "Tầng 4", department: "Phòng TT - MKT", subUnit: "Giám Đốc TT & MKT kiêm GĐ Nhân Sự", role: ROLES.DIRECTOR, phone: "0909123456", color: "#4285F4", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_EXEC","DEPT_MKT","DEPT_HR","DEPT_SALE","DEPT_WORKSHOP","DEPT_PARTS","DEPT_FINANCE","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-402", name: "CÔNG TÂY", orgFloor: "Tầng 4", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "Giám Đốc Dịch Vụ kiêm Trưởng Phòng Đào Tạo", role: ROLES.DIRECTOR, phone: "0909222333", color: "#FBBC05", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_WORKSHOP","DEPT_HR","DEPT_PARTS","DEPT_SALE","DEPT_EXEC","DEPT_MKT","DEPT_FINANCE","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-403", name: "KẾ TOÁN TRƯỞNG", orgFloor: "Tầng 4", department: "Phòng Kế Toán - Hành Chính", subUnit: "Quản trị Tài chính & KTNB", role: ROLES.DIRECTOR, phone: "0909444555", color: "#EA4335", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_FINANCE","DEPT_PARTS","DEPT_EXEC","DEPT_HR","DEPT_SALE","DEPT_WORKSHOP","DEPT_MKT","DEPT_PARTNER"],"themeMode":"light"}' },
+      { id: "NV-301", name: "HOÀNG LONG", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "CVDV — Chi nhánh AP Tân Phú", role: ROLES.CVDV, phone: "0909301301", color: "#00BCD4", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_SALE","DEPT_WORKSHOP","DEPT_HR","DEPT_MKT","DEPT_PARTS","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-302", name: "NGỌC TÚ", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "Quản đốc Trung tâm — AP Tân Phú", role: ROLES.MANAGER, phone: "0909302302", color: "#8E24AA", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_WORKSHOP","DEPT_HR","DEPT_PARTS","DEPT_SALE","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-303", name: "HOÀNG MINH", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "CVDV — Chi nhánh AP Quận 7", role: ROLES.CVDV, phone: "0909303303", color: "#00BCD4", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_SALE","DEPT_WORKSHOP","DEPT_HR","DEPT_MKT","DEPT_PARTS","DEPT_PARTNER"],"themeMode":"dark"}' },
+      { id: "NV-304", name: "NGỌC LỄ", orgFloor: "Tầng 3", department: "Khối Dịch Vụ & Kỹ Thuật", subUnit: "Quản đốc Trung tâm — AP Quận 7", role: ROLES.MANAGER, phone: "0909304304", color: "#8E24AA", status: "Đang công tác", uiPersonalizationJson: '{"sidebarOrder":["DEPT_WORKSHOP","DEPT_HR","DEPT_PARTS","DEPT_SALE","DEPT_PARTNER"],"themeMode":"dark"}' }
+    ],
+    "TT-MKT": [
+      {
+        id: "VID-2610-001",
+        createdAt: "24/10/2026 21:30",
+        projectName: "Nâng cấp Âm thanh Focal Stage 2 & PPF Porsche Macan S",
+        author: "TĂNG TRÍ ĐỨC",
+        rawVideoSource: "inputs/raw_videos/clip-content-doc.mp4",
+        benchmarkVideoSource: "inputs/benchmark_videos/sample-viral-apcarcare.mp4",
+        outputVideoUrl: "outputs/final_videos/final_viral_short_v2.mp4",
+        industryDomain: "AUTOMOTIVE",
+        videoGoal: "COMMERCIAL_CONVERSION",
+        targetAudience: "MATURE_PREMIUM (28-55t - Chủ xe sang)",
+        applyStyleFlag: "all",
+        colorPreset: "AUTOMOTIVE_SHOWROOM_HDR",
+        colorParamsJson: '{"contrast":1.07,"saturation":1.12,"brightness":0.015,"gamma":1.02,"lumaSharpness":0.75,"denoise3D":"hqdn3d=1.5:1.5:6:6"}',
+        pacingParamsJson: '{"targetDuration":"60-90s","cutsPerMin":16,"aslSec":3.6,"silenceThresholdDb":-30,"silenceMinSec":0.4}',
+        hookParamsJson: '{"hookWindowSec":3.5,"minFacsScore":80,"punchInZoom":1.18,"climaxZoom":1.10,"instantReplaySlowMo":true}',
+        subtitleTypographyJson: '{"font":"Phudu / Be Vietnam Pro","fontSize":40,"lineSpacingPx":1,"delayStartSec":4.0,"h1Style":"Red@0.92 + Yellow","h2Style":"Blue@0.88 + White","safeZone":"Top 90px / Bottom 280px"}',
+        brollParamsJson: '{"brollCoverageRatio":0.45,"entryDelaySec":1.8,"windowSec":2.8,"deicticGuard":true}',
+        audioSfxParamsJson: '{"bgmTrack":"dance remix 1.mp3","bgmDuckingVol":0.08,"sfxPack":"Whoosh + Boom + Pop + Ding","sfxVol":0.35}',
+        ctaOfferJson: '{"ctaText":"LIÊN HỆ AP CAR CARE NGAY - SỐ LƯỢNG CÓ HẠN!","scarcityBadge":"Chỉ còn 9 suất ưu đãi tháng 10"}',
+        canvasNodesJson: '[]',
+        fullEdlConfigJson: '{"projectId":"VID-2610-001","pipeline":"7-Skill Plug-and-Play"}',
+        status: "Đã xuất bản 9:16 Full HD"
+      }
     ],
     Orders: [
       { id: "RO-2610-001", orderDate: "11/10/2026", licensePlate: "51K-889.99", carModel: "KIA Carnival Signature", customerName: "Anh Minh Quân", servicePackage: "Nâng cấp Âm thanh Focal Stage 2 + Cách âm", branch: "AP - Tân Phú", advisor: "Hoàng Long", foreman: "Ngọc Tú", totalAmount: 63500000, status: "Đang thi công" },
@@ -1163,6 +1255,8 @@ function getWhiteLabelAndSystemBundle() {
     success: true,
     appVersion: PM_CONFIG.APP_VERSION,
     appTitle: PM_CONFIG.APP_TITLE,
+    spreadsheetId: PM_CONFIG.SPREADSHEET_ID,
+    spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL,
     headerRow: PM_CONFIG.HEADER_ROW,
     minDataRow: PM_CONFIG.MIN_DATA_ROW,
     departments: AP_ORG_DEPARTMENTS_MATRIX,
@@ -1782,5 +1876,255 @@ function ingestCanonicalEnvelope(envelopePayload, currentUser) {
     };
   });
 }
+
+// ============================================================================
+// MODULE M17: CÁ NHÂN HÓA GIAO DIỆN USER (SIDEBAR DRAG-AND-DROP JSON AT STAFF COL M)
+// & TRẠM DỰNG VIDEO AI 7-SKILL + MIND-MAP CANVAS (SHEET "TT-MKT" BACKEND)
+// ============================================================================
+
+/**
+ * Tự động khởi tạo / đồng bộ cấu trúc cột chuẩn (Dòng 10 Header, Dòng 11 Guide, Dòng 12+ Data)
+ * cho Sheet "Staff" (bổ sung cột M "Cá nhân hóa UI (JSON)") và Sheet mới "TT-MKT" ở Backend.
+ */
+function ensureBackendSheetsInitialized() {
+  return withScriptLock(function() {
+    var ss = getTargetSpreadsheet();
+    var initializedSheets = [];
+
+    if (ss) {
+      var targetTables = ["Staff", "TT-MKT"];
+      for (var t = 0; t < targetTables.length; t++) {
+        var tblName = targetTables[t];
+        var fieldMap = GLOBAL_DB_MAP[tblName];
+        if (!fieldMap) continue;
+
+        var sheet = ss.getSheetByName(tblName);
+        if (!sheet && tblName === "Staff") {
+          sheet = ss.getSheetByName("Nhân sự");
+        }
+        if (!sheet) {
+          sheet = ss.insertSheet(tblName);
+        }
+
+        // Ghi tiêu đề cột tại Dòng 10 (HEADER_ROW = 10) theo đúng chữ cái cột trong FIELD_MAP
+        for (var label in fieldMap) {
+          var cfg = fieldMap[label];
+          var colIndex = letterToColIndex(cfg.col);
+          sheet.getRange(PM_CONFIG.HEADER_ROW, colIndex).setValue(cfg.sheetHeader || label);
+          sheet.getRange(PM_CONFIG.GUIDE_ROW, colIndex).setValue("[" + cfg.frontendKey + " | " + cfg.type + "]");
+        }
+        initializedSheets.push(sheet.getName());
+      }
+    }
+
+    return {
+      ok: true,
+      spreadsheetId: PM_CONFIG.SPREADSHEET_ID,
+      spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL,
+      initializedSheets: initializedSheets,
+      message: "Đã khởi tạo & đồng bộ cột Cá nhân hóa UI (Cột M - Sheet Nhân sự/Staff) và Sheet mới TT-MKT thành công!"
+    };
+  });
+}
+
+/**
+ * Lưu JSON Cá nhân hóa giao diện (Thứ tự kéo thả nút Sidebar, Theme, Zoom Canvas...)
+ * cho từng User vào cột M ("Cá nhân hóa UI (JSON)") của Sheet Staff/Nhân sự + PropertiesService.
+ */
+function saveUserUiPersonalization(username, personalizationObj, currentUser) {
+  return withScriptLock(function() {
+    var cleanUser = String(username || (currentUser && (currentUser.username || currentUser.name)) || "ADMIN").trim();
+    var jsonStr = (typeof personalizationObj === "string")
+      ? personalizationObj
+      : JSON.stringify(personalizationObj || {});
+
+    // 1. Lưu nhanh vào ScriptProperties theo từng User để phản hồi 0ms
+    try {
+      PropertiesService.getScriptProperties().setProperty("AP_USER_UI_PREF_" + cleanUser.toUpperCase(), jsonStr);
+    } catch (e) {}
+
+    // 2. Cập nhật trực tiếp vào Cột M ("Cá nhân hóa UI (JSON)") trên Sheet Staff / Nhân sự
+    var updatedSheetRow = 0;
+    try {
+      var ss = getTargetSpreadsheet();
+      if (ss) {
+        var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
+        if (staffSheet) {
+          var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+          var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
+          var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
+          var lastRow = staffSheet.getLastRow();
+          if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
+            var dataRange = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colC)).getValues();
+            for (var i = 0; i < dataRange.length; i++) {
+              var rowId = String(dataRange[i][colB - 1] || "").trim().toUpperCase();
+              var rowName = String(dataRange[i][colC - 1] || "").trim().toUpperCase();
+              if (rowId === cleanUser.toUpperCase() || rowName === cleanUser.toUpperCase()) {
+                updatedSheetRow = PM_CONFIG.MIN_DATA_ROW + i;
+                staffSheet.getRange(updatedSheetRow, colM).setValue(jsonStr);
+                break;
+              }
+            }
+          }
+        }
+      }
+    } catch (sheetErr) {
+      Logger.log("[STAFF PERSONALIZATION SHEET SYNC] " + sheetErr.toString());
+    }
+
+    logSystemAudit(
+      cleanUser,
+      "SAVE_USER_UI_PERSONALIZATION",
+      "Staff (Col M)",
+      "",
+      jsonStr.substring(0, 450)
+    );
+
+    return {
+      ok: true,
+      username: cleanUser,
+      updatedSheetRow: updatedSheetRow,
+      spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL,
+      uiPersonalizationJson: jsonStr,
+      syncedAt: Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "HH:mm:ss dd/MM/yyyy"),
+      message: "Đã lưu JSON Cá nhân hóa giao diện vào cột M (Sheet Nhân sự / Staff) cho [" + cleanUser + "]!"
+    };
+  });
+}
+
+/**
+ * Đọc cấu hình JSON Cá nhân hóa giao diện của User từ Backend
+ */
+function getUserUiPersonalization(username) {
+  var cleanUser = String(username || "ADMIN").trim().toUpperCase();
+  var jsonStr = "";
+  try {
+    jsonStr = PropertiesService.getScriptProperties().getProperty("AP_USER_UI_PREF_" + cleanUser) || "";
+  } catch (e) {}
+  return {
+    ok: true,
+    username: cleanUser,
+    uiPersonalizationJson: jsonStr,
+    spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL
+  };
+}
+
+/**
+ * Lưu Thiết lập Dự án Edit Video & Sơ đồ Node Canvas Mind-Map vào Sheet "TT-MKT" ở Backend
+ * Tuân thủ 100% chuẩn DataMapper.objectToRow và TT_MKT_VIDEO_FIELD_MAP (HEADER_ROW = 10, MIN_DATA_ROW = 12)
+ */
+function saveTtMktVideoProject(projectPayload, currentUser) {
+  return withScriptLock(function() {
+    var payload = projectPayload || {};
+    var nowStr = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss");
+    var recordObj = {
+      id: payload.id || ("VID-" + Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyMMdd-HHmm")),
+      createdAt: payload.createdAt || nowStr,
+      projectName: payload.projectName || "Dự án Video Viral AP CAR CARE",
+      author: payload.author || (currentUser && (currentUser.fullName || currentUser.name)) || "TĂNG TRÍ ĐỨC",
+      rawVideoSource: payload.rawVideoSource || "inputs/raw_videos/clip-content-doc.mp4",
+      benchmarkVideoSource: payload.benchmarkVideoSource || "inputs/benchmark_videos/sample-viral.mp4",
+      outputVideoUrl: payload.outputVideoUrl || "outputs/final_videos/final_viral_short_v2.mp4",
+      industryDomain: payload.industryDomain || "AUTOMOTIVE",
+      videoGoal: payload.videoGoal || "COMMERCIAL_CONVERSION",
+      targetAudience: payload.targetAudience || "MATURE_PREMIUM (28-55t)",
+      applyStyleFlag: payload.applyStyleFlag || "all",
+      colorPreset: payload.colorPreset || "AUTOMOTIVE_SHOWROOM_HDR",
+      colorParamsJson: typeof payload.colorParamsJson === "string" ? payload.colorParamsJson : JSON.stringify(payload.colorParamsJson || {}),
+      pacingParamsJson: typeof payload.pacingParamsJson === "string" ? payload.pacingParamsJson : JSON.stringify(payload.pacingParamsJson || {}),
+      hookParamsJson: typeof payload.hookParamsJson === "string" ? payload.hookParamsJson : JSON.stringify(payload.hookParamsJson || {}),
+      subtitleTypographyJson: typeof payload.subtitleTypographyJson === "string" ? payload.subtitleTypographyJson : JSON.stringify(payload.subtitleTypographyJson || {}),
+      brollParamsJson: typeof payload.brollParamsJson === "string" ? payload.brollParamsJson : JSON.stringify(payload.brollParamsJson || {}),
+      audioSfxParamsJson: typeof payload.audioSfxParamsJson === "string" ? payload.audioSfxParamsJson : JSON.stringify(payload.audioSfxParamsJson || {}),
+      ctaOfferJson: typeof payload.ctaOfferJson === "string" ? payload.ctaOfferJson : JSON.stringify(payload.ctaOfferJson || {}),
+      canvasNodesJson: typeof payload.canvasNodesJson === "string" ? payload.canvasNodesJson : JSON.stringify(payload.canvasNodesJson || []),
+      fullEdlConfigJson: typeof payload.fullEdlConfigJson === "string" ? payload.fullEdlConfigJson : JSON.stringify(payload.fullEdlConfigJson || {}),
+      status: payload.status || "Đã lưu cấu hình & Sẵn sàng Render 9:16"
+    };
+
+    // Lưu vào ScriptProperties để đồng bộ tức thì
+    try {
+      var rawList = PropertiesService.getScriptProperties().getProperty("AP_TT_MKT_VIDEO_PROJECTS");
+      var list = rawList ? JSON.parse(rawList) : [];
+      var foundIdx = -1;
+      for (var k = 0; k < list.length; k++) {
+        if (list[k].id === recordObj.id) { foundIdx = k; break; }
+      }
+      if (foundIdx >= 0) list[foundIdx] = recordObj;
+      else list.unshift(recordObj);
+      PropertiesService.getScriptProperties().setProperty("AP_TT_MKT_VIDEO_PROJECTS", JSON.stringify(list.slice(0, 50)));
+    } catch (e) {}
+
+    // Ghi trực tiếp vào Sheet "TT-MKT" trên Google Spreadsheet thông qua DataMapper
+    var writtenRowNumber = 0;
+    try {
+      var ss = getTargetSpreadsheet();
+      if (ss) {
+        var mktSheet = ss.getSheetByName(PM_CONFIG.SHEETS.TT_MKT);
+        if (!mktSheet) {
+          mktSheet = ss.insertSheet(PM_CONFIG.SHEETS.TT_MKT);
+          for (var headerLabel in TT_MKT_VIDEO_FIELD_MAP) {
+            var fCfg = TT_MKT_VIDEO_FIELD_MAP[headerLabel];
+            var cIdx = letterToColIndex(fCfg.col);
+            mktSheet.getRange(PM_CONFIG.HEADER_ROW, cIdx).setValue(fCfg.sheetHeader || headerLabel);
+            mktSheet.getRange(PM_CONFIG.GUIDE_ROW, cIdx).setValue("[" + fCfg.frontendKey + " | " + fCfg.type + "]");
+          }
+        }
+        var rowArray = DataMapper.objectToRow(recordObj, TT_MKT_VIDEO_FIELD_MAP);
+        var targetRow = Math.max(mktSheet.getLastRow() + 1, PM_CONFIG.MIN_DATA_ROW);
+        mktSheet.getRange(targetRow, 1, 1, rowArray.length).setValues([rowArray]);
+        writtenRowNumber = targetRow;
+      }
+    } catch (sheetErr) {
+      Logger.log("[TT-MKT SHEET WRITE] " + sheetErr.toString());
+    }
+
+    logSystemAudit(
+      recordObj.author,
+      "SAVE_TT_MKT_VIDEO_PROJECT",
+      "TT-MKT",
+      "",
+      recordObj.id + " | " + recordObj.projectName
+    );
+
+    return {
+      ok: true,
+      record: recordObj,
+      writtenRowNumber: writtenRowNumber,
+      spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL,
+      message: "Đã lưu dự án Edit Video [" + recordObj.id + "] vào Sheet TT-MKT ở Backend!"
+    };
+  });
+}
+
+/**
+ * Lấy danh sách các dự án Edit Video từ Sheet "TT-MKT" ở Backend
+ */
+function getTtMktVideoProjects() {
+  var snap = getDatabaseSnapshot(PM_CONFIG.SHEETS.TT_MKT);
+  if (snap.rows && snap.rows.length > 0) {
+    var records = [];
+    for (var i = 0; i < snap.rows.length; i++) {
+      var obj = DataMapper.rowToObject(snap.rows[i], TT_MKT_VIDEO_FIELD_MAP, PM_CONFIG.MIN_DATA_ROW + i);
+      if (obj.id) records.push(obj);
+    }
+    if (records.length > 0) {
+      return { ok: true, records: records, source: "GOOGLE_SHEET_TT_MKT", spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL };
+    }
+  }
+  try {
+    var rawList = PropertiesService.getScriptProperties().getProperty("AP_TT_MKT_VIDEO_PROJECTS");
+    if (rawList) {
+      return { ok: true, records: JSON.parse(rawList), source: "SCRIPT_PROPERTIES", spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL };
+    }
+  } catch (e) {}
+  return {
+    ok: true,
+    records: getSeedDepartmentData()["TT-MKT"] || [],
+    source: "SEED_MATRIX",
+    spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL
+  };
+}
+
 
 

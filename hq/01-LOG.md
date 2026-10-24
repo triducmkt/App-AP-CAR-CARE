@@ -432,3 +432,27 @@ ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint J
     * Cập nhật `hq/design_aesthetic_memo.md`, `AGENTS.md` (Bước 0.B & Mục 9) và `hq/sme-os-core/00-DIEU-LUAT-PROMPT-RULE.md` (Phần 8) với **Quy trình 4 Bước Thiết kế & Kiểm thử Đa Nền Tảng PC + Mobile**.
     * Cập nhật `hq/CODING_TASKS.json` (`TASK-013`) và `hq/00-INDEX.md`.
     * **Hotfix Login & 404 (`[ERR-011]` — 21:18):** Khắc phục lỗi lệch ID các trường đăng nhập trong `<script>` (`txtUsername`, `txtPassword`, `btnLogin` và class `.form-feedback.active`), thay thế toàn bộ `src=""` rỗng trên thẻ `<img>` bằng Data URI hợp lệ kèm Inline SVG Favicon để triệt tiêu 100% lỗi `Failed to load resource: 404` và đăng nhập mượt mà vào `#viewHome`.
+
+---
+
+## [2026-10-24 22:32] — Lucy (Antigravity / Gemini 4 Argon High) — TASK-014: Bổ Sung Phòng HR - Đào Tạo (8 Phòng Ban), Kéo Thả Sắp Xếp Sidebar & Lưu JSON Cá Nhân Hóa Vào Cột M Sheet Nhân Sự, Bảng Edit Video AI (7-Skill Pipeline + Mind-Map/Schematic Canvas Kéo Thả + Mouse Wheel Zoom) & Sheet Mới TT-MKT Ở Backend
+- **Yêu cầu từ PO (anh Đức):**
+  1. Bổ sung thêm `Phòng HR - Đào Tạo` (`DEPT_HR`) vào giữa các phòng ban trên Sidebar.
+  2. Có chức năng kéo thả sắp xếp nút Sidebar giữa các phòng ban và tự động lưu JSON cá nhân hóa giao diện vào cột cá nhân hóa ở Backend cho từng User tại Sheet `Nhân sự` (`Staff`), đồng thời cung cấp đường link URL của Sheet Backend.
+  3. Bổ sung vào `Phòng TT - MKT` giao diện `Bảng Edit Video` với danh sách tất cả các trường input thiết lập mặc định bên trái (file video raw URL/local, file video mẫu URL/local, loại clip, tone màu, toàn bộ các trường input của luồng edit video 7-Skill mấy ngày qua...) kèm Mã JSON thiết lập, tạo `FIELD_MAP` mới và tạo một Sheet mới `TT-MKT` ở Backend.
+  4. Giao diện Edit Video là một Canvas có các đường line, node kiểu Mind-Map / Schematic Map thể hiện luồng di chuyển các bước tạo video, ngoài cùng bên trái là **File Video Output**, có thể kéo thả di chuyển & bổ sung thêm mới các Node, và có chức năng **Mouse Wheel** để Zoom In / Zoom Out toàn bộ Canvas làm việc.
+- **Thực thi & Kết quả:**
+  - Chạy `.\backup.ps1` thành công trước khi sửa code.
+  - **Cập nhật Backend `src/Code.gs` (`2.131` dòng):**
+    * Khai báo `SPREADSHEET_URL: "https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit"` và `SHEETS.TT_MKT: "TT-MKT"` trong `PM_CONFIG`.
+    * Bổ sung Cột `M` (`"Cá nhân hóa UI (JSON)"` / `uiPersonalizationJson`) vào `GLOBAL_DB_MAP["Staff"]`.
+    * Khởi tạo Bảng 12 `GLOBAL_DB_MAP["TT-MKT"]` (`TT_MKT_VIDEO_FIELD_MAP`, Cột `B` → `W`) lưu trọn vẹn 22 trường thiết lập dự án Edit Video AI, cấu hình JSON và đồ thị Schematic Nodes.
+    * Cập nhật `DEFAULT_DEPT_ACCESS_CONFIG` lên 8 phòng ban với `DEPT_HR` (`Phòng HR - Đào Tạo`) nằm ở vị trí trung tâm (`order: 5`).
+    * Bổ sung các hàm RPC Backend: `getTargetSpreadsheet()`, `ensureBackendSheetsInitialized()`, `saveUserUiPersonalization()`, `getUserUiPersonalization()`, `saveTtMktVideoProject()`, `getTtMktVideoProjects()`.
+  - **Cập nhật Frontend `src/Index.html` (`6.086` dòng, `0` lỗi cú pháp, `0` Missing DOM IDs, `0` Emoji):**
+    * Thêm `Phòng HR - Đào Tạo` (`DEPT_HR`) vào giữa Sidebar và xây dựng `#pane_DEPT_HR` hiển thị trực quan cột `M` `Cá nhân hóa UI (JSON)` của từng nhân sự cùng bảng Lộ trình Đào tạo Tay nghề.
+    * Tích hợp tính năng Kéo Thả (`HTML5 Drag-and-Drop`) trên `#sidebarDeptNav` (`onSidebarDeptDragStart`, `onSidebarDeptDragOver`, `onSidebarDeptDrop`) tự động lưu thứ tự nút Sidebar, theme và phòng ban đang mở thành JSON vào `localStorage`, cập nhật Cột `M` của User đang đăng nhập và đồng bộ lên Sheet `Nhân sự`.
+    * Xây dựng tổ hợp `#apVideoEditStudioPanel` trong `#pane_DEPT_MKT`:
+      - Bên trái (`#veLeftConfigPanel`): 7 nhóm trường input mặc định từ chuỗi 7-Skill Video Pipeline + ô **Mã JSON Thiết Lập (`#veFullConfigJsonTextarea`)** đồng bộ 2 chiều + nút lưu thẳng xuống Sheet `TT-MKT`.
+      - Bên phải (`#veSchematicCanvasViewport`): Mind-Map / Schematic Node Canvas với Node **`FILE VIDEO OUTPUT (9:16 FULL HD)` nằm ở ngoài cùng bên trái (`x: 22, y: 235`)**, nối dây SVG Bezier động tới chuỗi Node `Skill #0` → `Skill #7`, hỗ trợ kéo thả di chuyển từng Node, kéo thả/bấm thêm Node mới từ thanh công cụ, kéo nền Pan Canvas và lăn con lăn chuột (`Mouse Wheel`) Zoom In / Zoom Out (`40% – 220%`).
+  - Cập nhật `hq/schematic_map.md`, `hq/CODING_TASKS.json` (`TASK-014`), `hq/00-INDEX.md`, `hq/01-LOG.md`.
