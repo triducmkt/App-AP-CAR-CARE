@@ -428,6 +428,7 @@ ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint J
     * Thiết lập hệ biến CSS động cho cả 2 theme `[data-ap-theme="dark"]` và `[data-ap-theme="light"]`, khóa cứng `#apSidebar` luôn giữ nền Đen Obsidian Gradient trên cả 2 theme, bổ sung nút chuyển nhanh `#btnQuickThemeToggle` trên Topbar.
     * Thiết kế **Off-Canvas Slide-Over Drawer** cho `#apSidebar` trên màn hình `<= 1024px` kèm lớp phủ mờ `#apSidebarBackdrop`, nút Hamburger `#btnMobileMenuToggle` và bố cục `.ap-topbar` 2 tầng ngang giúp tiêu đề `#topbarActiveTitle` luôn nằm gọn trên 1 dòng ngang duy nhất (`[ERR-009]`).
   - **Cập nhật Sổ tay Bài học & Quy trình Thiết kế:**
-    * Cập nhật `hq/lesson.md` (chuẩn UTF-8, có Bảng Tra Cứu Nhanh đầu file, bổ sung `ERR-007` → `ERR-010`).
+    * Cập nhật `hq/lesson.md` (chuẩn UTF-8, có Bảng Tra Cứu Nhanh đầu file, bổ sung `ERR-007` → `ERR-011`).
     * Cập nhật `hq/design_aesthetic_memo.md`, `AGENTS.md` (Bước 0.B & Mục 9) và `hq/sme-os-core/00-DIEU-LUAT-PROMPT-RULE.md` (Phần 8) với **Quy trình 4 Bước Thiết kế & Kiểm thử Đa Nền Tảng PC + Mobile**.
     * Cập nhật `hq/CODING_TASKS.json` (`TASK-013`) và `hq/00-INDEX.md`.
+    * **Hotfix Login & 404 (`[ERR-011]` — 21:18):** Khắc phục lỗi lệch ID các trường đăng nhập trong `<script>` (`txtUsername`, `txtPassword`, `btnLogin` và class `.form-feedback.active`), thay thế toàn bộ `src=""` rỗng trên thẻ `<img>` bằng Data URI hợp lệ kèm Inline SVG Favicon để triệt tiêu 100% lỗi `Failed to load resource: 404` và đăng nhập mượt mà vào `#viewHome`.

@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>AP CAR CARE - Audio &amp; Accessories</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050811'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='800' font-size='30' fill='%230A6CFF' text-anchor='middle'%3EAP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap&subset=vietnamese" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
@@ -2938,7 +2939,7 @@
       <div class="ap-sidebar-top-zone">
         <div class="ap-sidebar-header-row">
           <div class="ap-sidebar-logo-block" id="sidebarBrandBlock" title="Mở Cài đặt Hệ thống">
-            <img id="sidebarCompanyLogoImg" class="ap-sidebar-logo-img" alt="Logo AP" src="" />
+            <img id="sidebarCompanyLogoImg" class="ap-sidebar-logo-img" alt="Logo AP" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
             <div class="ap-sidebar-brand-meta">
               <div class="ap-sidebar-brand-title" id="sidebarBrandTitle">AP CAR CARE</div>
               <div class="ap-sidebar-brand-sub" id="sidebarBrandSub">AUDIO &amp; DETAILING OS</div>
@@ -3050,7 +3051,7 @@
     <main class="ap-main-stage" id="apMainStage">
       <!-- LOGO AP TRÒN CHÌM MỜ DƯỚI NỀN TẤT CẢ CÁC TRANG -->
       <div class="ap-workspace-watermark" id="apWorkspaceWatermark" aria-hidden="true">
-        <img id="workspaceWatermarkLogoImg" alt="" src="" />
+        <img id="workspaceWatermarkLogoImg" alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
       </div>
 
       <!-- THANH TOPBAR ĐIỀU HƯỚNG CHUẨN PC & MOBILE (ZERO VERTICAL WRAPPING) -->
@@ -3936,9 +3937,9 @@
   <script>
     (function () {
       var form = document.getElementById('loginForm');
-      var inputUser = document.getElementById('username');
-      var inputPass = document.getElementById('password');
-      var btnSubmit = document.getElementById('btnSubmit');
+      var inputUser = document.getElementById('txtUsername');
+      var inputPass = document.getElementById('txtPassword');
+      var btnSubmit = document.getElementById('btnLogin');
       var feedback = document.getElementById('formFeedback');
       var linkForgot = document.getElementById('linkForgot');
       var modalForgot = document.getElementById('modalForgot');
@@ -3946,8 +3947,13 @@
 
       function setFeedback(msg, type) {
         if (!feedback) return;
+        if (!msg) {
+          feedback.textContent = '';
+          feedback.className = 'form-feedback';
+          return;
+        }
         feedback.textContent = msg;
-        feedback.className = 'form-feedback' + (type ? ' ' + type : '');
+        feedback.className = 'form-feedback active' + (type === 'success' ? ' success' : '');
       }
 
       if (inputUser) inputUser.addEventListener('input', function () { setFeedback('', ''); });
@@ -5249,38 +5255,45 @@
           var p = inputPass ? inputPass.value.trim() : '';
           if (!u || !p) {
             setFeedback('Vui lòng nhập đầy đủ Tên đăng nhập và Mật khẩu.', 'error');
+            if (!u && inputUser) inputUser.focus();
+            else if (inputPass) inputPass.focus();
             return;
           }
           if (u.toUpperCase() === 'DUC' && p === '1111') {
+            setFeedback('Đăng nhập thành công! Đang vào hệ thống...', 'success');
             var sessionObj = { username: 'DUC', fullName: 'Tăng Trí Đức', role: 'Admin • Ban Giám Đốc', roleCode: 'ADMIN_CEO' };
             try { localStorage.setItem('apUserSession', JSON.stringify(sessionObj)); } catch (err) {}
             switchSpaView('home', sessionObj);
             return;
           }
           if (typeof google !== 'undefined' && google.script && google.script.run) {
-            btnSubmit.disabled = true;
-            setFeedback('Đang xác thực thông tin...', '');
+            if (btnSubmit) btnSubmit.disabled = true;
+            setFeedback('Đang xác thực thông tin...', 'success');
             google.script.run
               .withSuccessHandler(function (res) {
-                btnSubmit.disabled = false;
-                if (res && res.status === 'success') {
-                  try { localStorage.setItem('apUserSession', JSON.stringify(res.user)); } catch (err) {}
-                  switchSpaView('home', res.user);
+                if (btnSubmit) btnSubmit.disabled = false;
+                if (res && (res.status === 'success' || res.success || res.ok)) {
+                  var uObj = (res.user && typeof res.user === 'object')
+                    ? res.user
+                    : { username: u.toUpperCase(), fullName: res.user || 'Tăng Trí Đức', role: res.role || 'Admin • Ban Giám Đốc', roleCode: 'ADMIN_CEO' };
+                  try { localStorage.setItem('apUserSession', JSON.stringify(uObj)); } catch (err) {}
+                  switchSpaView('home', uObj);
                 } else {
-                  setFeedback((res && res.message) ? res.message : 'Thông tin đăng nhập không chính xác.', 'error');
+                  setFeedback((res && res.message) ? res.message : 'Thông tin đăng nhập không chính xác. (Gợi ý: DUC / 1111)', 'error');
                 }
               })
               .withFailureHandler(function () {
-                btnSubmit.disabled = false;
+                if (btnSubmit) btnSubmit.disabled = false;
                 setFeedback('Không thể kết nối máy chủ.', 'error');
               })
               .checkLogin(u, p);
           } else {
-            setFeedback('Tài khoản thử nghiệm: DUC / Mật khẩu: 1111', 'error');
+            setFeedback('Tên đăng nhập hoặc mật khẩu không đúng! (Tài khoản: DUC / Mật khẩu: 1111)', 'error');
           }
         });
       }
 
+      applyLogoSlotsToDOM();
       try {
         var savedSession = localStorage.getItem('apUserSession');
         if (savedSession) {

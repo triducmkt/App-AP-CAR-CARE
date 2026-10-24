@@ -18,8 +18,9 @@
 | **ERR-007** | `L128–L151` | `[SME OS]` | **Lỗi Font Tiếng Việt bị vỡ/lệch dấu ở Tiêu đề lớn & Số KPI** do thiếu `subset=vietnamese` và sót CSS cũ trong `<head>` | Bắt buộc nhúng Google Fonts **`Barlow Condensed` + `Be Vietnam Pro` + `JetBrains Mono` (`&subset=vietnamese`)** ở `<head>`; xóa sạch CSS cũ trùng lặp trong `<head><style>` trước khi nạp CSS mới. |
 | **ERR-008** | `L153–L178` | `[SME OS]` | **Lỗi giao diện mang "cảm giác AI / rẻ tiền"** do lạm dụng Emoji đa sắc và viền xanh phát sáng tràn lan | **Cấm 100% Emoji màu hệ thống trên UI (`0` emoji)** -> Thay bằng **Icon Vector Line-Art Đơn sắc (`1.65px` SVG)**; áp dụng **Quy tắc 10% Accent (`#0066FF`)** và đường cắt chéo kiến trúc AP. |
 | **ERR-009** | `L180–L209` | `[SME OS]` | **Lỗi vỡ bố cục Giao diện Mobile** (Tiêu đề Topbar bị ép thành 9 dòng chữ dọc & lộ đầu Sidebar phía sau Topbar) | Ở `<= 1024px`: (1) Chuyển Sidebar thành **Off-Canvas Drawer (`position: fixed; transform: translateX(-105%)`)** + Backdrop; (2) Chuyển Topbar thành **2 tầng ngang**, tiêu đề có `flex: 1; min-width: 0; white-space: nowrap; text-overflow: ellipsis`. |
-| **ERR-010** | `L211–L233` | `[SME OS]` | **Lỗi xung đột màu khi hỗ trợ 2 Theme** (`Dark Blue Carbon Night` & `Showroom Trắng + Sidebar Đen Gradient`) | Mọi màu nền/chữ/viền khu vực làm việc phải dùng biến ngữ nghĩa (`var(--ap-card-bg)`, `var(--ap-text-heading)`...) theo `data-ap-theme="dark|light"`, giữ nguyên Sidebar Đen Gradient ở cả 2 theme. |
-| **UI-GEN** | `L235–L252` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-010** | `L131–L138` | `[SME OS]` | **Lỗi xung đột màu khi hỗ trợ 2 Theme** (`Dark Blue Carbon Night` & `Showroom Trắng + Sidebar Đen Gradient`) | Mọi màu nền/chữ/viền khu vực làm việc phải dùng biến ngữ nghĩa (`var(--ap-card-bg)`, `var(--ap-text-heading)`...) theo `data-ap-theme="dark|light"`, giữ nguyên Sidebar Đen Gradient ở cả 2 theme. |
+| **ERR-011** | `L140–L154` | `[SME OS]` | **Lỗi không Login được & Console báo 404 (`Failed to load resource: 404`)** do lệch ID input (`username` vs `txtUsername`) và thẻ `<img src="">` rỗng | Bắt buộc chạy script đối soát 100% `getElementById(...)` khớp với `id="..."` trong HTML (`Missing IDs: []`); cấm để `<img src="">` rỗng và luôn gắn `<link rel="icon" href="data:...">`. |
+| **UI-GEN** | `L156–L165` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -135,6 +136,18 @@
 - **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
   1. **Cô lập màu Sidebar cố định:** Toàn bộ các class bên trong `.ap-sidebar` luôn giữ tông màu sáng trên nền **Đen Obsidian Gradient (`--ap-sidebar-bg`)** cố định ở cả 2 theme để tạo độ tương phản sang trọng như thiết kế Showroom AP CAR CARE của CEO anh Lộc.
   2. **Biến hóa 100% vùng làm việc (`#apMainStage`) qua `data-ap-theme="dark" | "light"`:** Toàn bộ các thành phần trong `.ap-main-stage` bắt buộc dùng biến CSS ngữ nghĩa (`var(--ap-stage-bg)`, `var(--ap-card-bg)`, `var(--ap-card-alt-bg)`, `var(--ap-text-heading)`, `var(--ap-text-main)`, `var(--ap-text-muted)`, `var(--ap-border-subtle)`, `var(--ap-accent)`).
+
+---
+
+### [ERR-011] Lỗi không Đăng nhập được & Console báo `Failed to load resource: the server responded with a status of 404 ()` (2026-10-24)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Khi mở ứng dụng và bấm nút `ĐĂNG NHẬP` tại `#viewLogin`, hệ thống đứng yên không chuyển sang `#viewHome` và không hiện thông báo lỗi, đồng thời Console trình duyệt báo `Failed to load resource: the server responded with a status of 404 ()`.
+- **Nguyên nhân gốc rễ:**
+  1. **Lệch ID phần tử DOM giữa HTML và JS:** Trong HTML của `#viewLogin`, các ô nhập liệu có ID là `txtUsername`, `txtPassword`, `btnLogin`, nhưng khi viết lại khối `<script>` mới lại gọi `getElementById('username')`, `getElementById('password')`, `getElementById('btnSubmit')` (trả về `null`). Đồng thời hàm `setFeedback()` thiếu class `.active` nên dòng báo lỗi bị ẩn (`opacity: 0`).
+  2. **Thuộc tính `<img src="">` rỗng và thiếu inline Favicon:** Các thẻ `<img id="sidebarCompanyLogoImg" src="">` và `<img id="workspaceWatermarkLogoImg" src="">` để `src=""` rỗng trước khi JS gán Base64 khiến trình duyệt gọi request tải tài nguyên rỗng (cùng request `/favicon.ico` mặc định) dẫn tới lỗi `404`.
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Kiểm toán Tự động 100% ID DOM (`Zero Missing IDs Audit`):** Trước khi commit bất kỳ thay đổi nào ở `src/Index.html`, bắt buộc chạy lệnh kiểm tra đối chiếu toàn bộ `getElementById('...')` trong `<script>` với tập hợp `id="..."` trong HTML, đảm bảo `Missing IDs: []`.
+  2. **Cấm để `<img src="">` rỗng & Bắt buộc nhúng Inline SVG Favicon:** Luôn khởi tạo `<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">` cho các thẻ ảnh chờ nạp Base64, gọi `applyLogoSlotsToDOM()` ngay khi khởi động script, và gắn `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">` trong `<head>`.
 
 ---
 
