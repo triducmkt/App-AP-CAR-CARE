@@ -1,20 +1,26 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã hoàn tất 100% **`TASK-014` — Bổ sung `Phòng HR - Đào Tạo` (`DEPT_HR`) vào giữa các phòng ban (8 Phòng ban), Kéo Thả Sắp Xếp Nút Sidebar & Tự Động Lưu JSON Cá Nhân Hóa Vào Cột `M` Sheet `Nhân sự` (`Staff`), Bổ Sung `Bảng Edit Video AI` (7-Skill Pipeline Inputs + Mind-Map/Schematic Node Canvas Kéo Thả + Mouse Wheel Zoom) Trong `Phòng TT - MKT` & Tạo `FIELD_MAP` Mới + Sheet Mới `TT-MKT` Ở Backend**.
+- **Trạng thái:** Đã hoàn tất 100% **`TASK-015` — Nhân Bản Module Cài Đặt API Key (TDCM Team App), Sub-Tabs Trong Cài Đặt Hệ Thống, Line Mũi Tên Đen Carbon Nét Liền Curve & Nút Tạo Video Liên Kết API Key Kèm Animation Dòng Chảy Tiến Độ Realtime Trên Canvas**.
+- **Link Demo App Live:** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/) *(Tài khoản: `DUC` / Mật khẩu: `1111`)*
 - **Link Google Sheet Backend (SSOT):** [Mở Google Sheet Backend App AP CAR CARE](https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit)
-- **Vừa xong (`TASK-014`):**
-  1. **Bổ sung `Phòng HR - Đào Tạo` (`DEPT_HR`) vào giữa Sidebar (`#sidebarDeptNav`):**
-     - Nâng cấp hệ thống từ 7 lên **8 Phòng ban** (`DEPT_CEO`, `DEPT_MKT`, `DEPT_SALE`, `DEPT_TECH`, **`DEPT_HR`**, `DEPT_INV`, `DEPT_FIN`, `DEPT_OPS`), tích hợp giao diện con `#pane_DEPT_HR` đồng nhất 4 tầng (KPI Nhân sự & Đào tạo + AI Insight + Bảng Hồ sơ Nhân sự kèm cột `M` JSON cá nhân hóa + Bảng Lộ trình Đào tạo Tay nghề) và đồng bộ trong bảng Phân quyền Admin (`#pane_SETTINGS`).
-  2. **Kéo Thả Sắp Xếp Nút Sidebar (`Drag-and-Drop`) & Tự Động Lưu JSON Cá Nhân Hóa Vào Cột `M` Sheet `Nhân sự` (`Staff`):**
-     - Cho phép kéo thả trực tiếp các nút phòng ban trên `#sidebarDeptNav` để đổi vị trí tùy ý.
-     - Tự động lưu cấu hình JSON cá nhân hóa (`sidebarOrder`, `themeMode`, `activeDepartment`, `updatedAt`) vào `localStorage`, cập nhật trực tiếp vào **Cột `M` (`Cá nhân hóa UI (JSON)` / `uiPersonalizationJson`)** của từng nhân sự trong bảng `Staff` và đồng bộ về Google Sheet `Nhân sự` qua hàm backend `saveUserUiPersonalization()`.
-  3. **Bảng Edit Video AI (`#apVideoEditStudioPanel`) Trong `Phòng TT - MKT` + `FIELD_MAP` Mới (`TT_MKT_VIDEO_FIELD_MAP`) & Sheet Mới `TT-MKT`:**
-     - **Cột trái (`#veLeftConfigPanel`):** Tích hợp đầy đủ tất cả các trường input mặc định từ luồng 7-Skill Video Pipeline mấy ngày qua: `File Video Raw (URL/Local)`, `File Video Mẫu Benchmark (URL/Local)`, `File Video Output 9:16`, `Ngành hàng`, `Loại Clip / Mục tiêu`, `Chân dung Khán giả`, `Cờ --apply-style`, `Preset Tone Màu Showroom`, `Contrast / Saturation / Brightness / Luma Sharpness / 3D Denoise`, `Thời lượng & Nhịp cắt ASL / Silence Cut`, `Hook 3s & Vi biểu cảm FACS / Zoom 118%`, `Phụ đề Khít 1px & Hộp Tiêu đề H1-H3 / Safe Zone`, `B-Roll 45% & Deictic Guard`, `Nhạc nền BGM Ducking -22dB & 4 Nhóm SFX HD`, `Offer & Banner CTA`, cùng ô **Mã JSON Thiết Lập (`#veFullConfigJsonTextarea`)** đồng bộ 2 chiều theo thời gian thực.
-     - **Cột phải (`#veSchematicCanvasViewport`):** Canvas sơ đồ tư duy / Schematic Map với **Node `FILE VIDEO OUTPUT (9:16 FULL HD)` đặt ở ngoài cùng bên trái**, kết nối bằng đường cong SVG Bezier động tới toàn bộ chuỗi Node `Skill #0` → `Skill #7`, hỗ trợ **kéo thả di chuyển từng Node**, **kéo thả hoặc bấm thêm mới các Node vào luồng** (`+ Node B-Roll Cận Cảnh`, `+ Node Hiệu Ứng SFX`, `+ Node Hook / Slow-Mo`, `+ Node Tone Màu LUT`, `+ Node Tùy Chỉnh`), kéo giữ chuột di chuyển mặt bàn (Pan) và **lăn con lăn chuột (`Mouse Wheel`) để Zoom In / Zoom Out toàn bộ Canvas (`40% – 220%`)**.
-     - **Backend (`src/Code.gs`):** Thiết lập `GLOBAL_DB_MAP["TT-MKT"]` (`TT_MKT_VIDEO_FIELD_MAP`, Cột `B` → `W`) và hàm `saveTtMktVideoProject()`, `getTtMktVideoProjects()`, `ensureBackendSheetsInitialized()` tự động khởi tạo Sheet `TT-MKT` và cột `M` trên Sheet `Nhân sự`.
-- **Bước tiếp theo:** Anh Đức trải nghiệm kéo thả sắp xếp các phòng ban trên Sidebar (xem JSON cập nhật ở `Phòng HR - Đào Tạo`) và tương tác với `Bảng Edit Video AI` + Schematic Canvas trong `Phòng TT - MKT`.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-24 22:32
+- **Vừa xong (`TASK-015`):**
+  1. **Nhân bản Module Quản lý Khóa API từ Project TDCM Team App sang Cài đặt (`#pane_SETTINGS`):**
+     - Thiết lập hệ thống 4 Sub-Tabs tinh gọn: `1. Phân Quyền & Bật Tắt 8 Phòng Ban`, `2. Quản Lý Khóa API & AI Engines (Chuẩn TDCM)`, `3. Trạm Kết Nối MCP Hub (Haravan • Getfly • Javis)`, `4. Giao Diện Theme & White-Label Logo`.
+     - Xây dựng Bảng danh sách Khóa API đầy đủ tính năng: STT, Loại API (Gemini, Claude, OpenAI, Vbee, Runway, ElevenLabs...), Tên gợi nhớ, App ID, Masked Key (`••••••••`) kèm nút con mắt 👁️ xem/ẩn token, Model mặc định, Trạng thái (Kích hoạt/Tắt), Thao tác (Sửa, Bật/Tắt, Xóa).
+     - Form Thêm/Chỉnh sửa Khóa API tự động đồng bộ 2 chiều với `localStorage` (`AP_CAR_CARE_API_KEYS`) và Backend ScriptProperties/Sheet.
+  2. **Đổi Đường Line Nối Các Node Canvas Thành Nét Liền Mảnh Đen Carbon Curve:**
+     - Thay thế hoàn toàn đường đứt nét neon cũ bằng **đường cong Cubic Bezier nét liền mảnh (`stroke-width: 1.6px`)**, màu đen Carbon sang trọng (`var(--ap-ve-line-idle, #2B3342)`), kết thúc bằng **đầu mũi tên chỉ hướng tam giác sắc nét** (`<marker id="veCarbonArrow" ...>`).
+  3. **Nút "TẠO VIDEO MỚI" Liên Kết Khóa API & Hiệu Ứng Dòng Chảy Realtime Animation:**
+     - Tích hợp nút **`TẠO VIDEO MỚI (RUN 7 SKILL)`** tại tiêu đề bảng và thanh công cụ Canvas.
+     - Khi bấm Tạo, hệ thống tự động kiểm tra Khóa API hợp lệ (tương tự cơ chế Tạo AI Voice bên TDCM Team App): nếu chưa có API key nào được kích hoạt, hệ thống sẽ bung cảnh báo và dẫn người dùng sang Tab Cài Đặt Khóa API; nếu đã có khóa, kích hoạt ngay **dòng chảy ánh sáng xung mạch (animated flow runner)** dọc theo các line từ node đầu tới node cuối.
+     - Từng Node lần lượt chuyển trạng thái từ `WAITING` $\rightarrow$ `RUNNING` (viền Cobalt phát sáng, xoay nhịp nhàng) $\rightarrow$ `COMPLETED` (tick xanh), kèm dải tiến độ 0% $\rightarrow$ 100% và log chi tiết từng skill, kết thúc bằng file video 1080x1920 Full HD lưu trữ vào Google Drive & Sheet `TT-MKT`.
+  4. **Giải mã kiến trúc Backend Google Sheet, Hybrid Video Rendering & Javis OS MCP Bridge:**
+     - Phân tích rõ nguyên nhân static demo GitHub Pages không tự động ghi vào Sheet nếu chưa deploy Apps Script Web App.
+     - Phân tích giải pháp Hybrid: GAS làm Orchestrator (quản trị, prompt Gemini, cấp quyền), còn render video nặng bằng FFmpeg chuyển cho Worker/Javis OS/Antigravity xử lý và upload lên Drive.
+     - Hướng dẫn chi tiết luồng trao đổi dữ liệu 2 chiều Javis $\leftrightarrow$ SME OS qua Canonical Data Envelope và phân phối dữ liệu theo Ma trận Phân quyền 4D.
+- **Bước tiếp theo:** Anh Đức trải nghiệm Tab Cài Đặt API Key và bấm nút "TẠO VIDEO MỚI" trên Canvas Edit Video để xem trực tiếp hiệu ứng dòng chảy tiến độ thời gian thực.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-24 23:25
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư / Nền tảng:** Hệ điều hành Doanh nghiệp SME OS ứng dụng thực chiến cho Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

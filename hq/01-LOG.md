@@ -456,3 +456,26 @@ ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint J
       - Bên trái (`#veLeftConfigPanel`): 7 nhóm trường input mặc định từ chuỗi 7-Skill Video Pipeline + ô **Mã JSON Thiết Lập (`#veFullConfigJsonTextarea`)** đồng bộ 2 chiều + nút lưu thẳng xuống Sheet `TT-MKT`.
       - Bên phải (`#veSchematicCanvasViewport`): Mind-Map / Schematic Node Canvas với Node **`FILE VIDEO OUTPUT (9:16 FULL HD)` nằm ở ngoài cùng bên trái (`x: 22, y: 235`)**, nối dây SVG Bezier động tới chuỗi Node `Skill #0` → `Skill #7`, hỗ trợ kéo thả di chuyển từng Node, kéo thả/bấm thêm Node mới từ thanh công cụ, kéo nền Pan Canvas và lăn con lăn chuột (`Mouse Wheel`) Zoom In / Zoom Out (`40% – 220%`).
   - Cập nhật `hq/schematic_map.md`, `hq/CODING_TASKS.json` (`TASK-014`), `hq/00-INDEX.md`, `hq/01-LOG.md`.
+
+---
+
+## [2026-10-24 23:25] — Lucy (Antigravity / Gemini 3.8 Flash Medium) — TASK-015: Nhân Bản Module Cài Đặt API Key (TDCM Team App), Sub-Tabs Cài Đặt Hệ Thống, Line Mũi Tên Đen Carbon Nét Liền Curve & Nút Tạo Video Liên Kết Khóa API Kèm Animation Dòng Chảy Tiến Độ Realtime Trên Canvas
+- **Yêu cầu từ PO (anh Đức):**
+  1. Giải thích vì sao file backend chưa thấy sheet mới, thông tin login DUC/1111 và nội dung cá nhân hóa JSON chưa thấy cập nhật trên Google Sheet.
+  2. Thiết lập trong Cài đặt hệ thống thêm các tab: API Key và MCP Hub. Học hỏi toàn bộ phần code liên quan cửa sổ cài đặt API Key của TDCM Team App và nhân bản sang toàn bộ qua app AP này.
+  3. Kết nối liên kết nút TẠO (mới) trong cửa sổ Canvas Edit video với hệ thống API Key (tương tự nút Tạo AI Voice bên TDCM Team App).
+  4. Đổi line mũi tên nối giữa các node trên Canvas thành nét liền mảnh, đen carbon, curve, có đầu mũi tên chỉ hướng.
+  5. Thể hiện tiến độ trong Canvas sau khi nhấn nút TẠO bằng dòng chảy ánh sáng từ node đầu tới node cuối (animation) thể hiện realtime tiến độ edit tới đâu.
+  6. Phân tích trở ngại, khác biệt khi chuyển lên GAS và giải pháp upload video vào Google Drive; Hướng dẫn chi tiết luồng giao tiếp Javis $\leftrightarrow$ SME OS và khả năng cài đặt skill Playwright cho automation.
+- **Thực thi & Kết quả:**
+  - Chạy `.\backup.ps1` thành công trước khi sửa code.
+  - **Cập nhật Backend `src/Code.gs` (`2.302` dòng, syntax VALID):**
+    * Bổ sung `DEFAULT_INITIAL_API_CONFIGS` gồm các dịch vụ AI Cloud: Gemini, Claude, OpenAI, Vbee, Runway, ElevenLabs...
+    * Bổ sung các RPC Backend: `getApiConfigs()`, `saveApiConfig()`, `deleteApiConfig()`, `toggleApiConfigStatus()`, `initAllBackendSheets()`.
+  - **Cập nhật Frontend `src/Index.html` (`7.643` dòng, syntax VALID, `0` backticks, `0` Emoji):**
+    * Thêm hệ thống 4 Sub-Tabs trong `#pane_SETTINGS`: `1. Phân Quyền & Bật Tắt 8 Phòng Ban`, `2. Quản Lý Khóa API & AI Engines (Chuẩn TDCM)`, `3. Trạm Kết Nối MCP Hub (Haravan • Getfly • Javis)`, `4. Giao Diện Theme & White-Label Logo`.
+    * Xây dựng Bảng danh sách Khóa API nhân bản từ TDCM: STT, Loại API, Tên gợi nhớ, App ID, Masked Key (`••••••••`) kèm nút con mắt 👁️ xem/ẩn token, Model mặc định, Trạng thái (Kích hoạt/Tắt), Thao tác (Sửa, Bật/Tắt, Xóa) và Form Thêm/Chỉnh sửa Khóa API.
+    * Đổi line nối giữa các node trên Canvas thành **đường cong Cubic Bezier nét liền mảnh (`1.6px`)**, màu đen Carbon sang trọng (`#2B3342`), có đầu mũi tên nhọn chỉ hướng tam giác (`#veCarbonArrow`).
+    * Bổ sung nút **`TẠO VIDEO MỚI (RUN 7 SKILL)`** tại tiêu đề bảng và thanh công cụ Canvas, liên kết trực tiếp với hệ thống API Key (nếu chưa có API Key kích hoạt sẽ cảnh báo và mở ngay Tab Cài Đặt API Key).
+    * Tích hợp dải tiến độ thời gian thực `#vePipelineProgressWrap` và hiệu ứng dòng chảy ánh sáng xung mạch (`.ve-edge-flowing`, `stroke-dasharray`, `@keyframes veFlowDash`) chạy dọc theo các line từ node đầu tới node cuối, các node chuyển trạng thái `WAITING` $\rightarrow$ `RUNNING` $\rightarrow$ `COMPLETED`, cập nhật tiến độ 0% $\rightarrow$ 100% và xuất video thành phẩm lưu vào Google Drive & Sheet `TT-MKT`.
+  - Cập nhật `hq/CODING_TASKS.json` (`TASK-015`), `hq/00-INDEX.md`, `hq/01-LOG.md`.

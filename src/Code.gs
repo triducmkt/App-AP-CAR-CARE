@@ -2126,5 +2126,177 @@ function getTtMktVideoProjects() {
   };
 }
 
+// ============================================================================
+// 12. QUẢN LÝ KHÓA API & DỊCH VỤ AI CLOUD (CHUẨN HÓA TỪ TDCM TEAM APP)
+// Lưu trữ an toàn trong ScriptProperties & hỗ trợ đồng bộ Sheet "App_API_Keys"
+// ============================================================================
+const DEFAULT_INITIAL_API_CONFIGS = [
+  {
+    row: 1,
+    id: "API-001",
+    apiType: "Gemini",
+    name: "Gemini 2.5 Flash Studio",
+    appId: "",
+    apiKey: "AIzaSyLiveStudioKey_APCarCare2026",
+    extraInfo: "gemini-2.5-flash • Video Script & FACS Hook",
+    allowedFeatures: ["Video_Script", "FACS_Hook", "Style_Benchmark"],
+    status: "Kích hoạt"
+  },
+  {
+    row: 2,
+    id: "API-002",
+    apiType: "Claude",
+    name: "Claude 3.7 Sonnet Local CLI",
+    appId: "",
+    apiKey: "sk-ant-live01-Claude37_APCarCare2026",
+    extraInfo: "claude-3-7-sonnet • Architecture & Copywriting",
+    allowedFeatures: ["MKT_Copy", "Architecture_Sync"],
+    status: "Kích hoạt"
+  },
+  {
+    row: 3,
+    id: "API-003",
+    apiType: "OpenAI",
+    name: "OpenAI GPT-4o Auto",
+    appId: "",
+    apiKey: "sk-proj-liveOpenAI_APCarCare2026",
+    extraInfo: "gpt-4o • Omnimodal Prompting",
+    allowedFeatures: ["All_Modules"],
+    status: "Kích hoạt"
+  },
+  {
+    row: 4,
+    id: "API-004",
+    apiType: "Vbee",
+    name: "Vbee Studio Voice AI",
+    appId: "vbee_app_apcarcare_2026",
+    apiKey: "vbee_token_live_tts_audio_2026",
+    extraInfo: "Giọng đọc Thuyết minh Showroom & Báo giá",
+    allowedFeatures: ["AI_Voice_TTS"],
+    status: "Kích hoạt"
+  },
+  {
+    row: 5,
+    id: "API-005",
+    apiType: "Runway",
+    name: "Runway Gen-3 Alpha",
+    appId: "",
+    apiKey: "runway_key_gen3_apcarcare",
+    extraInfo: "gen-3-alpha-turbo • Motion Graphic Xe Sang",
+    allowedFeatures: ["Video_Generation"],
+    status: "Tắt"
+  }
+];
+
+function getApiConfigs(currentUser) {
+  try {
+    var raw = PropertiesService.getScriptProperties().getProperty("AP_CAR_CARE_API_CONFIGS");
+    var list = raw ? JSON.parse(raw) : DEFAULT_INITIAL_API_CONFIGS;
+    return { success: true, ok: true, configs: list };
+  } catch (e) {
+    return { success: true, ok: true, configs: DEFAULT_INITIAL_API_CONFIGS };
+  }
+}
+
+function saveApiConfig(configObj, currentUser) {
+  return withScriptLock(function() {
+    try {
+      var raw = PropertiesService.getScriptProperties().getProperty("AP_CAR_CARE_API_CONFIGS");
+      var list = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_INITIAL_API_CONFIGS));
+      var cfg = configObj || {};
+      var nowId = cfg.id || ("API-" + String(new Date().getTime()).slice(-6));
+      var foundIdx = -1;
+
+      for (var i = 0; i < list.length; i++) {
+        if ((cfg.row && list[i].row == cfg.row) || (list[i].id === nowId)) {
+          foundIdx = i;
+          break;
+        }
+      }
+
+      var record = {
+        row: (foundIdx >= 0) ? list[foundIdx].row : (list.length + 1),
+        id: (foundIdx >= 0) ? list[foundIdx].id : nowId,
+        apiType: cfg.apiType || "Claude",
+        name: cfg.name || "Khóa API Mới",
+        appId: cfg.appId || "",
+        apiKey: cfg.apiKey || "",
+        extraInfo: cfg.extraInfo || "",
+        allowedFeatures: cfg.allowedFeatures || ["Video_Script"],
+        status: cfg.status || "Kích hoạt",
+        updatedAt: Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss")
+      };
+
+      if (foundIdx >= 0) {
+        list[foundIdx] = record;
+      } else {
+        list.push(record);
+      }
+
+      PropertiesService.getScriptProperties().setProperty("AP_CAR_CARE_API_CONFIGS", JSON.stringify(list));
+
+      logSystemAudit(
+        (currentUser && currentUser.name) || "ADMIN",
+        "SAVE_API_CONFIG",
+        "App_API_Keys",
+        "",
+        record.apiType + " | " + record.name + " (" + record.status + ")"
+      );
+
+      return { success: true, ok: true, message: "Đã lưu khóa API [" + record.name + "] thành công!", configs: list };
+    } catch (err) {
+      return { success: false, ok: false, message: "Lỗi lưu API Key: " + err.toString() };
+    }
+  });
+}
+
+function deleteApiConfig(rowOrId, currentUser) {
+  return withScriptLock(function() {
+    try {
+      var raw = PropertiesService.getScriptProperties().getProperty("AP_CAR_CARE_API_CONFIGS");
+      var list = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_INITIAL_API_CONFIGS));
+      var nextList = [];
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].row != rowOrId && list[i].id != rowOrId) {
+          nextList.push(list[i]);
+        }
+      }
+      for (var j = 0; j < nextList.length; j++) {
+        nextList[j].row = j + 1;
+      }
+      PropertiesService.getScriptProperties().setProperty("AP_CAR_CARE_API_CONFIGS", JSON.stringify(nextList));
+      return { success: true, ok: true, message: "Đã xóa khóa API thành công!", configs: nextList };
+    } catch (err) {
+      return { success: false, ok: false, message: "Lỗi xóa API Key: " + err.toString() };
+    }
+  });
+}
+
+function toggleApiConfigStatus(rowOrId, currentUser) {
+  return withScriptLock(function() {
+    try {
+      var raw = PropertiesService.getScriptProperties().getProperty("AP_CAR_CARE_API_CONFIGS");
+      var list = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_INITIAL_API_CONFIGS));
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].row == rowOrId || list[i].id == rowOrId) {
+          list[i].status = (list[i].status === "Kích hoạt") ? "Tắt" : "Kích hoạt";
+          break;
+        }
+      }
+      PropertiesService.getScriptProperties().setProperty("AP_CAR_CARE_API_CONFIGS", JSON.stringify(list));
+      return { success: true, ok: true, message: "Đã cập nhật trạng thái API Key!", configs: list };
+    } catch (err) {
+      return { success: false, ok: false, message: "Lỗi cập nhật: " + err.toString() };
+    }
+  });
+}
+
+/**
+ * Hàm khởi tạo toàn bộ các Sheet và Cột cốt lõi trên Google Spreadsheet (Chạy 1-Click)
+ */
+function initAllBackendSheets() {
+  return ensureBackendSheetsInitialized();
+}
+
 
 
