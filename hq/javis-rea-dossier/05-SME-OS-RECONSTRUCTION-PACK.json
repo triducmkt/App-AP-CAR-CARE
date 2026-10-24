@@ -1,0 +1,228 @@
+{
+  "schema_version": "1.0.0",
+  "pack_id": "SME-OS-JAVIS-REA-RECONSTRUCTION-PACK-20261024",
+  "created_at": "2026-10-24T17:28:00+07:00",
+  "target_repository": {
+    "core_repo": "https://github.com/blogminhquy/javis-os",
+    "store_repo": "https://github.com/blogminhquy/javis-store",
+    "zalo_cli_tarball": "https://codeload.github.com/blogminhquy/javis-zalo/tar.gz/refs/tags/v1.6.1",
+    "license": "AGPL-3.0"
+  },
+  "rea_evidence": {
+    "evidence_id": "ev_4028393e72aac241b12faf120c37d4052f9c30dac7435aea8fcb2e7977d57b9a",
+    "parent_evidence_id": "ev_911de232e1748ba76f7b7bcd917f4ffc3196ec9ae00d844bfc57dafa225c04df",
+    "root_sha256": "7cbc3e2e2a36812ec865be21e23d6e2302a4aca196c90954b63cf3882bc4c599",
+    "total_repo_files_inspected": 2066,
+    "dashboard_ast_metrics": {
+      "relevant_files": 119,
+      "parsed_js_files": 111,
+      "parse_failures": 0,
+      "text_bytes_read": 4675793,
+      "visited_ast_nodes": 575200,
+      "module_count": 84,
+      "finding_count": 779,
+      "call_flow_relations": 11008,
+      "data_flow_relations": 40029,
+      "object_flow_relations": 6865,
+      "closure_relations": 6548,
+      "promise_ownership_relations": 313,
+      "request_relations": 104
+    }
+  },
+  "architectural_verdict": {
+    "javis_os_identity": "Single-Owner AI Agent Gateway & Unified MCP Hub (Python 3.12 FastAPI + Node.js 22 + SQLite + Markdown Vault)",
+    "sme_os_compatibility": {
+      "direct_gas_port_eligible": [
+        "Meta Ads Graph API v25.0 (readonly insights, campaigns, adaccounts)",
+        "Meta OAuth 60-Day Long-Lived Token Exchange (fb_exchange_token)",
+        "Facebook Pages Graph API v25.0 (feed, comments, photo/video publishing)",
+        "Facebook Messenger Webhook Bot v23.0 (HMAC-SHA256 verification + 24h window reply)",
+        "Zalo Official Bot API (https://bot-api.zaloplatforms.com/bot{token}/{method})",
+        "Pancake POS / KiotViet / Sapo REST APIs"
+      ],
+      "requires_sidecar_or_local_pc": [
+        "Zalo Personal QR Login & Group Automation via javis-zalo / zca-js (requires persistent Node.js 20+ subprocess & 20s/2s polling loop)",
+        "Claude Code CLI (@anthropic-ai/claude-code) & OpenAI Codex CLI (@openai/codex) subscription Reuse"
+      ]
+    },
+    "b2b_deployment_strategy": {
+      "model": "Single-Tenant Per B2B Client via Master GitHub Template + White-Label System_Settings",
+      "central_hosting_cost_usd": 0,
+      "cross_tenant_leak_risk": "0% (Physical Google Sheet / Database isolation per B2B company)",
+      "optional_vps_sidecar_cost_usd": "4.00 - 5.00 USD/month (only for B2B clients requiring 24/7 Personal Zalo QR automation)"
+    }
+  },
+  "module_contracts": {
+    "MCP_HUB_CORE": {
+      "source_files": ["server/mcp_hub.py", "server/mcp_catalog.py", "server/mcp_client.py", "server/mcp_store.py"],
+      "http_endpoint": "POST /hub/mcp",
+      "protocol": "JSON-RPC 2.0 (initialize, ping, tools/list, tools/call, resources/list, prompts/list)",
+      "headers": {
+        "Authorization": "Bearer <STATE_DIR/.hub_token> (verified via secrets.compare_digest)",
+        "X-Javis-Mode": "readonly | safe | full | gated",
+        "X-Javis-Vault": "Absolute path or URL-encoded UTF-8 path to active Brain directory",
+        "X-Javis-Bot": "1 (strips OWNER_ONLY_TOOLS before lazy tier)"
+      },
+      "owner_only_tools": [
+        "javis_reply_policy",
+        "javis_reply_policy_tune",
+        "javis_team",
+        "javis_memory",
+        "javis_watch",
+        "javis_login",
+        "javis_web_search",
+        "javis_web_fetch"
+      ],
+      "lazy_tier_mechanics": {
+        "trigger": "Enabled when non-core MCP pool exceeds threshold (~30 tools)",
+        "meta_tools": ["javis_search_tools", "javis_run_tool"],
+        "full_description_top_k": 3,
+        "full_description_max_chars": 4000,
+        "compact_description_max_chars": 400
+      },
+      "hard_permission_guard": {
+        "levels": ["readonly", "safe", "full"],
+        "multiplexed_arg_inspection": "Inspects args[connector.arg_rules.param] at tools/call time (e.g. Pancake action='list' vs 'create')",
+        "rate_limiter": "Sliding 60s deque per conn_id enforcing connector.rate_limit.calls_per_min",
+        "audit_log": "STATE_DIR/mcp_audit.jsonl (auto-rotates at 5MB to .jsonl.1)"
+      }
+    },
+    "META_OAUTH_AND_ADS_GRAPH": {
+      "source_files": ["server/oauth_mcp.py", "system/plugins/meta-ads-graph/plugin.py"],
+      "bypass_secret": "Create Facebook App (Business type) and keep in 'In Development' mode. Admin of App + Admin of Ad Account gets instant ads_read & business_management without App Review or Business Verification.",
+      "oauth_endpoints": {
+        "authorize_url": "https://www.facebook.com/v25.0/dialog/oauth",
+        "token_url": "https://graph.facebook.com/v25.0/oauth/access_token",
+        "scopes": ["ads_read", "business_management"]
+      },
+      "oauth_quirks": {
+        "localhost_rewrite": "Meta Development mode allows http://localhost:<port>/connect/oauth/callback without registration, but blocks 127.0.0.1. Always rewrite 127.0.0.1 -> localhost.",
+        "token_exchange_method": "GET (with client_id, client_secret, redirect_uri, code) — no PKCE",
+        "long_lived_exchange": "GET https://graph.facebook.com/v25.0/oauth/access_token?grant_type=fb_exchange_token&client_id=...&client_secret=...&fb_exchange_token=<short_token> -> yields 60-day token (~5,184,000s)"
+      },
+      "exposed_tools": [
+        {
+          "name": "meta_ads_accounts",
+          "min_mode": "readonly",
+          "graph_call": "GET /v25.0/me/adaccounts?fields=account_id,name,currency,account_status,amount_spent,balance&limit=100"
+        },
+        {
+          "name": "meta_ads_insights",
+          "min_mode": "readonly",
+          "graph_call": "GET /v25.0/act_{id}/insights?fields=spend,impressions,clicks,ctr,cpc,cpm,reach,frequency,actions,action_values&level=account|campaign|ad&date_preset=last_7d"
+        },
+        {
+          "name": "meta_ads_campaigns",
+          "min_mode": "readonly",
+          "graph_call": "GET /v25.0/act_{id}/campaigns?fields=name,status,effective_status,objective,daily_budget,lifetime_budget,start_time,stop_time"
+        },
+        {
+          "name": "meta_ads_get",
+          "min_mode": "readonly",
+          "graph_call": "GET /v25.0/{path}"
+        }
+      ]
+    },
+    "META_PAGES_AND_MESSENGER": {
+      "source_files": ["system/plugins/meta-pages-graph/plugin.py", "server/messenger_bot.py"],
+      "page_token_resolution": "Calls GET /v25.0/me/accounts?fields=id,name,category,access_token,tasks using User Token to obtain per-Page access_token. Strips access_token from LLM-visible list output.",
+      "video_upload_host": "https://graph-video.facebook.com/v25.0/{page_id}/videos (multipart source, timeout 900s)",
+      "messenger_credential_parser": {
+        "page_id_regex": "^\\d{5,25}$",
+        "app_secret_regex": "^[0-9a-fA-F]{32}$",
+        "page_access_token_rule": "len > 40 (typically starts with EAA)"
+      },
+      "messenger_webhook": {
+        "verify_endpoint": "GET /messenger/webhook (hub.mode=subscribe, hub.verify_token, hub.challenge)",
+        "ingest_endpoint": "POST /messenger/webhook (verifies X-Hub-Signature-256 HMAC-SHA256 using app_secret)",
+        "send_endpoint": "POST https://graph.facebook.com/v23.0/me/messages (messaging_type='RESPONSE', max chunk 1900 chars, plain text)"
+      }
+    },
+    "ZALO_PERSONAL_AND_GROUP_ENGINE": {
+      "source_files": ["server/zalo_login.py", "server/zalo_personal_channel.py", "server/channels/zalo_personal.py", "system/mcp-catalog.json"],
+      "cli_command": "npx -y --prefer-offline https://codeload.github.com/blogminhquy/javis-zalo/tar.gz/refs/tags/v1.6.1",
+      "multi_account_isolation": {
+        "mechanism": "Per-connection isolated directory STATE_DIR/connector-home/zalo-<slug>-<conn_id[:6]>",
+        "env_overrides": ["HOME", "USERPROFILE"],
+        "reason": "Prevents ~/.zalo-agent-cli session overwrites when multiple sales staff connect personal Zalo accounts"
+      },
+      "qr_login_events": [
+        "{\"event\": \"qr\", \"dataUrl\": \"data:image/png;base64,...\"}",
+        "{\"event\": \"login_success\", \"displayName\": \"...\", \"ownId\": \"...\"}"
+      ],
+      "rate_limit_calls_per_min": 20,
+      "dual_speed_polling": {
+        "idle_interval_sec": 20,
+        "active_private_chat_interval_sec": 2,
+        "active_window_sec": 60,
+        "transport": "Direct mcp_client.pool.call_tool(spec, 'zalo_get_messages', {'limit': 20}) bypassing mcp_hub audit log"
+      },
+      "group_utf16_mention_algorithm": {
+        "problem": "zca-js / Zalo Web calculates @mention offset & length in UTF-16 code units, not Python Unicode codepoints (4-byte emoji = 2 UTF-16 units).",
+        "formula": "len(text_slice.encode('utf-16-le')) // 2",
+        "cli_invocation": "npx javis-zalo msg send <thread_id> <message> -t group --mention \"<utf16_offset>:<utf16_len>:<uid>\" --json"
+      },
+      "exposed_mcp_tools": {
+        "read": [
+          "zalo_get_messages",
+          "zalo_get_history",
+          "zalo_search_history",
+          "zalo_get_group_joins",
+          "zalo_list_join_requests",
+          "zalo_list_threads",
+          "zalo_search_threads",
+          "zalo_view_media",
+          "zalo_get_labels"
+        ],
+        "write": ["zalo_mark_read"],
+        "danger": ["zalo_send_message", "zalo_send_file", "zalo_review_join_requests"]
+      }
+    },
+    "ZALO_OFFICIAL_BOT_ENGINE": {
+      "source_files": ["server/zalo_bot.py"],
+      "base_url": "https://bot-api.zaloplatforms.com/bot{token}/{method}",
+      "methods": ["getMe", "getUpdates", "sendMessage", "sendChatAction"],
+      "platform_quirks": {
+        "no_edit_or_delete": "Cannot edit 'Thinking...' placeholder; must loop sendChatAction(action='typing') every 4s and send final message once.",
+        "no_inline_keyboard": "Text-only confirmation workflows.",
+        "max_message_chars": 1900,
+        "idle_poll_timeout_response": "Returns {'ok': False, 'description': 'Request timeout'} on normal 30s idle poll — must filter ('request timeout', 'timeout', 'time out', '408') as normal empty poll.",
+        "group_detection": "chat_type == 'GROUP' or (not chat_type and chat_id != sender_id)"
+      }
+    }
+  },
+  "reconstruction_obligation_ledger": [
+    {
+      "obligation_id": "OBL-SME-P1-M15",
+      "phase": 1,
+      "title": "Module M15: Javis OS Plug-and-Play AI Bridge & Role-Based Output Router",
+      "target_files": ["src/Code.gs", "src/Index.html"],
+      "status": "COMPLETED",
+      "verified_commit": "d9e8ef7"
+    },
+    {
+      "obligation_id": "OBL-SME-P2-META",
+      "phase": 2,
+      "title": "Direct Google Apps Script Meta Ads Insights & Messenger Lead Webhook Integration (Zero-VPS)",
+      "target_files": ["src/Code.gs", "src/Index.html"],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "implementation_notes": "Use smeFetchMetaAdsInsightsDirect() with 60-day token in Code.gs and add Messenger webhook handler in doPost(e)."
+    },
+    {
+      "obligation_id": "OBL-SME-P3-ZALOBOT",
+      "phase": 3,
+      "title": "Direct Google Apps Script Zalo Official Bot Notification & Operational Assistant",
+      "target_files": ["src/Code.gs"],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "implementation_notes": "Use smeSendZaloBotMessageDirect() calling https://bot-api.zaloplatforms.com/bot{token}/sendMessage with 1,900-char chunking."
+    },
+    {
+      "obligation_id": "OBL-SME-P4-SIDECAR",
+      "phase": 4,
+      "title": "Docker Sidecar Bundle for Multi-Account Personal Zalo QR (zca-js) & B2B 1-Click GitHub Template Cloner",
+      "target_files": ["hq/javis-rea-dossier/"],
+      "status": "BLUEPRINTED",
+      "implementation_notes": "Deploy lightweight container with isolated HOME per Sale user pushing events to SME OS doPost(e) javis_webhook_ingest."
+    }
+  ]
+}

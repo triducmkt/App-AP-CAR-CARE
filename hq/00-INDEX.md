@@ -1,15 +1,18 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã tích hợp hoàn tất **Module M15: Javis OS Plug-and-Play AI Bridge (Personal Agent Connector)** vào ứng dụng App AP CAR CARE (SME OS), hiện thực hóa mô hình phân tán **Federated Personal Agents**: 100% nhân viên có thể tự cắm node Javis OS cá nhân (chi phí $0 cho công ty) và định tuyến dữ liệu đầu ra về đúng Dashboard từng phòng ban trong SME OS.
+- **Trạng thái:** Đã hoàn tất 100% **Kế hoạch 3 Bước Giải Phẫu Ngược (Reverse-Engineer-Anything — REA) Toàn Bộ Hệ Sinh Thái Javis OS (`blogminhquy/javis-os` & `javis-store`)** bằng **Gemini 4 Argon (High)** và xuất bản trọn bộ **Hồ Sơ Tri Thức 5 Tầng (`hq/javis-rea-dossier/01..05`)** phục vụ tích hợp vào **SME OS / App AP CAR CARE** và nhân bản cho khách hàng B2B.
 - **Vừa xong:**
-  1. **Tích hợp Card Cấu Hình Javis OS trong Sidebar User Profile:** Nút thu gọn thứ 3 dưới Avatar User cho phép nhân viên nhập URL node Javis (`http://localhost:7777` hoặc VPS), dán API Token cá nhân, bấm nút `⚡ Ping Test` kiểm tra độ trễ (12ms) và lưu vào cấu hình hồ sơ.
-  2. **Bảng Điều Khiển Live Test Javis OS trong Tab Cài Đặt (`#pane_SETTINGS`):** Giải thích kiến trúc phân tán Federated Personal Agents, cung cấp form live test kết nối (HTTP 200 OK, latency, token scope) và nút `📥 Thử Kéo Dữ Liệu Về Dashboard` trích xuất bài viết mẫu từ Javis nạp thẳng vào `AppStore`.
-  3. **Tích hợp Nút `🤖 Nhập từ Javis OS` trong Phòng TT - MKT:** Kéo nhanh kịch bản bài viết dài đã được AI Agent trong Javis OS soạn sẵn đổ thẳng vào Textarea và tự động chọn kênh mạng xã hội (Facebook, TikTok, YouTube).
-  4. **Nâng cấp Hệ Thống lên 15 Module Contracts (`M01` → `M15`):** Bổ sung `M15_Javis_AI_Bridge` vào `MODULE_CONTRACTS_REGISTRY` ở cả `Code.gs` và `Index.html` (`AppStore.state.modules14` -> 15 modules).
-  5. **Bổ sung Bộ 4 Hàm Backend trong `Code.gs`:** `saveJavisUserBridgeConfig`, `getJavisUserBridgeConfig`, `testJavisBridgeConnection`, `syncJavisPayloadToDepartment` hỗ trợ đồng bộ dữ liệu hai chiều và ghi log kiểm toán `logSystemAudit`.
-- **Bước tiếp theo:** Trình diễn tính năng cắm nối Javis OS cho anh Đức trải nghiệm và sẵn sàng cắm thêm các luồng tự động hóa tiếp theo.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-21 23:38
+  1. **Bước 1 (Clone & Kiểm toán Kho nguồn):** Clone toàn bộ 2.066 file của `javis-os` và quét danh mục `javis-store`.
+  2. **Bước 2 (Thực thi Công cụ REA & Giải phẫu Lõi):** Chạy `rea:analyze_javascript_application` (Evidence ID: `ev_4028393e72aac241b12faf120c37d4052f9c30dac7435aea8fcb2e7977d57b9a` — 111 JS files, 575.200 AST nodes, 11.008 call-flow, 40.029 data-flow relations) kết hợp giải phẫu sâu `mcp_hub.py`, `oauth_mcp.py`, `meta-ads-graph/plugin.py`, `meta-pages-graph/plugin.py`, `messenger_bot.py`, `zalo_login.py`, `zalo_personal_channel.py`, `channels/zalo_personal.py`, `zalo_bot.py`, `Dockerfile`, và `docker-compose.yml`.
+  3. **Bước 3 (Xuất bản Bộ Hồ Sơ 5 Tầng tại `hq/javis-rea-dossier/`):**
+     - `01-EXECUTIVE-BLUEPRINT.md`: Đánh giá tương thích hạ tầng, giải phẫu Docker/VPS, chiến lược nhân bản Single-Tenant B2B qua GitHub Master Template và lộ trình 4 giai đoạn.
+     - `02-SCHEMATIC-ARCHITECTURE.md`: 5 sơ đồ Mermaid kiến trúc & luồng dữ liệu.
+     - `03-MCP-META-ZALO-COOKBOOK.md`: Cẩm nang kỹ thuật chuyên sâu kèm mẫu code Google Apps Script (`Code.gs`) kết nối trực tiếp Meta Ads (Token 60 ngày) và Zalo Official Bot không cần VPS.
+     - `04-SLIDE-PRESENTATION.html`: Slide thuyết trình tương tác 8 trang chuẩn Obsidian Luxury Glass & Google Blue.
+     - `05-SME-OS-RECONSTRUCTION-PACK.json`: Gói đặc tả JSON kèm Sổ cái Nghĩa vụ Tái cấu trúc (Obligation Ledger) cho AI Models.
+- **Bước tiếp theo:** Sẵn sàng triển khai **Giai đoạn 2 (Tích hợp trực tiếp Meta Ads Graph API Token 60 ngày & Messenger Lead Webhook vào `src/Code.gs`)** và **Giai đoạn 3 (Zalo Official Bot)** ngay khi anh Đức phê duyệt.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-24 17:30
 
 
 

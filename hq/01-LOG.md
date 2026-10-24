@@ -343,3 +343,35 @@ ode -e "new Function(...)" đạt chuẩn 100%.
      - Thêm nút `🤖 Nhập từ Javis OS` trên thanh công cụ soạn thảo của `Phòng TT - MKT` giúp nhân viên MKT nhập ngay bài viết AI soạn sẵn.
      - Cập nhật hiển thị 15 Module Contracts (`M01` → `M15`) trên bảng giám sát hạ tầng.
   3. Cập nhật `hq/CODING_TASKS.json` (TASK-011), `hq/schematic_map.md` và `hq/00-INDEX.md`.
+
+## 2026-10-24 15:02 — Lucy/Antigravity — Triển Khai Sub-Skill /style-scan Mổ Xẻ 360 Độ Video Mẫu & Ma Trận 14 Trụ Cột [QUAY] vs [DỰNG]
+- **Bối cảnh & Yêu cầu từ PO (anh Đức):**
+  - Xây dựng Sub-Skill độc lập trong Skill #3 / Skill #0 quét từng cửa sổ 0.5s trên 100% thời lượng clip mẫu.
+  - Phân tích 360 độ dưới góc nhìn Brand & MKT Director 15 năm kinh nghiệm: Bổ sung 4 trụ cột sống còn (Hook 3s, Brand Packaging, Offer/CTA Conversion, B-Roll Visual Proof) thành Ma trận 14 Trụ Cột.
+  - Phân định rõ ràng trường [QUAY] (tiền kỳ thực địa) vs [DỰNG] (hậu kỳ can thiệp 100% bằng AI Editor).
+  - Cung cấp Shortcut độc lập /style-scan (Report-Only: không edit video) và cơ chế chọn lọc mô-đun hóa --apply-style (all, edit-only, hoặc granular color,text,sfx...).
+- **Các file đã tạo & nâng cấp:**
+  1. presets/style_benchmark_matrix_catalog.md: File Master SSOT quản trị 14 Trụ Cột STY-01 -> STY-14, gắn nhãn [DỰNG] vs [QUAY] và bảng tra cứu nhanh.
+  2. skills/03-video-style-benchmark/style_scanner_360.js: Core engine quét sóng âm 0.5s (BPM, Ducking, SFX spikes), nhát cắt ASL, vector màu sắc & palette Hex, xuất báo cáo Markdown và file Blueprint JSON vào presets/library/.
+  3. presets/preset_manager.js: Bổ sung getLatestBenchmarkBlueprint() và pplyBenchmarkStyleToRenderProfile(renderProfile, styleKeywords) hỗ trợ merge linh hoạt.
+  4. skills/03-video-style-benchmark/skill.js: Tích hợp cờ pply_style_tokens vào luồng nạp render_profile và contracts.
+  5. index.js & package.json: Đăng ký shortcut /style-scan (
+ode index.js --style-scan / 
+pm run style-scan) và cờ --apply-style=<flags>.
+  6. schematic_map.md & SKILL.md: Đồng bộ kiến trúc luồng dữ liệu và lệnh CLI.
+- **Kiểm thử thực tế:** Chạy thành công 
+ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint JSON tại presets/library/.
+
+
+## 2026-10-24 17:30 — Lucy/Antigravity (Gemini 4 Argon High — REA Javis OS Full Execution)
+- **Thực thi Kế hoạch 3 Bước Giải Phẫu Ngược (Reverse-Engineer-Anything) hệ sinh thái Javis OS theo chỉ đạo của Product Owner (anh Đức):**
+  1. **Bước 1 (Clone Source):** Đã clone đầy đủ `https://github.com/blogminhquy/javis-os.git` (2.066 files) vào vùng nháp phân tích và trích xuất metadata từ `https://github.com/blogminhquy/javis-store`.
+  2. **Bước 2 (REA AST Analysis & Deep Code Audit):**
+     - Thực thi MCP tool `rea:analyze_javascript_application` trên `dashboard/` (REA Evidence ID: `ev_4028393e72aac241b12faf120c37d4052f9c30dac7435aea8fcb2e7977d57b9a`, Root SHA256: `7cbc3e2e2a36812ec865be21e23d6e2302a4aca196c90954b63cf3882bc4c599`, 111 JS files, 575.200 AST nodes, 11.008 call-flow relations, 40.029 data-flow relations, 0 parse failures).
+     - Giải phẫu trực tiếp lõi Python & Plugins: `server/mcp_hub.py` (Single-entry JSON-RPC Hub, khóa phân quyền cứng 3 mức `readonly`/`safe`/`full`, Lazy Tool Search tiết kiệm 85% token), `server/oauth_mcp.py` (`_meta_localhost`, `_meta_longlive` đổi token Meta 60 ngày), `system/plugins/meta-ads-graph/plugin.py`, `system/plugins/meta-pages-graph/plugin.py`, `server/messenger_bot.py`, `server/zalo_login.py` (cô lập đa tài khoản Zalo QR qua biến môi trường `HOME`), `server/zalo_personal_channel.py` (quét kép 20s/2s), `server/channels/zalo_personal.py` (thuật toán tính offset UTF-16LE cho `@mention` nhóm Zalo), `server/zalo_bot.py` (Zalo Official Bot API), cùng `Dockerfile` và `docker-compose.yml`.
+  3. **Bước 3 (Đóng gói Bộ Hồ Sơ Tri Thức 5 Tầng tại `hq/javis-rea-dossier/`):**
+     - `hq/javis-rea-dossier/01-EXECUTIVE-BLUEPRINT.md`
+     - `hq/javis-rea-dossier/02-SCHEMATIC-ARCHITECTURE.md`
+     - `hq/javis-rea-dossier/03-MCP-META-ZALO-COOKBOOK.md`
+     - `hq/javis-rea-dossier/04-SLIDE-PRESENTATION.html`
+     - `hq/javis-rea-dossier/05-SME-OS-RECONSTRUCTION-PACK.json`

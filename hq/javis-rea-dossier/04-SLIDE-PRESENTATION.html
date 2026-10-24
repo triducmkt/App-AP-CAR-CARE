@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SME OS × JAVIS OS — Hồ Sơ Giải Phẫu REA & Chiến Lược B2B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #020408;
+      --bg-panel: rgba(13, 20, 36, 0.78);
+      --border-glass: rgba(66, 133, 244, 0.28);
+      --google-blue: #4285F4;
+      --blue-glow: #2A64D2;
+      --emerald: #10B981;
+      --amber: #F59E0B;
+      --rose: #F43F5E;
+      --text-pure: #FFFFFF;
+      --text-muted: #94A3B8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 18% 12%, rgba(66, 133, 244, 0.16), transparent 42%),
+                  radial-gradient(circle at 85% 82%, rgba(16, 185, 129, 0.10), transparent 40%),
+                  var(--bg-obsidian);
+      color: var(--text-pure);
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    header.top-bar {
+      height: 60px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(2, 4, 8, 0.85);
+      backdrop-filter: blur(16px);
+      z-index: 20;
+    }
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--google-blue);
+      box-shadow: 0 0 12px var(--google-blue);
+    }
+    .slide-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-pure);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      background: linear-gradient(135deg, #1A4B9F, #4285F4);
+      border-color: var(--google-blue);
+      box-shadow: 0 0 16px rgba(66, 133, 244, 0.45);
+    }
+    main.deck-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    section.slide {
+      position: absolute;
+      inset: 0;
+      padding: 36px 56px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(16px) scale(0.99);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+    section.slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+    .slide-header {
+      margin-bottom: 18px;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--google-blue);
+      background: rgba(66, 133, 244, 0.12);
+      border: 1px solid rgba(66, 133, 244, 0.32);
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    h1.slide-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(90deg, #FFFFFF 0%, #93C5FD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.slide-subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-top: 6px;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; flex: 1; align-items: stretch; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; flex: 1; align-items: stretch; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; flex: 1; align-items: stretch; }
+    .glass-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .glass-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .stat-box {
+      background: rgba(66, 133, 244, 0.08);
+      border: 1px solid rgba(66, 133, 244, 0.25);
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--google-blue);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    ul.clean-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #CBD5E1;
+    }
+    ul.clean-list li {
+      position: relative;
+      padding-left: 18px;
+    }
+    ul.clean-list li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--google-blue);
+      font-weight: bold;
+    }
+    code.inline-code {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12.5px;
+      background: rgba(66, 133, 244, 0.14);
+      color: #93C5FD;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .pill-green { background: rgba(16, 185, 129, 0.16); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .pill-blue { background: rgba(66, 133, 244, 0.16); color: #60A5FA; border: 1px solid rgba(66, 133, 244, 0.4); }
+    .pill-amber { background: rgba(245, 158, 11, 0.16); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .svg-wrap {
+      background: rgba(2, 6, 14, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    footer.slide-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-bar">
+    <div class="brand-badge">
+      <span class="brand-dot"></span>
+      <span>SME OS × JAVIS OS — HỒ SƠ GIẢI PHẪU REA TOÀN DIỆN</span>
+    </div>
+    <div class="slide-nav" id="slideNav"></div>
+  </header>
+
+  <main class="deck-viewport">
+
+    <!-- SLIDE 1: EXECUTIVE SUMMARY & REA METRICS -->
+    <section class="slide active" data-title="1. Tổng quan REA">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 01 // REVERSE-ENGINEER-ANYTHING (REA) AUDIT</span>
+          <h1 class="slide-title">Giải Phẫu 100% Mã Nguồn Javis OS & Chiến Lược SME OS</h1>
+          <p class="slide-subtitle">Bằng chứng REA ID: <code class="inline-code">ev_4028393e72aac241b12faf120c37d4052f9c30dac7435aea8fcb2e7977d57b9a</code> — Phân tích tĩnh AST & Giải phẫu lõi Python/Node.js</p>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-num">2.066 Files</div>
+            <div class="stat-label">Tổng số tệp mã nguồn & tài liệu đã clone và kiểm toán</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">575.200 AST</div>
+            <div class="stat-label">Nút cây cú pháp JS đã quét (0 lỗi parse, 111 JS files)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">51.037 Luồng</div>
+            <div class="stat-label">11.008 Call-Flow + 40.029 Data-Flow Relations</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">100% AGPLv3</div>
+            <div class="stat-label">Mã nguồn mở hoàn toàn — Tự chủ 100% không lo thu hồi</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card">
+            <h3>🔍 Bản Chất Thật Của Javis OS Qua Lăng Kính REA</h3>
+            <ul class="clean-list">
+              <li><strong>Single-Owner AI Gateway:</strong> Javis OS là trạm điều phối AI cá nhân viết bằng <code class="inline-code">Python 3.12 (FastAPI)</code> + <code class="inline-code">Node.js 22</code> + <code class="inline-code">SQLite</code> + <code class="inline-code">Markdown Vault</code>.</li>
+              <li><strong>Điểm mạnh vượt trội:</strong> Cổng trung tâm <strong>MCP Hub</strong> gom 29+ dịch vụ (Meta Ads, Fanpage, Zalo QR, Pancake POS, Google Sheets) vào 1 kết nối JSON-RPC duy nhất kèm khóa phân quyền cứng 3 mức.</li>
+              <li><strong>Điểm khuyết thiếu:</strong> Không có hệ thống phân quyền đa nhân sự (Multi-User RBAC) cho công ty từ Giám đốc xuống Kỹ thuật viên, Bảo vệ, Lao công.</li>
+            </ul>
+          </div>
+          <div class="glass-card">
+            <h3>🚀 Công Thức Chiến Thắng Khi Kết Hợp Với SME OS</h3>
+            <ul class="clean-list">
+              <li><strong>SME OS làm "Hệ Điều Hành Quản Trị & Phân Quyền 4D":</strong> Quản lý toàn bộ nhân sự, phòng ban, quy trình xưởng, tài chính và giao diện theo đúng vị trí.</li>
+              <li><strong>Hấp thụ Tinh hoa Kết nối của Javis OS:</strong> Mang trực tiếp thuật toán kết nối <strong>Meta Ads / Fanpage (Token 60 ngày)</strong> và <strong>Zalo Official Bot</strong> vào thẳng <code class="inline-code">Code.gs</code> mà không cần thuê VPS!</li>
+              <li><strong>Plug-and-Play BYOK (Module M15):</strong> Nhân sự nào muốn dùng Javis AI cá nhân hay quét Zalo QR thì bấm 1 nút đấu nối thẳng vào Dashboard của vị trí đó.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Product Owner: Anh Tăng Trí Đức | Lead Architect: Lucy</span>
+        <span>Phím mũi tên ◀ ▶ để chuyển trang</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 2: INFRASTRUCTURE COMPATIBILITY -->
+    <section class="slide" data-title="2. Tương thích Hạ tầng">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 02 // INFRASTRUCTURE & RUNTIME COMPATIBILITY</span>
+          <h1 class="slide-title">Đánh Giá Tương Thích Hạ Tầng: Javis OS vs SME OS</h1>
+          <p class="slide-subtitle">Tại sao không nhét Python vào Google Apps Script mà dùng kiến trúc "Hấp thụ Trực tiếp + Cầu nối Sidecar"?</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card">
+            <h3>⚡ Những Gì SME OS Chạy Trực Tiếp 100% (Không Cần VPS)</h3>
+            <span class="pill pill-green">Chạy ngay trên Google Apps Script (UrlFetchApp + doPost)</span>
+            <ul class="clean-list">
+              <li><strong>Meta Ads Graph API (<code class="inline-code">v25.0</code>):</strong> Gọi trực tiếp <code class="inline-code">GET /act_&lt;id&gt;/insights</code> bằng Long-lived Token 60 ngày để lấy Spend, Impressions, Clicks, Leads về bảng Marketing mỗi sáng.</li>
+              <li><strong>Facebook Fanpage & Messenger Bot:</strong> Nhận tin nhắn khách qua Webhook <code class="inline-code">doPost(e)</code> và đăng bài/trả lời bình luận trực tiếp bằng Page Access Token.</li>
+              <li><strong>Zalo Official Bot (<code class="inline-code">bot-api.zaloplatforms.com</code>):</strong> Gửi thông báo vận hành, phiếu dịch vụ, nhắc việc cho toàn bộ nhân sự 100% chính thống, không bao giờ khóa nick.</li>
+              <li><strong>Pancake POS / KiotViet / Sapo REST API:</strong> Đồng bộ đơn hàng và tồn kho trực tiếp qua HTTP REST.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>🐳 Những Gì Cần Javis Sidecar (PC Nhân viên hoặc Docker VPS)</h3>
+            <span class="pill pill-blue">Chạy qua Cầu nối Module M15 (Plug-and-Play / Sidecar)</span>
+            <ul class="clean-list">
+              <li><strong>Zalo Cá nhân QR (<code class="inline-code">javis-zalo / zca-js</code>):</strong> Cần tiến trình Node.js sống liên tục 24/7 và quét ngầm mỗi 20 giây (<code class="inline-code">NHIP = 20s</code>) — vượt quá giới hạn 6 phút/lượt của Google Apps Script.</li>
+              <li><strong>Tận dụng Gói Claude Pro / ChatGPT Plus Có Sẵn:</strong> Cần chạy CLI <code class="inline-code">@anthropic-ai/claude-code</code> hoặc <code class="inline-code">@openai/codex</code> trên máy cá nhân của nhân sự hoặc Docker VPS.</li>
+              <li><strong>Giải pháp:</strong> Ai cần 2 tính năng này chỉ việc bật Javis trên máy cá nhân (hoặc VPS \$5/tháng) và dán URL vào <strong>Module M15 (Javis AI Bridge)</strong> đã tích hợp sẵn trong SME OS!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Kết luận: Tương thích 100% qua giao thức HTTP REST, Webhook & MCP JSON-RPC</span>
+        <span>Slide 2 / 8</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 3: DOCKER & VPS ARCHITECTURE -->
+    <section class="slide" data-title="3. Kiến trúc VPS/Docker">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 03 // DOCKER & VPS DEPLOYMENT ANATOMY</span>
+          <h1 class="slide-title">Giải Phẫu Kiến Trúc Docker & VPS Của Javis OS</h1>
+          <p class="slide-subtitle">Phân tích từ <code class="inline-code">Dockerfile</code> & <code class="inline-code">docker-compose.yml</code>: Tách biệt 100% Code tĩnh và Dữ liệu sống</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card">
+            <h3>📦 Cấu Trúc Multi-Stage Container & 4 Volumes</h3>
+            <ul class="clean-list">
+              <li><strong>Hybrid Image (<code class="inline-code">Python 3.12 + Node 22.23.4</code>):</strong> Ghép binary Node.js từ image chuẩn vào Debian Bookworm Python, cài sẵn <code class="inline-code">tini</code> (PID 1), <code class="inline-code">ffmpeg</code>, <code class="inline-code">ripgrep</code>, Chromium deps, Claude CLI & Codex CLI.</li>
+              <li><strong>Bảo mật User <code class="inline-code">javis (UID 10001)</code>:</strong> Mã nguồn trong <code class="inline-code">/app</code> là bất biến (immutable). Cập nhật phiên bản mới chỉ thay <code class="inline-code">/app</code>, giữ nguyên 4 ổ đĩa (Volumes):
+                <br/>1. <code class="inline-code">javis-data:/data</code> (SQLite, Token OAuth, Phiên Zalo QR).
+                <br/>2. <code class="inline-code">javis-brains:/brains</code> (Kho tài liệu Markdown).
+                <br/>3. <code class="inline-code">claude-auth</code> & 4. <code class="inline-code">codex-auth</code> (Giữ đăng nhập AI).</li>
+              <li><strong>Đa khách hàng trên 1 VPS:</strong> Đổi <code class="inline-code">JAVIS_NAME</code> & <code class="inline-code">JAVIS_HOST_PORT</code> (7777, 7778...) để chạy nhiều thực thể độc lập kèm Cloudflare Tunnel & Watchtower tự cập nhật.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>🗺️ Sơ Đồ Đóng Gói Docker VPS (SVG)</h3>
+            <div class="svg-wrap" style="flex:1;">
+              <svg viewBox="0 0 520 270" width="100%" height="100%">
+                <rect x="10" y="10" width="500" height="250" rx="14" fill="#060B16" stroke="#4285F4" stroke-width="1.5" stroke-dasharray="5,5"/>
+                <text x="26" y="34" fill="#60A5FA" font-size="12" font-weight="bold" font-family="Montserrat">VPS HOST (UBUNTU / DEBIAN + DOCKER ENGINE)</text>
+                
+                <rect x="28" y="50" width="280" height="135" rx="10" fill="#0F172A" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="42" y="72" fill="#FFFFFF" font-size="13" font-weight="bold">Container: javis-os (:7777)</text>
+                <text x="42" y="94" fill="#94A3B8" font-size="11">• FastAPI (main.py) + MCP Hub (/hub/mcp)</text>
+                <text x="42" y="114" fill="#94A3B8" font-size="11">• Node 22: npx javis-zalo + Claude/Codex</text>
+                <text x="42" y="134" fill="#34D399" font-size="11">• Non-root UID 10001 + tini PID 1 reaper</text>
+                <text x="42" y="156" fill="#FBBF24" font-size="11">• Auto-Update via Watchtower HTTP API</text>
+
+                <rect x="328" y="50" width="164" height="62" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+                <text x="342" y="74" fill="#34D399" font-size="12" font-weight="bold">Cloudflare Tunnel</text>
+                <text x="342" y="94" fill="#94A3B8" font-size="10.5">HTTPS Zero-Port-Forward</text>
+
+                <rect x="328" y="123" width="164" height="62" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="1.2"/>
+                <text x="342" y="147" fill="#FBBF24" font-size="12" font-weight="bold">SME OS Webhook</text>
+                <text x="342" y="167" fill="#94A3B8" font-size="10.5">Đẩy KPI về Google Sheets</text>
+
+                <rect x="28" y="200" width="464" height="46" rx="8" fill="#1E293B" stroke="#64748B" stroke-width="1"/>
+                <text x="44" y="227" fill="#E2E8F0" font-size="11.5" font-family="Roboto Mono">Persistent Volumes: [javis-data:/data]  [javis-brains:/brains]  [.claude]  [.codex]</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Kiến trúc bất biến giúp nâng cấp phần mềm trong 10 giây mà không mất phiên đăng nhập Zalo/Meta</span>
+        <span>Slide 3 / 8</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 4: MCP HUB ARCHITECTURE -->
+    <section class="slide" data-title="4. Giải phẫu MCP Hub">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 04 // DEEP DIVE: SERVER/MCP_HUB.PY (2.290 DÒNG CODE)</span>
+          <h1 class="slide-title">Bí Mật Cổng Đấu Nối Trung Tâm: Javis MCP Hub</h1>
+          <p class="slide-subtitle">Làm thế nào Javis gom 29+ dịch vụ vào 1 cổng <code class="inline-code">POST /hub/mcp</code> duy nhất mà không làm tràn bộ nhớ AI?</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass-card">
+            <h3>🛡️ 1. Khóa Quyền Cứng 3 Mức (<code class="inline-code">_guard</code>)</h3>
+            <span class="pill pill-green">Chặn ở tầng Code Python — Không phụ thuộc Prompt</span>
+            <ul class="clean-list">
+              <li><strong>Chỉ đọc (<code class="inline-code">readonly</code>):</strong> Chỉ mở các hàm tra cứu (<code class="inline-code">read</code>). Ẩn và chặn hoàn toàn lệnh sửa/xóa.</li>
+              <li><strong>Ghi nháp (<code class="inline-code">safe</code>):</strong> Cho phép tạo bản nháp (Draft Gmail, ghi chú), nhưng <strong>chặn cứng</strong> các hành động đụng tới tiền, tạo đơn hàng thật hoặc gửi tin nhắn cho khách.</li>
+              <li><strong>Toàn quyền (<code class="inline-code">full</code>):</strong> Mở toàn bộ công cụ (<code class="inline-code">danger</code>), nhưng vẫn bị kiểm soát bởi bộ đếm <code class="inline-code">rate_limit</code> (vd Zalo tối đa 20 lệnh/phút).</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>⚡ 2. Lazy Tool Search (Tiết kiệm 85% Token)</h3>
+            <span class="pill pill-blue">Giải quyết bài toán >100 Tools</span>
+            <ul class="clean-list">
+              <li>Khi bật nhiều kết nối, nếu nạp toàn bộ 100+ schema vào prompt sẽ làm AI chậm và tốn hàng chục nghìn token mỗi câu chat.</li>
+              <li>Hub tự động giấu toàn bộ tool vào <code class="inline-code">pool</code> và chỉ đưa cho AI 2 công cụ siêu nhẹ:
+                <br/>• <code class="inline-code">javis_search_tools(query)</code>
+                <br/>• <code class="inline-code">javis_run_tool(name, args)</code></li>
+              <li>AI cần làm việc gì mới tìm đúng 3 tool liên quan nhất để nạp schema chi tiết!</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>🔍 3. Xử Lý Tool "2 Trong 1" (<code class="inline-code">arg_rules</code>)</h3>
+            <span class="pill pill-amber">Kiểm tra sâu tới từng Tham số</span>
+            <ul class="clean-list">
+              <li>Nhiều dịch vụ như <strong>Pancake POS</strong> hoặc <strong>Composio</strong> gộp cả đọc lẫn ghi vào chung 1 tool (phân biệt qua tham số <code class="inline-code">action="list"</code> vs <code class="inline-code">action="create"</code>).</li>
+              <li>Khi liệt kê (<code class="inline-code">tools/list</code>), Hub đánh dấu <code class="inline-code">multiplexed=True</code> để AI vẫn nhìn thấy tool ở chế độ Chỉ đọc.</li>
+              <li>Khi thực thi (<code class="inline-code">tools/call</code>), hàm <code class="inline-code">mcp_catalog.allowed()</code> soi trực tiếp <code class="inline-code">args["action"]</code> để chặn ngay nếu cố tình tạo đơn!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Mọi lệnh gọi qua Hub đều được ghi vào nhật ký kiểm toán /data/mcp_audit.jsonl</span>
+        <span>Slide 4 / 8</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 5: META ADS & META CHAT SECRETS -->
+    <section class="slide" data-title="5. Bí mật Meta Ads/Chat">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 05 // DEEP DIVE: META ADS GRAPH API & MESSENGER WEBHOOK</span>
+          <h1 class="slide-title">Cách Javis Kết Nối Meta Ads & Fanpage Không Cần Duyệt App</h1>
+          <p class="slide-subtitle">Giải phẫu từ <code class="inline-code">server/oauth_mcp.py</code>, <code class="inline-code">meta-ads-graph/plugin.py</code> & <code class="inline-code">server/messenger_bot.py</code></p>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card">
+            <h3>🎯 1. Công Thức "BYO App Chế Độ Development" + Token 60 Ngày</h3>
+            <ul class="clean-list">
+              <li><strong>Vượt rào MCP Beta của Meta:</strong> MCP chính chủ của Meta đang đóng kín. Javis hướng dẫn người dùng tự tạo 1 Facebook App loại <em>Business</em> trên <code class="inline-code">developers.facebook.com</code> và <strong>giữ nguyên ở chế độ "In Development"</strong>.</li>
+              <li><strong>Không cần App Review & Business Verification:</strong> Khi chính bạn là Admin của App kiêm Admin của Tài khoản Ads / Fanpage, Facebook cấp thẳng quyền <code class="inline-code">ads_read</code>, <code class="inline-code">pages_manage_posts</code> mà không cần chờ Meta xét duyệt!</li>
+              <li><strong>Tự động nâng cấp Token 60 ngày (<code class="inline-code">_meta_longlive</code>):</strong> Ngay khi nhận code OAuth, Javis gọi <code class="inline-code">GET /v25.0/oauth/access_token?grant_type=fb_exchange_token</code> để biến token 1 giờ thành token sống <strong>60 ngày</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>💬 2. Giải Phẫu Fanpage & Messenger Bot (<code class="inline-code">messenger_bot.py</code>)</h3>
+            <ul class="clean-list">
+              <li><strong>Tách Token Riêng Từng Fanpage (<code class="inline-code">_resolve_page</code>):</strong> Dùng User Token gọi <code class="inline-code">GET /me/accounts</code> để lấy <code class="inline-code">access_token</code> riêng của từng Fanpage (ẩn token khỏi kết quả trả về cho AI để chống lộ khóa).</li>
+              <li><strong>Nhận diện thông minh 3 khóa bằng Regex (<code class="inline-code">parse_creds</code>):</strong> Người dùng chỉ cần dán 1 dòng, code tự tách: chuỗi số 5–25 ký tự = <code class="inline-code">Page ID</code>; chuỗi hex 32 ký tự = <code class="inline-code">App Secret</code>; chuỗi &gt;40 ký tự (<code class="inline-code">EAA...</code>) = <code class="inline-code">Page Token</code>.</li>
+              <li><strong>Bảo mật Webhook & Cửa sổ 24h:</strong> Kiểm tra chữ ký <code class="inline-code">X-Hub-Signature-256</code> (HMAC-SHA256), tự động chuyển Markdown sang chữ thuần và cắt tin ở mốc <code class="inline-code">1.900</code> ký tự.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Ứng dụng ngay cho SME OS: Đọc chi phí Meta Ads & nhận Lead Messenger trực tiếp bằng Google Apps Script!</span>
+        <span>Slide 5 / 8</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 6: ZALO PERSONAL & GROUP SECRETS -->
+    <section class="slide" data-title="6. Bí mật Zalo User/Nhóm">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 06 // DEEP DIVE: ZALO PERSONAL QR, GROUP MENTION & ZALO BOT</span>
+          <h1 class="slide-title">Bí Mật Kết Nối Zalo Cá Nhân (QR), Zalo Nhóm & Zalo Bot</h1>
+          <p class="slide-subtitle">Giải phẫu từ <code class="inline-code">zalo_login.py</code>, <code class="inline-code">zalo_personal_channel.py</code>, <code class="inline-code">channels/zalo_personal.py</code> & <code class="inline-code">zalo_bot.py</code></p>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass-card">
+            <h3>📱 1. Cô Lập Nhiều Số Zalo Cá Nhân (<code class="inline-code">zalo_home</code>)</h3>
+            <span class="pill pill-blue">javis-zalo v1.6.1 (zca-js)</span>
+            <ul class="clean-list">
+              <li>Công cụ gốc <code class="inline-code">zalo-agent-cli</code> lưu cookie tại <code class="inline-code">~/.zalo-agent-cli</code> nên chỉ đăng nhập được 1 số.</li>
+              <li><strong>Mẹo của Javis:</strong> Tạo thư mục riêng <code class="inline-code">/data/connector-home/zalo-&lt;slug&gt;-&lt;id&gt;</code> và ghi đè biến môi trường <code class="inline-code">HOME</code> + <code class="inline-code">USERPROFILE</code> khi gọi <code class="inline-code">npx javis-zalo</code>.</li>
+              <li>Nhờ đó 10 nhân viên Sale có thể quét QR 10 số Zalo cá nhân chạy song song trên cùng 1 máy chủ!</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>👥 2. Quét Kép 20s/2s & Tag <code class="inline-code">@Tên</code> Nhóm Bằng UTF-16LE</h3>
+            <span class="pill pill-amber">Kỹ thuật xử lý Nhóm Zalo cực sâu</span>
+            <ul class="clean-list">
+              <li><strong>Nhịp quét thông minh:</strong> Bình thường quét mỗi <strong>20s</strong> (an toàn dưới ngưỡng khóa nick 20 lệnh/phút). Khi có khách nhắn riêng, tự động tăng tốc lên <strong>2s/lần</strong> trong 60 giây!</li>
+              <li><strong>Tag <code class="inline-code">@Mention</code> thật trong nhóm:</strong> Zalo tính vị trí tag theo đơn vị mã <strong>UTF-16LE</strong> (<code class="inline-code">len(s.encode("utf-16-le")) // 2</code>). Javis tự tính offset + độ dài để bắn lệnh <code class="inline-code">--mention "offset:len:uid"</code> làm rung chuông người được tag!</li>
+              <li>Hỗ trợ tự động chào thành viên mới & duyệt yêu cầu vào nhóm (<code class="inline-code">zalo_review_join_requests</code>).</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>🤖 3. Zalo Official Bot Chính Chủ (<code class="inline-code">zalo_bot.py</code>)</h3>
+            <span class="pill pill-green">An toàn 100% — Không cần VPS</span>
+            <ul class="clean-list">
+              <li>Kết nối cổng chính thức <code class="inline-code">https://bot-api.zaloplatforms.com/bot{token}/{method}</code>.</li>
+              <li><strong>5 điểm dị biệt đã giải mã:</strong> Không sửa/xóa được tin đã gửi; không có nút bấm inline; giới hạn 1.900 ký tự; <code class="inline-code">getUpdates</code> trả <code class="inline-code">"Request timeout"</code> khi rảnh (phải lọc bỏ để không báo lỗi giả); nhận diện nhóm qua <code class="inline-code">chat_id != sender_id</code>.</li>
+              <li>Gọi trực tiếp từ <code class="inline-code">Code.gs</code> của SME OS để báo tiến độ xưởng cho nhân sự!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Kết hợp hoàn hảo: Dùng Zalo Official Bot cho vận hành nội bộ + Zalo Cá nhân Sidecar cho Sale chăm khách VIP</span>
+        <span>Slide 6 / 8</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 7: B2B GITHUB REPLICATION MODEL -->
+    <section class="slide" data-title="7. Mô hình Nhân bản B2B">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 07 // B2B SINGLE-TENANT REPLICATION STRATEGY</span>
+          <h1 class="slide-title">Chiến Lược Nhân Bản SME OS Cho Khách Hàng B2B Qua GitHub</h1>
+          <p class="slide-subtitle">Mỗi doanh nghiệp B2B sở hữu 1 bản cài đặt độc lập (Single-Tenant) từ kho GitHub Master của anh Đức</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass-card">
+            <h3>🏆 5 Lợi Thế Tuyệt Đối Của Mô Hình "1 Công Ty = 1 Bản Độc Lập"</h3>
+            <ul class="clean-list">
+              <li><strong>1. Chi phí Server cho anh Đức = \$0:</strong> Mỗi công ty khách hàng chạy trên chính Google Workspace / Gmail miễn phí của họ (Google Sheets + Apps Script + Drive 15GB + GitHub Pages).</li>
+              <li><strong>2. Cô lập Dữ liệu Tuyệt đối 100%:</strong> Doanh thu, bảng lương, danh sách khách hàng của Công ty A nằm trong Google Sheet riêng của Công ty A — không bao giờ rò rỉ chéo sang Công ty B.</li>
+              <li><strong>3. Vũ khí Chốt Sale Tư vấn B2B:</strong> Khách hàng nắm trọn quyền sở hữu trên Google Drive của họ, xóa bỏ hoàn toàn nỗi sợ "hết hợp đồng bị thu hồi phần mềm".</li>
+              <li><strong>4. Cá nhân hóa White-Label trong 30 giây:</strong> Đổi Logo, Tên công ty, Màu thương hiệu, Chi nhánh ngay trong bảng <code class="inline-code">System_Settings</code> mà không phải sửa code.</li>
+              <li><strong>5. Đồng bộ tính năng mới tự động:</strong> Anh Đức và Lucy chỉ phát triển trên 1 repo gốc <code class="inline-code">sme-os-master-template</code>, dùng GitHub Actions / Clasp đẩy bản cập nhật xuống các khách hàng.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <h3>🔄 Sơ Đồ Nhân Bản Từ GitHub Master (SVG)</h3>
+            <div class="svg-wrap" style="flex:1;">
+              <svg viewBox="0 0 500 265" width="100%" height="100%">
+                <rect x="135" y="12" width="230" height="58" rx="10" fill="#1E3A8A" stroke="#60A5FA" stroke-width="2"/>
+                <text x="250" y="36" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="bold">GITHUB MASTER TEMPLATE</text>
+                <text x="250" y="54" text-anchor="middle" fill="#93C5FD" font-size="11">sme-os-master-template (Anh Đức)</text>
+
+                <line x1="200" y1="70" x2="95" y2="120" stroke="#4285F4" stroke-width="2"/>
+                <line x1="250" y1="70" x2="250" y2="120" stroke="#4285F4" stroke-width="2"/>
+                <line x1="300" y1="70" x2="405" y2="120" stroke="#4285F4" stroke-width="2"/>
+
+                <rect x="12" y="120" width="150" height="128" rx="10" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+                <text x="87" y="144" text-anchor="middle" fill="#34D399" font-size="12" font-weight="bold">KHÁCH B2B #1 (AP CAR)</text>
+                <text x="24" y="168" fill="#CBD5E1" font-size="10.5">• Google Sheet DB Riêng</text>
+                <text x="24" y="188" fill="#CBD5E1" font-size="10.5">• GAS + GitHub Pages Riêng</text>
+                <text x="24" y="208" fill="#34D399" font-size="10.5">• + Javis Docker VPS (\$5)</text>
+                <text x="24" y="228" fill="#94A3B8" font-size="10">Full Zalo QR + Meta 24/7</text>
+
+                <rect x="175" y="120" width="150" height="128" rx="10" fill="#0F172A" stroke="#3B82F6" stroke-width="1.5"/>
+                <text x="250" y="144" text-anchor="middle" fill="#60A5FA" font-size="12" font-weight="bold">KHÁCH B2B #2 (SME A)</text>
+                <text x="187" y="168" fill="#CBD5E1" font-size="10.5">• Google Sheet DB Riêng</text>
+                <text x="187" y="188" fill="#CBD5E1" font-size="10.5">• White-Label Skin Riêng</text>
+                <text x="187" y="208" fill="#60A5FA" font-size="10.5">• Nhân sự tự nối Javis PC</text>
+                <text x="187" y="228" fill="#94A3B8" font-size="10">Chi phí hạ tầng = \$0</text>
+
+                <rect x="338" y="120" width="150" height="128" rx="10" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
+                <text x="413" y="144" text-anchor="middle" fill="#FBBF24" font-size="12" font-weight="bold">KHÁCH B2B #3 (HỘ KD)</text>
+                <text x="350" y="168" fill="#CBD5E1" font-size="10.5">• Google Sheet DB Riêng</text>
+                <text x="350" y="188" fill="#CBD5E1" font-size="10.5">• Meta Ads &amp; Zalo Bot</text>
+                <text x="350" y="208" fill="#FBBF24" font-size="10.5">• Chạy trực tiếp trên GAS</text>
+                <text x="350" y="228" fill="#94A3B8" font-size="10">Chi phí hạ tầng = \$0</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Mỗi khách hàng là một pháo đài dữ liệu độc lập, nhưng anh Đức nắm công nghệ lõi và quyền cập nhật!</span>
+        <span>Slide 7 / 8</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 8: 4-PHASE IMPLEMENTATION ROADMAP -->
+    <section class="slide" data-title="8. Lộ trình 4 Giai đoạn">
+      <div>
+        <div class="slide-header">
+          <span class="eyebrow">SLIDE 08 // PHASED IMPLEMENTATION ROADMAP</span>
+          <h1 class="slide-title">Lộ Trình Triển Khai 4 Giai Đoạn Cho SME OS (Ưu Tiên Cốt Lõi Trước)</h1>
+          <p class="slide-subtitle">Thực thi cuốn chiếu từ dễ đến khó — Tạo giá trị thực chiến ngay lập tức cho AP CAR CARE và khách hàng B2B</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="glass-card" style="border-color: rgba(16, 185, 129, 0.55);">
+            <span class="pill pill-green">GIAI ĐOẠN 1 — ĐÃ XONG 100%</span>
+            <h3>⚡ Cầu Nối Javis Plug-and-Play (M15)</h3>
+            <ul class="clean-list">
+              <li>Đã tích hợp bảng <code class="inline-code">User_Javis_Config</code> & <code class="inline-code">Javis_Sync_Logs</code> vào <code class="inline-code">Code.gs</code>.</li>
+              <li>Mỗi nhân sự tự gắn Javis OS / AI cá nhân độc lập (BYOK).</li>
+              <li>Tự động lọc và đẩy dữ liệu về đúng Dashboard của từng vị trí (CEO, MKT, Kế toán, Quản đốc, Bảo vệ).</li>
+            </ul>
+          </div>
+
+          <div class="glass-card" style="border-color: rgba(66, 133, 244, 0.55);">
+            <span class="pill pill-blue">GIAI ĐOẠN 2 — ƯU TIÊN SỐ 1</span>
+            <h3>📊 Tích Hợp Trực Tiếp Meta Ads & Fanpage</h3>
+            <ul class="clean-list">
+              <li>Áp dụng công thức <strong>Facebook App Development + Token 60 ngày</strong> ngay trong <code class="inline-code">Code.gs</code> (Không cần VPS!).</li>
+              <li>Tự động kéo chi phí Ads, CPC, CTR, Leads về Dashboard Marketing mỗi sáng.</li>
+              <li>Bắt Webhook Messenger Fanpage tạo Lead tự động vào bảng <code class="inline-code">Leads_CRM</code>.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card" style="border-color: rgba(245, 158, 11, 0.55);">
+            <span class="pill pill-amber">GIAI ĐOẠN 3 — ƯU TIÊN SỐ 2</span>
+            <h3>🔔 Zalo Official Bot Vận Hành Nội Bộ</h3>
+            <ul class="clean-list">
+              <li>Nối trực tiếp <code class="inline-code">bot-api.zaloplatforms.com</code> vào <code class="inline-code">Code.gs</code> (Không cần VPS, không lo khóa nick).</li>
+              <li>Tự động bắn tin nhắn Zalo báo xe vào xưởng cho Kỹ thuật viên, báo duyệt chi cho CEO, nhắc việc cho Bảo vệ/Lao công.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <span class="pill pill-blue">GIAI ĐOẠN 4 — MỞ RỘNG B2B</span>
+            <h3>🐳 Gói Docker Sidecar Zalo QR & GitHub Clone</h3>
+            <ul class="clean-list">
+              <li>Đóng gói <code class="inline-code">docker-compose.sme-sidecar.yml</code> cho khách B2B cần quét Zalo cá nhân QR (<code class="inline-code">zca-js</code>) & chăm nhóm Zalo tự động.</li>
+              <li>Chuẩn hóa script nhân bản 1-Click từ <code class="inline-code">sme-os-master-template</code> cho mọi khách hàng B2B mới.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span>Bộ Hồ Sơ 5 Tầng đã lưu trữ đầy đủ tại: hq/javis-rea-dossier/ (01 -> 05)</span>
+        <span>Slide 8 / 8</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('section.slide'));
+    const navContainer = document.getElementById('slideNav');
+    let currentIdx = 0;
+
+    function renderNav() {
+      navContainer.innerHTML = '';
+      slides.forEach((s, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn' + (idx === currentIdx ? ' active' : '');
+        btn.textContent = s.getAttribute('data-title') || (idx + 1);
+        btn.onclick = () => goToSlide(idx);
+        navContainer.appendChild(btn);
+      });
+    }
+
+    function goToSlide(idx) {
+      if (idx < 0 || idx >= slides.length) return;
+      slides[currentIdx].classList.remove('active');
+      currentIdx = idx;
+      slides[currentIdx].classList.add('active');
+      renderNav();
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        goToSlide((currentIdx + 1) % slides.length);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goToSlide((currentIdx - 1 + slides.length) % slides.length);
+      }
+    });
+
+    renderNav();
+  </script>
+</body>
+</html>
