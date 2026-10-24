@@ -9,7 +9,8 @@
 | **PHẦN 4** | `L38–L42` | **Chiến lược Ngôn ngữ 4 Tầng** | Code/DB/API 100% Tiếng Anh; Tech Jargon giữ nguyên; Docs Song ngữ; UI/UX 100% Tiếng Việt |
 | **PHẦN 5** | `L43–L49` | **Các Triết lý Sản phẩm & AI Bắt buộc** | Business First AI Second; SSOT; Simplicity First (<30s, SUS > 80); AI 5 Tầng + Approval Node |
 | **PHẦN 6** | `L50–L56` | **Trình bày Nội dung Văn bản Các Chương** | Chuẩn phân cấp Heading 1, 2, 3, 4 và Normal text |
-| **PHẦN 7** | `L57–L76` | **Quy trình Tra cứu Mục lục 5 File Hiến pháp & Vòng lặp Kiểm tra Chi tiết 1 Chương** | Bắt buộc tra cứu nhanh mục lục 5 file trước mỗi prompt + Vòng lặp đọc sâu 1 chương khi có dấu hiệu vi phạm/nghi vấn |
+| **PHẦN 7** | `L57–L64` | **Quy trình Tra cứu Mục lục 5 File Hiến pháp & Vòng lặp Kiểm tra Chi tiết 1 Chương** | Bắt buộc tra cứu nhanh mục lục 5 file trước mỗi prompt + Vòng lặp đọc sâu 1 chương khi có dấu hiệu vi phạm/nghi vấn |
+| **PHẦN 8** | `L65–L78` | **Quy trình Thiết kế & Kiểm thử Giao diện Đa Nền Tảng PC + Mobile (`Humanizer & Dual-Viewport`)** | Bộ 3 Font Tiếng Việt (`Barlow Condensed` + `Be Vietnam Pro` + `JetBrains Mono`), 0% Emoji (100% SVG Line-Art), 2 Theme (`Carbon Night` & `Showroom White`), Mobile Off-Canvas Drawer |
 <!-- END_CONSTITUTION_TOC -->
 
 00. SME OS CONSTITUTION & AI PROMPT RULES
@@ -61,3 +62,15 @@ PHẦN 7: QUY TRÌNH TRA CỨU NHANH MỤC LỤC 5 FILE HIẾN PHÁP & VÒNG L�
 2. Vòng lặp Kiểm tra Chi tiết 1 Chương Hiến pháp (`Deep-Chapter Constitutional Verification Loop` — BẮT BUỘC KHI CÓ NGHI VẤN HOẶC CẨN TRỌNG):
    * Trong suốt quá trình thiết kế và thực thi code, nếu phát hiện bất kỳ **dấu hiệu vi phạm Hiến pháp** (ví dụ: có nguy cơ đẻ thêm bảng dữ liệu trùng lặp, gọi trực tiếp chéo giữa 2 module không qua Event Center, giao diện nhiều chữ rườm rà vi phạm Simplicity First <30s, hoặc over-engineering), **có nghi vấn kiến trúc**, hoặc **cần cẩn trọng kiểm tra lại**:
    * AI Agent BẮT BUỘC kích hoạt ngay **Vòng lặp Kiểm tra Chi tiết 1 Chương**: lấy chính xác tọa độ dòng (`Line Range` `L...–L...`) từ Mục lục đầu file Hiến pháp đó, gọi `read_file` đọc trọn vẹn chương đó để đối chiếu từng điều khoản và Checklist cuối chương, tự hiệu chỉnh lại phương án/code cho chuẩn 100% rồi mới tiếp tục thực thi.
+PHẦN 8: QUY TRÌNH THIẾT KẾ & KIỂM THỬ GIAO DIỆN ĐA NỀN TẢNG PC + MOBILE (HUMANIZER & DUAL-VIEWPORT WORKFLOW)
+1. Chuẩn Font Tiếng Việt Automotive Luxury (Phương án A — Chống lỗi dấu 100%):
+   * `--font-display`: `'Barlow Condensed'` (`600`, `700`) cho tiêu đề phòng ban lớn & con số KPI.
+   * `--font-sans`: `'Be Vietnam Pro'` (`400`, `500`, `600`, `700`) cho toàn bộ điều hướng, thẻ, bảng dữ liệu và nội dung.
+   * `--font-mono`: `'JetBrains Mono'` (`500`, `600`, `tabular-nums`) cho biển số xe, mã RO/SKU và tiền tệ.
+2. Năm Nguyên tắc Humanizer (Khử mùi AI) & 0% Emoji:
+   * Cấm 100% emoji màu trong giao diện; thay thế toàn bộ bằng bộ **Monochrome SVG Line-Art Icons (`1.65px` stroke, `currentColor`)** từ `AP_SVG_ICONS`.
+   * Áp dụng Quy tắc 10% Cobalt Accent (`#0066FF`), vát chéo kiến trúc `.ap-dept-hero::after`, đường kẻ Hairline `1px` và chấm tròn trạng thái `6px`.
+3. Hệ thống 2 Theme Chuẩn (`Carbon Night` Dark Blue & `Showroom Platinum` White + Sidebar Đen Gradient):
+   * Mọi thành phần trong `#viewHome` bắt buộc dùng biến CSS động `var(--ap-*)` tương thích hoàn hảo cả 2 theme, đồng thời giữ `#apSidebar` luôn mang nền Đen Obsidian Gradient sang trọng.
+4. Kiến trúc Đáp ứng Song Hành PC/Laptop (`>= 1025px`) & Mobile (`<= 1024px` / `<= 640px`):
+   * Trên Mobile/Tablet (`<= 1024px`), Sidebar bắt buộc chuyển thành **Off-Canvas Slide-Over Drawer** (`position: fixed; transform: translateX(-105%)` -> `translateX(0)`) kèm Backdrop mờ; Topbar chia 2 tầng ngang để tiêu đề `#topbarActiveTitle` luôn nằm gọn trên 1 dòng ngang duy nhất, tuyệt đối không rớt chữ dọc.

@@ -1,142 +1,145 @@
-# Nhật ký lỗi & Bài học kinh nghiệm (Lessons Learned)
+# Nhật Ký Lỗi & Bài Học Kinh Nghiệm (Lessons Learned — App AP CAR CARE / SME OS)
 
-File này lưu trữ danh sách các lỗi đặc thù thường gặp khi lập trình Google Apps Script (GAS) và HTML/JS trên trình duyệt, đặc biệt là các lỗi liên quan đến bộ lọc Caja/HtmlService của Google. Toàn bộ Agent phải đọc file này trước khi fix bug.
-
-## 1. Lỗi lồng dấu ngoặc và nháy trong Template Literal (Backtick)
-- **Triệu chứng:** `SyntaxError: Unexpected identifier` hoặc lỗi tương tự báo từ trình biên dịch của Apps Script.
-- **Mô tả:** Trong các file HTML được tải qua HtmlService (như `Income_Modal.html`), việc lồng biểu thức điều kiện tam phân chứa dấu nháy đơn `'` và backtick kép ` \` ` inside `${ condition ? \`...\` : '...' }` khiến trình biên dịch JavaScript của Apps Script / Trình duyệt bị nhầm lẫn ranh giới dấu ngoặc và chuỗi string.
-- **Cách fix:** Tránh lồng backtick trong backtick hoặc dùng nháy đơn/nháy kép lộn xộn trong các template literal quá phức tạp. Hãy tách biểu thức điều kiện ra thành một biến riêng trước khi đưa vào template literal:
-  ```javascript
-  // LỖI (Dễ gây nhầm lẫn):
-  let html = `<div class="${isActive ? \`active\` : 'inactive'}"></div>`;
-  
-  // FIX:
-  let cls = isActive ? "active" : "inactive";
-  let html = `<div class="${cls}"></div>`;
-  ```
-
-## 2. Lỗi Caja Sanitizer crash khi parse thuộc tính inline style chứa 'animation'
-- **Triệu chứng:** Báo lỗi ở client console (F12): `Uncaught SyntaxError: Failed to execute 'appendChild' on 'Node': Invalid or unexpected token` với Stack trace đi qua file `...mae_html_user_bin_i18n_mae_html_user__vi.js` (Thư viện Caja của Google).
-- **Mô tả:** Khi inject toàn bộ HTML của một trang (ví dụ `Task_list.html`) vào một thẻ `div` bằng `innerHTML = htmlString`, bộ lọc bảo mật Caja ở Client-side sẽ parse string này để loại bỏ các mã độc. Tuy nhiên, Caja có một lỗi (bug) nội bộ: Nếu nó gặp thuộc tính `style="..."` inline có chứa thuộc tính `animation` (ví dụ: `style="animation: blink 1s infinite;"`), CSS parser của Caja sẽ crash hoàn toàn và ném ra `SyntaxError`, làm cho toàn bộ đoạn code gán `innerHTML` thất bại, trang sẽ không thể render hoặc load bị treo trắng.
-- **Cách fix:** Tuyệt đối không dùng thuộc tính `animation` trực tiếp trong thẻ `style` inline khi render chuỗi HTML. Hãy chuyển khai báo `animation` đó vào một class CSS trong cặp thẻ `<style>` tĩnh, rồi gán class đó cho thẻ.
-  ```html
-  <!-- LỖI (Caja sẽ crash): -->
-  <div style="color: red; animation: blink 1s infinite;"></div>
-  
-  <!-- FIX: -->
-  <style> .my-blink { animation: blink 1s infinite; } </style>
-  <div class="my-blink" style="color: red;"></div>
-  ```
-
-### Quy tắc Debug: Khoanh vùng lỗi dựa trên mốc Confirm của người dùng
-- **Mô tả:** Sau mỗi lần clasp push và người dùng chạy test báo lại "ok", "đã chạy được", nghĩa là phiên bản tại thời điểm đó là ổn định.
-- **Bài học:** Nếu hành động viết code tiếp theo và push lên gặp lỗi, 90% nguyên nhân xuất phát từ **những đoạn code mới được thêm vào** kể từ sau mốc confirm đó. 
-- **Hành động:** Khi gặp lỗi, NGAY LẬP TỨC khoanh vùng và chỉ tập trung kiểm tra, sửa chữa các phần code mới thêm vào. Tuyệt đối không đi lan man kiểm tra lại toàn bộ kiến trúc hoặc các file không liên quan / không bị sửa đổi trong lần push gần nhất.
-
-### Quy tắc Debug: Chống lặp lại sửa sai (Vòng lặp lỗi)
-- **Mô tả:** Có những lúc Agent sửa đi sửa lại cùng một lỗi mà người dùng vẫn báo chưa thành công. Nếu cứ tiếp tục đâm đầu vào một hướng suy nghĩ cũ, sẽ gây hỏng logic của app.
-- **Hành động:** BẮT BUỘC khởi tạo biến đếm nội bộ `i`. Nếu nhận thông báo sửa lỗi KHÔNG THÀNH CÔNG liên tiếp **3 lần (i = 3)** cho cùng 1 lỗi, hãy THỰC HIỆN NGAY:
-  1. Dừng ngay việc cố gắng vá víu lỗi theo hướng cũ.
-  2. Quay về tra cứu, đối chiếu file code hiện tại với bản backup ở local gần nhất (thời điểm trước khi gây ra lỗi này). CHỈ ưu tiên đối chiếu các đoạn code mới thêm/sửa/xóa, tuyệt đối không kiểm tra lan man sang các file không liên quan logic.
-  3. Sau khi đối chiếu, sử dụng schematic app và bộ bản đồ các hàm lớn trong hệ thống.
-  4. Thực hiện brainstorm (động não) bằng các phương pháp luận, rẽ nhánh tư duy và chọn **một hướng tiếp cận code hoàn toàn mới/khác biệt** để giải quyết bài toán, phá vỡ lối mòn cũ.
-
-### Quy tắc Debug: Cẩn trọng với tệp script nội bộ bị đẩy nhầm lên Google Apps Script
-- **Mô tả lỗi:** Trong quá trình dùng một đoạn script Node.js tạm thời (lưu tên ix.js) để hỗ trợ xử lý text cục bộ, Agent đã chạy lệnh hàng loạt đổi tên toàn bộ .js thành .gs (để đồng bộ cho Apps Script). Việc này vô tình biến ix.js thành ix.gs và đẩy (push) nhầm tệp rác này lên server. Môi trường Google Apps Script không hỗ trợ hàm equire('fs') của Node.js, dẫn tới sập toàn bộ Web App ngay khi khởi động (ReferenceError: require is not defined).
-- **Cách khắc phục & Tránh lặp lại:** 
-  1. **Tuyệt đối không lưu** các file script dùng một lần (như thao tác regex, thao tác file) vào chung thư mục chứa mã nguồn chính của Google Apps Script.
-  2. Nên chạy script trực tiếp trên terminal bằng tham số -e (ví dụ: 
-ode -e "Mã code"), hoặc nếu phải tạo file thì đưa vào thư mục tạm scratch/ nằm ngoài luồng commit/push.
-  3. Trước khi chạy lệnh clasp push, phải kiểm tra cẩn thận trạng thái git status hoặc dùng clasp status để đảm bảo không đẩy nhầm tệp rác lên server.
-
-## [2026-09-29] Bài học xử lý sự kiện UI & Biến Global (Tính năng Cờ Ưu Tiên)
-1. **Lỗi đứt đoạn Hover Tooltip (Menu nổi):** 
-   - *Triệu chứng:* Khi menu tooltip (popup) cách nút kích hoạt một khoảng trống (ví dụ ottom: 52px so với nút cao 42px, hở 10px), rê chuột từ nút lên menu sẽ làm mất :hover, dẫn đến menu ẩn bất ngờ. 
-   - *Khắc phục:* Thêm padding-bottom (trong suốt) bằng đúng hoặc lớn hơn khoảng hở để tạo cầu nối liền mạch.
-   - *Bài học CSS Delay:* Hạn chế dùng pointer-events: none vì nó không nhận 	ransition-delay đồng bộ khi chuột rời đi (khiến UI chưa mờ nhưng đã mất khả năng click). Thay vào đó, hãy dùng isibility kết hợp opacity, ví dụ: 	ransition: opacity 0.3s 2s, visibility 0s 2.3s để menu vừa hiện rõ vừa có thể click trong suốt 2 giây chờ.
-
-2. **Lỗi trigger Input File bị trình duyệt cản:**
-   - *Triệu chứng:* Nút Gửi Ảnh/File dùng <button onclick="document.getElementById('inputId').click()"> có thể bị trình duyệt (hoặc WebView) chặn không mở hộp thoại chọn file vì cho là automated popup.
-   - *Khắc phục:* Đổi thẻ bọc thành <label for="inputId"> và giữ nguyên CSS. Trình duyệt sẽ tự động kích hoạt input file một cách hợp lệ mà không cần viết lệnh JS.
-
-3. **Lỗi Undefined do dùng sai tên Biến Toàn Cục:**
-   - *Triệu chứng:* Lỗi Cannot read properties of undefined (reading 'find'). Do giả định biến lưu trữ là window.currentData hoặc biến dòng là currentChatRow. 
-   - *Khắc phục:* Trong TDCM Team App, biến lưu data danh sách Task là globalTasksData. Biến lưu vị trí dòng khi mở modal chat là ChatStateManager.currentRow.
-   - *Bài học:* LUÔN LUÔN dùng Select-String (hoặc grep) tìm kiếm xem biến có thực sự được khởi tạo (let/var = ) và gán giá trị hay không trước khi gọi nó trong code mới. Đừng giả định từ ngữ cảnh.
-
-4. **Lỗi UI Reset do thiếu trường Data khi Fetch (API Endpoint):**
-   - *Triệu chứng:* Người dùng click nút đổi trạng thái (Optimistic UI hiển thị ngay lập tức), dữ liệu gửi lên Backend (Google Sheets) thành công. Nhưng vài giây sau UI tự động reset về mặc định, hoặc refresh lại trang thì UI không hiển thị trạng thái đã lưu.
-   - *Nguyên nhân:* Mặc dù Backend lưu vào database thành công, nhưng hàm lấy data (GET) từ Database trả về cho Client (ví dụ getTasksList()) đã QUÊN KHÔNG MAP cái CỘT DỮ LIỆU ĐÓ (bỏ quên biến priority: row[15]). Dẫn đến data trả về bị undefined, đè lên RAM Frontend và xóa sạch UI ảo.
-   - *Bài học:* Khi thêm một tính năng làm thay đổi một cột trong Backend, LUÔN LUÔN phải kiểm tra 2 chiều: (1) Chiều POST (có map đúng cột, đúng tên biến/field_name, đúng ma trận phân quyền không) và (2) Chiều GET (hàm đọc data có parse cột đó gán vào Object trả về cho Frontend không).
+> **Quy tắc Bắt buộc (Mandatory Fast-Lookup Rule):**
+> Khi bắt đầu trả lời mỗi chat hoặc trước khi sửa lỗi / thiết kế giao diện / viết code, AI Agent **BẮT BUỘC** đọc danh sách mục lục của **2 Scope** dưới đây: **Scope Chung (`[Tất cả / Chung]`)** và **Scope Dự Án (`[SME OS]`)** để tích hợp ngay các quy tắc phòng tránh (`Fast Rule`) vào code chuẩn bị viết, chặn đứng 100% lỗi tái diễn.
 
 ---
 
-## [2026-09-29] ERR-001 — Lỗi cú pháp Here-String trong PowerShell (backup.ps1)
+## ⚡ BẢNG TRA CỨU NHANH (FAST-LOOKUP MASTER MATRIX — MỤC LỤC BÀI HỌC)
 
-- **Bug ID:** ERR-001
+| Bug ID | Tọa độ Dòng | Scope / Dự án | Tên Lỗi & Triệu chứng Cốt lõi | Quy tắc Phòng tránh Nhanh (`Fast Rule`) |
+| :--- | :---: | :---: | :--- | :--- |
+| **ERR-001** | `L40–L52` | `[Tất cả / Chung]` | Lỗi cú pháp Here-String trong PowerShell (`backup.ps1`) do escape `\"` | Không escape `\"` trong PowerShell Here-String; `@"` phải ở cuối dòng mở và `"@` ở sát lề trái dòng đóng. |
+| **ERR-002** | `L54–L67` | `[Tất cả / Chung]` | Lỗi Caja Sanitizer crash khi parse `style="..."` inline chứa `animation` & lỗi ghi đè mất code cũ | Cấm dùng `animation` trong inline `style`; luôn khoanh vùng đúng đoạn CSS/HTML cần thay thế thay vì ghi đè mù. |
+| **ERR-003** | `L69–L81` | `[SME OS]` | Lỗi biến String JS quá lớn (Base64 > 45.000 ký tự) bị GAS `HtmlService` từ chối & lỗi Info Center chạy vô hạn | Nhúng Base64 lớn vào thuộc tính `src` của thẻ `<img style="display:none">` trong HTML; nén ảnh `<canvas>` xuống `< 300KB`. |
+| **ERR-004** | `L83–L96` | `[SME OS]` | Lỗi tính năng hiện ở `/dev` nhưng mất ở `/exec` (Cache GAS) & lỗi mất trạng thái sau khi F5 | Luôn lưu trạng thái tức thời vào `localStorage` (Local-First State) kết hợp đồng bộ Backend; nhắc Hard Refresh `Ctrl + F5`. |
+| **ERR-005** | `L98–L111` | `[Tất cả / Chung]` | Lỗi màn hình đen toàn phần do PowerShell nuốt dấu Backtick (`` ` ``) hoặc lồng Template Literal trong `<script>` | **Cấm 100% dùng dấu backtick (`` ` ``) bên trong khối `<script>` của file HTML GAS**; dùng nối chuỗi `'...' + '...'` và kiểm tra bằng `new Function(code)`. |
+| **ERR-006** | `L113–L126` | `[Tất cả / Chung]` | Lỗi Demo hiện bản cũ (quên push `gh-pages`), ảnh URL không tồn tại & chạy `backup.ps1` sai thời điểm | Luôn chạy `.\backup.ps1` **TRƯỚC** khi sửa code; chạy `.\deploy-demo.ps1` để đồng bộ `gh-pages`; viết script `.js`/`.ps1` vào `scratch/` thay vì chạy one-liner có dấu `$` hoặc `"`. |
+| **ERR-007** | `L128–L151` | `[SME OS]` | **Lỗi Font Tiếng Việt bị vỡ/lệch dấu ở Tiêu đề lớn & Số KPI** do thiếu `subset=vietnamese` và sót CSS cũ trong `<head>` | Bắt buộc nhúng Google Fonts **`Barlow Condensed` + `Be Vietnam Pro` + `JetBrains Mono` (`&subset=vietnamese`)** ở `<head>`; xóa sạch CSS cũ trùng lặp trong `<head><style>` trước khi nạp CSS mới. |
+| **ERR-008** | `L153–L178` | `[SME OS]` | **Lỗi giao diện mang "cảm giác AI / rẻ tiền"** do lạm dụng Emoji đa sắc và viền xanh phát sáng tràn lan | **Cấm 100% Emoji màu hệ thống trên UI (`0` emoji)** -> Thay bằng **Icon Vector Line-Art Đơn sắc (`1.65px` SVG)**; áp dụng **Quy tắc 10% Accent (`#0066FF`)** và đường cắt chéo kiến trúc AP. |
+| **ERR-009** | `L180–L209` | `[SME OS]` | **Lỗi vỡ bố cục Giao diện Mobile** (Tiêu đề Topbar bị ép thành 9 dòng chữ dọc & lộ đầu Sidebar phía sau Topbar) | Ở `<= 1024px`: (1) Chuyển Sidebar thành **Off-Canvas Drawer (`position: fixed; transform: translateX(-105%)`)** + Backdrop; (2) Chuyển Topbar thành **2 tầng ngang**, tiêu đề có `flex: 1; min-width: 0; white-space: nowrap; text-overflow: ellipsis`. |
+| **ERR-010** | `L211–L233` | `[SME OS]` | **Lỗi xung đột màu khi hỗ trợ 2 Theme** (`Dark Blue Carbon Night` & `Showroom Trắng + Sidebar Đen Gradient`) | Mọi màu nền/chữ/viền khu vực làm việc phải dùng biến ngữ nghĩa (`var(--ap-card-bg)`, `var(--ap-text-heading)`...) theo `data-ap-theme="dark|light"`, giữ nguyên Sidebar Đen Gradient ở cả 2 theme. |
+| **UI-GEN** | `L235–L252` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+
+---
+
+## CHI TIẾT CÁC BÀI HỌC KINH NGHIỆM & CÁCH KHẮC PHỤC TRIỆT ĐỂ
+
+### [ERR-001] Lỗi cú pháp Here-String trong PowerShell (`backup.ps1`)
+- **Scope / Dự án:** `[Tất cả / Chung]`
 - **Triệu chứng:** Chạy `.\backup.ps1` báo lỗi `The string is missing the terminator: "@"` và `Missing closing '}'`, script thoát với code 1.
-- **Nguyên nhân gốc:** PowerShell yêu cầu cú pháp here-string nghiêm ngặt: dấu `@"` phải là ký tự cuối cùng của dòng mở; dấu `"@` phải đứng đầu dòng đóng (không có tab/space trước). File cũ có `$logEntry = @\"` (backslash escape không hợp lệ) khiến parser fail.
-- **Cách fix đúng:**
-  ```powershell
-  $logEntry = @"
-  Nội dung nhiều dòng ở đây
-  "@
-  Add-Content -Path $logFile -Value $logEntry
-  ```
-- **Quy trình tự hồi phục:** Script dùng file `.backup_fail_counter` để đếm lỗi. Nếu lỗi lien tiếp >= 3 lần, tự `Remove-Item` bản thân để agent viết lại.
-- **Bài học:** Không escape dấu nháy (`\"`) trong PowerShell here-string. Khi viết chuỗi nhiều dòng, luôn dùng here-string đúng cú pháp trên. Nếu script backup lỗi 3 lần không fix được, xóa file và viết lại script mới hoàn toàn.
-
-### ERR-002: Lỗi ghi đè toàn bộ code (Full File Replace) khi nâng cấp tính năng động
-- **Mô tả:** Khi cập nhật phiên bản Halloween V3, thay vì append (chèn thêm) hoặc modify khéo léo các block cụ thể, thao tác ghi đè toàn bộ file Theme_Halloween.html đã xóa mất các cấu hình tĩnh và cấu trúc giao diện đã được tinh chỉnh trước đó (làm mất decor).
-- **Nguyên nhân:** Thiếu cẩn trọng trong việc sử dụng script thay thế toàn bộ file thay vì nhắm mục tiêu (target) các vùng DOM/CSS cụ thể, dẫn đến mất mát logic cũ.
-- **Cách giải quyết:** Khi thêm tính năng mới (enhancement) hoặc đắp thêm theme, ưu tiên inject (chèn) các đoạn HTML/CSS mới vào cuối file (APPEND block) hoặc sử dụng JavaScript để tạo DOM động (có gắn data-enhanced hoặc class riêng như .hw-inserted-home-b để dễ dàng track và gỡ bỏ). Tuyệt đối không thay thế trắng toàn bộ file nếu không nắm chắc 100% nội dung gốc.
-
-### ERR-003: L?i Info Center kh�ng t? d?ng ?n (Infinite Animation)
-- **M� t?:** Kh?i th�ng b�o Info Center c? ch?y m�i kh�ng t? t?t, khi?n user l?m tu?ng l� n�t ?n b? l?i ho?c t�nh nang b? k?t. User y�u c?u "ch? ch?y 1 l?n r?i ?n".
-- **Nguy�n nh�n:** CSS animation c?a thanh ticker du?c set l� 100s infinite (ch?y v� h?n v?i m?i v�ng l?p t?n 100 gi�y), v� JS s? d?ng s? ki?n onanimationiteration d? b?t k?t th�c v�ng l?p. Th?i gian 100 gi�y qu� d�i khi?n user kh�ng bao gi? d?i d?n l�c n� t? trigger s? ki?n t?t, v� v� n� l� infinite n�n n� kh�ng bao gi? th?c s? k?t th�c.
-- **C�ch kh?c ph?c:** 
-  1. �?i CSS th�nh 15s forwards d? n� ch? ch?y d�ng 1 l?n trong 15 gi�y r?i d?ng.
-  2. �p d?ng chu?n Marquee padding-left: 100% k?t h?p 	ransform: translateX(0) to translateX(-100%) d? ch? ch?y mu?t m� t? ngo�i l? ph?i sang ngo�i l? tr�i.
-  3. �?i h�m JS t? onanimationiteration sang onanimationend d? ngay khi ch?y qua h?t m�n h�nh (h?t 15s) l� t? d?ng k�ch ho?t markComponentAsRead() v� bi?n m?t ho�n to�n.
-
-### ERR-004: Th�ng b�o xu?t hi?n l?i sau khi F5 (V�ng l?p do Backend kh�ng luu State)
-- **M� t?:** User b�o c�o d� xem xong v� th�ng b�o d� ?n, nhung khi F5 (t?i l?i trang), kh?i block th�ng b�o l?i xu?t hi?n. User ph?i t? soi DOM v� y�u c?u th�m "c? tr?ng th�i 0 v� 1".
-- **Nguy�n nh�n:** H�m markComponentAsRead ch? g?i l?nh POST READ_ALERT l�n Backend. N?u Backend x? l� ch?m, b? l?i, ho?c chua k?p luu v�o DB, th� khi F5, h�m GET syncGlobalNotifications s? k�o l?i data cu (chua d?c), d?n d?n vi?c th�ng b�o l?i hi?n th?.
-- **C�ch gi?i quy?t:** Thi?t l?p co ch? **Local-First State** (C? tr?ng th�i luu t?i tr�nh duy?t).
-  1. D�ng localStorage.setItem('ic_alert_state_' + alertId, '0') ngay khi th�ng b�o ch?y xong.
-  2. B? sung check ? d?u h�m enderInfoCenterUI: N?u localStorage b�o state 0 -> Return ngay l?p t?c, kh�ng v? HTML, set data-state="0" cho c�c wrapper.
-  3. �p d?ng CSS tri?t d? cho [data-state="0"]: display: none !important; z-index: -1 !important; bottom: 0 !important; opacity: 0; d? d?m b?o n� n?m du?i c�ng v� v� h�nh.
-- **B�i h?c:** Kh�ng bao gi? ph? thu?c 100% v�o t?c d?/d? tin c?y c?a Backend d? quy?t d?nh vi?c ?n/hi?n UI t?c th?i tr�n Frontend (d?c bi?t l� c�c t�nh nang nhu �� d?c/Chua d?c). Lu�n ph?i c� Local State (c? c?c b?) l�m phuong �n d? ph�ng.
-
-### ERR-005 (Workflow Violation): Quên chạy script .\backup.ps1 khi bị cuốn vào fix bug
-*   **Triệu chứng:** Trong lúc tập trung fix lỗi SyntaxError (của file Code.gs) và xử lý Regex xóa code phức tạp (ở file Index.html), AI đã quên thực hiện thủ tục bắt buộc là chạy .\backup.ps1 trước khi sửa code, dẫn đến mất dấu lịch sử backup cục bộ từ 10:19 AM.
-*   **Nguyên nhân (Root Cause):** Áp lực của chuỗi lỗi liên hoàn khiến Agent chuyển sang trạng thái "chữa cháy" (hotfix) mà bỏ qua checklist "Pre-flight" (chuẩn bị trước khi bay). Agent đã tự ý backup thủ công (Index.html.bak) thay vì dùng công cụ chuẩn hóa của dự án.
-*   **Cách giải quyết (Bài học):** 
-    1. KHÔNG CÓ TRƯỜNG HỢP NGOẠI LỆ. Dù lỗi nhỏ đến đâu, dù chỉ là gõ lại 1 dòng hay sửa 1 dấu phẩy, **LỆNH ĐẦU TIÊN KHI MỞ TERMINAL LUÔN PHẢI LÀ .\backup.ps1**.
-    2. Phải coi việc chạy script này như phản xạ không điều kiện trước bất kỳ hành động Write-Host, Replace hay sửa file nào.
-
-### [ERR-003] Lỗi biến String quá lớn (Base64) bị Google Apps Script HtmlService từ chối
-- **Triệu chứng:** Nhúng một chuỗi Base64 ảnh rất dài (~76.000 ký tự) vào biến JS (window.HW_JUMPSCARE_B64 = "...") ở file .html (Template). Code đúng cú pháp hoàn toàn nhưng khi chạy thực tế, trình duyệt báo biến undefined hoặc không tồn tại.
-- **Nguyên nhân:** Cơ chế parser của HtmlService (Google Apps Script) gặp giới hạn hoặc lỗi ngầm khi xử lý chuỗi Literal String của Javascript quá dài. Các chuỗi text siêu khủng làm parser bị "nghẹn", dẫn tới việc bỏ qua block <script> đó hoặc không khởi tạo biến.
-- **Cách giải quyết:** Không dùng Javascript để lưu trữ dữ liệu Media lớn. Chuyển sang tận dụng thẻ HTML bẩm sinh: Nhúng chuỗi Base64 vào thẳng thuộc tính src của một thẻ <img id="..." style="display:none">. Khi cần dùng, dùng JS query selector trỏ tới thẻ img đó và gọi .src. Trình duyệt parse HTML rất trâu bò và không bị giới hạn này.
-
-### [ERR-004] Lỗi tính năng hiển thị ở bản /dev nhưng biến mất ở bản /exec (Lỗi Cache Google)
-- **Triệu chứng:** Sau khi code xong, user test ở link /dev thấy tính năng hoạt động hoàn hảo đầy đủ. Agent tiến hành chạy lệnh clasp deploy để đẩy lên Production. Nhưng khi user test link /exec lại thấy thiếu tính năng vừa cập nhật.
-- **Nguyên nhân:** Cơ chế Cache (lưu trữ tạm) CDN của Google Apps Script đối với link /exec rất nặng, hoặc bộ nhớ đệm trình duyệt của user giữ lại file HTML cũ. clasp deploy đã thành công nhưng user vẫn nhìn thấy giao diện của version trước.
-- **Cách giải quyết:** 
-  1. Agent: Mỗi khi thực hiện lệnh clasp deploy, BẮT BUỘC phải luôn nhắc nhở user: *"Hãy ấn Ctrl + F5 (Hard Refresh) hoặc mở bằng tab Ẩn danh để xem bản /exec mới nhất, tránh bị dính cache trình duyệt"*.
-  2. Xử lý triệt để: Đảm bảo chạy clasp push thành công 100% trước khi chạy clasp deploy. Nếu user vẫn báo thiếu, hãy ép push lại và deploy version mới, sau đó dặn user clear cache ngay và luôn.
-
-### [ERR-005] Lỗi màn hình đen toàn phần do PowerShell nuốt dấu nháy ngược (Backtick) trong innerHTML
-- **Triệu chứng:** Khi mở trang web chỉ thấy màn hình đen tuyền (stage-0), không có chuyển động hay hiển thị logo/form đăng nhập. Mở F12 Console thấy lỗi: SyntaxError: Unexpected token '<'.
-- **Nguyên nhân:** Khi sinh hoặc cập nhật file HTML bằng PowerShell Here-String, các chuỗi template literal JavaScript có dấu backtick ` <span>...</span> ` bị PowerShell nội suy làm mất cặp backtick, khiến chuỗi HTML bên trong trở thành mã không đặt trong ngoặc nháy (unquoted token <). JavaScript gặp lỗi cú pháp ngay lập tức và ngừng thực thi toàn bộ script.
+- **Nguyên nhân gốc:** PowerShell yêu cầu cú pháp Here-String nghiêm ngặt: dấu `@"` phải là ký tự cuối cùng của dòng mở; dấu `"@` phải đứng sát lề trái đầu dòng đóng (không có tab/space trước). Việc dùng `\"` bên trong làm hỏng trình phân tích cú pháp.
 - **Cách giải quyết:**
-  1. Sử dụng chuỗi nháy kép thông thường "<span>...</span>" hoặc escape dấu backtick khi tạo qua PowerShell.
-  2. Bổ sung cơ chế tự kích hoạt: kiểm tra document.readyState === 'loading' để chạy ngay mà không bị lỡ sự kiện DOMContentLoaded.
-  3. Trước khi xuất file, luôn chạy lệnh kiểm thử cú pháp bằng Node.js: 
-ode -e "new Function(scriptCode)" để đảm bảo 100% không có lỗi cú pháp.
-## ERR-006 - Demo hien ban cu / anh khong ton tai / backup sai thoi diem (2026-10-05)
-- Trieu chung: anh Duc mo link demo van thay giao dien cu; ban code moi tro toi assets/logo_ap_white.png khong co trong repo.
-- Nguyen nhan: (1) commit xong nhung KHONG push nen GitHub Pages khong doi; (2) tham chieu anh bang URL gia dinh chua ton tai; (3) chay backup.ps1 SAU khi da ghi de src/ nen backup chua ban moi thay vi ban cu.
-- Cach xu ly: luon chay backup.ps1 TRUOC khi sua code; nhung anh base64 truc tiep vao Index.html (chay duoc ca trong GAS lan GitHub Pages); push roi moi bao link demo va kiem tra bang curl.
-- Meo moi truong: tool chay lenh nuot ky tu dollar trong powershell -Command, luon viet script .ps1 roi chay bang -File. Start-Process -ArgumentList phai tu boc nhay kep quanh duong dan co khoang trang. Test hien thi: msedge --headless=new --screenshot --virtual-time-budget=ms (tu thoat, khong de lai tien trinh).
+  1. Không bao giờ escape dấu nháy `\"` tại dòng mở/đóng của PowerShell Here-String.
+  2. Luôn chạy `.\backup.ps1` đầu tiên trước khi thực hiện bất kỳ thao tác sửa code nào trong `src/`.
+
+### [ERR-002] Lỗi Caja Sanitizer crash khi parse thuộc tính inline style chứa `animation` & Lỗi ghi đè mất code cũ
+- **Scope / Dự án:** `[Tất cả / Chung]`
+- **Triệu chứng:** Báo lỗi ở Client Console (F12): `Uncaught SyntaxError: Failed to execute 'appendChild' on 'Node': Invalid or unexpected token` khi gán `innerHTML` có chứa `style="animation: ..."`.
+- **Nguyên nhân gốc:** Bộ lọc bảo mật Caja của Google Apps Script (`HtmlService`) bị lỗi parser khi gặp thuộc tính `animation` viết trực tiếp trong inline `style="..."`. Ngoài ra, việc ghi đè toàn bộ file mà không kiểm tra ranh giới các khối (`#viewLogin` vs `#viewHome`) dễ làm mất hiệu ứng gốc.
+- **Cách giải quyết:**
+  1. Tuyệt đối không dùng thuộc tính `animation` trực tiếp trong inline `style`. Hãy định nghĩa trong thẻ `<style>` tĩnh bằng class CSS rồi gán class cho phần tử.
+  2. Khi nâng cấp giao diện `#viewHome`, phải xác định chính xác tọa độ dòng bắt đầu và kết thúc của `#viewLogin` để bảo toàn 100% màn hình Login v11.
+
+### [ERR-003] Lỗi biến String quá lớn (Base64) bị Google Apps Script `HtmlService` từ chối
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Nhúng một chuỗi Base64 ảnh rất dài (`> 45.000` ký tự) vào biến JS (`var img = "data:image/..."`) hoặc lưu thẳng vào 1 ô Google Sheet khiến trình biên dịch nghẽn hoặc báo lỗi vượt giới hạn 50.000 ký tự/ô của Google Sheets.
+- **Nguyên nhân gốc:** Parser JS của `HtmlService` và giới hạn vật lý của ô Google Sheets không cho phép chứa chuỗi Base64 nguyên bản quá lớn.
+- **Cách giải quyết:**
+  1. Với ảnh tĩnh thương hiệu (như Logo tròn AP CAR CARE): nhúng vào thuộc tính `src` của thẻ `<img class="hero-intro-img">` trong HTML, sau đó dùng JS đọc lại qua `.getAttribute('src')` để tái sử dụng cho Logo đỉnh Sidebar và Watermark chìm dưới nền.
+  2. Với ảnh người dùng tải lên: dùng `<canvas>` nén xuống `< 300KB` và lưu lên Google Drive (chỉ lưu URL/ID vào Sheet).
+
+### [ERR-004] Lỗi tính năng hiển thị ở bản `/dev` nhưng biến mất ở bản `/exec` & Lỗi mất State khi F5
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Sau khi đổi cấu hình (như bật/tắt Section phòng ban hoặc đổi Theme), người dùng nhấn F5 thấy giao diện quay về trạng thái cũ nếu Backend xử lý bất đồng bộ chưa xong.
+- **Nguyên nhân gốc:** Phụ thuộc 100% vào phản hồi từ Backend mà thiếu lớp lưu trữ tức thời tại trình duyệt (`Local-First State`).
+- **Cách giải quyết:**
+  1. Mọi thay đổi cấu hình quan trọng (Phân quyền `apDeptAccessMatrixV5`, Chế độ giao diện `apActiveThemeModeV5`, Hồ sơ `apUserProfileV5`) đều phải lưu tức thời vào `localStorage` ngay khi người dùng thao tác (`0.001s`), song song với việc đẩy xuống `Code.gs`.
+  2. Khi khởi động ứng dụng (`AppStore.init()`), đọc ngay cấu hình từ `localStorage` để render giao diện tức thì không độ trễ.
+
+### [ERR-005] Lỗi màn hình đen toàn phần do PowerShell nuốt dấu Backtick (`` ` ``) hoặc lỗi Template Literal trong `<script>`
+- **Scope / Dự án:** `[Tất cả / Chung]`
+- **Triệu chứng:** Trang web bị đơ hoặc không chạy sự kiện JS do lỗi `SyntaxError: Unexpected identifier` hoặc `Unexpected token '<'`.
+- **Nguyên nhân gốc:** Dấu backtick (`` ` ``) trong JavaScript rất dễ bị PowerShell nuốt mất khi chạy script hoặc bị lỗi khi lồng biểu thức phức tạp trong `HtmlService`.
+- **Cách giải quyết:**
+  1. **Quy tắc Bất khả xâm phạm:** Bên trong cặp thẻ `<script>...</script>` của `src/Index.html`, giữ số lượng ký tự backtick bằng **`0` tuyệt đối**. Luôn dùng phép nối chuỗi chuẩn `'...' + '...'`.
+  2. Trước khi hoàn tất mỗi task sửa `Index.html` hoặc `Code.gs`, bắt buộc chạy kiểm thử cú pháp tự động bằng Node.js (`new Function(scriptContent)`).
+
+### [ERR-006] Lỗi Demo hiện bản cũ / Ảnh không tồn tại / Chạy `backup.ps1` sai thời điểm
+- **Scope / Dự án:** `[Tất cả / Chung]`
+- **Triệu chứng:** Mở link GitHub Pages vẫn thấy giao diện cũ hoặc lệnh `node -e "..."` trong PowerShell bị lỗi mất dấu nháy kép.
+- **Nguyên nhân gốc:** (1) Chỉ push nhánh `main` mà quên chạy `.\deploy-demo.ps1` để cập nhật nhánh `gh-pages`; (2) PowerShell 5.1 tự động tước bỏ dấu nháy kép bên trong chuỗi đối số truyền cho `node -e`.
+- **Cách giải quyết:**
+  1. Luôn chạy `.\backup.ps1` **trước** khi sửa code; sau khi commit xong trên `main`, chạy `.\deploy-demo.ps1` để đồng bộ ngay lên `gh-pages`.
+  2. Mọi script lắp ráp hoặc kiểm thử bằng Node.js đều phải ghi thành file `.js` trong thư mục `scratch/` rồi gọi `node "path/to/script.js"`.
+
+---
+
+### [ERR-007] Lỗi Font Tiếng Việt bị vỡ/lệch dấu ở Tiêu đề lớn & Số KPI do thiếu `subset=vietnamese` và sót CSS cũ trong `<head>` (2026-10-24)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Các dòng tiêu đề lớn (`"BAN GIÁM ĐỐC & PHÊ DUYỆT CHIẾN LƯỢC"`, `"PHÒNG KỸ THUẬT, KHOANG XE & LỆNH RO"`) và các con số KPI (`"2.480.000.000 đ"`, `"03 Lệnh"`) bị lỗi font rõ rệt: chữ cái không dấu thì dày thô, còn chữ cái có dấu Tiếng Việt (`Đ`, `Ố`, `Ệ`, `ƯỢ`, `Ỹ`, `Ậ`, `Ữ`) bị biến dạng, lệch nét sang font hệ thống khác, làm mất hoàn toàn vẻ cao cấp (Hình đính kèm 1 & 2 của anh Đức).
+- **Nguyên nhân gốc rễ:**
+  1. Trong CSS khai báo font tiêu đề chưa được nhúng đầy đủ bộ ký tự Tiếng Việt (`subset=vietnamese`) trong thẻ `<link>` Google Fonts ở `<head>`, hoặc dùng độ đậm `weight: 900` của các font thiếu hỗ trợ dấu Tiếng Việt kép (`ƯỢ`, `Ệ`, `Ậ`).
+  2. Khi overhaul giao diện `#viewHome`, khối CSS cũ của `#viewHome` nằm trong `<head><style>` (`L785–L2333`) vẫn còn tồn tại và xung đột trực tiếp với các quy tắc CSS mới.
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Chuẩn hóa Cặp Font Tiếng Việt Cao Cấp Ngành Ô Tô (Phương án A — Đã được PO anh Đức phê duyệt):**
+     - Nhúng trực tiếp tại `<head>` bộ 3 font chuẩn hỗ trợ 100% Tiếng Việt (`&display=swap&subset=vietnamese`):
+       * `--font-display: 'Barlow Condensed', 'Be Vietnam Pro', sans-serif` (Weights `600`, `700`): Dùng cho Tiêu đề lớn và Con số KPI — dáng chữ cao ráo, góc cạnh cơ khí chuẩn phong cách Banner Porsche của CEO anh Lộc, dấu Tiếng Việt gọn và cân đối tuyệt đối.
+       * `--font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif` (Weights `400`, `500`, `600`, `700`): Bộ font thiết kế chuyên biệt cho Tiếng Việt, dùng cho toàn bộ Menu Sidebar, Nút bấm, Bảng dữ liệu và Nội dung.
+       * `--font-mono: 'JetBrains Mono', monospace` (`tabular-nums`): Dùng cho Biển số xe, Mã lệnh `RO`/`SKU` và Tiền tệ.
+  2. **Dọn sạch 100% CSS tàn dư trong `<head>`:** Khi nâng cấp CSS của `#viewHome`, bắt buộc thay thế trực tiếp đúng phân đoạn CSS của `#viewHome` trong `<head><style>`, tuyệt đối không để tồn tại 2 khối CSS `#viewHome` song song trong cùng 1 file.
+
+---
+
+### [ERR-008] Lỗi giao diện mang "cảm giác AI / rẻ tiền" do lạm dụng Emoji đa sắc hệ thống và viền xanh phát sáng tràn lan (2026-10-24)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Dù đã có nền tối và hiệu ứng hover, tổng thể giao diện vẫn mang cảm giác "do AI tự sinh ra (AI-generated template)" và kém sang trọng vì chứa hàng chục icon emoji màu mè cùng viền xanh neon phát sáng lặp lại ở mọi khung thẻ.
+- **Nguyên nhân gốc rễ:**
+  1. Trình duyệt trên Windows render các ký tự Emoji Unicode bằng bộ màu hoạt hình sặc sỡ (vàng chóe, hồng, đỏ, xanh lá), hoàn toàn đối lập với ngôn ngữ thiết kế tối giản, nam tính của ngành Detailing & Độ xe siêu sang.
+  2. Lạm dụng hiệu ứng phát sáng (`box-shadow` glow) và khung viền viên thuốc (`border-radius: 999px`) cho tất cả các thành phần phụ khiến màn hình bị nhiễu thị giác.
+- **Cách giải quyết & 5 Quy tắc Thiết kế "Humanizer" (`Fast Rule`):**
+  1. **Cấm tuyệt đối Emoji màu hệ thống (`Zero-Emoji Policy`):** Kiểm tra bằng Regex `/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu` đảm bảo **0 emoji** trong toàn bộ HTML/JS của `#viewHome`.
+  2. **Hệ thống Icon Vector Line-Art Đơn sắc (`1.65px` Monochrome SVG):** Sử dụng bộ icon nét mảnh `1.65px` (`stroke="currentColor" fill="none"`) đồng nhất 100% với bộ icon trên Banner chuẩn của CEO anh Lộc (Hình 3).
+  3. **Quy tắc Điểm nhấn 10% (`10% Cobalt Accent Rule`):** Dùng đường viền cấu trúc mảnh như sợi tóc (`1px solid var(--ap-border-subtle)`), loại bỏ viền neon phát sáng tràn lan; chỉ dùng màu **Xanh AP Cobalt (`#0066FF` / `#0A6CFF`)** tại đúng các điểm nhấn chiến lược (nút đang chọn, thanh vạch đứng `4px` bên trái Hero, gạch chân `36px` dưới thẻ KPI và nút CTA chính).
+  4. **Dấu ấn Đường cắt chéo Kiến trúc AP (`.ap-dept-hero::after`):** Đưa họa tiết **dải cắt chéo kép Đen Tuyền + Xanh Cobalt góc `-28deg`** (lấy từ Banner Porsche 911 của CEO anh Lộc) vào thanh tiêu đề phòng ban để tạo cá tính thiết kế độc bản của AP CAR CARE.
+  5. **Tinh giản dòng phụ KPI:** Thay các icon emoji ở dòng phụ KPI bằng chấm tròn tín hiệu `6px` (`border-radius: 50%; background: var(--ap-accent)`) tinh tế.
+
+---
+
+### [ERR-009] Lỗi vỡ bố cục nghiêm trọng trên Giao diện Mobile: Tiêu đề Topbar bị ép thành 9 dòng chữ dọc & lộ đầu Sidebar (2026-10-24)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Trên màn hình điện thoại (Hình đính kèm 2 của anh Đức):
+  1. Tiêu đề phòng ban trên Topbar (`"PHÒNG KỸ THUẬT, KHOANG XE & LỆNH RO"`) bị ép vào một cột hẹp ~80px bên trái và gãy xuống thành **9 dòng chữ dọc** rất xấu.
+  2. Cụm 3 nút bên phải (`Góc nhìn Admin`, `OptiSync`, `Cài đặt Admin`) chiếm hết diện tích làm Topbar phình to chiếm 1/3 màn hình.
+  3. Phần đầu của Sidebar (`AP CAR CARE`) bị lộ cắt ngang nửa chữ ở mép trên phía sau Topbar.
+- **Nguyên nhân gốc rễ:**
+  1. `.ap-topbar` chưa có bố cục riêng cho Mobile mà dùng chung `display: flex; justify-content: space-between` của Desktop; khi màn hình hẹp, khối `.ap-topbar-right` không co lại được nên ép `.ap-topbar-left` về bề ngang tối thiểu.
+  2. Trong `@media (max-width: 1024px)`, `.ap-sidebar` chỉ được đặt `position: relative; height: auto` thay vì tách thành ngăn kéo trượt (Off-Canvas Drawer), gây chồng lấn với vùng cuộn của trang.
+- **Cách giải quyết & Quy tắc Thiết kế Responsive Mobile + PC (`Fast Rule`):**
+  1. **Bắt buộc dùng Off-Canvas Sidebar Drawer trên Mobile/Tablet (`<= 1024px`):**
+     - Đặt `.ap-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 286px; transform: translateX(-105%); z-index: 1250; }` kèm lớp nền mờ `.ap-sidebar-backdrop`.
+     - Hiển thị nút Hamburger `#btnMobileMenuToggle` (`38x38px`) ở góc trái Topbar để mở Drawer và tự động đóng Drawer ngay khi người dùng chọn bất kỳ phòng ban nào.
+  2. **Cấu trúc Topbar Mobile 2 Tầng chống gãy chữ dọc 100%:**
+     - Ở `@media (max-width: 1024px)`, `.ap-topbar` chuyển sang `flex-direction: column; align-items: stretch`:
+       * **Tầng 1 (`.ap-topbar-left`):** Chiếm trọn `width: 100%`, gồm `[#btnMobileMenuToggle]` + `[#topbarActiveTitle]` với ràng buộc cứng `flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(16px, 4.2vw, 20px)` -> Đảm bảo tiêu đề luôn nằm gọn trên **1 dòng ngang duy nhất** ở mọi kích thước điện thoại.
+       * **Tầng 2 (`.ap-topbar-right`):** Nằm gọn bên dưới với đường kẻ mảnh phân cách, chứa bộ chọn `Role Preview` (`flex: 1`), nút đổi nhanh Theme (`#btnQuickThemeToggle`) và nút Cài đặt thu gọn.
+  3. **Ràng buộc Responsive cho Hero, AI Strip & Bảng dữ liệu:**
+     - Ở `<= 1024px`, `.ap-dept-hero` và `.ap-ai-insight-strip` chuyển sang `flex-direction: column`, các nút bấm hành động tự động mở rộng `width: 100%` vừa tầm ngón tay chạm.
+
+---
+
+### [ERR-010] Lỗi xung đột màu sắc khi triển khai song song Theme Tối (`Carbon Night`) và Theme Trắng (`Showroom Platinum`) (2026-10-24)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Khi bổ sung thêm Theme Trắng (`AP Showroom Platinum White` với Sidebar Đen Gradient Premium) bên cạnh Theme Tối (`AP Carbon Night`), nếu các thẻ hoặc bảng dùng mã màu tĩnh (`color: #FFFFFF` hoặc `background: rgba(6,10,20,0.8)`) thì khi chuyển sang nền trắng chữ sẽ bị mờ hoặc biến mất.
+- **Nguyên nhân gốc rễ:** Gán cứng mã màu cho từng thành phần thay vì sử dụng hệ thống biến CSS ngữ nghĩa (Semantic Design Tokens) phân tách giữa Sidebar (luôn tối) và Main Stage (đổi theo Theme).
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Cô lập màu Sidebar cố định:** Toàn bộ các class bên trong `.ap-sidebar` luôn giữ tông màu sáng trên nền **Đen Obsidian Gradient (`--ap-sidebar-bg`)** cố định ở cả 2 theme để tạo độ tương phản sang trọng như thiết kế Showroom AP CAR CARE của CEO anh Lộc.
+  2. **Biến hóa 100% vùng làm việc (`#apMainStage`) qua `data-ap-theme="dark" | "light"`:** Toàn bộ các thành phần trong `.ap-main-stage` bắt buộc dùng biến CSS ngữ nghĩa (`var(--ap-stage-bg)`, `var(--ap-card-bg)`, `var(--ap-card-alt-bg)`, `var(--ap-text-heading)`, `var(--ap-text-main)`, `var(--ap-text-muted)`, `var(--ap-border-subtle)`, `var(--ap-accent)`).
+
+---
+
+### [UI-GEN] Tổ hợp Quy tắc Xử lý Sự kiện UI, Biến Global & Đồng bộ 2 Chiều `FIELD_MAP`
+- **Scope / Dự án:** `[Tất cả / Chung]`
+1. **Chống đứt đoạn Hover Tooltip:** Thêm `padding` trong suốt làm cầu nối giữa nút kích hoạt và menu nổi; dùng `visibility` kết hợp `opacity` thay vì `pointer-events: none` khi cần `transition-delay`.
+2. **Mở hộp thoại chọn File an toàn trên mọi WebView:** Dùng thẻ `<label for="inputId">` bọc ngoài nút bấm thay vì gọi `inputElement.click()` bằng JS để không bị trình duyệt chặn popup.
+3. **Đồng bộ 2 chiều `GET` và `POST` trong `FIELD_MAP`:** Khi thêm bất kỳ trường dữ liệu mới nào, bắt buộc kiểm tra cả hàm ghi (`POST`/`api_batch_sync`) lẫn hàm đọc (`GET`/`getWhiteLabelAndSystemBundle`) để giao diện không bị reset sau khi tải lại trang.

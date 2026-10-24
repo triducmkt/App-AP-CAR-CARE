@@ -406,3 +406,28 @@ ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint J
       * Đồng nhất 7 giao diện con (`#pane_DEPT_CEO` → `#pane_DEPT_OPS`) theo kiến trúc 4 tầng tinh gọn, sang trọng.
       * Thiết lập nút `#btnSidebarSettings` (chỉ hiện cho quyền `ADMIN_CEO`, có thanh chuyển đổi **Xem thử quyền (`#selRolePreviewSwitcher`)** trên Topbar) và xây dựng bảng quản trị trong `#pane_SETTINGS` gồm Toggle On/Off ẩn/hiện từng phòng ban + Dropdown Multiselect phân quyền Role/User + Trạm Test MCP Hub trực tiếp.
   - Cập nhật `hq/CODING_TASKS.json` (`TASK-012`), `hq/schematic_map.md`, `hq/00-INDEX.md`.
+
+---
+
+## [2026-10-24 20:32] — Lucy (Antigravity / Gemini 4 Argon High) — TASK-013: Nâng cấp Font Tiếng Việt Automotive Luxury (Phương án A), Bộ SVG Line-Art Icons (0% Emoji), Dual Flagship Themes (Carbon Night & Showroom White) & Fix Triệt Để Responsive Mobile + Laptop
+- **Yêu cầu từ PO (anh Đức):**
+  1. Triển khai Phương án A về Font chữ Tiếng Việt chuẩn mảng ô tô cao cấp (`Barlow Condensed` + `Be Vietnam Pro` + `JetBrains Mono`), khắc phục triệt để lỗi dấu tiếng Việt.
+  2. Áp dụng 5 nguyên tắc Humanizer khử cảm giác AI, thay thế 100% emoji màu bằng bộ **Monochrome SVG Line-Art Icons (`1.65px` stroke)** đồng điệu với thiết kế banner của CEO anh Lộc.
+  3. Hoàn thiện cả **Theme Dark Blue cải tiến (`Carbon Night & Cobalt Studio`)** và **Theme Trắng (`Showroom Platinum White` với Sidebar đen gradient cố định)** kèm nút chuyển đổi nhanh.
+  4. Khắc phục triệt để lỗi giao diện Mobile (Sidebar chiếm chỗ, tiêu đề Topbar bị ép rớt thành 9 dòng dọc) và đảm bảo hiển thị chuẩn xác trên cả Mobile lẫn PC/Laptop.
+  5. Ghi `hq/lesson.md` (có mục lục tra cứu nhanh) và cập nhật các bước thiết kế/kiểm thử vào quy trình dự án cho cả Mobile và PC.
+- **Thực thi & Kết quả:**
+  - Chạy `.\backup.ps1` thành công trước khi sửa code.
+  - **Cập nhật `src/Code.gs`:**
+    * Nâng cấp `DEFAULT_THEME_SKINS` với 2 theme chuẩn: `THEME_AP_SIGNATURE_GLASS` (*AP Carbon Night & Cobalt Studio*) và `THEME_AP_SHOWROOM_WHITE` (*AP Showroom Platinum White + Sidebar Đen Gradient*).
+    * Chuyển đổi toàn bộ trường `icon` trong `DEFAULT_DEPT_ACCESS_CONFIG` từ emoji sang mã SVG Line-Art (`crown`, `megaphone`, `handshake`, `wrench`, `box`, `wallet`, `shield`).
+  - **Nâng cấp `src/Index.html` (`5.295` dòng, bảo toàn 100% `#viewLogin` v11):**
+    * Xóa bỏ hoàn toàn khối CSS `#viewHome` cũ trùng lặp trong `<head>` (`L785–L2333` cũ) để triệt tiêu xung đột responsive (`[ERR-010]`).
+    * Tích hợp Google Fonts `Barlow Condensed`, `Be Vietnam Pro`, `JetBrains Mono` (`[ERR-007]`).
+    * Xây dựng `AP_SVG_ICONS` (22 vector icons nét mảnh `1.65px`) và hàm `getSvgIcon()`, đạt chuẩn **0% Emoji** trong toàn bộ `#viewHome` (`[ERR-008]`).
+    * Thiết lập hệ biến CSS động cho cả 2 theme `[data-ap-theme="dark"]` và `[data-ap-theme="light"]`, khóa cứng `#apSidebar` luôn giữ nền Đen Obsidian Gradient trên cả 2 theme, bổ sung nút chuyển nhanh `#btnQuickThemeToggle` trên Topbar.
+    * Thiết kế **Off-Canvas Slide-Over Drawer** cho `#apSidebar` trên màn hình `<= 1024px` kèm lớp phủ mờ `#apSidebarBackdrop`, nút Hamburger `#btnMobileMenuToggle` và bố cục `.ap-topbar` 2 tầng ngang giúp tiêu đề `#topbarActiveTitle` luôn nằm gọn trên 1 dòng ngang duy nhất (`[ERR-009]`).
+  - **Cập nhật Sổ tay Bài học & Quy trình Thiết kế:**
+    * Cập nhật `hq/lesson.md` (chuẩn UTF-8, có Bảng Tra Cứu Nhanh đầu file, bổ sung `ERR-007` → `ERR-010`).
+    * Cập nhật `hq/design_aesthetic_memo.md`, `AGENTS.md` (Bước 0.B & Mục 9) và `hq/sme-os-core/00-DIEU-LUAT-PROMPT-RULE.md` (Phần 8) với **Quy trình 4 Bước Thiết kế & Kiểm thử Đa Nền Tảng PC + Mobile**.
+    * Cập nhật `hq/CODING_TASKS.json` (`TASK-013`) và `hq/00-INDEX.md`.

@@ -1,126 +1,94 @@
 # Tài Liệu Định Chuẩn Thiết Kế Giao Diện & Trải Nghiệm (Design Aesthetic Memo)
-**Dự án:** App AP CAR CARE  
-**Áp dụng:** BẮT BUỘC XUYÊN SUỐT TOÀN BỘ DỰ ÁN (PC & Mobile)  
+**Dự án:** App AP CAR CARE (SME OS)  
+**Áp dụng:** BẮT BUỘC XUYÊN SUỐT TOÀN BỘ DỰ ÁN (Cả PC/Laptop & Mobile)  
 **Phê duyệt:** Product Owner: anh Đức  
-**Cập nhật lần cuối:** 05/10/2026 (Lucy / Antigravity)  
+**Cập nhật lần cuối:** 24/10/2026 (Lucy / Antigravity — Bổ sung Chuẩn Font Tiếng Việt Phương án A, 5 Nguyên tắc Humanizer, Dual-Theme theo Banner CEO anh Lộc & Quy trình Kiểm thử Kép PC + Mobile từ bài học `ERR-007..010`)  
 
 ---
 
 ## ⚠️ QUY TẮC BẮT BUỘC DÀNH CHO TOÀN BỘ AI AGENT (MANDATORY GATEWAY)
 > **Mỗi khi nhận bất kỳ yêu cầu nào liên quan đến UI/UX, giao diện, chuyển động, typography, màu sắc hoặc tính năng mới:**  
-> Agent **BẮT BUỘC** phải gọi `view_file` đọc toàn bộ file này **TRƯỚC KHI** suy nghĩ giải pháp, lập kế hoạch hoặc viết bất kỳ dòng code nào.  
-> Mọi thiết kế mới phải đối chiếu nghiêm ngặt với các tiêu chuẩn bên dưới để đảm bảo tính nhất quán 100% thương hiệu.
+> Agent **BẮT BUỘC** phải gọi `view_file` đọc toàn bộ file này + Bảng Tra Cứu Nhanh trong [`hq/lesson.md`](file:///D:/My%20Agents/Projects/App%20AP%20CAR%20CARE/hq/lesson.md) **TRƯỚC KHI** suy nghĩ giải pháp, lập kế hoạch hoặc viết bất kỳ dòng code nào.  
+> Mọi thiết kế mới phải đối chiếu nghiêm ngặt với các tiêu chuẩn bên dưới để đảm bảo tính nhất quán 100% thương hiệu trên cả **PC/Laptop (`> 1024px`)** lẫn **Mobile/Tablet (`<= 1024px`)**.
 
 ---
 
 ## 1. TRIẾT LÝ THIẾT KẾ CỐT LÕI (CORE DESIGN PHILOSOPHY)
-- **Phong cách chủ đạo:** **Ultra-Luxury, Automotive Premium, Minimalist, High-Tech**.
-- **Cảm hứng:** Không gian studio ánh sáng cao cấp của các thương hiệu xe siêu sang (như Mercedes-Benz S-Class, Maybach, Porsche).
-- **Tiêu chí tối thượng:** 
-  - **Tối giản đỉnh cao (Extreme Minimalism):** Chỉ giữ lại các thành phần cốt lõi cần thiết nhất cho người dùng. Tuyệt đối không thêm text khẩu hiệu, badge phụ, chú thích kỹ thuật backend hay thông số thừa thãi.
-  - **Sang trọng & Huyền bí:** Không gian nền đen tuyền obsidian kết hợp ánh sáng 3D quang học hắt góc tạo chiều sâu thị giác vô tận.
+- **Phong cách chủ đạo:** **Ultra-Luxury, Automotive Showroom Precision, Human-Crafted Editorial, Minimalist**.
+- **Cảm hứng thực tế:**
+  1. **Màn hình Welcome/Login (`#viewLogin`):** Không gian phòng tối studio ánh sáng quang học 3D cao cấp.
+  2. **Không gian Điều hành SME OS (`#viewHome`):** Lấy cảm hứng trực tiếp từ **Banner chuẩn của Giám đốc CEO AP — anh Lộc** (*"CHẤT LƯỢNG KHÔNG ĐẾN TỪ MAY MẮN"* — Chiếc Porsche 911 GT3 Đen Piano bóng gương đặt trong Phòng Lab Detailing Trắng Bạch Kim với đường cắt chéo kép Đen Tuyền + Xanh Cobalt `#0066FF`).
+- **Tiêu chí tối thượng:**
+  - **Tối giản đỉnh cao (`Simplicity First < 30s`):** Loại bỏ hoàn toàn các dòng giải thích nhỏ rườm rà và thuật ngữ kỹ thuật backend.
+  - **Khử mùi AI (`100% Humanizer — De-AI-fying`):** Cấm tuyệt đối việc dùng Emoji màu hệ thống (`👑 📢 🛠️ 💰 ✨...`) và cấm bọc viền xanh neon phát sáng tràn lan ở mọi phần tử.
 
 ---
 
-## 2. QUY CHUẨN TYPOGRAPHY (CHÍNH THỨC TỪ BẢN GỐC THƯƠNG HIỆU AP)
-*(Được xác thực 100% từ tài liệu gốc `business-docs/logo/font logo AP.png` và file vector `business-docs/logo/Logo AP.pdf`)*
+## 2. QUY CHUẨN TYPOGRAPHY TIẾNG VIỆT (PHƯƠNG ÁN A — CHUẨN NGÀNH Ô TÔ CAO CẤP, 100% KHÔNG LỖI DẤU)
+*(Cập nhật ngày 24/10/2026 từ bài học `[ERR-007]` để triệt tiêu hoàn toàn lỗi biến dạng dấu Tiếng Việt `Đ`, `Ố`, `Ệ`, `ƯỢ`, `Ỹ`, `Ậ`, `Ữ`)*
 
-| Vai trò Typography | Tên Font chính thức | Trọng số (Weight) | Thay thế tương đương Web | Vị trí áp dụng |
+Bắt buộc nhúng tại `<head>` đầy đủ bộ ký tự Tiếng Việt (`&display=swap&subset=vietnamese`):
+```html
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap&subset=vietnamese" rel="stylesheet">
+```
+
+| Vai trò Typography | Biến CSS | Tên Font Chính Thức | Trọng số (Weight) | Vị trí áp dụng |
 |---|---|---|---|---|
-| **Primary Brand (Chữ thương hiệu chính)** | **Roboto** | Bold (700) / Black (900) | `Roboto:wght@700` | Tiêu đề "CAR CARE", Nút hành động chính (Primary Button), Heading quan trọng |
-| **Sub-brand & Slogan (Phụ bản)** | **Myriad Variable Concept SemiCondensed** | Light (300) / Regular (400) | `Roboto Condensed:wght@300;400` | Dòng "AUDIO AND ACCESSORIES", nhãn phụ, tag thể loại |
-| **Giao diện người dùng (UI / Body / Input)** | **Roboto** | Regular (400) / Medium (500) | `Roboto:wght@400;500` | Ô nhập liệu (Inputs), placeholder, nội dung bảng biểu, text mô tả |
-| **Liên kết & Điều hướng phụ** | **Roboto** | Regular (400) | `Roboto:wght@400` | Link "Quên mật khẩu?", breadcrumb, footer link |
+| **1. Tiêu đề lớn & Con số KPI (`Display`)** | `--font-display` | **`Barlow Condensed`** | SemiBold (`600`), Bold (`700`) | Tiêu đề Phòng ban (`.home-title`), Tiêu đề Topbar (`.ap-topbar-title`), Con số KPI lớn (`.ap-kpi-value`), Tên thương hiệu `AP CAR CARE`. Dáng chữ cao khỏe khoắn y hệt tiêu đề *"CHẤT LƯỢNG KHÔNG ĐẾN TỪ MAY MẮN"* trên Banner CEO anh Lộc. |
+| **2. Giao diện, Menu, Bảng biểu & Nội dung (`UI Sans`)** | `--font-sans` | **`Be Vietnam Pro`** | Regular (`400`), Medium (`500`), SemiBold (`600`), Bold (`700`) | Toàn bộ nút bấm Sidebar, Nhãn phụ, Bảng dữ liệu 4D, Ô nhập liệu, Dropdown phân quyền. Bộ font thiết kế chuyên biệt cho Tiếng Việt, khoảng cách dấu thanh/mũ thoáng và sắc nét tuyệt đối. |
+| **3. Mã lệnh, Biển số xe & Tiền tệ (`Monospace`)** | `--font-mono` | **`JetBrains Mono`** | Medium (`500`), SemiBold (`600`) + `tabular-nums` | Biển số xe (`51K-888.99`), Mã lệnh `RO-2610-01`, Mã `SKU`, Badge phần trăm độ tin cậy AI. |
 
 ---
 
-## 3. BẢNG MÀU CHỦ ĐẠO (CORE COLOR PALETTE)
+## 3. HỆ THỐNG 2 THEME CHỦ ĐẠO (THEO GU THẨM MỸ CEO ANH LỘC) & BẢNG MÀU CHUẨN (`[ERR-010]`)
 
-| Màu sắc | Mã Hex / CSS | Ý nghĩa & Vị trí ứng dụng |
-|---|---|---|
-| **Đen tuyền (Deep Obsidian Black)** | `#000000` | Màu nền chủ đạo toàn màn hình (Background). Nền đen thuần túy làm tôn trọn vẹn logo và ánh sáng quang học. |
-| **Xanh Google (Google Blue Primary)** | `#4285F4` | Màu nhận diện công nghệ chủ đạo: Nút bấm chính, viền focus khi nhập liệu, thanh tiến trình. |
-| **Xanh Google Nhạt (Google Blue Light / Glow)** | `#8AB4F8` | Điểm nhấn phát sáng (Glow), viền halo, tia sáng laser quang học, màu hover liên kết. |
-| **Xanh Google Đậm (Google Blue Dark)** | `#1A5FD4` | Điểm chuyển màu gradient cho nút bấm sang trọng (`linear-gradient(135deg, #8AB4F8, #4285F4, #1A5FD4)`). |
-| **Trắng tinh khôi (Pure White)** | `#FFFFFF` | Nền ô nhập liệu (Inputs), logo chữ trắng, icon nổi bật. |
-| **Xám kim loại / Muted (Subtext & Placeholder)** | `#8E95A5` / `rgba(0,0,0,0.42)` | Placeholder trong ô nhập, text phụ, icon mờ. |
+Hệ thống hỗ trợ song song **2 Theme chủ lực** chuyển đổi tức thì qua thuộc tính `data-ap-theme="dark" | "light"` trên `#viewHome` (kèm nút chuyển đổi 1-click `#btnQuickThemeToggle` ngay trên Topbar):
 
----
-
-## 4. QUY CHUẨN ÁNH SÁNG 3D QUANG HỌC (3D OPTICAL & VOLUMETRIC LIGHTING)
-Tuyệt đối không dùng các vệt mờ gradient phẳng giả tạo. Ánh sáng của AP CAR CARE phải sắc nét và có độ sâu 3D như quay phim studio xe hơi:
-1. **Ánh sáng Studio 3D (Volumetric Light Beam):** Luồng sáng hắt từ góc trên-phải (`top-right`) chiếu xiên xuống tạo chiều sâu không gian phòng tối/showroom xe sang.
-2. **Tia sáng quang học ngang (Anamorphic Laser Streak):** Tia laser siêu mảnh, sắc bén như lưỡi dao, lõi trắng rực rỡ và viền phát sáng xanh `#8AB4F8`.
-3. **Tia nhiễu xạ quang học (Diffraction Spike):** Tia sáng dọc mảnh tâm giao với tia ngang tạo điểm nhấn ngôi sao quang học (optical starburst) trước khi logo xuất hiện.
-4. **Vệt phản chiếu kim loại Chrome (Specular Glint Sweep):** Vệt sáng quét góc 35–45 độ lướt qua bề mặt logo AP tròn, tạo cảm giác logo bằng kim loại chrome thật bóng loáng.
+| Thành phần | 🌑 THEME 1 (`data-ap-theme="dark"`): **AP CARBON NIGHT (Dark Blue & Piano Black)** | ☀️ THEME 2 (`data-ap-theme="light"`): **AP SHOWROOM PLATINUM (Theme Trắng + Sidebar Đen Gradient)** |
+| :--- | :--- | :--- |
+| **Sidebar Trái (`#apSidebar`)** | **Đen Obsidian Gradient:** `linear-gradient(175deg, #04060B 0%, #091120 52%, #04070D 100%)` | **Giữ nguyên Đen Obsidian Gradient:** `linear-gradient(175deg, #05080F 0%, #0B1324 52%, #04070D 100%)` tạo độ tương phản sang trọng với nền trắng. |
+| **Nền Khu vực Làm việc (`--ap-stage-bg`)** | Đen Carbon & Midnight (`#070A10` → `#0A101B`) | Trắng Bạch Kim Showroom (`#F4F6F9` → `#EBEEF4` — chuẩn phòng Lab Detailing trong Banner Hình 3) |
+| **Nền Thẻ KPI & Bảng (`--ap-card-bg`)** | Kính tối Carbon (`rgba(15, 22, 36, 0.94)`), viền mảnh `rgba(255,255,255,0.075)` | Trắng Tinh Khôi (`#FFFFFF`), viền mảnh `#E2E8F0`, bóng đổ studio `0 8px 24px rgba(15,23,42,0.045)` |
+| **Màu Tiêu đề & Số KPI (`--ap-text-heading`)** | Trắng tinh khiết `#FFFFFF` | **Đen Piano `#0A0E17`** (y hệt màu chữ *"CHẤT LƯỢNG"* trên Banner Hình 3) |
+| **Màu Điểm nhấn Chiến lược (`--ap-accent`)** | **Xanh AP Cobalt `#0A6CFF` / `#388BFF`** | **Xanh AP Electric Cobalt `#0066FF`** (y hệt màu chữ *"KHÔNG ĐẾN TỪ MAY MẮN"* và số `50%`, `20%` trên Hình 3) |
 
 ---
 
-## 5. KỊCH BẢN CHUYỂN ĐỘNG GỐI ĐẦU ĐỒNG BỘ (OVERLAPPING / CASCADED MOTION)
-Các thành phần **BẮT BUỘC** chuyển động theo nguyên tắc gối đầu liên tục (overlapping/staggered sync), **không chờ thành phần trước dừng lại mới bắt đầu**:
-1. **0.0s – 0.7s:** Màn đen tuyền tĩnh lặng (`#000000`).
-2. **0.7s – 1.8s:** Chùm tia sáng quang học 3D bùng nở ở trung tâm màn hình (Anamorphic Streak + Star Core).
-3. **1.25s – 2.4s:** Logo AP tròn hiện dần ra với hiệu ứng fade-in mượt mà từ tâm.
-4. **1.8s – 2.8s:** Vệt sáng Chrome quét qua bề mặt logo; logo bắt đầu nổi bóng 3D tinh tế (subtle ambient shadow).
-5. **2.9s – 4.1s:** Logo AP mượt mà thu nhỏ và dịch chuyển lên vị trí trên cao.
-6. **3.3s – 4.4s:** **Khi logo đang dịch chuyển (chưa kết thúc)**, ảnh chữ thương hiệu ("CAR CARE / AUDIO AND ACCESSORIES") lập tức trượt từ trái sang (slide-right) lộ diện kế bên logo.
-7. **3.65s – 4.6s:** **Khi chữ chưa kết thúc**, ô Tên đăng nhập lập tức trượt lên và hiện rõ.
-8. **3.9s – 4.85s:** Ô Mật khẩu nối tiếp ngay sau.
-9. **4.15s – 5.1s:** Nút Đăng nhập nối tiếp ngay sau kèm hiệu ứng tia sáng quét bề mặt.
-10. **4.4s – 5.35s:** Link "Quên mật khẩu?" nhẹ nhàng hiện ra bên dưới.
-11. **3.0s – 5.6s:** Luồng sáng Studio 3D hắt từ góc trên-phải dần định hình không gian hoàn thiện.
-
-*Tốc độ: Toàn bộ animation phải đằm thắm (thời lượng 0.9s – 1.2s mỗi đối tượng), dùng đường cong cubic-bezier mượt mà (`cubic-bezier(0.22, 1, 0.36, 1)`).*
+## 4. NĂM NGUYÊN TẮC THIẾT KẾ "HUMANIZER" (CHỐNG CẢM GIÁC AI RẺ TIỀN — `[ERR-008]`)
+1. **Chính sách 0% Emoji màu hệ thống (`Zero-Emoji Policy`):** Tuyệt đối không dùng bất kỳ ký tự Emoji Unicode màu mè nào trong HTML hoặc JS của `#viewHome`.
+2. **Hệ thống Icon Vector Line-Art Đơn sắc (`1.65px` Monochrome SVG):** Mọi icon trên Sidebar, Topbar, Dải AI và Tiêu đề bảng đều phải dùng SVG nét mảnh `stroke-width="1.65" - "1.8"` đồng màu (`stroke="currentColor" fill="none"`), mô phỏng chính xác phong cách icon kỹ thuật trên Banner của CEO anh Lộc.
+3. **Quy tắc Điểm nhấn 10% (`10% Cobalt Accent Rule`):** Không bọc viền phát sáng neon quanh mọi phần tử. Các thẻ dùng viền cấu trúc mảnh (`1px solid var(--ap-border-subtle)`), chỉ đặt màu nhấn **Xanh AP Cobalt (`#0066FF`)** tại nút đang chọn, vạch đứng `4px` cạnh trái Hero, gạch chân `36px` dưới thẻ KPI và nút CTA chính.
+4. **Họa tiết Đường cắt chéo Kiến trúc AP (`.ap-dept-hero::after`):** Mỗi thanh tiêu đề phòng ban có họa tiết **2 dải cắt chéo song song Đen Tuyền + Xanh Cobalt nghiêng `-28deg`** lấy trực tiếp từ thiết kế Banner Porsche 911 của CEO anh Lộc.
+5. **Dòng phụ KPI tinh gọn:** Dùng chấm tròn tín hiệu `6px` (`.ap-kpi-sub::before`) thay cho icon emoji.
 
 ---
 
-## 6. QUY CHUẨN FORM & GIAO DIỆN CHÍNH THỨC (GLASSMORPHISM CARD & CAPSULE SPEC - THEO MOCKUP ANH ĐỨC)
-- **Khung thẻ kính mờ (Glassmorphism Central Card - Theo sát hình mẫu 2):**
-  - Kích thước vừa vặn cân đối (rộng 384px trên PC, min(calc(100vw - 32px), 340px) trên Mobile), bo tròn góc lớn 26px (22px trên mobile).
-  - Nền kính bắt sáng từ luồng đèn góc trên-phải: `linear-gradient(142deg, rgba(255,255,255,0.15) 0%, rgba(36,44,58,0.46) 38%, rgba(14,18,26,0.72) 100%)`, `backdrop-filter: blur(28px)`.
-  - Viền kính sắc nét: Cạnh trên và cạnh phải bắt sáng mạnh (`border-top: 1px solid rgba(255,255,255,0.52); border-right: 1px solid rgba(255,255,255,0.3)`), cạnh trái và dưới mờ dịu (`1px solid rgba(255,255,255,0.16)`).
-  - Đổ bóng sâu trầm: `box-shadow: 0 35px 85px rgba(0,0,0,0.96), inset 0 1px 1px rgba(255,255,255,0.42)`.
-- **RÀNG BUỘC CỐ ĐỊNH LOGO VÀ CHỮ THƯƠNG HIỆU (BẮT BUỘC VĨNH VIỄN):**
-  - Logo AP tròn và chữ CAR CARE AUDIO AND ACCESSORIES **BẮT BUỘC nằm chung trong một container flexbox duy nhất: `.card-brand-header`**.
-  - Tuyệt đối không dùng toạ độ pixel bay độc lập để tránh sai lệch trên các thiết bị/độ phân giải khác nhau.
-  - Logo và chữ luôn cố định đứng kế bên nhau chuẩn xác trên mọi màn hình từ 320px đến 4K.
-- **BỐ CỤC ÁNH SÁNG GRADIENT NỀN (THEO SÁT HÌNH MẪU 2 - NÂNG CẤP V9 RÕ HƠN 15-20%):**
-  - **Nền gốc:** Đen sâu tuyền `#020408`.
-  - **Góc trên-phải (Top-Right):** Nguồn sáng studio rõ ràng, gồm quầng sáng xanh sapphire (`rgba(48,105,185,0.58)` lan sang `rgba(25,62,115,0.42)`), kết hợp dải wash xiên 220 độ (`rgba(36,85,160,0.25)`) chiếu xiên sắc nét từ trên-phải xuống dưới-trái (rõ hơn 15-20% so với trước).
-  - **Góc dưới-trái (Bottom-Left):** Quầng sáng xanh đen studio huyền bí `rgba(30,68,126,0.70)` hắt lên tôn vinh dải lụa (rõ hơn 15-20% so với trước).
-  - **BỎ HẲN NGÔI SAO MÀU TRẮNG:** Tuyệt đối không để ngôi sao trắng ở góc dưới bên phải.
-- **Ô nhập liệu hình viên thuốc (Capsule Inputs):**
-  - Bo tròn hoàn toàn hai đầu (`border-radius: 9999px`), chiều cao 46px (44px trên mobile), padding thoáng rộng 22px (`padding: 0 22px`).
-  - Nền đen mờ siêu nhẹ `rgba(255, 255, 255, 0.035)`, viền mảnh `1px solid rgba(255, 255, 255, 0.15)`.
-  - Placeholder bạc mờ `rgba(255, 255, 255, 0.42)`, khi gõ chữ hiển thị trắng tuyền `#FFFFFF`.
-  - Khi focus: Viền sáng ánh kim `rgba(255, 255, 255, 0.85)` kèm tỏa sáng nhẹ dịu `box-shadow: 0 0 16px rgba(255, 255, 255, 0.25)`.
-- **Nút Đăng nhập 3D hình viên thuốc (Capsule 3D Off-White Button):**
-  - Bo tròn viên thuốc (`border-radius: 9999px`), chiều cao 48px (46px trên mobile), viền sắc sảo `1px solid rgba(255, 255, 255, 0.85)`.
-  - Nền gradient trắng ngà 3D sang trọng: `linear-gradient(180deg, #FFFFFF 0%, #ECECF0 52%, #DBDCE2 100%)`.
-  - Chữ màu đen than (`#0A0A0E`), font weight Semi-bold (600), chữ in hoa, khoảng cách ký tự (tracking) thoáng nhẹ `0.26em`.
-  - Đổ bóng khối 3D mạnh mẽ: `box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 1px 1px #FFFFFF, inset 0 -2px 3px rgba(0, 0, 0, 0.15)`.
-- **Họa tiết kéo nghiêng ở nền (Background Silk Ribbon Stream - Chuẩn v10 theo sát hình mẫu):**
-  - Dải họa tiết **vuốt thon nhọn ở góc dưới bên phải** và **xòe rộng mềm mại lên góc trên bên trái** theo hình mẫu tham chiếu (`hq/brand_assets/reference_ribbon_flow.png`).
-  - Các đường line trắng trong dải lụa: **nhiều, nhuyễn, thanh mảnh (0.9px - 1.5px)**, độ mờ nhẹ dịu (opacity 0.4 - 0.75), không trắng đậm quá, tạo cảm giác dải lụa phát quang siêu thực.
-  - **Dải ánh sáng gradient trắng nền (White Glow Underlay):** Nằm fix trực tiếp phía sau và uốn lượn ôm sát theo dải lụa, làm nền sáng phát quang mờ dịu (`stroke-width: 160px`, `filter: blur(38px)`), co giãn bám theo dải lụa đồng bộ 100% ở mọi kích cỡ màn hình thiết bị.
-  - **Chùm ánh sáng quang học di chuyển chéo (Cinematic Optical Lens Flare - Chuẩn v11 giống 100% hình mẫu tham chiếu):**
-    - **Tâm chùm sáng (Supernova Radiant Core):** Lõi ánh sáng trắng cực đại với quầng hào quang phát quang mềm mại bao quanh tâm (cx=0, cy=0).
-    - **Bộ 3 tia laser ngang Anamorphic (Triple Anamorphic Streaks):** 1 tia laser chính kéo dài xuyên suốt ngang qua tâm chùm sáng + 2 tia laser song song thanh mảnh chạy lệch ở phía trên và dưới, mô phỏng thấu kính Anamorphic cao cấp trong điện ảnh Hollywood.
-    - **Vòng tròn Halo Lens (Circular Halo Ring):** Vòng hào quang tròn bao bọc đồng tâm quanh lõi thấu kính.
-    - **Hệ gai nhiễu xạ (Diffraction Spikes):** Các tia nhọn thanh mảnh vuốt dài theo phương thẳng đứng và phương chéo nghiêng (~-30°).
-    - **Hệ thống bóng mờ quang học & hạt Bokeh (Multi-element Lens Ghosts & Bokeh Discs):** Các đốm sáng quang học và đĩa bokeh tròn xếp dọc theo trục chéo thấu kính (đốm sáng nhỏ ở góc trên-trái; đốm lấp lánh và đĩa bokeh mờ ở góc dưới-phải).
-    - **Màu sắc & Glow:** Toàn bộ ánh sáng là màu trắng tinh khiết (`#FFFFFF`) với hiệu ứng glow phát quang dịu mắt, hòa trộn mềm mại với dải lụa qua chế độ `mix-blend-mode: screen`.
-    - **Thời điểm khởi động & Quỹ đạo:** Animate di chuyển gối đầu ở thời điểm 2.2s (ngay khi logo AP tròn lớn vừa xuất hiện xong), lướt chậm dần (`decelerating ease-out: 0.12 0.75 0.22 1`) từ góc dưới-phải chéo lên góc trên-trái theo đúng đường line bám sát dải lụa.
-- **Liên kết "Quên mật khẩu?" & Thông báo trạng thái:**
-  - Link "Quên mật khẩu?" đặt ngay bên dưới nút Đăng nhập, click mở modal hỗ trợ.
-  - Thông báo lỗi/trạng thái màu đỏ mềm mại (`#FF6B6B`), font 11.5px hiển thị dưới link (như trong hình mẫu 2).
+## 5. QUY CHUẨN MÀN HÌNH LOGIN V11 (`#viewLogin` — BẢO TOÀN BẤT BIẾN 100%)
+- Toàn bộ quy chuẩn Ánh sáng 3D Quang học (Volumetric Light Beam, Anamorphic Laser Streak, Diffraction Spike, Specular Glint Sweep), Kịch bản chuyển động gối đầu 11 bước (`0.0s – 5.6s`), Khung thẻ kính mờ Glassmorphism (`.glass-card`), Ràng buộc cố định `.card-brand-header` và Dải lụa phát quang nền (`#starComet`) của `#viewLogin` (`L1–L784` & `L2334–L2562` trong `src/Index.html`) **được khóa bảo toàn 100%**, tuyệt đối không tự ý thay đổi khi nâng cấp `#viewHome`.
 
 ---
 
-## 7. QUY TRÌNH DUYỆT & REVIEW BẮT BUỘC TRƯỚC KHI CODE (CHECKLIST)
-Mỗi Agent trước khi triển khai bất kỳ module nào tiếp theo phải tự kiểm tra 5 điều kiện:
-- [ ] 1. Đã view_file đọc lại `hq/design_aesthetic_memo.md` chưa?
-- [ ] 2. Font chữ đã dùng đúng Roboto (Bold/Regular) và Roboto Condensed chưa?
-- [ ] 3. Bảng màu đã dùng đúng chuẩn Đen tuyền `#000000` + Xanh Google `#4285F4` + Trắng `#FFFFFF` chưa?
-- [ ] 4. Giao diện có bị rườm rà thừa thãi không? Đã loại bỏ hết các badge/text kỹ thuật chưa?
-- [ ] 5. Đã chạy script `.\backup.ps1` trước khi can thiệp code chưa?
+## 6. QUY TRÌNH THIẾT KẾ & KIỂM THỬ KÉP BẮT BUỘC TRÊN CẢ PC/LAPTOP VÀ MOBILE (`[ERR-009]`)
+*(Cập nhật bắt buộc từ bài học lỗi vỡ giao diện Mobile ở Hình 2 — Áp dụng cho mọi task UI/UX)*
+
+Bất kỳ khi nào thiết kế mới hoặc chỉnh sửa giao diện trong `src/Index.html`, Agent **BẮT BUỘC thực hiện quy trình 4 Bước Kiểm soát Kép (PC + Mobile Dual-Viewport Protocol)**:
+
+1. **Bước 1 — Dọn dẹp CSS Tàn dư 1 Nguồn Duy Nhất (`Single CSS Block Guard`):**
+   - Kiểm tra toàn bộ file `src/Index.html` để đảm bảo chỉ có **1 khối CSS duy nhất** định nghĩa cho `#viewHome`. Tuyệt đối không để sót CSS cũ trong `<head>` gây ghi đè ngược font chữ hoặc `@media` query.
+2. **Bước 2 — Thiết kế Kiến trúc Đáp ứng Kép (`PC Fixed Sidebar` + `Mobile Off-Canvas Drawer`):**
+   - **Trên PC/Laptop (`> 1024px`):** Sidebar Đen Gradient (`width: 282px`) cố định bên trái; Topbar nằm trên 1 hàng ngang; lưới KPI hiển thị 4 cột (`repeat(4, minmax(0, 1fr))`).
+   - **Trên Mobile & Tablet (`<= 1024px`):**
+     * **Sidebar:** Bắt buộc chuyển thành **Off-Canvas Slide-Over Drawer** (`position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(-105%); z-index: 1250`) kèm lớp mờ `#apSidebarBackdrop`, nút mở `#btnMobileMenuToggle` trên Topbar và tự động đóng lại khi chọn phòng ban. **Cấm tuyệt đối** dùng `.ap-sidebar { position: relative; height: auto }` trên Mobile.
+     * **Topbar Mobile 2 Tầng (Chống gãy chữ dọc):** `.ap-topbar` phải đặt `flex-direction: column`:
+       - **Tầng 1 (`.ap-topbar-left`):** `width: 100%` chứa `[Nút Menu ☰]` + `[#topbarActiveTitle]` với `flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(16px, 4.2vw, 20px)` để tiêu đề **luôn nằm trên 1 dòng ngang duy nhất**, không bao giờ bị ép thành cột chữ dọc.
+       - **Tầng 2 (`.ap-topbar-right`):** `width: 100%` chứa bộ chọn `Role Preview`, nút đổi nhanh Theme (`#btnQuickThemeToggle`) và nút Cài đặt.
+     * **Hero, AI Strip & Bảng biểu trên Mobile:** `.ap-dept-hero` và `.ap-ai-insight-strip` tự động chuyển sang `flex-direction: column`, nút bấm rộng `100%`; lưới KPI chuyển về 2 cột (`<= 1180px`) và 1 cột (`<= 560px`); mọi bảng dữ liệu bọc trong `.ap-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }`.
+3. **Bước 3 — Kiểm thử Tự động bằng Script (`Automated Pre-Commit Gate`):**
+   - Chạy script kiểm tra tự động bằng Node.js xác nhận 5 tiêu chí đạt `TRUE` 100%:
+     - [x] `zeroBackticksInScript === true` (Không có dấu `` ` `` trong `<script>` — `[ERR-005]`).
+     - [x] `zeroEmojisInHome === true` (Không có bất kỳ emoji màu nào trong `#viewHome` — `[ERR-008]`).
+     - [x] `hasBarlowCondensed && hasBeVietnamPro === true` (Đã nạp đủ Google Fonts Tiếng Việt — `[ERR-007]`).
+     - [x] `hasDarkAndLightThemes === true` (Đầy đủ biến CSS cho cả Theme Dark Blue & Theme Trắng — `[ERR-010]`).
+     - [x] `hasMobileOffCanvasDrawer === true` (Đầy đủ Off-Canvas Drawer & Topbar 2 tầng cho Mobile — `[ERR-009]`).
+4. **Bước 4 — Chạy Backup trước khi code & Deploy đồng bộ `gh-pages`:**
+   - Luôn chạy `.\backup.ps1` trước khi sửa code, và chạy `.\deploy-demo.ps1` sau khi commit để bản Live Demo cập nhật tức thì trên cả máy tính và điện thoại của anh Đức.

@@ -289,62 +289,65 @@ const DEFAULT_BRAND_LOGO_SLOTS = [
 const DEFAULT_THEME_SKINS = [
   {
     themeId: "THEME_AP_SIGNATURE_GLASS",
-    themeName: "AP Signature Obsidian Glass & Light-Gray Workspace",
-    subtitle: "Chuẩn thiết kế AP CAR CARE: Nền làm việc trắng xám nhạt, Sidebar & Nút Đen Glassmorphism, Line Xanh Glow",
+    themeName: "AP Carbon Night & Cobalt Studio (Dark Blue)",
+    subtitle: "Cảm hứng Porsche 911 Piano Black & Cobalt HUD: Nền Carbon tối sâu, Sidebar Đen Gradient, Điểm nhấn Xanh Cobalt #0066FF",
     startDate: "2026-01-01",
     endDate: "2030-12-31",
     isActive: true,
     tokens: {
-      "--ap-workspace-bg": "#F2F4F8",
-      "--ap-workspace-surface": "#FFFFFF",
-      "--ap-workspace-surface-alt": "#F8FAFC",
-      "--ap-workspace-text": "#0F172A",
-      "--ap-workspace-muted": "#475569",
-      "--ap-sidebar-bg": "linear-gradient(165deg, rgba(14, 19, 30, 0.96) 0%, rgba(5, 7, 12, 0.99) 100%)",
-      "--ap-btn-dark-glass": "linear-gradient(135deg, rgba(22, 29, 44, 0.92) 0%, rgba(8, 11, 18, 0.98) 100%)",
-      "--ap-accent-blue": "#4285F4",
-      "--ap-accent-glow": "#8AB4F8",
-      "--ap-line-glow": "0 0 12px rgba(66, 133, 244, 0.8), 0 0 24px rgba(66, 133, 244, 0.35)"
+      "--ap-theme-mode": "dark",
+      "--ap-workspace-bg": "#080C14",
+      "--ap-workspace-surface": "#0E1523",
+      "--ap-workspace-surface-alt": "#111A2B",
+      "--ap-workspace-text": "#F8FAFC",
+      "--ap-workspace-muted": "#8494AC",
+      "--ap-sidebar-bg": "linear-gradient(175deg, #04060B 0%, #091120 52%, #04070D 100%)",
+      "--ap-btn-dark-glass": "linear-gradient(135deg, rgba(16, 25, 43, 0.94) 0%, rgba(9, 14, 26, 0.98) 100%)",
+      "--ap-accent-blue": "#0A6CFF",
+      "--ap-accent-glow": "#388BFF",
+      "--ap-line-glow": "0 8px 24px rgba(10, 108, 255, 0.28)"
     }
   },
   {
-    themeId: "THEME_TDCM_ENTERPRISE_BLUE",
-    themeName: "TDCM Enterprise Pure Blue (White-Label SME)",
-    subtitle: "Bộ giao diện chuẩn chuyển giao dự án SME khác: Sidebar Xanh Đậm Navy, Nền Trắng Xám Sáng",
+    themeId: "THEME_AP_SHOWROOM_WHITE",
+    themeName: "AP Showroom Platinum White (Sidebar Đen Gradient)",
+    subtitle: "Chuẩn Banner CEO anh Lộc: Nền Phòng Lab Trắng Bạch Kim #F4F6F9, Thẻ Trắng #FFFFFF, Chữ Đen Piano #0A0E17, Sidebar Đen Gradient & Xanh Cobalt #0066FF",
     startDate: "2026-01-01",
     endDate: "2030-12-31",
     isActive: false,
     tokens: {
-      "--ap-workspace-bg": "#F0F4F9",
+      "--ap-theme-mode": "light",
+      "--ap-workspace-bg": "#F4F6F9",
       "--ap-workspace-surface": "#FFFFFF",
       "--ap-workspace-surface-alt": "#F8FAFC",
-      "--ap-workspace-text": "#12151C",
-      "--ap-workspace-muted": "#5A6578",
-      "--ap-sidebar-bg": "linear-gradient(165deg, rgba(15, 34, 68, 0.97) 0%, rgba(7, 17, 38, 0.99) 100%)",
-      "--ap-btn-dark-glass": "linear-gradient(135deg, rgba(26, 86, 181, 0.95) 0%, rgba(15, 45, 105, 0.98) 100%)",
-      "--ap-accent-blue": "#3B82F6",
-      "--ap-accent-glow": "#93C5FD",
-      "--ap-line-glow": "0 0 14px rgba(59, 130, 246, 0.85), 0 0 28px rgba(59, 130, 246, 0.4)"
+      "--ap-workspace-text": "#0A0E17",
+      "--ap-workspace-muted": "#64748B",
+      "--ap-sidebar-bg": "linear-gradient(175deg, #05080F 0%, #0B1324 52%, #04070D 100%)",
+      "--ap-btn-dark-glass": "linear-gradient(135deg, rgba(16, 25, 43, 0.95) 0%, rgba(9, 14, 26, 0.98) 100%)",
+      "--ap-accent-blue": "#0066FF",
+      "--ap-accent-glow": "#2970FF",
+      "--ap-line-glow": "0 8px 20px rgba(0, 102, 255, 0.18)"
     }
   },
   {
     themeId: "THEME_FOCAL_AUDIO_GOLD",
-    themeName: "Focal Prestige Carbon & Cyan-Blue Glow",
-    subtitle: "Bộ giao diện sự kiện Âm thanh Focal & Detailing Cao cấp: Nền Xám Bạc, Sidebar Carbon, Line Xanh Băng",
+    themeName: "Focal Prestige Carbon & Cyan-Blue Studio",
+    subtitle: "Không gian trưng bày Âm thanh Focal Hi-End & Detailing Cao cấp",
     startDate: "2026-01-01",
     endDate: "2030-12-31",
     isActive: false,
     tokens: {
-      "--ap-workspace-bg": "#EAEFF5",
-      "--ap-workspace-surface": "#FFFFFF",
-      "--ap-workspace-surface-alt": "#F4F7FB",
-      "--ap-workspace-text": "#0B0F19",
-      "--ap-workspace-muted": "#4B5563",
-      "--ap-sidebar-bg": "linear-gradient(165deg, rgba(18, 20, 26, 0.96) 0%, rgba(4, 5, 8, 0.99) 100%)",
-      "--ap-btn-dark-glass": "linear-gradient(135deg, rgba(28, 34, 48, 0.94) 0%, rgba(9, 12, 20, 0.98) 100%)",
+      "--ap-theme-mode": "dark",
+      "--ap-workspace-bg": "#070A0F",
+      "--ap-workspace-surface": "#0E131D",
+      "--ap-workspace-surface-alt": "#131A27",
+      "--ap-workspace-text": "#F8FAFC",
+      "--ap-workspace-muted": "#94A3B8",
+      "--ap-sidebar-bg": "linear-gradient(175deg, #040508 0%, #0A0E17 52%, #040508 100%)",
+      "--ap-btn-dark-glass": "linear-gradient(135deg, rgba(22, 28, 40, 0.94) 0%, rgba(9, 12, 20, 0.98) 100%)",
       "--ap-accent-blue": "#00B4D8",
-      "--ap-accent-glow": "#90E0EF",
-      "--ap-line-glow": "0 0 14px rgba(0, 180, 216, 0.85), 0 0 28px rgba(144, 224, 239, 0.4)"
+      "--ap-accent-glow": "#48CAE4",
+      "--ap-line-glow": "0 8px 24px rgba(0, 180, 216, 0.28)"
     }
   }
 ];
@@ -764,7 +767,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "BGD-CEO",
     name: "Ban Giám Đốc",
     subLabel: "Điều hành & Phê duyệt AI",
-    icon: "👑",
+    icon: "crown",
     enabled: true,
     allowedRoles: ["ADMIN_CEO"]
   },
@@ -773,7 +776,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "TT-MKT",
     name: "Phòng Marketing",
     subLabel: "Chiến dịch, ROAS & Đa kênh",
-    icon: "📢",
+    icon: "megaphone",
     enabled: true,
     allowedRoles: ["ADMIN_CEO", "MKT"]
   },
@@ -782,7 +785,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "KD-CSKH",
     name: "Kinh Doanh & CSKH",
     subLabel: "Phễu Khách 360° & Đặt lịch",
-    icon: "🤝",
+    icon: "handshake",
     enabled: true,
     allowedRoles: ["ADMIN_CEO", "SALE", "MKT"]
   },
@@ -791,7 +794,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "KY-THUAT",
     name: "Kỹ Thuật & Xưởng",
     subLabel: "Khoang xe & Lệnh RO",
-    icon: "🛠️",
+    icon: "wrench",
     enabled: true,
     allowedRoles: ["ADMIN_CEO", "TECH", "SALE"]
   },
@@ -800,7 +803,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "KHO-SKU",
     name: "Kho & Mua Hàng",
     subLabel: "Tồn kho & Vật tư Focal",
-    icon: "📦",
+    icon: "box",
     enabled: true,
     allowedRoles: ["ADMIN_CEO", "INV", "TECH", "FIN"]
   },
@@ -809,7 +812,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "KE-TOAN",
     name: "Kế Toán & Tài Chính",
     subLabel: "Đối soát & Sổ quỹ",
-    icon: "💰",
+    icon: "wallet",
     enabled: true,
     allowedRoles: ["ADMIN_CEO", "FIN"]
   },
@@ -818,7 +821,7 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     code: "BAO-VE",
     name: "Bảo Vệ & Ca Trực",
     subLabel: "Cổng xe 10s & Checklist",
-    icon: "🛡️",
+    icon: "shield",
     enabled: true,
     allowedRoles: ["ADMIN_CEO", "OPS", "TECH", "SALE"]
   }
