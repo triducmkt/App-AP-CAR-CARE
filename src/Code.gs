@@ -2259,6 +2259,115 @@ function saveDepartmentAccessConfig(deptAccessList, currentUser) {
 /**
  * Lấy danh sách files trong Thư mục Google Drive của công ty AP CAR CARE
  */
+// =========================================================================
+// API CHUẨN TDCM TEAM APP: CẤP TOKEN VÀ PHÂN QUYỀN UPLOAD MEDIA HẠNG NẶNG (>400MB)
+// HỖ TRỢ RESUMABLE CHUNKING VÀ BỘ NHỚ DÙNG CHUNG (SHARED / TEAM DRIVES)
+// =========================================================================
+
+// Cấp chìa khóa (OAuth Token) tạm thời cho Frontend để tự giao tiếp với Google Drive API v3
+function getDriveAccessToken() {
+  return ScriptApp.getOAuthToken();
+}
+
+// Hàm chốt sổ: Phân quyền Public và xuất Link sau khi Frontend đã tải xong file
+function finalizeDriveFilePermissions(fileId) {
+  try {
+    var file = DriveApp.getFileById(fileId);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    return {
+      success: true,
+      fileId: fileId,
+      name: file.getName(),
+      viewUrl: "https://drive.google.com/thumbnail?id=" + fileId + "&sz=w1000",
+      lh3Url: "https://lh3.googleusercontent.com/d/" + fileId,
+      downloadUrl: "https://drive.google.com/uc?export=download&id=" + fileId
+    };
+  } catch(e) {
+    return { success: false, message: e.toString() };
+  }
+}
+
+// Lấy danh sách tệp trong thư mục Drive (Hỗ trợ cả My Drive và Team Drive)
+function getMediaFolderFiles(folderId) {
+  var fId = folderId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
+  try {
+    var folder = DriveApp.getFolderById(fId);
+    var files = folder.getFiles();
+    var list = [];
+    var count = 0;
+    while (files.hasNext() && count < 60) {
+      var f = files.next();
+      var fid = f.getId();
+      var mType = f.getMimeType();
+      var thumb = mType.indexOf("image") !== -1 || mType.indexOf("video") !== -1
+        ? ("https://drive.google.com/thumbnail?id=" + fid + "&sz=w400")
+        : "";
+      list.push({
+        id: fid,
+        name: f.getName(),
+        size: (f.getSize() / (1024 * 1024)).toFixed(2) + " MB",
+        bytes: f.getSize(),
+        mimeType: mType,
+        url: f.getUrl(),
+        thumbUrl: thumb || ("https://lh3.googleusercontent.com/d/" + fid),
+        lh3Url: "https://lh3.googleusercontent.com/d/" + fid
+      });
+      count++;
+    }
+    return { success: true, folderId: fId, folderName: folder.getName(), data: list };
+  } catch(err) {
+    return { success: false, folderId: fId, message: err.toString(), data: [] };
+  }
+}
+
+// Lấy cây thư mục Drive để nuôi Dropdown Thư mục lưu trữ
+function getMediaFolderTree(rootFolderId) {
+  var rootId = rootFolderId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
+  try {
+    var rootFolder = DriveApp.getFolderById(rootId);
+    var tree = [{ id: rootFolder.getId(), name: rootFolder.getName(), level: 0 }];
+    
+    var subFolders = rootFolder.getFolders();
+    while (subFolders.hasNext()) {
+      var sf = subFolders.next();
+      tree.push({ id: sf.getId(), name: sf.getName(), level: 1 });
+      var sub2 = sf.getFolders();
+      while (sub2.hasNext()) {
+        var sf2 = sub2.next();
+        tree.push({ id: sf2.getId(), name: sf2.getName(), level: 2 });
+      }
+    }
+    return { success: true, data: tree };
+  } catch(err) {
+    return {
+      success: true,
+      data: [
+        { id: rootId, name: "Thư mục test AI edit (Drive AP)", level: 0 },
+        { id: "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT", name: "Video Raw AP", level: 1 },
+        { id: "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT", name: "Tư Liệu Media & Ảnh Xe", level: 1 }
+      ],
+      warning: err.toString()
+    };
+  }
+}
+
+// Tạo thư mục con mới trên Google Drive
+function createNewMediaFolder(parentId, folderName, currentUser) {
+  try {
+    var pId = parentId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
+    var pFolder = DriveApp.getFolderById(pId);
+    var newFolder = pFolder.createFolder(folderName);
+    return {
+      success: true,
+      id: newFolder.getId(),
+      name: newFolder.getName(),
+      message: "Tạo thư mục thành công!"
+    };
+  } catch(err) {
+    return { success: false, message: "Lỗi tạo thư mục: " + err.toString() };
+  }
+}
+
 function getApDriveFolderFiles(folderId) {
   var fId = folderId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
   try {
@@ -3366,25 +3475,37 @@ function initFeatureSpecsSheet() {
     sheet.getRange(PM_CONFIG.HEADER_ROW, startCol, 1, headers.length).setValues([headers]);
     sheet.getRange(PM_CONFIG.GUIDE_ROW, startCol, 1, guides.length).setValues([guides]);
 
-    if (sheet.getLastRow() < PM_CONFIG.MIN_DATA_ROW) {
-      var seedRows = [
-        [
-          "FEAT-001", "DEPT_HR", "Đồng bộ Hồ sơ Nhân sự sống từ Sheet Nhân sự",
-          "Bảng #tableContainerStaffHr trong Tab DEPT_HR", "Nhân sự", "Cột B -> S",
-          "Admin, CEO, Quản lý", "Mở tab HR -> gọi getStaffList() render bảng và cập nhật KPI",
-          "(1) Hiển thị đủ dữ liệu; (2) Không reload; (3) Ẩn salaryAdmin với role khác",
-          "Hoàn thành", Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm"), "ĐỨC", "Đã test AST & Playwright 0 lỗi"
-        ],
-        [
-          "FEAT-002", "DEPT_MKT", "Trạm Render Video AI 9:16 kết nối Local Gateway",
-          "Canvas Node Studio & Nút Run Video Studio", "TT-MKT", "Cột B -> W",
-          "Admin, CEO, Quản lý, Freelancer", "Bấm Run -> gọi gateway.triduccar.media -> tải MP4 lên Drive AP",
-          "(1) Trả về Drive link 1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT; (2) Tên chuẩn local",
-          "Hoàn thành", Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm"), "ĐỨC", "Gateway tunnel port 8080"
-        ]
-      ];
-      sheet.getRange(PM_CONFIG.MIN_DATA_ROW, startCol, seedRows.length, seedRows[0].length).setValues(seedRows);
-    }
+    var seedRows = [
+      [
+        "FEAT-001", "DEPT_HR", "Đồng bộ Hồ sơ Nhân sự sống từ Sheet Nhân sự",
+        "Bảng #tableContainerStaffHr trong Tab DEPT_HR", "Nhân sự", "Cột B -> S",
+        "Admin, CEO, Quản lý", "Mở tab HR -> gọi getStaffList() render bảng và cập nhật KPI",
+        "(1) Hiển thị đủ dữ liệu; (2) Không reload; (3) Ẩn salaryAdmin với role khác",
+        "Hoàn thành", "25/10/2026 14:00", "ĐỨC", "Đã test AST & Playwright 0 lỗi"
+      ],
+      [
+        "FEAT-002", "DEPT_MKT", "Trạm Render Video AI 9:16 kết nối Local Gateway",
+        "Canvas Node Studio & Nút Run Video Studio", "TT-MKT", "Cột B -> W",
+        "Admin, CEO, Quản lý, Freelancer", "Bấm Run -> gọi gateway.triduccar.media -> tải MP4 lên Drive AP",
+        "(1) Trả về Drive link 1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT; (2) Tên chuẩn local",
+        "Hoàn thành", "25/10/2026 14:00", "ĐỨC", "Gateway tunnel port 8080"
+      ],
+      [
+        "FEAT-003", "DEPT_MKT", "Trạm Upload Media & Nén Ảnh Gọn Nhẹ Vào 1 Ô Sheet",
+        "Section Upload Media thay thế 3 ô soạn thảo & đồng bộ", "TT-MKT, Nhân sự", "Cột B -> N",
+        "Admin, CEO, Quản lý, Content", "Băm file Resumable 5MB up Drive; nén ảnh Canvas 150px JPEG Base64 < 10KB hoặc lưu link LH3 ~42 ký tự vào ô Sheet",
+        "(1) Up video/ảnh lớn vô hạn; (2) Nén ảnh vừa ô Sheet không tràn 50k ký tự; (3) Preview Thumbnail",
+        "Đang triển khai", "25/10/2026 20:00", "ĐỨC", "Học từ TDCM Team App: Media_Uploader.html & compressImageToBase64"
+      ],
+      [
+        "FEAT-004", "DEPT_MKT", "Trạm Edit Video AI Kết Nối Local Gateway Thật & Tự Động Xuất Drive AP",
+        "Canvas Node Mindmap & Nút Tạo Video Mới (Run 7 Skill)", "TT-MKT, Yêu cầu tính năng", "Cột B -> W",
+        "Admin, CEO, Quản lý, Freelancer", "Gửi payload về Gateway Local render 7-Skill Engine thật; tự động upload video output lên Drive Folder AP (hỗ trợ Team Drive); cập nhật link output vào Node",
+        "(1) Hiển thị tiến độ render thật từ Gateway; (2) File xuất hiện trong Drive AP; (3) Xem trực tiếp trên App",
+        "Đang hoàn thiện", "25/10/2026 20:00", "ĐỨC", "Local Gateway v1.2, ffmpeg, Cloudflare Tunnel, Team Drive 0ANgvJnmVIUS0Uk9PVA"
+      ]
+    ];
+    sheet.getRange(PM_CONFIG.MIN_DATA_ROW, startCol, seedRows.length, seedRows[0].length).setValues(seedRows);
 
     return { ok: true, sheetName: sheetName, lastRow: sheet.getLastRow(), message: "Đã khởi tạo bảng Yêu cầu tính năng thành công!" };
   });

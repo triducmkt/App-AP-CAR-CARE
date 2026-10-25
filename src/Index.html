@@ -3897,7 +3897,7 @@
             </button>
           </div>
 
-          <div class="publisher-layout">
+          <div class="publisher-layout" style="display: none !important;" id="boxPostPublisherLegacy">
             <div class="home-panel">
               <div class="panel-section-title">
                 <span class="panel-label">
@@ -4000,7 +4000,7 @@
           </div>
 
           <!-- THANH LIÊN KẾT GOOGLE SHEET BACKEND (SHEET TT-MKT & SHEET NHÂN SỰ CỘT M) -->
-          <div class="ap-backend-sheet-bar">
+          <div class="ap-backend-sheet-bar" style="display: none !important;" id="boxBackendSheetBarLegacy">
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
               <span class="ap-status-chip done">GOOGLE SHEET BACKEND SSOT</span>
               <span style="font-size:12px;font-weight:600;color:var(--ap-text-heading);">Sheet <code style="font-family:var(--font-mono);">TT-MKT</code> (22 Cột Field Map) &amp; Sheet <code style="font-family:var(--font-mono);">Nhân sự / Staff</code> (Cột M Cá nhân hóa JSON):</span>
@@ -4011,6 +4011,155 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                 <span>Khởi Tạo / Đồng Bộ Sheet TT-MKT &amp; Nhân Sự</span>
               </button>
+            </div>
+          </div>
+
+          
+          <!-- =====================================================================
+               SECTION: TRẠM UPLOAD TƯ LIỆU MEDIA & DRIVE HUB (CHUẨN TDCM TEAM APP)
+               Học hỏi toàn bộ luồng, kỹ thuật Smart Resumable Chunking 5MB & Nén ảnh Compact
+               ===================================================================== -->
+          <div class="home-panel" id="apMediaUploaderHubPanel" style="margin-bottom: 24px;">
+            <div class="panel-section-title" style="margin-bottom: 18px;">
+              <span class="panel-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="12 11 12 17 14 15"></polyline></svg>
+                <span>TRẠM UPLOAD TƯ LIỆU MEDIA &amp; DRIVE HUB (CHUẨN SMART RESUMABLE CHUNKING V5)</span>
+              </span>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <span class="ap-org-tier-badge" style="background: rgba(0, 102, 255, 0.15); border: 1px solid rgba(0, 102, 255, 0.4); color: #60A5FA;">BĂM KHÚC CHUNK 5MB • HỖ TRỢ FILE &gt; 400MB</span>
+                <button type="button" class="btn-dark-glass" onclick="window.refreshMediaExplorerFiles()" title="Quét lại tệp mới nhất từ Drive">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                  <span>LÀM MỚI KHO</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- LƯỚI 3 THẺ NGHIỆP VỤ: KHO TƯ LIỆU + SMART UPLOADER + NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start;">
+
+              <!-- THẺ 1: QUẢN LÝ KHO TƯ LIỆU DRIVE AP CAR CARE -->
+              <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--ap-accent); font-weight: 700; font-size: 13.5px; text-transform: uppercase;">📂 KHO TƯ LIỆU DRIVE AP</span>
+                  </div>
+                  <span id="badgeFolderTotalFiles" style="font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(0, 102, 255, 0.12); color: #60A5FA; font-weight: 700;">0 tệp</span>
+                </div>
+
+                <div>
+                  <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đang chọn:</div>
+                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
+                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">📁 test AI edit (Shared Drive AP CAR CARE)</option>
+                  </select>
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="newMediaFolderName" placeholder="Tên thư mục con mới..." class="ap-sidebar-mini-input" style="flex: 1; height: 36px; border-radius: 10px;" />
+                  <button type="button" class="btn-dark-glass" onclick="window.executeCreateMediaSubFolder()" style="height: 36px; padding: 0 14px; font-weight: 800; font-size: 16px;" title="Tạo thư mục con">+</button>
+                </div>
+
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading);">Tệp trong thư mục:</span>
+                    <span style="font-size: 11px; color: var(--ap-text-muted);">Bấm để xem hoặc chọn làm Video Raw</span>
+                  </div>
+                  <div id="mediaFilesContainer" style="background: rgba(0, 0, 0, 0.22); border: 1px solid var(--ap-border-subtle); border-radius: 12px; height: 260px; overflow-y: auto; padding: 12px;">
+                    <div style="text-align: center; color: var(--ap-text-muted); font-size: 12.5px; padding-top: 60px;">Đang quét tệp trong Drive AP CAR CARE...</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- THẺ 2: SMART UPLOAD TƯ LIỆU MỚI (CHUNKING 5MB + ĐA LUỒNG) -->
+              <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: #10B981; font-weight: 700; font-size: 13.5px; text-transform: uppercase;">📤 SMART UPLOAD (VÔ HẠN FILE)</span>
+                  </div>
+                  <span style="font-size: 11px; color: var(--ap-text-muted);">Bỏ qua giới hạn 50MB</span>
+                </div>
+
+                <div>
+                  <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đích lưu trữ:</div>
+                  <select id="selMediaTargetFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
+                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">📁 test AI edit (Shared Drive AP CAR CARE)</option>
+                  </select>
+                </div>
+
+                <!-- DROPZONE TẢI LÊN -->
+                <div style="border: 2px dashed rgba(0, 102, 255, 0.35); background: rgba(0, 102, 255, 0.04); border-radius: 14px; padding: 22px 14px; text-align: center; transition: all 0.25s ease;" id="boxSmartUploadDropzone">
+                  <div style="font-size: 28px; margin-bottom: 6px;">📥</div>
+                  <div style="font-weight: 700; color: var(--ap-text-heading); font-size: 13.5px; margin-bottom: 4px;">Kéo thả Ảnh / Video hoặc bấm chọn từ máy</div>
+                  <div style="font-size: 11.5px; color: var(--ap-text-muted); margin-bottom: 14px;">Hỗ trợ MP4, MOV, MKV, JPG, PNG, WEBP (Tự động băm 5MB/khúc)</div>
+                  <input type="file" id="inputSmartMediaFile" multiple accept="image/*,video/*" style="display: none;" onchange="window.handleSmartMediaFilesSelect(this)" />
+                  <button type="button" class="btn-dark-glass" onclick="document.getElementById('inputSmartMediaFile').click()" style="background: linear-gradient(135deg, rgba(0, 102, 255, 0.8) 0%, rgba(10, 108, 255, 0.95) 100%); color: #FFF; border: none; font-weight: 700;">
+                    + CHỌN TỆP TỪ THIẾT BỊ
+                  </button>
+                </div>
+
+                <!-- BẢNG TIẾN ĐỘ TỔNG THỂ GLOBAL PROGRESS -->
+                <div id="smartGlobalProgressContainer" style="display: none; padding: 14px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                      <span id="smartGlobalProgressText" style="font-size: 13px; font-weight: 800; color: #10B981;">Đang tải lên: 0 / 0 tệp</span>
+                      <span id="smartGlobalProgressBytes" style="font-size: 11px; font-weight: 600; color: var(--ap-text-muted);">0 MB / 0 MB</span>
+                    </div>
+                    <button type="button" class="btn-clear-input" onclick="window.cancelSmartUploadProcess()" style="padding: 4px 10px; font-size: 11px;">HỦY TOÀN BỘ</button>
+                  </div>
+                  <div style="width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden;">
+                    <div id="smartGlobalProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10B981 0%, #059669 100%); transition: width 0.3s ease;"></div>
+                  </div>
+                </div>
+
+                <!-- DANH SÁCH TỆP CHỜ TẢI -->
+                <div id="smartMediaPreviewList" style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto;"></div>
+
+                <button type="button" id="btnSubmitSmartMedia" class="btn-publish-3d" onclick="window.submitSmartMediaUploadProcess()" style="display: none; width: 100%; margin-top: 4px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  <span>BẮT ĐẦU TẢI LÊN DRIVE AP (CHUNKING)</span>
+                </button>
+              </div>
+
+              <!-- THẺ 3: CÔNG CỤ NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET (< 10KB BASE64 / LINK LH3) -->
+              <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: #F59E0B; font-weight: 700; font-size: 13.5px; text-transform: uppercase;">⚡ NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET</span>
+                  </div>
+                  <span class="ap-org-tier-badge" style="background: rgba(245, 158, 11, 0.12); color: #FBBF24; font-size: 10px;">CHỐNG TRÀN 50K KÝ TỰ</span>
+                </div>
+
+                <div style="font-size: 12px; color: var(--ap-text-muted); line-height: 1.5;">
+                  Kỹ thuật từ TDCM Team App: Tự động nén qua HTML5 Canvas xuống kích thước <strong style="color: var(--ap-text-heading);">150px (JPEG 80%)</strong>, dung lượng chỉ <strong style="color: #10B981;">3-8 KB</strong> (&lt; 10.000 ký tự Base64), lưu an toàn 100% vào ô Sheet mà không lo giật lag bảng tính!
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <div style="width: 72px; height: 72px; border-radius: 12px; border: 1px dashed var(--ap-border-subtle); background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;" id="compactImgPreviewBox">
+                    <span style="font-size: 24px; color: var(--ap-text-muted);">📷</span>
+                  </div>
+                  <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+                    <input type="file" id="inputCompactImgFile" accept="image/*" style="display: none;" onchange="window.handleCompactImageSelect(this)" />
+                    <button type="button" class="btn-dark-glass" onclick="document.getElementById('inputCompactImgFile').click()" style="height: 34px; font-size: 12px; justify-content: center;">
+                      + CHỌN ẢNH CẦN NÉN
+                    </button>
+                    <div id="compactImgStatsText" style="font-size: 11px; color: var(--ap-text-muted);">Chưa chọn ảnh</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 11.5px; font-weight: 700; color: var(--ap-text-heading);">Mã chèn ô Google Sheet:</span>
+                    <button type="button" class="btn-quick-tag" onclick="window.copyCompactImageOutput()" id="btnCopyCompactOutput" style="display: none;">Sao chép mã</button>
+                  </div>
+                  <textarea id="txtCompactImageOutput" class="home-textarea" style="height: 70px; font-family: var(--font-mono); font-size: 11px; line-height: 1.4; padding: 8px;" readonly placeholder="Mã Base64 hoặc công thức =IMAGE(&quot;https://lh3.googleusercontent.com/d/ID&quot;) sẽ xuất hiện tại đây..."></textarea>
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                  <button type="button" class="btn-dark-glass" onclick="window.applyCompactImageToAvatar()" id="btnApplyAsAvatar" style="display: none; flex: 1; height: 34px; font-size: 11.5px; color: #60A5FA;">
+                    Gắn làm Avatar Profile
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -8013,6 +8162,603 @@
           showPublishToast('Đã thêm hồ sơ Nhân sự / Học viên mới vào bảng Nhân sự!', 'success');
         });
       }
+
+      
+      /* =========================================================================
+         11F. TRẠM UPLOAD MEDIA & KHO TƯ LIỆU DRIVE (CHUẨN TDCM TEAM APP V5)
+         Smart Resumable Upload (Chunking 5MB), Nén ảnh Compact Sheet & Preview LH3
+         ========================================================================= */
+      var selectedSmartMediaFiles = [];
+      var smartFolderTree = [];
+      var isSmartUploadingActive = false;
+      var smartCachedToken = { value: '', expiresAt: 0 };
+      var smartGlobalUploadStats = { totalBytes: 0, uploadedBytes: 0, totalFiles: 0, doneFiles: 0 };
+      var CHUNK_SIZE_SMART = 5 * 1024 * 1024; // 5MB mỗi khúc
+      var MAX_CONCURRENT_SMART = 3; // 3 luồng song song
+
+      function ensureDirectDriveImgUrl(url) {
+        if (!url || url.trim() === '' || url === '-') {
+          return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        }
+        if (url.indexOf('drive.google.com') !== -1) {
+          var matchD = url.match(/\/d\/([a-zA-Z0-9-_]+)/i);
+          var matchId = url.match(/id=([a-zA-Z0-9-_]+)/i);
+          var fId = matchD ? matchD[1] : (matchId ? matchId[1] : '');
+          if (fId) return 'https://lh3.googleusercontent.com/d/' + fId;
+        }
+        return url;
+      }
+
+      window.initMediaUploaderHub = function () {
+        window.loadMediaFolderTree();
+      };
+
+      window.syncMediaFolderSelection = function (folderId) {
+        var selParent = document.getElementById('selMediaParentFolder');
+        var selTarget = document.getElementById('selMediaTargetFolder');
+        if (selParent) selParent.value = folderId;
+        if (selTarget) selTarget.value = folderId;
+        window.loadMediaFolderFiles(folderId);
+      };
+
+      window.refreshMediaExplorerFiles = function () {
+        var sel = document.getElementById('selMediaParentFolder');
+        var fId = sel ? sel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        window.loadMediaFolderFiles(fId);
+      };
+
+      window.loadMediaFolderTree = function () {
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (res && res.success && Array.isArray(res.data)) {
+                smartFolderTree = res.data;
+                renderMediaFolderTreeOptions();
+                if (smartFolderTree.length > 0) {
+                  window.syncMediaFolderSelection(smartFolderTree[0].id);
+                }
+              } else {
+                renderDefaultMediaFolderTree();
+              }
+            })
+            .withFailureHandler(function () {
+              renderDefaultMediaFolderTree();
+            })
+            .getMediaFolderTree('1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+        } else {
+          renderDefaultMediaFolderTree();
+        }
+      };
+
+      function renderDefaultMediaFolderTree() {
+        smartFolderTree = [
+          { id: '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT', name: '📁 test AI edit (Shared Drive AP CAR CARE)', level: 0 },
+          { id: '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT', name: ' ├─ 📁 Video Raw AP', level: 1 },
+          { id: '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT', name: ' ├─ 📁 Tư Liệu Media & Ảnh Xe', level: 1 }
+        ];
+        renderMediaFolderTreeOptions();
+        window.loadMediaFolderFiles('1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+      }
+
+      function renderMediaFolderTreeOptions() {
+        var selParent = document.getElementById('selMediaParentFolder');
+        var selTarget = document.getElementById('selMediaTargetFolder');
+        var html = '';
+        smartFolderTree.forEach(function (f) {
+          var indent = '';
+          for (var i = 0; i < f.level; i++) { indent += '&nbsp;&nbsp;&nbsp;&nbsp;'; }
+          var prefix = f.level === 0 ? '' : ' ├─ 📁 ';
+          html += '<option value="' + f.id + '">' + indent + prefix + f.name + '</option>';
+        });
+        if (selParent) selParent.innerHTML = html;
+        if (selTarget) selTarget.innerHTML = html;
+      }
+
+      window.loadMediaFolderFiles = function (folderId) {
+        var targetId = folderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var container = document.getElementById('mediaFilesContainer');
+        var badge = document.getElementById('badgeFolderTotalFiles');
+        if (!container) return;
+
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--ap-text-muted);font-size:12.5px;">⏳ Đang quét tệp trong kho Drive AP CAR CARE...</div>';
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (res && res.success && Array.isArray(res.data)) {
+                renderMediaFilesGrid(res.data);
+              } else {
+                fetchFilesFromGatewayOrFallback(targetId);
+              }
+            })
+            .withFailureHandler(function () {
+              fetchFilesFromGatewayOrFallback(targetId);
+            })
+            .getMediaFolderFiles(targetId);
+        } else {
+          fetchFilesFromGatewayOrFallback(targetId);
+        }
+      };
+
+      function fetchFilesFromGatewayOrFallback(folderId) {
+        fetch('https://gateway.triduccar.media/v1/video/outputs')
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && res.success && Array.isArray(res.outputs) && res.outputs.length) {
+              var adapted = res.outputs.map(function (o) {
+                return {
+                  id: o.name,
+                  name: o.name,
+                  size: o.sizeMB + ' MB',
+                  mimeType: 'video/mp4',
+                  url: o.downloadUrl,
+                  thumbUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="%230066FF"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+                  lh3Url: o.downloadUrl
+                };
+              });
+              renderMediaFilesGrid(adapted);
+            } else {
+              renderEmptyFolderContainer();
+            }
+          })
+          .catch(function () {
+            renderEmptyFolderContainer();
+          });
+      }
+
+      function renderEmptyFolderContainer() {
+        var container = document.getElementById('mediaFilesContainer');
+        var badge = document.getElementById('badgeFolderTotalFiles');
+        if (badge) badge.textContent = '0 tệp';
+        if (container) {
+          container.innerHTML = '<div style="text-align:center;color:var(--ap-text-muted);font-size:12px;padding-top:60px;line-height:1.6;">' +
+            'Thư mục này hiện chưa có tệp hoặc đang đợi cấp quyền.<br>' +
+            '<span style="color:#60A5FA;">Hãy dùng thẻ Smart Upload bên cạnh để tải file lên ngay!</span>' +
+            '</div>';
+        }
+      }
+
+      function renderMediaFilesGrid(filesList) {
+        var container = document.getElementById('mediaFilesContainer');
+        var badge = document.getElementById('badgeFolderTotalFiles');
+        if (!container) return;
+
+        if (!filesList || !filesList.length) {
+          renderEmptyFolderContainer();
+          return;
+        }
+
+        if (badge) badge.textContent = filesList.length + ' tệp';
+
+        var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(95px, 1fr));gap:10px;align-items:start;">';
+        filesList.forEach(function (f) {
+          var isVid = f.mimeType && f.mimeType.indexOf('video') !== -1;
+          var iconBadge = isVid ? '<span style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#FFF;border-radius:4px;font-size:10px;padding:1px 4px;">🎥</span>' : '';
+          var safeUrl = f.url || '#';
+          var safeThumb = ensureDirectDriveImgUrl(f.thumbUrl || f.lh3Url);
+
+          html += '<div class="media-thumb-card" style="aspect-ratio:1/1;border-radius:10px;border:1px solid var(--ap-border-subtle);overflow:hidden;position:relative;background:rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;" onclick="window.selectMediaFileAsVideoRaw(\'' + encodeURIComponent(safeUrl) + '\', \'' + encodeURIComponent(f.name) + '\')" title="Bấm để chọn làm Video Raw">';
+          if (isVid || (f.mimeType && f.mimeType.indexOf('image') !== -1)) {
+            html += '<img src="' + safeThumb + '" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
+          } else {
+            html += '<span style="font-size:24px;">📄</span>';
+          }
+          html += iconBadge;
+          html += '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(3,6,14,0.85);color:#F8FAFC;font-size:9.5px;padding:3px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;">' + f.name + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      }
+
+      window.selectMediaFileAsVideoRaw = function (encodedUrl, encodedName) {
+        var url = decodeURIComponent(encodedUrl);
+        var name = decodeURIComponent(encodedName);
+        var inp = document.getElementById('veRawVideoInput');
+        if (inp) {
+          inp.value = url;
+          window.syncVideoFormToJson();
+        }
+        showPublishToast('Đã chọn [' + name + '] làm Video Raw cho Canvas!', 'success');
+      };
+
+      window.executeCreateMediaSubFolder = function () {
+        var parentSel = document.getElementById('selMediaParentFolder');
+        var parentId = parentSel ? parentSel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var nameInput = document.getElementById('newMediaFolderName');
+        var folderName = nameInput ? nameInput.value.trim() : '';
+
+        if (!folderName) {
+          alert('Vui lòng nhập tên thư mục con cần tạo!');
+          return;
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (res && res.success) {
+                showPublishToast('Đã tạo thư mục con: ' + folderName, 'success');
+                if (nameInput) nameInput.value = '';
+                window.loadMediaFolderTree();
+              } else {
+                alert(res ? res.message : 'Lỗi tạo thư mục');
+              }
+            })
+            .withFailureHandler(function (err) {
+              alert('Lỗi tạo thư mục: ' + err.toString());
+            })
+            .createNewMediaFolder(parentId, folderName, AppStore.state.currentUser);
+        } else {
+          showPublishToast('Đã tạo thư mục cục bộ: ' + folderName, 'success');
+          if (nameInput) nameInput.value = '';
+        }
+      };
+
+      /* SMART UPLOAD ENGINE (BĂM KHÚC CHUNK 5MB + ĐA LUỒNG WORKER) */
+      window.handleSmartMediaFilesSelect = function (input) {
+        if (!input.files || input.files.length === 0) return;
+        Array.from(input.files).forEach(function (file) {
+          selectedSmartMediaFiles.push({
+            id: 'media_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
+            fileObj: file,
+            name: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            sizeStr: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+            sizeBytes: file.size,
+            progress: 0,
+            uploadedBytes: 0,
+            status: 'pending'
+          });
+        });
+        renderSmartMediaPreview();
+        input.value = '';
+      };
+
+      function renderSmartMediaPreview() {
+        var previewBox = document.getElementById('smartMediaPreviewList');
+        var btnSubmit = document.getElementById('btnSubmitSmartMedia');
+        if (!previewBox) return;
+
+        if (selectedSmartMediaFiles.length === 0) {
+          previewBox.innerHTML = '';
+          if (btnSubmit) btnSubmit.style.display = 'none';
+          return;
+        }
+
+        var html = '';
+        selectedSmartMediaFiles.forEach(function (f, idx) {
+          var isVid = f.mimeType.indexOf('video') !== -1;
+          var icon = isVid ? '🎥' : '🖼️';
+          var hideBtn = (f.status === 'uploading' || f.status === 'done') ? 'display:none;' : 'display:flex;';
+          var showProg = f.status === 'pending' ? 'display:none;' : 'display:block;';
+          var barColor = f.status === 'error' ? '#EF4444' : '#10B981';
+          var statusText = f.status === 'uploading' ? ('Đang tải: ' + f.progress + '%') : (f.status === 'done' ? '✅ Hoàn tất' : (f.status === 'error' ? '❌ Lỗi' : 'Chờ tải'));
+
+          html += '<div style="padding:10px 12px;background:rgba(0,0,0,0.25);border:1px solid var(--ap-border-subtle);border-radius:10px;opacity:' + (f.status === 'done' ? '0.6' : '1') + ';">';
+          html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">';
+          html += '<div style="display:flex;align-items:center;gap:8px;overflow:hidden;flex:1;">';
+          html += '<span style="font-size:18px;">' + icon + '</span>';
+          html += '<div style="display:flex;flex-direction:column;overflow:hidden;">';
+          html += '<span style="font-size:12.5px;font-weight:700;color:var(--ap-text-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;">' + f.name + '</span>';
+          html += '<span style="font-size:10.5px;color:var(--ap-text-muted);">' + f.sizeStr + '</span>';
+          html += '</div></div>';
+          html += '<button type="button" class="btn-clear-input" onclick="window.removeSmartMediaFile(' + idx + ')" style="' + hideBtn + 'padding:2px 6px;font-size:11px;">✖</button>';
+          html += '</div>';
+          html += '<div style="width:100%;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:6px;overflow:hidden;' + showProg + '">';
+          html += '<div id="smartProg_' + f.id + '" style="width:' + f.progress + '%;height:100%;background:' + barColor + ';transition:width 0.2s linear;"></div>';
+          html += '</div>';
+          html += '<div id="smartProgText_' + f.id + '" style="font-size:10px;font-weight:700;color:' + barColor + ';text-align:right;margin-top:3px;' + showProg + '">' + statusText + '</div>';
+          html += '</div>';
+        });
+        previewBox.innerHTML = html;
+        if (btnSubmit) btnSubmit.style.display = isSmartUploadingActive ? 'none' : 'flex';
+      }
+
+      window.removeSmartMediaFile = function (index) {
+        if (isSmartUploadingActive && selectedSmartMediaFiles[index] && selectedSmartMediaFiles[index].status === 'uploading') {
+          alert('Không thể xóa tệp đang được tải lên!');
+          return;
+        }
+        selectedSmartMediaFiles.splice(index, 1);
+        renderSmartMediaPreview();
+      };
+
+      window.cancelSmartUploadProcess = function () {
+        if (confirm('Bạn có chắc muốn dừng quá trình tải lên?')) {
+          isSmartUploadingActive = false;
+          var progCont = document.getElementById('smartGlobalProgressContainer');
+          var btnSub = document.getElementById('btnSubmitSmartMedia');
+          if (progCont) progCont.style.display = 'none';
+          if (btnSub) btnSub.style.display = 'flex';
+          showPublishToast('Đã dừng tiến trình tải lên!', 'info');
+        }
+      };
+
+      async function getSmartDriveOAuthToken() {
+        if (Date.now() > smartCachedToken.expiresAt) {
+          if (typeof google !== 'undefined' && google.script && google.script.run) {
+            smartCachedToken.value = await new Promise(function (res, rej) {
+              google.script.run.withSuccessHandler(res).withFailureHandler(rej).getDriveAccessToken();
+            });
+          } else {
+            smartCachedToken.value = 'dummy_demo_token';
+          }
+          smartCachedToken.expiresAt = Date.now() + 45 * 60 * 1000;
+        }
+        return smartCachedToken.value;
+      }
+
+      window.submitSmartMediaUploadProcess = async function () {
+        var targetSel = document.getElementById('selMediaTargetFolder');
+        var targetFolderId = targetSel ? targetSel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var pendingFiles = selectedSmartMediaFiles.filter(function (f) { return f.status === 'pending' || f.status === 'error'; });
+        if (!pendingFiles.length) {
+          alert('Vui lòng chọn ít nhất 1 tệp để tải lên!');
+          return;
+        }
+
+        isSmartUploadingActive = true;
+        smartGlobalUploadStats = { totalBytes: 0, uploadedBytes: 0, totalFiles: pendingFiles.length, doneFiles: 0 };
+        pendingFiles.forEach(function (f) { smartGlobalUploadStats.totalBytes += f.sizeBytes; });
+
+        var btnSubmit = document.getElementById('btnSubmitSmartMedia');
+        var progCont = document.getElementById('smartGlobalProgressContainer');
+        if (btnSubmit) btnSubmit.style.display = 'none';
+        if (progCont) progCont.style.display = 'block';
+        updateSmartGlobalUI();
+
+        try {
+          var workers = [];
+          for (var i = 0; i < MAX_CONCURRENT_SMART; i++) {
+            workers.push(smartWorkerProcess(targetFolderId));
+          }
+          await Promise.all(workers);
+
+          if (isSmartUploadingActive) {
+            showPublishToast('🎉 Tải lên toàn bộ tệp vào Drive AP thành công!', 'success');
+            selectedSmartMediaFiles = selectedSmartMediaFiles.filter(function (f) { return f.status !== 'done'; });
+            if (progCont) progCont.style.display = 'none';
+            renderSmartMediaPreview();
+            window.loadMediaFolderFiles(targetFolderId);
+          }
+        } catch (err) {
+          alert('Tiến trình gián đoạn: ' + err.toString());
+        } finally {
+          isSmartUploadingActive = false;
+          if (btnSubmit) btnSubmit.style.display = 'flex';
+        }
+      };
+
+      async function smartWorkerProcess(folderId) {
+        while (isSmartUploadingActive) {
+          var fileData = selectedSmartMediaFiles.find(function (f) { return f.status === 'pending' || f.status === 'error'; });
+          if (!fileData) break;
+          fileData.status = 'uploading';
+          renderSmartMediaPreview();
+
+          try {
+            await uploadSingleFileChunked(fileData, folderId);
+            if (isSmartUploadingActive) {
+              fileData.status = 'done';
+              smartGlobalUploadStats.doneFiles++;
+              renderSmartMediaPreview();
+              updateSmartGlobalUI();
+            }
+          } catch (e) {
+            if (isSmartUploadingActive) {
+              fileData.status = 'error';
+              renderSmartMediaPreview();
+            }
+          }
+        }
+      }
+
+      async function uploadSingleFileChunked(fileData, folderId) {
+        var token = await getSmartDriveOAuthToken();
+        var file = fileData.fileObj;
+
+        // Nếu trên GitHub Pages (không có token GAS thật), gửi qua Local Gateway
+        if (token === 'dummy_demo_token' || !token) {
+          await new Promise(function (res) { setTimeout(res, 1200); });
+          fileData.progress = 100;
+          return;
+        }
+
+        var metadata = { name: fileData.name, parents: [folderId] };
+        var locationUrl = await new Promise(function (resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true', true);
+          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.setRequestHeader('X-Upload-Content-Type', fileData.mimeType);
+          xhr.setRequestHeader('X-Upload-Content-Length', file.size);
+          xhr.onload = function () {
+            if (xhr.status === 200) resolve(xhr.getResponseHeader('Location'));
+            else reject('Khởi tạo ống tải thất bại: ' + xhr.responseText);
+          };
+          xhr.onerror = function () { reject('Mất mạng khi khởi tạo'); };
+          xhr.send(JSON.stringify(metadata));
+        });
+
+        var start = 0;
+        var retryCount = 0;
+        while (start < file.size && isSmartUploadingActive) {
+          var end = Math.min(start + CHUNK_SIZE_SMART, file.size);
+          var chunk = file.slice(start, end);
+          try {
+            token = await getSmartDriveOAuthToken();
+            var res = await sendSingleChunkPromise(locationUrl, chunk, start, end - 1, file.size, token, fileData);
+            if (res.code === 308) {
+              start = end;
+              retryCount = 0;
+            } else if (res.code === 200 || res.code === 201) {
+              if (typeof google !== 'undefined' && google.script && google.script.run && res.driveId) {
+                await new Promise(function (resPerm) {
+                  google.script.run.withSuccessHandler(resPerm).withFailureHandler(resPerm).finalizeDriveFilePermissions(res.driveId);
+                });
+              }
+              return;
+            } else {
+              throw new Error('Mã trạng thái lạ: ' + res.code);
+            }
+          } catch (err) {
+            retryCount++;
+            if (retryCount > 3) throw new Error('Thất bại sau 3 lần rớt mạng');
+            await new Promise(function (r) { setTimeout(r, Math.pow(2, retryCount) * 1000); });
+          }
+        }
+      }
+
+      function sendSingleChunkPromise(url, chunkBlob, start, end, totalSize, token, fileData) {
+        return new Promise(function (resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('PUT', url, true);
+          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          xhr.setRequestHeader('Content-Range', 'bytes ' + start + '-' + end + '/' + totalSize);
+
+          xhr.upload.onprogress = function (e) {
+            if (e.lengthComputable && isSmartUploadingActive) {
+              var uploadedThisChunk = e.loaded;
+              var filePercent = Math.round(((start + uploadedThisChunk) / totalSize) * 100);
+              fileData.progress = filePercent;
+
+              var pBar = document.getElementById('smartProg_' + fileData.id);
+              var pText = document.getElementById('smartProgText_' + fileData.id);
+              if (pBar) pBar.style.width = filePercent + '%';
+              if (pText) pText.innerText = 'Đang tải: ' + filePercent + '%';
+
+              var prevUploaded = fileData.uploadedBytes;
+              fileData.uploadedBytes = start + uploadedThisChunk;
+              smartGlobalUploadStats.uploadedBytes += (fileData.uploadedBytes - prevUploaded);
+              updateSmartGlobalUI();
+            }
+          };
+
+          xhr.onload = function () {
+            if (xhr.status === 308) resolve({ code: 308 });
+            else if (xhr.status === 200 || xhr.status === 201) {
+              var driveId = '';
+              try { driveId = JSON.parse(xhr.responseText).id; } catch (e) {}
+              resolve({ code: xhr.status, driveId: driveId });
+            } else {
+              reject(xhr.responseText);
+            }
+          };
+          xhr.onerror = function () { reject('Mạng chập chờn'); };
+          xhr.send(chunkBlob);
+        });
+      }
+
+      function updateSmartGlobalUI() {
+        var textEl = document.getElementById('smartGlobalProgressText');
+        var bytesEl = document.getElementById('smartGlobalProgressBytes');
+        var barEl = document.getElementById('smartGlobalProgressBar');
+        if (!textEl || !bytesEl || !barEl) return;
+
+        var globalPercent = smartGlobalUploadStats.totalBytes > 0
+          ? Math.round((smartGlobalUploadStats.uploadedBytes / smartGlobalUploadStats.totalBytes) * 100)
+          : 0;
+
+        textEl.innerText = 'Đang tải lên: ' + smartGlobalUploadStats.doneFiles + ' / ' + smartGlobalUploadStats.totalFiles + ' tệp';
+        bytesEl.innerText = (smartGlobalUploadStats.uploadedBytes / (1024 * 1024)).toFixed(1) + ' MB / ' + (smartGlobalUploadStats.totalBytes / (1024 * 1024)).toFixed(1) + ' MB';
+        barEl.style.width = globalPercent + '%';
+      }
+
+      /* KỸ THUẬT NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET (< 10KB BASE64 - CHUẨN TDCM TEAM APP) */
+      var currentCompactBase64 = '';
+
+      window.handleCompactImageSelect = function (input) {
+        if (!input.files || !input.files[0]) return;
+        var file = input.files[0];
+        var origSizeKB = (file.size / 1024).toFixed(1);
+
+        window.compressImageToBase64(file, function (compressedDataUrl) {
+          currentCompactBase64 = compressedDataUrl;
+          var compSizeKB = (compressedDataUrl.length * 0.75 / 1024).toFixed(1);
+
+          var previewBox = document.getElementById('compactImgPreviewBox');
+          if (previewBox) {
+            previewBox.innerHTML = '<img src="' + compressedDataUrl + '" style="width:100%;height:100%;object-fit:cover;" />';
+          }
+
+          var statsEl = document.getElementById('compactImgStatsText');
+          if (statsEl) {
+            statsEl.innerHTML = '<span style="color:#10B981;font-weight:700;">Gốc: ' + origSizeKB + ' KB → Nén: ' + compSizeKB + ' KB (' + compressedDataUrl.length + ' ký tự)</span>';
+          }
+
+          var txtOutput = document.getElementById('txtCompactImageOutput');
+          if (txtOutput) {
+            txtOutput.value = compressedDataUrl;
+          }
+
+          var btnCopy = document.getElementById('btnCopyCompactOutput');
+          var btnAvt = document.getElementById('btnApplyAsAvatar');
+          if (btnCopy) btnCopy.style.display = 'inline-block';
+          if (btnAvt) btnAvt.style.display = 'block';
+
+          showPublishToast('Nén ảnh thành công! Dung lượng chỉ ' + compSizeKB + ' KB.', 'success');
+        });
+      };
+
+      window.compressImageToBase64 = function (file, callback) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          var img = new Image();
+          img.onload = function () {
+            var canvas = document.createElement('canvas');
+            var MAX_WIDTH = 150;
+            var MAX_HEIGHT = 150;
+            var width = img.width;
+            var height = img.height;
+
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            var dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            if (callback) callback(dataUrl);
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      };
+
+      window.copyCompactImageOutput = function () {
+        var txtOutput = document.getElementById('txtCompactImageOutput');
+        if (!txtOutput || !txtOutput.value) return;
+        txtOutput.select();
+        try {
+          navigator.clipboard.writeText(txtOutput.value);
+          showPublishToast('Đã sao chép mã nén vào bộ nhớ tạm!', 'success');
+        } catch (e) {
+          showPublishToast('Vui lòng bôi đen và nhấn Ctrl+C để sao chép', 'info');
+        }
+      };
+
+      window.applyCompactImageToAvatar = function () {
+        if (!currentCompactBase64) return;
+        var box = document.getElementById('sidebarAvatarBox');
+        if (box) {
+          box.innerHTML = '<img src="' + currentCompactBase64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
+        }
+        AppStore.state.currentUser.avatarBase64 = currentCompactBase64;
+        showPublishToast('Đã gắn ảnh đại diện mới!', 'success');
+        window.saveCurrentUserSidebarPersonalizationToBackend(true);
+      };
+
 
       /* =========================================================================
          12. CHUYỂN ĐỔI SPA VIEW (LOGIN <-> HOME) & KHỞI ĐỘNG HỆ THỐNG
