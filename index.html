@@ -7689,16 +7689,9 @@
             else if (inputPass) inputPass.focus();
             return;
           }
-          if (u.toUpperCase() === 'DUC' && p === '1111') {
-            setFeedback('Đăng nhập thành công! Đang vào hệ thống...', 'success');
-            var sessionObj = { username: 'DUC', fullName: 'Tăng Trí Đức', role: 'Admin • Ban Giám Đốc', roleCode: 'ADMIN_CEO' };
-            try { localStorage.setItem('apUserSession', JSON.stringify(sessionObj)); } catch (err) {}
-            switchSpaView('home', sessionObj);
-            return;
-          }
           if (typeof google !== 'undefined' && google.script && google.script.run) {
             if (btnSubmit) btnSubmit.disabled = true;
-            setFeedback('Đang xác thực thông tin...', 'success');
+            setFeedback('Đang xác thực thông tin từ máy chủ...', 'success');
             google.script.run
               .withSuccessHandler(function (res) {
                 if (btnSubmit) btnSubmit.disabled = false;
@@ -7709,16 +7702,24 @@
                   try { localStorage.setItem('apUserSession', JSON.stringify(uObj)); } catch (err) {}
                   switchSpaView('home', uObj);
                 } else {
-                  setFeedback((res && res.message) ? res.message : 'Thông tin đăng nhập không chính xác. (Gợi ý: DUC / 1111)', 'error');
+                  setFeedback((res && res.message) ? res.message : 'Thông tin đăng nhập không chính xác!', 'error');
                 }
               })
               .withFailureHandler(function () {
                 if (btnSubmit) btnSubmit.disabled = false;
-                setFeedback('Không thể kết nối máy chủ.', 'error');
+                setFeedback('Không thể kết nối máy chủ Google Sheets.', 'error');
               })
               .checkLogin(u, p);
           } else {
-            setFeedback('Tên đăng nhập hoặc mật khẩu không đúng! (Tài khoản: DUC / Mật khẩu: 1111)', 'error');
+            // Môi trường Demo tĩnh (GitHub Pages) không có GAS runtime: đối soát với mật khẩu 7668 chính thức
+            if (u.toUpperCase() === 'DUC' && p === '7668') {
+              setFeedback('Đăng nhập thành công (Demo Mode)! Đang vào hệ thống...', 'success');
+              var sessionObj = { username: 'DUC', fullName: 'Tăng Trí Đức', role: 'Admin • Ban Giám Đốc', roleCode: 'ADMIN_CEO' };
+              try { localStorage.setItem('apUserSession', JSON.stringify(sessionObj)); } catch (err) {}
+              switchSpaView('home', sessionObj);
+            } else {
+              setFeedback('Tên đăng nhập hoặc mật khẩu không đúng! (Tài khoản DUC mật khẩu chính thức: 7668)', 'error');
+            }
           }
         });
       }
