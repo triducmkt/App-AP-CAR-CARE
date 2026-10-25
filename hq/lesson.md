@@ -23,7 +23,8 @@
 | **ERR-012** | `L156–L185` | `[SME OS]` | **Lỗi mất Session đăng nhập khi Reload/F5 trên Google Apps Script iframe** do Sandbox Hash ngẫu nhiên & Storage Partitioning | Phục hồi phiên 4 tầng: `sessionStorage` + `localStorage` + URL Query State (`?u=...` qua `google.script.history.replaceState` & `getLocation`); tự động nạp phiên tức thì không bắt login lại. |
 | **ERR-013** | `L187–L215` | `[SME OS]` | **Lỗi Lệch Schema Phân Quyền & Mã Phòng Ban giữa Backend (`Code.gs`) và Frontend (`Index.html`)** khiến toàn bộ nút biến mất và hiện `0/8` | Bắt buộc đồng bộ 100% SSOT `DEFAULT_DEPT_ACCESS_CONFIG` khớp chính xác với `DEFAULT_DEPT_ACCESS_MATRIX`; bổ sung `ADMIN_CEO` vào `allowedRoles`; dùng `CACHE_SCHEMA_VERSION` tự dọn cache trình duyệt. |
 | **ERR-014** | `L217–L255` | `[SME OS]` | **Lỗi Reload F5 bị văng về màn hình Login trên GAS `/dev`** do hardcode `#viewLogin active`, check session trễ dòng 7861 và Sandbox Ephemeral Hash | (1) Bỏ `active` ở Login, nhúng Micro-Script đầu `<body>` + CSS `html.ap-authenticated`; (2) Server-Assisted Session: `doGet(e)` inject `serverSession` qua Google Email / `?u=DUC`; (3) Đồng bộ SSOT 1 key `apUserSession`. |
-| **UI-GEN** | `L257–L266` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-015** | `L257–L285` | `[SME OS]` | **`SyntaxError: Invalid or unexpected token (tệp Code, template.evaluate)`** do chuỗi JS chứa literal `'<?'` bị hiểu nhầm là scriptlet | Cấm viết chuỗi tĩnh chứa `'<?'` trong file HTML GAS; dùng `Utilities.base64Encode()` truyền object từ Server sang Client và giải mã bằng `window.atob()`. |
+| **UI-GEN** | `L287–L296` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -198,6 +199,24 @@
   2. **Server-Assisted Session Injection:** Trong `Code.gs` hàm `doGet(e)`, tự động nhận diện người dùng qua `Session.getActiveUser().getEmail()` (khớp `triduccarmedia@gmail.com`) hoặc URL param `?u=DUC`, inject thẳng vào `template.serverSession = JSON.stringify(serverUser)`. Dù Client có bị đổi sandbox origin hay mất `localStorage`, Client vẫn lấy được session từ Server và tự động đăng nhập thẳng.
   3. **Đồng bộ 100% SSOT khóa `apUserSession`:** Thống nhất dùng duy nhất một khóa `apUserSession` xuyên suốt toàn bộ app từ Client đến Server.
   4. **Tự động Khởi tạo 16 Bảng dữ liệu SME OS:** Nâng cấp `ensureBackendSheetsInitialized()` tự động tạo toàn bộ 16 sheets trong `PM_CONFIG.SHEETS` với Dòng 10 Tiêu đề cột chuẩn, Dòng 11 Hướng dẫn, và Dòng 12 Dữ liệu mẫu.
+
+---
+
+### [ERR-015] Lỗi SyntaxError: Invalid or unexpected token tại template.evaluate() do chuỗi JS chứa literal `'<?'` (2026-10-25)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Khi mở link web app Google Apps Script (bản `/dev` hoặc `/exec`), màn hình báo lỗi sập toàn bộ: `SyntaxError: Invalid or unexpected token (dòng 1132, tệp "Code")`. Dòng 1132 trong `Code.gs` là lệnh `return template.evaluate()`.
+- **Nguyên nhân gốc rễ:**
+  1. Trình xử lý mẫu (HTML Template Compiler) của Google Apps Script quét toàn bộ file HTML để tìm các thẻ Scriptlet mở (`<?`, `<?=`, `<?!=`).
+  2. Nếu bên trong một khối `<script>` của file HTML có chứa chuỗi literal `'<?'` (ví dụ: `sRaw.indexOf('<?') === -1`), trình biên dịch của Google Apps Script hiểu nhầm đó là mở đầu của một server-side scriptlet mới.
+  3. Đoạn mã JS nằm sau dấu `'<?'` (như `') === -1) {`) bị gom vào mã thực thi server-side mà không có thẻ đóng `?>` tương ứng, dẫn đến lỗi cú pháp nghiêm trọng `SyntaxError: Invalid or unexpected token`.
+  4. Ngoài ra, việc nhúng thẳng chuỗi JSON chưa escape vào thuộc tính HTML `data-session="<?!= JSON.stringify(...) ?>"` sẽ làm vỡ dấu ngoặc kép `"` của thuộc tính HTML.
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Cấm tuyệt đối viết chuỗi `'<?'` trong file HTML GAS:** Khi cần so sánh chuỗi, sử dụng `indexOf('<')` hoặc tách chuỗi `'<' + '?'` để parser của Google không bị kích hoạt nhầm.
+  2. **Chuẩn hóa Server-to-Client Data qua Base64:** Phía Server `Code.gs`, luôn mã hóa dữ liệu thành Base64 trước khi truyền vào Template:
+     `template.serverSessionBase64 = serverUser ? Utilities.base64Encode(JSON.stringify(serverUser), Utilities.Charset.UTF_8) : "";`
+  3. Thuộc tính HTML nhận giá trị sạch: `<div id="serverSessionData" data-session="<?!= serverSessionBase64 ?>"></div>` (chuỗi Base64 100% không chứa nháy kép, không chứa ký tự đặc biệt).
+  4. Phía Client giải mã an toàn qua:
+     `var sJson = decodeURIComponent(escape(window.atob(sB64))); var sObj = JSON.parse(sJson);`
 
 ---
 
