@@ -775,13 +775,17 @@
       position: relative;
     }
 
-    /* Khóa bảo vệ phiên đồng bộ tức thì (Zero-Flash Session Guard - Chuẩn TDCM Team App) */
+    /* Khóa bảo vệ phiên đồng bộ tức thì (Zero-Flash Session Guard - Chuẩn Flexbox 2 Cột AP CAR CARE) */
     html.ap-authenticated #viewHome {
       opacity: 1 !important;
       pointer-events: auto !important;
       visibility: visible !important;
-      position: relative !important;
-      display: block !important;
+      position: fixed !important;
+      inset: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      width: 100vw !important;
+      height: 100vh !important;
     }
     html.ap-authenticated #viewLogin {
       opacity: 0 !important;
