@@ -1370,21 +1370,128 @@ function checkLogin(username, password) {
     return { ok: false, message: "Vui lòng nhập đầy đủ Tên đăng nhập / SĐT và Mật khẩu." };
   }
 
-  var lowerU = u.toLowerCase();
-  var matchedUser = {
-    name: "TĂNG TRÍ ĐỨC",
-    role: "Giám đốc TT & MKT • GĐ Nhân Sự",
-    rbacRole: ROLES.DIRECTOR,
-    orgFloor: "Tầng 4 — Giám Đốc Khối",
-    departmentId: "DEPT_MKT",
-    departmentName: "Phòng TT - MKT & Nhân Sự",
-    phone: "0909123456",
-    color: "#4285F4",
-    avatar: ""
-  };
+  var cleanU = u.toUpperCase();
+  var normPhone = normalizeVNPhone(u);
 
-  if (lowerU.indexOf("loc") !== -1 || lowerU === "ceo") {
-    matchedUser = {
+  // 1. Kiểm tra xác thực trực tiếp từ Bảng Staff / Nhân sự trên Google Sheet (SSOT)
+  try {
+    var ss = getTargetSpreadsheet();
+    if (ss) {
+      var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
+      if (staffSheet) {
+        var lastRow = staffSheet.getLastRow();
+        if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
+          var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
+          var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
+          var colD = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Tầng Tổ Chức"].col);
+          var colE = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Phòng Ban"].col);
+          var colF = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Bộ Phận / Chi Nhánh"].col);
+          var colG = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Chức danh"].col);
+          var colH = letterToColIndex(GLOBAL_DB_MAP["Staff"]["SĐT Zalo"].col);
+          var colI = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mật khẩu"].col);
+          var colJ = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Ảnh Avatar"].col);
+          var colK = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Màu yêu thích"].col);
+          var colL = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Trạng thái"].col);
+          var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+
+          var maxCol = Math.max(colB, colC, colD, colE, colF, colG, colH, colI, colJ, colK, colL, colM);
+          var dataRange = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, maxCol).getValues();
+
+          for (var i = 0; i < dataRange.length; i++) {
+            var row = dataRange[i];
+            var rowCode = String(row[colB - 1] || "").trim().toUpperCase();
+            var rowName = String(row[colC - 1] || "").trim();
+            var rowPhone = normalizeVNPhone(row[colH - 1]);
+            var rowPass = String(row[colI - 1] || "").trim();
+
+            // Khớp theo Mã NV (VD: DUC), SĐT Zalo hoặc Họ tên
+            var isUserMatch = (rowCode === cleanU) || (normPhone && rowPhone === normPhone) || (rowName.toUpperCase() === cleanU);
+
+            if (isUserMatch) {
+              // Kiểm tra mật khẩu chuẩn xác 100% từ ô Cột I của Sheet Nhân sự
+              if (rowPass !== p) {
+                return { ok: false, message: "Mật khẩu không chính xác. Vui lòng kiểm tra lại!" };
+              }
+
+              var userFloor = String(row[colD - 1] || "Tầng 4 — Giám Đốc Khối");
+              var userDept = String(row[colE - 1] || "Phòng TT - MKT");
+              var userRole = String(row[colG - 1] || "Giám đốc TT & MKT");
+              var rbacRole = ROLES.DIRECTOR;
+
+              if (userFloor.indexOf("Tầng 5") !== -1 || userRole.toUpperCase().indexOf("CEO") !== -1 || cleanU === "LOC" || cleanU === "CEO") {
+                rbacRole = ROLES.CEO;
+              } else if (userFloor.indexOf("Tầng 6") !== -1) {
+                rbacRole = ROLES.CHAIRMAN;
+              } else if (userRole.toUpperCase().indexOf("QUẢN ĐỐC") !== -1 || userRole.toUpperCase().indexOf("CVDV") !== -1) {
+                rbacRole = ROLES.MANAGER;
+              }
+
+              var verifiedProfile = {
+                id: rowCode || cleanU,
+                name: rowName || cleanU,
+                role: userRole,
+                rbacRole: rbacRole,
+                orgFloor: userFloor,
+                departmentName: userDept,
+                phone: rowPhone || "0909123456",
+                color: String(row[colK - 1] || "#0A6CFF"),
+                avatar: String(row[colJ - 1] || ""),
+                uiPersonalizationJson: String(row[colM - 1] || "")
+              };
+
+              logSystemAudit(verifiedProfile.name, "LOGIN_SUCCESS", "Staff", rowPhone, "Đăng nhập thành công từ Sheet Nhân sự");
+
+              return {
+                ok: true,
+                user: verifiedProfile.name,
+                role: verifiedProfile.role,
+                roleCode: (rbacRole === ROLES.CEO || rbacRole === ROLES.CHAIRMAN || cleanU === "DUC" || cleanU === "LOC") ? "ADMIN_CEO" : "STAFF",
+                userProfile: verifiedProfile,
+                loginTime: new Date().toISOString()
+              };
+            }
+          }
+        }
+      }
+    }
+  } catch (err) {
+    Logger.log("[CHECK_LOGIN_SHEET_ERROR] " + err.toString());
+  }
+
+  // 2. Chế độ kiểm tra chuẩn hóa (Fallback Seed Data nếu Sheet chưa khởi tạo xong)
+  // Mật khẩu chính thức của anh Đức là 7668 (TUYỆT ĐỐI KHÔNG DÙNG 1111)
+  if (cleanU === "DUC" || cleanU === "TRIDUC" || cleanU === "ADMIN") {
+    if (p !== "7668") {
+      return { ok: false, message: "Mật khẩu không chính xác! (Mật khẩu tài khoản DUC là 7668)" };
+    }
+    var ducProfile = {
+      id: "DUC",
+      name: "TĂNG TRÍ ĐỨC",
+      role: "Giám đốc TT & MKT • GĐ Nhân Sự",
+      rbacRole: ROLES.DIRECTOR,
+      orgFloor: "Tầng 4 — Giám Đốc Khối",
+      departmentId: "DEPT_MKT",
+      departmentName: "Phòng TT - MKT & Nhân Sự",
+      phone: "0909123456",
+      color: "#0A6CFF",
+      avatar: ""
+    };
+    return {
+      ok: true,
+      user: ducProfile.name,
+      role: ducProfile.role,
+      roleCode: "ADMIN_CEO",
+      userProfile: ducProfile,
+      loginTime: new Date().toISOString()
+    };
+  }
+
+  if (cleanU === "LOC" || cleanU === "CEO") {
+    if (p !== "7668" && p !== "8888") {
+      return { ok: false, message: "Mật khẩu CEO không chính xác!" };
+    }
+    var locProfile = {
+      id: "LOC",
       name: "ANH LỘC (CEO)",
       role: "Giám Đốc Điều Hành (CEO)",
       rbacRole: ROLES.CEO,
@@ -1392,45 +1499,20 @@ function checkLogin(username, password) {
       departmentId: "DEPT_EXEC",
       departmentName: "Ban Giám Đốc Điều Hành",
       phone: "0909000002",
-      color: "#34A853",
+      color: "#10B981",
       avatar: ""
     };
-  } else if (lowerU.indexOf("tay") !== -1 || lowerU.indexOf("dichvu") !== -1) {
-    matchedUser = {
-      name: "CÔNG TÂY",
-      role: "Giám Đốc Dịch Vụ • Trưởng Phòng Đào Tạo",
-      rbacRole: ROLES.DIRECTOR,
-      orgFloor: "Tầng 4 — Giám Đốc Khối",
-      departmentId: "DEPT_SERVICE",
-      departmentName: "Khối Dịch Vụ & Phòng Đào Tạo",
-      phone: "0909222333",
-      color: "#FBBC05",
-      avatar: ""
+    return {
+      ok: true,
+      user: locProfile.name,
+      role: locProfile.role,
+      roleCode: "ADMIN_CEO",
+      userProfile: locProfile,
+      loginTime: new Date().toISOString()
     };
-  } else if (lowerU.indexOf("ketoan") !== -1) {
-    matchedUser = {
-      name: "KẾ TOÁN TRƯỞNG",
-      role: "Kế Toán Trưởng & Kiểm Toán Nội Bộ",
-      rbacRole: ROLES.DIRECTOR,
-      orgFloor: "Tầng 4 — Kế Toán Trưởng",
-      departmentId: "DEPT_FINANCE",
-      departmentName: "Phòng Kế Toán - Hành Chính",
-      phone: "0909444555",
-      color: "#EA4335",
-      avatar: ""
-    };
-  } else if (lowerU !== "admin" && lowerU !== "triduc" && lowerU !== "apcarcare" && lowerU !== "0909123456") {
-    matchedUser.name = u.toUpperCase();
-    matchedUser.phone = normalizeVNPhone(u) || "0909123456";
   }
 
-  return {
-    ok: true,
-    user: matchedUser.name,
-    role: matchedUser.role,
-    userProfile: matchedUser,
-    loginTime: new Date().toISOString()
-  };
+  return { ok: false, message: "Tài khoản hoặc Mật khẩu không chính xác trong hệ thống Nhân sự AP CAR CARE!" };
 }
 
 /**
