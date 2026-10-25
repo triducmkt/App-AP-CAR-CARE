@@ -795,16 +795,17 @@ const MODULE_CONTRACTS_REGISTRY = {
 // ============================================================================
 // 6B. CẤU HÌNH BẬT/TẮT (TOGGLE ON/OFF) & PHÂN QUYỀN MULTI-SELECT 8 PHÒNG BAN
 // Phục vụ quản trị ẩn/hiện & kéo thả sắp xếp nút Shortcut ở khoảng giữa Sidebar Trang Home
+// Đồng bộ 100% SSOT với DEFAULT_DEPT_ACCESS_MATRIX ở Frontend
 // ============================================================================
 const DEFAULT_DEPT_ACCESS_CONFIG = [
   {
-    deptId: "DEPT_EXEC",
-    code: "BGD-CEO",
+    deptId: "DEPT_CEO",
+    code: "CEO",
     name: "Ban Giám Đốc",
     subLabel: "Điều hành & Phê duyệt AI",
     icon: "crown",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ"]
   },
   {
     deptId: "DEPT_MKT",
@@ -813,61 +814,61 @@ const DEFAULT_DEPT_ACCESS_CONFIG = [
     subLabel: "Edit Video AI, ROAS & Đa kênh",
     icon: "megaphone",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "SALE_MKT"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "MKT", "SALE_MKT"]
   },
   {
     deptId: "DEPT_SALE",
-    code: "KD-CSKH",
+    code: "SALE",
     name: "Kinh Doanh & CSKH",
     subLabel: "Phễu Khách 360° & Đặt lịch",
     icon: "handshake",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "SALE_MKT", "QUAN_DOC"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "SALE", "MKT", "SALE_MKT", "QUAN_DOC"]
   },
   {
-    deptId: "DEPT_WORKSHOP",
-    code: "KY-THUAT",
+    deptId: "DEPT_TECH",
+    code: "TECH",
     name: "Kỹ Thuật & Xưởng",
     subLabel: "Khoang xe & Lệnh RO",
     icon: "wrench",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "KTV_CHINH", "SALE_MKT"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "TECH", "QUAN_DOC", "KTV_CHINH", "SALE"]
   },
   {
     deptId: "DEPT_HR",
-    code: "HR-DT",
+    code: "HR-ĐT",
     name: "Phòng HR - Đào Tạo",
     subLabel: "Nhân sự 6 tầng & Học viện AP",
     icon: "users",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "SALE_MKT", "KTV_CHINH", "KE_TOAN"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "HR", "QUAN_DOC", "SALE_MKT", "TECH", "KTV_CHINH", "KE_TOAN", "FIN", "SALE"]
   },
   {
-    deptId: "DEPT_PARTS",
-    code: "KHO-SKU",
+    deptId: "DEPT_INV",
+    code: "KHO",
     name: "Kho & Mua Hàng",
     subLabel: "Tồn kho & Vật tư Focal",
     icon: "box",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "KE_TOAN"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "INV", "QUAN_DOC", "KE_TOAN", "TECH", "FIN"]
   },
   {
-    deptId: "DEPT_FINANCE",
-    code: "KE-TOAN",
+    deptId: "DEPT_FIN",
+    code: "FIN",
     name: "Kế Toán & Tài Chính",
     subLabel: "Đối soát & Sổ quỹ",
     icon: "wallet",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "KE_TOAN"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "FIN", "KE_TOAN"]
   },
   {
-    deptId: "DEPT_PARTNER",
-    code: "BAO-VE",
+    deptId: "DEPT_OPS",
+    code: "OPS",
     name: "Bảo Vệ & Ca Trực",
     subLabel: "Cổng xe 10s & Checklist",
     icon: "shield",
     enabled: true,
-    allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ", "QUAN_DOC", "KTV_CHINH", "SALE_MKT"]
+    allowedRoles: ["ADMIN_CEO", "CEO_FOUNDER", "ADMIN_GĐ", "OPS", "QUAN_DOC", "TECH", "SALE", "HR"]
   }
 ];
 
@@ -929,12 +930,24 @@ function getTargetSpreadsheet() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     if (ss) return ss;
-  } catch (e) {}
+  } catch (e) {
+    Logger.log("[SPREADSHEET] getActiveSpreadsheet failed: " + e.toString());
+  }
   try {
     if (PM_CONFIG.SPREADSHEET_ID) {
-      return SpreadsheetApp.openById(PM_CONFIG.SPREADSHEET_ID);
+      var ssById = SpreadsheetApp.openById(PM_CONFIG.SPREADSHEET_ID);
+      if (ssById) return ssById;
     }
-  } catch (e2) {}
+  } catch (e2) {
+    Logger.log("[SPREADSHEET] openById(" + PM_CONFIG.SPREADSHEET_ID + ") failed: " + e2.toString());
+  }
+  try {
+    if (PM_CONFIG.SPREADSHEET_URL) {
+      return SpreadsheetApp.openByUrl(PM_CONFIG.SPREADSHEET_URL);
+    }
+  } catch (e3) {
+    Logger.log("[SPREADSHEET] openByUrl failed: " + e3.toString());
+  }
   return null;
 }
 
@@ -2079,6 +2092,28 @@ function ensureBackendSheetsInitialized() {
           var colIndex = letterToColIndex(cfg.col);
           sheet.getRange(PM_CONFIG.HEADER_ROW, colIndex).setValue(cfg.sheetHeader || label);
           sheet.getRange(PM_CONFIG.GUIDE_ROW, colIndex).setValue("[" + cfg.frontendKey + " | " + cfg.type + "]");
+        }
+
+        // Bổ sung và kiểm tra Cột M ("Cá nhân hóa UI (JSON)") cho Sheet Nhân sự
+        if (tblName === "Staff" || sheet.getName() === "Nhân sự") {
+          var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+          sheet.getRange(PM_CONFIG.HEADER_ROW, colM).setValue("Cá nhân hóa UI (JSON)");
+          sheet.getRange(PM_CONFIG.GUIDE_ROW, colM).setValue("[uiPersonalizationJson | json]");
+          var lastR = sheet.getLastRow();
+          if (lastR >= PM_CONFIG.MIN_DATA_ROW) {
+            var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
+            var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
+            var staffVals = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastR - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colC)).getValues();
+            for (var si = 0; si < staffVals.length; si++) {
+              var rId = String(staffVals[si][colB - 1] || "").trim().toUpperCase();
+              var rName = String(staffVals[si][colC - 1] || "").trim().toUpperCase();
+              var rM = String(staffVals[si][colM - 1] || "").trim();
+              if ((rId === "NV-401" || rId === "DUC" || rName.indexOf("ĐỨC") !== -1) && !rM) {
+                var defPref = '{"sidebarOrder":["DEPT_CEO","DEPT_MKT","DEPT_SALE","DEPT_TECH","DEPT_HR","DEPT_INV","DEPT_FIN","DEPT_OPS"],"themeMode":"dark"}';
+                sheet.getRange(PM_CONFIG.MIN_DATA_ROW + si, colM).setValue(defPref);
+              }
+            }
+          }
         }
 
         // Nếu là Sheet TT-MKT mới và chưa có bản ghi nào, chèn 1 dòng dự án mẫu chuẩn

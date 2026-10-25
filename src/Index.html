@@ -5350,18 +5350,25 @@
                 }
               }
             }
+            var AP_CACHE_SCHEMA_VERSION = 'v2.2_clean_20261025';
+            var currentCacheVer = localStorage.getItem('AP_CACHE_SCHEMA_VERSION');
+            if (currentCacheVer !== AP_CACHE_SCHEMA_VERSION) {
+              try {
+                localStorage.removeItem('apDeptAccessMatrixV5');
+                localStorage.setItem('AP_CACHE_SCHEMA_VERSION', AP_CACHE_SCHEMA_VERSION);
+              } catch (cErr) {}
+            }
+
             var savedAcl = localStorage.getItem('apDeptAccessMatrixV5');
             if (savedAcl) {
               var parsedAcl = JSON.parse(savedAcl);
-              if (Array.isArray(parsedAcl) && parsedAcl.length >= 7) {
-                // Tự động chèn DEPT_HR vào giữa nếu cache cũ chỉ có 7 phòng ban
-                var hasHr = parsedAcl.some(function (item) { return item.deptId === 'DEPT_HR'; });
-                if (!hasHr) {
-                  var hrDefault = DEFAULT_DEPT_ACCESS_MATRIX[4];
-                  parsedAcl.splice(4, 0, JSON.parse(JSON.stringify(hrDefault)));
-                }
+              if (Array.isArray(parsedAcl) && parsedAcl.length >= 8) {
                 this.state.deptAccessConfig = parsedAcl;
+              } else {
+                this.state.deptAccessConfig = JSON.parse(JSON.stringify(DEFAULT_DEPT_ACCESS_MATRIX));
               }
+            } else {
+              this.state.deptAccessConfig = JSON.parse(JSON.stringify(DEFAULT_DEPT_ACCESS_MATRIX));
             }
             var savedThemeMode = localStorage.getItem('apActiveThemeModeV5');
             if (savedThemeMode === 'light' || savedThemeMode === 'dark') {
@@ -5391,6 +5398,15 @@
                   if (res.logoSlots && res.logoSlots.length) self.state.systemBundle.logoSlots = res.logoSlots;
                   if (res.deptAccessConfig && res.deptAccessConfig.length >= 8) {
                     self.state.deptAccessConfig = res.deptAccessConfig;
+                    var userPrefRaw = localStorage.getItem('apUserPersonalizationV5_' + (self.state.currentUser.username || 'DUC').toUpperCase());
+                    if (userPrefRaw) {
+                      try {
+                        var userPref = JSON.parse(userPrefRaw);
+                        if (userPref && Array.isArray(userPref.sidebarOrder) && userPref.sidebarOrder.length) {
+                          applySavedSidebarOrderToConfig(userPref.sidebarOrder);
+                        }
+                      } catch (prefErr) {}
+                    }
                   }
                   self.renderAll();
                 }
