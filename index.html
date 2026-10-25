@@ -6087,6 +6087,7 @@
         return loginImg ? loginImg.getAttribute('src') : '';
       }
 
+      var applyLogoSlotsToDOM = function(slots) { return applyAllLogoSlotsToDOM(slots); };
       function applyAllLogoSlotsToDOM(slots) {
         var defaultSrc = getLoginBase64EmblemSrc();
         var sidebarLogo = document.getElementById('sidebarCompanyLogoImg');
@@ -8108,7 +8109,7 @@
         });
       }
 
-      applyLogoSlotsToDOM();
+      if (typeof applyAllLogoSlotsToDOM === "function") applyAllLogoSlotsToDOM(AppStore.state.systemBundle.logoSlots);
 
       // KHÔI PHỤC TỰ ĐỘNG PHIÊN ĐĂNG NHẬP (CHỐNG MẤT SESSION KHI RELOAD F5 - ZERO-LOGOUT ARCHITECTURE)
       function restoreUserSession() {
