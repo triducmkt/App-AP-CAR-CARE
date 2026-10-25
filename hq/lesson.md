@@ -20,7 +20,8 @@
 | **ERR-009** | `L180–L209` | `[SME OS]` | **Lỗi vỡ bố cục Giao diện Mobile** (Tiêu đề Topbar bị ép thành 9 dòng chữ dọc & lộ đầu Sidebar phía sau Topbar) | Ở `<= 1024px`: (1) Chuyển Sidebar thành **Off-Canvas Drawer (`position: fixed; transform: translateX(-105%)`)** + Backdrop; (2) Chuyển Topbar thành **2 tầng ngang**, tiêu đề có `flex: 1; min-width: 0; white-space: nowrap; text-overflow: ellipsis`. |
 | **ERR-010** | `L131–L138` | `[SME OS]` | **Lỗi xung đột màu khi hỗ trợ 2 Theme** (`Dark Blue Carbon Night` & `Showroom Trắng + Sidebar Đen Gradient`) | Mọi màu nền/chữ/viền khu vực làm việc phải dùng biến ngữ nghĩa (`var(--ap-card-bg)`, `var(--ap-text-heading)`...) theo `data-ap-theme="dark|light"`, giữ nguyên Sidebar Đen Gradient ở cả 2 theme. |
 | **ERR-011** | `L140–L154` | `[SME OS]` | **Lỗi không Login được & Console báo 404 (`Failed to load resource: 404`)** do lệch ID input (`username` vs `txtUsername`) và thẻ `<img src="">` rỗng | Bắt buộc chạy script đối soát 100% `getElementById(...)` khớp với `id="..."` trong HTML (`Missing IDs: []`); cấm để `<img src="">` rỗng và luôn gắn `<link rel="icon" href="data:...">`. |
-| **UI-GEN** | `L156–L165` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-012** | `L156–L185` | `[SME OS]` | **Lỗi mất Session đăng nhập khi Reload/F5 trên Google Apps Script iframe** do Sandbox Hash ngẫu nhiên & Storage Partitioning | Phục hồi phiên 4 tầng: `sessionStorage` + `localStorage` + URL Query State (`?u=...` qua `google.script.history.replaceState` & `getLocation`); tự động nạp phiên tức thì không bắt login lại. |
+| **UI-GEN** | `L187–L196` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -148,6 +149,23 @@
 - **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
   1. **Kiểm toán Tự động 100% ID DOM (`Zero Missing IDs Audit`):** Trước khi commit bất kỳ thay đổi nào ở `src/Index.html`, bắt buộc chạy lệnh kiểm tra đối chiếu toàn bộ `getElementById('...')` trong `<script>` với tập hợp `id="..."` trong HTML, đảm bảo `Missing IDs: []`.
   2. **Cấm để `<img src="">` rỗng & Bắt buộc nhúng Inline SVG Favicon:** Luôn khởi tạo `<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">` cho các thẻ ảnh chờ nạp Base64, gọi `applyLogoSlotsToDOM()` ngay khi khởi động script, và gắn `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">` trong `<head>`.
+
+---
+
+### [ERR-012] Lỗi mất Session đăng nhập khi Reload / F5 trên Google Apps Script iframe (2026-10-25)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Người dùng đăng nhập thành công vào app (`#viewHome`), nhưng mỗi khi nhấn F5 hoặc tải lại trang web app (`script.google.com/macros/s/.../exec`) thì toàn bộ trạng thái session biến mất, ứng dụng lập tức văng về màn hình đăng nhập `#viewLogin` yêu cầu nhập lại mật khẩu từ đầu.
+- **Nguyên nhân gốc rễ:**
+  1. Google Apps Script Web App được nhúng trong một thẻ `iframe` với domain ngẫu nhiên `https://n-<hash>-script.googleusercontent.com/userCodeAppPanel`. Mỗi lần người dùng F5 hoặc reload trang, Google Apps Script tạo ra một mã băm hash prefix ngẫu nhiên mới (`n-<hash1>` -> `n-<hash2>`).
+  2. Dưới cơ chế **Third-Party Storage Partitioning** của trình duyệt hiện đại (Chrome 115+), `localStorage` và `sessionStorage` bị cô lập theo từng origin iframe riêng biệt. Khi hash prefix đổi, origin cũ bị hủy và dữ liệu `localStorage` không thể đọc chéo sang origin mới, dẫn đến `localStorage.getItem('apUserSession')` trả về `null`.
+  3. Chỉ lưu session vào `localStorage` cục bộ mà không đồng bộ lên URL thanh địa chỉ của cửa sổ mẹ (`script.google.com`).
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Áp dụng Cơ chế Khôi phục Phiên Đa Tầng 4 Lớp (4-Tier Resilient Session):**
+     * **Tầng 1 (URL State qua `google.script.history.replaceState`):** Ngay khi đăng nhập thành công, gọi `google.script.history.replaceState({ u: username }, null, '?u=' + encodeURIComponent(username))`. Điều này gắn tham số `?u=DUC` trực tiếp lên thanh URL của trình duyệt mẹ `script.google.com`. Khi F5, URL này vẫn được bảo toàn 100%.
+     * **Tầng 2 (`google.script.url.getLocation`):** Khi app khởi động trong iframe, gọi `google.script.url.getLocation(function(loc) { if (loc.parameter.u) { ... } })` để trích xuất ngay username được truyền từ URL cửa sổ mẹ.
+     * **Tầng 3 (`URLSearchParams(window.location.search)`):** Hỗ trợ môi trường web tĩnh hoặc GitHub Pages đọc query parameter `?u=...` tự động.
+     * **Tầng 4 (`sessionStorage` & `localStorage`):** Lưu trữ song song trong bộ nhớ trình duyệt cho các phiên chuyển view nội bộ.
+  2. **Hàm `restoreUserSession()` Tự Động Khôi Phục:** Đặt ở cuối `<script>`, kiểm tra tuần tự 4 tầng trên. Nếu tìm thấy session hoặc URL parameter hợp lệ thì tự động chuyển sang `#viewHome` tức thì trong `0.01s`, loại bỏ hoàn toàn việc bị văng về màn hình Login.
 
 ---
 

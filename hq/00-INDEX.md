@@ -1,21 +1,15 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã hoàn tất 100% việc **Triển khai sạch toàn bộ mã nguồn từ GitHub / Local sang Google Apps Script ID `1WVoxU20yqSYltl881Y9_Xm8oDjXBKLdh4Y3UQnlrTIYGcZJhtwG1qovD`, Xóa Sạch 16 File Code Cũ Tồn Đọng của TDCM Team App, Cập Nhật 3 File Cốt Lõi (`appsscript`, `Code`, `Index`) và Phát Hành Bản Triển Khai Web App Production Mới**.
-- **Link Web App Google Apps Script Chính Thức:** [Mở Web App GAS Production](https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec) *(Tài khoản: `DUC` / Mật khẩu: `1111`)*
+- **Trạng thái:** Đã hoàn tất 100% các tính năng:
+  1. **Khắc phục triệt để lỗi reload F5 mất session**: Áp dụng cơ chế Phục hồi phiên 4 tầng (`sessionStorage` + `localStorage` + `google.script.history.replaceState` + `google.script.url.getLocation`), khi F5 app tự động giữ session và nạp thẳng vào `#viewHome` trong 0.01s.
+  2. **Tự động lưu JSON Cá nhân hóa vào Cột M (Sheet Nhân sự)**: Kéo thả các nút Sidebar tự động lưu backend riêng cho từng user không cần nhấn nút Save. Đã fix logic khớp username `DUC` / `NV-401` / `TĂNG TRÍ ĐỨC` để ghi chuẩn xác vào ô Sheet Cột M.
+  3. **Ưu tiên phân quyền Admin/CEO trước Cá nhân hóa**: Xóa bỏ hoàn toàn huy hiệu `0/8` hay `8/8`. Khi Admin/CEO tắt đi hoặc tước quyền phòng ban nào của user, khi load app sẽ tự động loại bỏ (prune) nút đó khỏi cấu hình cá nhân hóa và tự động lưu mã JSON sạch mới về backend.
+  4. **Nâng cấp Cổng `doPost(e)` tiếp nhận dữ liệu từ Javis OS (Canonical Ingestion Envelope)**: Tự động phân loại, kiểm toán và ghi vào Sheet backend theo từng phòng ban (`Leads`, `TT-MKT`, `Kho-VT`).
+- **Link Web App Google Apps Script Chính Thức:** [Mở Web App GAS Production](https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec) *(Tài khoản: `DUC` / Mật khẩu: `7668`)*
 - **Link Demo App Live (GitHub Pages):** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/)
 - **Link Google Sheet Backend (SSOT):** [Mở Google Sheet Backend App AP CAR CARE](https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit)
-- **Vừa xong:**
-  1. **Kết nối trực tiếp qua Google Apps Script REST API với Script ID `1WVoxU20yqSYltl881Y9_Xm8oDjXBKLdh4Y3UQnlrTIYGcZJhtwG1qovD`:**
-     - Quét và phát hiện 19 file remote trên Apps Script (trong đó có 16 file cũ tồn đọng của TDCM như `AA_ReadMe`, `AuditLog`, `Automation`, `Dashboard`, `Task_list`...).
-     - Thực hiện cập nhật đè toàn diện (Atomic Replace): Xóa bỏ sạch sẽ 100% các file cũ của TDCM.
-     - Thay thế bằng đúng **3 file chuẩn SSOT của App AP CAR CARE**: `appsscript.json`, `Code.gs` (109KB), `Index.html` (642KB).
-  2. **Tạo Version 1 & Xuất Bản Web App Production Mới:**
-     - Version: `1` (*App AP CAR CARE - SME OS Core v2.0 Clean SSOT*).
-     - Deployment ID: `AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ`.
-     - Web App URL: `https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec`.
-- **Bước tiếp theo:** Anh Đức mở trực tiếp link Web App trên hoặc vào Apps Script chạy hàm `initAllBackendSheets` để tự động khởi tạo Sheet `TT-MKT` và Cột `M` trên Sheet `Nhân sự`.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 07:56
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 11:08
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư / Nền tảng:** Hệ điều hành Doanh nghiệp SME OS ứng dụng thực chiến cho Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).
