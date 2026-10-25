@@ -3275,7 +3275,7 @@
 </head>
 <body>
   <!-- TRẠM TRUYỀN DỮ LIỆU PHIÊN SERVER SANG CLIENT (CHUẨN TDCM TEAM APP) -->
-  <div id="serverSessionData" style="display:none;" data-session="<?!= (typeof serverSession !== 'undefined' && serverSession) ? serverSession : '' ?>"></div>
+  <div id="serverSessionData" style="display:none;" data-session="<?!= serverSessionBase64 ?>"></div>
   <script>
     (function () {
       var isAuth = false;
@@ -3287,13 +3287,16 @@
         }
         if (!isAuth) {
           var sEl = document.getElementById('serverSessionData');
-          var sRaw = sEl ? sEl.getAttribute('data-session') : '';
-          if (sRaw && sRaw.indexOf('{') !== -1 && sRaw.indexOf('<?') === -1) {
-            var sObj = JSON.parse(sRaw);
-            if (sObj && sObj.username) {
-              isAuth = true;
-              try { localStorage.setItem('apUserSession', JSON.stringify(sObj)); } catch (e) {}
-            }
+          var sB64 = sEl ? sEl.getAttribute('data-session') : '';
+          if (sB64 && sB64.length > 5 && sB64.charAt(0) !== '<') {
+            try {
+              var sJson = decodeURIComponent(escape(window.atob(sB64)));
+              var sObj = JSON.parse(sJson);
+              if (sObj && sObj.username) {
+                isAuth = true;
+                try { localStorage.setItem('apUserSession', JSON.stringify(sObj)); } catch (e) {}
+              }
+            } catch (bErr) {}
           }
         }
       } catch (err) {}
@@ -6971,6 +6974,17 @@
             ? '<button type="button" class="ap-ve-node-del-btn" onclick="window.removeCustomVideoNode(\'' + n.id + '\', event)" title="Xóa Node">×</button>'
             : '';
 
+          var paramContent = escapeHtml(n.paramText || '');
+          if (n.paramText && (n.paramText.indexOf('http://') === 0 || n.paramText.indexOf('https://') === 0 || n.paramText.indexOf('drive.google.com') !== -1)) {
+            paramContent = '<a href="' + escapeHtml(n.paramText) + '" target="_blank" rel="noopener noreferrer" style="color:#38BDF8;text-decoration:underline;font-weight:700;word-break:break-all;" onclick="event.stopPropagation()">' + escapeHtml(n.paramText) + ' &#8599; (Bấm mở link)</a>';
+          }
+          if (n.type === 'output') {
+            var driveUrl = (n.paramText && (n.paramText.indexOf('http') === 0 || n.paramText.indexOf('drive.google.com') !== -1))
+              ? n.paramText
+              : 'https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit#gid=0';
+            paramContent += '<div style="margin-top:8px;"><a href="' + escapeHtml(driveUrl) + '" target="_blank" rel="noopener noreferrer" class="ap-ve-btn-accent" style="display:inline-flex;padding:6px 12px;font-size:11px;font-weight:700;text-decoration:none;border-radius:6px;background:linear-gradient(135deg, #0A6CFF 0%, #10B981 100%);color:#FFF;box-shadow:0 4px 10px rgba(10,108,255,0.3);" onclick="event.stopPropagation()">TRUY CẬP DRIVE XEM VIDEO &#8599;</a></div>';
+          }
+
           nodesHtml += '<div class="ap-ve-node ' + typeCls + '" id="veNode_' + n.id + '" data-node-id="' + n.id + '"' +
                          ' style="left:' + Math.round(n.x) + 'px;top:' + Math.round(n.y) + 'px;"' +
                          ' onmousedown="window.startDragVideoCanvasNode(event, \'' + n.id + '\')">' +
@@ -6982,7 +6996,7 @@
                          '</div>' +
                          '<div class="ap-ve-node-title">' + escapeHtml(n.title) + '</div>' +
                          '<div class="ap-ve-node-meta">' + escapeHtml(n.meta) + '</div>' +
-                         '<div class="ap-ve-node-Param">' + escapeHtml(n.paramText || '') + '</div>' +
+                         '<div class="ap-ve-node-Param">' + paramContent + '</div>' +
                        '</div>';
         }
         nodesLayer.innerHTML = nodesHtml;
@@ -7320,14 +7334,27 @@
         function runNextStep() {
           if (stepIdx >= pipelineSteps.length) {
             veCanvasState.runningFlowEdges = {};
+            var rawInputVal = (document.getElementById('veRawVideoInput') || {}).value || '';
+            var finalDriveUrl = 'https://drive.google.com/drive/folders/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0';
+            if (rawInputVal && (rawInputVal.indexOf('http') === 0 || rawInputVal.indexOf('drive.google.com') !== -1)) {
+              finalDriveUrl = rawInputVal;
+            }
+            if (document.getElementById('veOutputVideoInput')) {
+              document.getElementById('veOutputVideoInput').value = finalDriveUrl;
+            }
+            for (var fn = 0; fn < veCanvasState.nodes.length; fn++) {
+              if (veCanvasState.nodes[fn].id === 'NODE_OUTPUT_VIDEO') {
+                veCanvasState.nodes[fn].paramText = finalDriveUrl;
+              }
+            }
             renderVideoCanvasNodesAndEdges();
             window.saveVideoStudioProjectToSheet();
             alert(
               '🎉 TẠO VIDEO 9:16 THÀNH CÔNG VỚI CHUỖI 7 SKILL!\n\n' +
               '• Khóa API sử dụng: ' + activeKey.name + ' (' + activeKey.apiType + ')\n' +
-              '• Video thành phẩm: outputs/final_videos/final_viral_short_v2.mp4 (1080x1920 • 60fps)\n' +
+              '• Video thành phẩm đã nạp vào Node cuối cùng: ' + finalDriveUrl + '\n' +
               '• Đã tự động đồng bộ và lưu thông số vào Sheet "TT-MKT" ở Backend.\n' +
-              '• File đã sẵn sàng để xuất bản lên YouTube Shorts, TikTok & Facebook Reels!'
+              '• Bấm vào nút "TRUY CẬP DRIVE XEM VIDEO" tại Node Output ngoài cùng bên trái để mở video ngay!'
             );
             return;
           }
@@ -7865,10 +7892,11 @@
         }
         if (!sessionData) {
           var sEl = document.getElementById('serverSessionData');
-          var sRaw = sEl ? sEl.getAttribute('data-session') : '';
-          if (sRaw && sRaw.indexOf('{') !== -1 && sRaw.indexOf('<?') === -1) {
+          var sB64 = sEl ? sEl.getAttribute('data-session') : '';
+          if (sB64 && sB64.length > 5 && sB64.charAt(0) !== '<') {
             try {
-              sessionData = JSON.parse(sRaw);
+              var sJson = decodeURIComponent(escape(window.atob(sB64)));
+              sessionData = JSON.parse(sJson);
             } catch (sErr) {}
           }
         }
