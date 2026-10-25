@@ -1097,13 +1097,38 @@ function getSeedDepartmentData() {
 
 /**
  * CỔNG 1: doGet(e) — Render Single-Page Application (SPA) kèm cấu hình Theme & Logo
+ * Khắc phục triệt để lỗi mất session: Tự động phát hiện phiên người dùng qua Google Account / URL Param ?u=
+ * và inject trực tiếp vào HTML template phía Server trước khi trả về trình duyệt.
  */
 function doGet(e) {
   try {
     ensureBackendSheetsInitialized();
   } catch (err) {}
+
+  var activeEmail = "";
+  try { activeEmail = Session.getActiveUser().getEmail(); } catch (e) {}
+  var urlUser = (e && e.parameter && e.parameter.u) ? String(e.parameter.u).toUpperCase() : "";
+
+  // Nhận diện Server Session: Nếu người dùng là anh Đức hoặc mở link có ?u=DUC
+  var serverUser = null;
+  if (urlUser === "DUC" || (activeEmail && (activeEmail.toLowerCase().indexOf("triduccarmedia") !== -1 || activeEmail.toLowerCase().indexOf("ductt") !== -1))) {
+    serverUser = {
+      username: "DUC",
+      fullName: "Tăng Trí Đức",
+      role: "Admin • Ban Giám Đốc",
+      roleCode: "ADMIN_CEO",
+      email: activeEmail || "triduccarmedia@gmail.com"
+    };
+  } else if (urlUser) {
+    try {
+      serverUser = getUserSession(urlUser);
+    } catch (uErr) {}
+  }
+
   var template = HtmlService.createTemplateFromFile("Index");
   template.bootstrapConfig = JSON.stringify(getWhiteLabelAndSystemBundle());
+  template.serverSession = JSON.stringify(serverUser);
+
   return template.evaluate()
     .setTitle(PM_CONFIG.APP_TITLE)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
@@ -2063,8 +2088,9 @@ function ingestCanonicalEnvelope(envelopePayload, currentUser) {
 // ============================================================================
 
 /**
- * Tự động khởi tạo / đồng bộ cấu trúc cột chuẩn (Dòng 10 Header, Dòng 11 Guide, Dòng 12+ Data)
- * cho Sheet "Staff" (bổ sung cột M "Cá nhân hóa UI (JSON)") và Sheet mới "TT-MKT" ở Backend.
+ * Tự động khởi tạo & đồng bộ cấu trúc 16 bảng dữ liệu chuẩn SME OS (Dòng 10 Header, Dòng 11 Guide, Dòng 12+ Data)
+ * 10 Bảng Nghiệp vụ cốt lõi: Staff, Leads, Customers, Orders, Tasks, Products_Assets, Partners, Inventory, Finance_Transactions, Warranty_Care
+ * 6 Bảng Hạ tầng & Tự động hóa: MKT_Posts, TT-MKT, App_Themes, Brand_Logo_Slots, Sys_Automation_Queue, Audit_Logs
  */
 function ensureBackendSheetsInitialized() {
   return withScriptLock(function() {
@@ -2072,7 +2098,12 @@ function ensureBackendSheetsInitialized() {
     var initializedSheets = [];
 
     if (ss) {
-      var targetTables = ["Staff", "TT-MKT"];
+      // 1. KHỞI TẠO CÁC BẢNG TRONG GLOBAL_DB_MAP
+      var targetTables = [
+        "Staff", "TT-MKT", "Leads", "Customers", "Orders", "Tasks", 
+        "Products_Assets", "Partners", "Inventory", "Finance_Transactions", 
+        "Warranty_Care", "MKT_Posts"
+      ];
       for (var t = 0; t < targetTables.length; t++) {
         var tblName = targetTables[t];
         var fieldMap = GLOBAL_DB_MAP[tblName];
@@ -2148,6 +2179,55 @@ function ensureBackendSheetsInitialized() {
         }
         initializedSheets.push(sheet.getName());
       }
+
+      // 2. KHỞI TẠO CÁC BẢNG HẠ TẦNG HỆ THỐNG
+      // 2.1 Audit_Logs (Nhật ký kiểm toán xoay vòng 3.000 dòng)
+      var auditSheet = ss.getSheetByName(PM_CONFIG.SHEETS.AUDIT_LOGS);
+      if (!auditSheet) {
+        auditSheet = ss.insertSheet(PM_CONFIG.SHEETS.AUDIT_LOGS);
+      }
+      var auditCols = ["Mã Log", "Thời gian", "Người thực hiện", "Hành động", "Bảng dữ liệu", "Khóa bản ghi", "Chi tiết thay đổi", "Thiết bị / IP"];
+      for (var a = 0; a < auditCols.length; a++) {
+        auditSheet.getRange(PM_CONFIG.HEADER_ROW, a + 2).setValue(auditCols[a]);
+        auditSheet.getRange(PM_CONFIG.GUIDE_ROW, a + 2).setValue("[audit_" + (a + 1) + " | string]");
+      }
+      initializedSheets.push(auditSheet.getName());
+
+      // 2.2 App_Themes (Quản lý Theme Giao diện)
+      var themeSheet = ss.getSheetByName(PM_CONFIG.SHEETS.APP_THEMES);
+      if (!themeSheet) {
+        themeSheet = ss.insertSheet(PM_CONFIG.SHEETS.APP_THEMES);
+      }
+      var themeCols = ["ID Theme", "Tên Theme", "File HTML", "Từ ngày", "Đến ngày", "Bật/Tắt", "Config JSON"];
+      for (var tm = 0; tm < themeCols.length; tm++) {
+        themeSheet.getRange(PM_CONFIG.HEADER_ROW, tm + 2).setValue(themeCols[tm]);
+        themeSheet.getRange(PM_CONFIG.GUIDE_ROW, tm + 2).setValue("[theme_" + (tm + 1) + " | string]");
+      }
+      initializedSheets.push(themeSheet.getName());
+
+      // 2.3 Brand_Logo_Slots (Quản lý 4 Vị trí Logo Thương hiệu)
+      var logoSheet = ss.getSheetByName(PM_CONFIG.SHEETS.BRAND_LOGOS);
+      if (!logoSheet) {
+        logoSheet = ss.insertSheet(PM_CONFIG.SHEETS.BRAND_LOGOS);
+      }
+      var logoCols = ["Mã Slot", "Tên Vị Trí", "Mô tả", "URL Ảnh", "Kích thước đề xuất", "Trạng thái"];
+      for (var lm = 0; lm < logoCols.length; lm++) {
+        logoSheet.getRange(PM_CONFIG.HEADER_ROW, lm + 2).setValue(logoCols[lm]);
+        logoSheet.getRange(PM_CONFIG.GUIDE_ROW, lm + 2).setValue("[logo_" + (lm + 1) + " | string]");
+      }
+      initializedSheets.push(logoSheet.getName());
+
+      // 2.4 Sys_Automation_Queue (Hàng đợi Tự động hóa Javis OS / Playwright / Webhook)
+      var queueSheet = ss.getSheetByName(PM_CONFIG.SHEETS.AUTOMATION_QUEUE);
+      if (!queueSheet) {
+        queueSheet = ss.insertSheet(PM_CONFIG.SHEETS.AUTOMATION_QUEUE);
+      }
+      var queueCols = ["Mã Tác vụ", "Thời gian", "Nguồn Agent", "Phòng ban đích", "Loại Payload", "Trạng thái", "Chi tiết Payload JSON"];
+      for (var qm = 0; qm < queueCols.length; qm++) {
+        queueSheet.getRange(PM_CONFIG.HEADER_ROW, qm + 2).setValue(queueCols[qm]);
+        queueSheet.getRange(PM_CONFIG.GUIDE_ROW, qm + 2).setValue("[queue_" + (qm + 1) + " | string]");
+      }
+      initializedSheets.push(queueSheet.getName());
     }
 
     return {
@@ -2155,7 +2235,7 @@ function ensureBackendSheetsInitialized() {
       spreadsheetId: PM_CONFIG.SPREADSHEET_ID,
       spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL,
       initializedSheets: initializedSheets,
-      message: "Đã khởi tạo & đồng bộ cột Cá nhân hóa UI (Cột M - Sheet Nhân sự/Staff) và Sheet mới TT-MKT thành công!"
+      message: "Đã khởi tạo & đồng bộ toàn bộ 16 sheet SME OS thành công!"
     };
   });
 }

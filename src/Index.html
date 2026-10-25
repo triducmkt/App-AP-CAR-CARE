@@ -775,6 +775,34 @@
       position: relative;
     }
 
+    /* Khóa bảo vệ phiên đồng bộ tức thì (Zero-Flash Session Guard - Chuẩn TDCM Team App) */
+    html.ap-authenticated #viewHome {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      visibility: visible !important;
+      position: relative !important;
+      display: block !important;
+    }
+    html.ap-authenticated #viewLogin {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+      display: none !important;
+    }
+    html:not(.ap-authenticated) #viewLogin {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+      position: relative;
+      display: flex;
+    }
+    html:not(.ap-authenticated) #viewHome {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      display: none;
+    }
+
     #viewLogin {
       display: flex;
       justify-content: center;
@@ -3246,12 +3274,40 @@
   </style>
 </head>
 <body>
+  <!-- TRẠM TRUYỀN DỮ LIỆU PHIÊN SERVER SANG CLIENT (CHUẨN TDCM TEAM APP) -->
+  <div id="serverSessionData" style="display:none;" data-session="<?!= (typeof serverSession !== 'undefined' && serverSession) ? serverSession : '' ?>"></div>
+  <script>
+    (function () {
+      var isAuth = false;
+      try {
+        var sess = localStorage.getItem('apUserSession') || sessionStorage.getItem('apUserSession');
+        if (sess) {
+          var u = JSON.parse(sess);
+          if (u && (u.username || u.name)) isAuth = true;
+        }
+        if (!isAuth) {
+          var sEl = document.getElementById('serverSessionData');
+          var sRaw = sEl ? sEl.getAttribute('data-session') : '';
+          if (sRaw && sRaw.indexOf('{') !== -1 && sRaw.indexOf('<?') === -1) {
+            var sObj = JSON.parse(sRaw);
+            if (sObj && sObj.username) {
+              isAuth = true;
+              try { localStorage.setItem('apUserSession', JSON.stringify(sObj)); } catch (e) {}
+            }
+          }
+        }
+      } catch (err) {}
+      if (isAuth) {
+        document.documentElement.classList.add('ap-authenticated');
+      }
+    })();
+  </script>
   <div class="stage">
     <!-- 1. CÁC VÙNG ÁNH SÁNG XANH STUDIO (GIỮ NGUYÊN 100%) -->
     <div class="bg-ambient-bl"></div>
     <div class="bg-ambient-tr"></div>
 
-    <div class="spa-view spa-view-login active" id="viewLogin">
+    <div class="spa-view spa-view-login" id="viewLogin">
     <!-- 2. DẢI HỌA TIẾT LỤA (VUỐT NHỌN GÓC DƯỚI-PHẢI, XÒE RỘNG LÊN GÓC TRÊN-TRÁI)
             + DẢI ÁNH SÁNG GRADIENT TRẮNG BÁM THEO LÀM NỀN
             + CHÙM ÁNH SÁNG NGÔI SAO MÀU TRẮNG GLOW LƯỚT CHẬM DẦN TỪ GÓC DƯỚI-PHẢI -->
@@ -5341,7 +5397,7 @@
 
         init: function () {
           try {
-            var savedUser = localStorage.getItem('apUserProfileV5');
+            var savedUser = localStorage.getItem('apUserSession') || localStorage.getItem('apUserProfileV5');
             if (savedUser) {
               var parsed = JSON.parse(savedUser);
               for (var k in parsed) {
@@ -7700,6 +7756,7 @@
         var vLogin = document.getElementById('viewLogin');
         var vHome = document.getElementById('viewHome');
         if (targetView === 'home') {
+          document.documentElement.classList.add('ap-authenticated');
           if (vLogin) vLogin.classList.remove('active');
           if (vHome) vHome.classList.add('active');
           if (userData) {
@@ -7708,9 +7765,10 @@
             AppStore.state.currentUser.role = userData.role || 'Admin • Ban Giám Đốc';
             AppStore.state.currentUser.roleCode = userData.roleCode || 'ADMIN_CEO';
 
-            // Lưu phiên đa tầng: localStorage + sessionStorage + URL Query Parameter
+            // Lưu phiên đa tầng SSOT: localStorage + sessionStorage + URL Query Parameter (Chuẩn TDCM Team App)
             try { localStorage.setItem('apUserSession', JSON.stringify(userData)); } catch (err) {}
             try { sessionStorage.setItem('apUserSession', JSON.stringify(userData)); } catch (err) {}
+            try { localStorage.setItem('apUserProfileV5', JSON.stringify(AppStore.state.currentUser)); } catch (err) {}
             try {
               if (typeof google !== 'undefined' && google.script && google.script.history && google.script.history.replaceState) {
                 google.script.history.replaceState({ u: userData.username }, { u: userData.username }, '');
@@ -7722,6 +7780,7 @@
           }
           AppStore.init();
         } else {
+          document.documentElement.classList.remove('ap-authenticated');
           if (vHome) vHome.classList.remove('active');
           if (vLogin) vLogin.classList.add('active');
         }
@@ -7730,8 +7789,10 @@
       var btnLogout = document.getElementById('btnLogout');
       if (btnLogout) {
         btnLogout.addEventListener('click', function () {
+          document.documentElement.classList.remove('ap-authenticated');
           try { localStorage.removeItem('apUserSession'); } catch (e) {}
           try { sessionStorage.removeItem('apUserSession'); } catch (e) {}
+          try { localStorage.removeItem('apUserProfileV5'); } catch (e) {}
           try {
             if (typeof google !== 'undefined' && google.script && google.script.history && google.script.history.replaceState) {
               google.script.history.replaceState({}, null, '');
@@ -7789,7 +7850,7 @@
 
       applyLogoSlotsToDOM();
 
-      // KHÔI PHỤC TỰ ĐỘNG PHIÊN ĐĂNG NHẬP (CHỐNG MẤT SESSION KHI RELOAD F5)
+      // KHÔI PHỤC TỰ ĐỘNG PHIÊN ĐĂNG NHẬP (CHỐNG MẤT SESSION KHI RELOAD F5 - ZERO-LOGOUT ARCHITECTURE)
       function restoreUserSession() {
         var sessionData = null;
         try {
@@ -7801,6 +7862,15 @@
             var l = localStorage.getItem('apUserSession');
             if (l) sessionData = JSON.parse(l);
           } catch (e) {}
+        }
+        if (!sessionData) {
+          var sEl = document.getElementById('serverSessionData');
+          var sRaw = sEl ? sEl.getAttribute('data-session') : '';
+          if (sRaw && sRaw.indexOf('{') !== -1 && sRaw.indexOf('<?') === -1) {
+            try {
+              sessionData = JSON.parse(sRaw);
+            } catch (sErr) {}
+          }
         }
 
         var urlUser = null;
