@@ -1127,7 +1127,7 @@ function doGet(e) {
 
   var template = HtmlService.createTemplateFromFile("Index");
   template.bootstrapConfig = JSON.stringify(getWhiteLabelAndSystemBundle());
-  template.serverSession = JSON.stringify(serverUser);
+  template.serverSessionBase64 = serverUser ? Utilities.base64Encode(JSON.stringify(serverUser), Utilities.Charset.UTF_8) : "";
 
   return template.evaluate()
     .setTitle(PM_CONFIG.APP_TITLE)
