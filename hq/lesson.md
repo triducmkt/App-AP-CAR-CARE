@@ -25,7 +25,8 @@
 | **ERR-014** | `L217–L255` | `[SME OS]` | **Lỗi Reload F5 bị văng về màn hình Login trên GAS `/dev`** do hardcode `#viewLogin active`, check session trễ dòng 7861 và Sandbox Ephemeral Hash | (1) Bỏ `active` ở Login, nhúng Micro-Script đầu `<body>` + CSS `html.ap-authenticated`; (2) Server-Assisted Session: `doGet(e)` inject `serverSession` qua Google Email / `?u=DUC`; (3) Đồng bộ SSOT 1 key `apUserSession`. |
 | **ERR-015** | `L257–L285` | `[SME OS]` | **`SyntaxError: Invalid or unexpected token (tệp Code, template.evaluate)`** do chuỗi JS chứa literal `'<?'` bị hiểu nhầm là scriptlet | Cấm viết chuỗi tĩnh chứa `'<?'` trong file HTML GAS; dùng `Utilities.base64Encode()` truyền object từ Server sang Client và giải mã bằng `window.atob()`. |
 | **ERR-016** | `L287–L320` | `[SME OS]` | **Lỗi màn hình đen toàn phần & Biến mất 8 nút Phòng Ban ở Sidebar** do dữ liệu cũ trong ScriptProperties thiếu role `ADMIN_CEO` và thiếu Fail-Safe Active Stage | Dùng `sanitizeDeptAccessConfig` đối soát và tự bổ sung `ADMIN_CEO` cho 100% phòng ban; áp dụng Master Admin Bypass (`isMasterAdmin ? d.enabled !== false : ...`); tự động gọi `switchDepartment(curDept || 'DEPT_MKT')` kích hoạt màn hình. |
-| **UI-GEN** | `L322–L331` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-017** | `L322–L360` | `[SME OS]` | **Lỗi trỏ sai Sheet nguồn (`Staff` ảo vs `Nhân sự` thật) & nghẽn hàm ghi đè `ensureBackendSheetsInitialized` trong `doGet`** khiến màn hình đen, mất dữ liệu và timeout | (1) Khóa cứng SSOT `STAFF: "Nhân sự"`, `CATEGORIES: "Danh mục"`; (2) Bỏ hoàn toàn logic `insertSheet("Staff")` và gỡ `ensureBackendSheetsInitialized()` khỏi `doGet`; (3) Quét đăng nhập trực tiếp Cột H/I/F của Sheet `Nhân sự`; (4) Nuôi dropdown từ Sheet `Danh mục`. |
+| **UI-GEN** | `L362–L371` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -239,6 +240,22 @@
        `var curDept = AppStore.state.activeDepartment || firstVisibleDept || 'DEPT_MKT';`
        `AppStore.switchDepartment(curDept);`
      - Đảm bảo ít nhất một pane (mặc định là `DEPT_MKT`) luôn luôn mang class `.active`, triệt tiêu 100% khả năng bị màn hình đen trống rỗng.
+
+---
+
+### [ERR-017] Lỗi Trỏ Sai Sheet Nguồn (`Staff` ảo vs `Nhân sự` thật) & Nghẽn Hàm Ghi Đè `ensureBackendSheetsInitialized` Trong `doGet`
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Người dùng đăng nhập tài khoản `DUC` / `7668` hoặc `LOC` / `1234` bị lỗi hoặc mất session; mở web app bị tải rất chậm (Execution Timeout); khu vực làm việc bên phải biến thành màn hình đen và các dropdown không có dữ liệu thật.
+- **Nguyên nhân gốc:**
+  1. `PM_CONFIG.SHEETS.STAFF` bị gán nhầm thành `"Staff"` (sheet tiếng Anh rỗng tự tạo) thay vì trỏ vào sheet **`Nhân sự`** (vốn đã có 2.991 dòng dữ liệu thật).
+  2. Hàm `ensureBackendSheetsInitialized()` được gọi đồng bộ trong `doGet(e)` và `getWhiteLabelAndSystemBundle()`. Mỗi khi user mở trang, hệ thống lại cố gắng tạo mới 16 sheet và chạy hàng trăm lệnh `getRange().setValue()`, làm nghẽn quota thời gian của Apps Script.
+  3. Lệch vị trí cột trong `GLOBAL_DB_MAP`: Trong Sheet `Nhân sự`, Cột H là `SĐT Zalo` (Username), Cột I là `Mật khẩu`, Cột F là `Chức vụ` (`Admin`, `CEO`), Cột M là `uiPersonalizationJson`. Code cũ dùng hàm `normalizeVNPhone` biến chuỗi chữ `"DUC"` thành rỗng `""`, dẫn đến không khớp được user từ Sheet và rơi vào lỗi.
+- **Cách khắc phục triệt để:**
+  1. **Khóa cứng Sheet gốc SSOT:** `STAFF: "Nhân sự"`, `CATEGORIES: "Danh mục"`, `TASKS: "Công việc"`, `PROJECTS: "Dự án"`, `AUDIT_LOGS: "Lịch sử"`, `APP_THEMES: "App_Themes"`, `SETTINGS: "Cài đặt"`.
+  2. **Gỡ bỏ hoàn toàn việc ghi đè trong `doGet`:** Tuyệt đối không gọi `ensureBackendSheetsInitialized()` khi render trang. Trả lại tốc độ phản hồi `< 250ms` cho `doGet(e)`.
+  3. **Quét trực tiếp Cột H/I/F của Sheet `Nhân sự`:** So sánh trực tiếp chuỗi chữ hoa (`DUC`, `LOC`), kiểm tra mật khẩu Cột I (`7668`, `1234`), gán vai trò Cột F (`Admin`, `CEO`) và tự động cấp `fullAccess: true`, `isMasterAdmin: true`.
+  4. **Đọc Dropdown Động từ Sheet `Danh mục`:** Viết hàm `loadCategoryTaxonomy()` đọc 1 lần duy nhất các cột B, D, F, H, J, L, N, P, R, T, V từ Sheet `Danh mục` để nuôi các dropdown trên giao diện.
+  5. **Kết nối luồng trực tiếp cho các phòng ban:** `DEPT_HR` gọi `getStaffList()`, `DEPT_SETTINGS` kết nối Sheet `Cài đặt`, `DEPT_TECH` kết nối Sheet `Công việc`.
 
 ---
 

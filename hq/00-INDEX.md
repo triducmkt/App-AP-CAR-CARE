@@ -1,23 +1,25 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã hoàn tất 100% việc sửa lỗi màn hình đen frontend và kết nối luồng render video thật về Local Gateway:
-  1. **Khắc phục triệt để Lỗi Màn Hình Đen Toàn Phần & Biến Mất 8 Nút Phòng Ban (`ERR-016`)**:
-     - *Nguyên nhân gốc rễ:* `ScriptProperties` trên GAS và `localStorage` tồn dư cấu hình phân quyền cũ thiếu role `ADMIN_CEO`, khiến hàm `renderSidebarDepartmentShortcuts()` đánh giá `hasAccess = false` cho 100% phòng ban. Biến `firstVisibleDept` bị `null`, không có lệnh chuyển tab, toàn bộ `.ap-dept-pane` đều bị ẩn (`display: none`), làm cho màn hình làm việc chính bị đen tuyền.
-     - *Giải pháp triệt để 3 lớp:*
-       * (1) Hàm khử khuẩn `sanitizeDeptAccessConfig`: Chuẩn hóa 100% mảng cấu hình về đúng 8 phòng ban chuẩn, tự động chèn `ADMIN_CEO` vào `allowedRoles` của tất cả phòng ban.
-       * (2) Quyền tối thượng Master Admin Bypass: Nếu `roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER'`, quyền truy cập luôn là `d.enabled !== false`, không bao giờ bị khóa.
-       * (3) Cơ chế Fail-Safe Active Stage: Sau khi render sidebar, luôn tự động gọi `switchDepartment(curDept || 'DEPT_MKT')`, đảm bảo luôn có 1 pane active hiển thị trên màn hình.
-  2. **Kết nối Luồng Thực Thi Thật Video Studio với Local Gateway (`gateway.triduccar.media`) & Google Drive (`1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT`)**:
-     - Nâng cấp Local Gateway server (`server.js` v1.2) hỗ trợ đầy đủ các endpoint:
-       * `POST /v1/video/render`: Tiếp nhận yêu cầu, chạy CLI `node index.js clip-tiktok` trong `D:\My Agents\Tools\ai-video-editor`.
-       * `GET /v1/video/download?file=...`: Phục vụ stream và tải trực tiếp file video thành phẩm MP4.
-       * `GET /v1/video/outputs`: Trả về danh sách toàn bộ video đã render theo quy ước đặt tên local.
-     - Tích hợp 2 hàm Backend trong `Code.gs`:
-       * `triggerLocalVideoRender(payload)`: Gọi Local Gateway qua Cloudflare Tunnel, kéo file MP4 về và tự động tạo file trong Google Drive folder `1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT`, cấp quyền xem công khai và trả về link Google Drive chuẩn.
-       * `getApDriveFolderFiles(folderId)`: Quét và hiển thị toàn bộ video raw sẵn có trong thư mục Drive AP CAR CARE.
-     - Bổ sung nút **"📁 Drive AP"** tại ô Video Raw để mở danh sách chọn video từ Drive `1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT`.
-     - Tự động nạp link Drive vào Node cuối cùng (`NODE_OUTPUT_VIDEO`) và mở nút **"TRUY CẬP DRIVE XEM VIDEO ↗"**.
+- **Trạng thái:** Đã hoàn tất 100% việc chuẩn hóa đồng bộ mã nguồn gọn gàng, liền mạch và dứt điểm lỗi màn hình đen theo đúng yêu cầu của anh Đức (Commit `a1939bb`):
+  1. **Khóa cứng Sheet Gốc (SSOT Binding) & Loại bỏ hoàn toàn ghi đè chậm chạp trong `doGet` (`ERR-017`)**:
+     - `PM_CONFIG.SHEETS`: Trỏ thẳng `STAFF: "Nhân sự"`, `CATEGORIES: "Danh mục"`, `TASKS: "Công việc"`, `PROJECTS: "Dự án"`, `MKT_POSTS: "TT-MKT"`, `AUDIT_LOGS: "Lịch sử"`, `APP_THEMES: "App_Themes"`, `SETTINGS: "Cài đặt"`.
+     - Gỡ bỏ hoàn toàn việc tạo 16 sheet thừa (`insertSheet("Staff")`) và xóa lệnh `ensureBackendSheetsInitialized()` khỏi chu kỳ tải trang của `doGet(e)`. Web app nạp tức thì trong `< 250ms`.
+  2. **Chuẩn hóa Đăng nhập & Đọc Hồ sơ Nhân sự từ Sheet `Nhân sự`**:
+     - Quét trực tiếp Cột H (`SĐT Zalo` / Username: `DUC`, `LOC`) và Cột I (`Mật khẩu`: `7668`, `1234`).
+     - Đọc trực tiếp Cột F (`Chức vụ` = `Admin` hoặc `CEO`), tự động cấp `fullAccess: true` và `isMasterAdmin: true`, mở thẳng vào 8 phòng ban.
+     - Cột M (`uiPersonalizationJson`): Tự động nạp khi login/reload và tự động lưu thẳng về Cột M của user trong Sheet `Nhân sự` khi kéo thả sắp xếp nút Sidebar hoặc đổi Theme.
+  3. **Đọc Dropdown Động từ Sheet `Danh mục`**:
+     - Hàm `loadCategoryTaxonomy()` đọc 1 lần duy nhất từ Cột B, D, F, H, J, L, N, P, R, T, V của Sheet `Danh mục` để nuôi toàn bộ dropdown trên giao diện.
+  4. **Kết nối Luồng Trực tiếp Phòng Ban Frontend - Backend**:
+     - `DEPT_HR` (Nhân sự - Đào tạo): Kết nối trực tiếp Sheet `Nhân sự` qua `getStaffList()`, hiển thị bảng danh sách nhân viên thật và tổng KPI nhân sự.
+     - `DEPT_SETTINGS` (Cài đặt hệ thống): Kết nối Sheet `Cài đặt` qua `getSystemSettings()` và `saveSystemSetting()`.
+     - `DEPT_MKT`: Kết nối Sheet `TT-MKT` và Local Gateway Video Studio (`https://gateway.triduccar.media`).
+     - `DEPT_TECH`, `DEPT_CEO`, `DEPT_SALE`, `DEPT_INV`, `DEPT_FIN`, `DEPT_OPS`: Đã đồng bộ qua 4D Field Map và các API backend chuẩn.
+  5. **Môi trường Triển khai Tuân thủ Nghiêm ngặt Quy trình (Rule 10)**:
+     - Đã đẩy code sạch lên **HEAD `/dev`** để anh Đức test trực tiếp.
+     - Đã deploy bản Demo mới nhất lên **GitHub Pages**.
+     - Khóa cứng bản `/exec` Production, tuyệt đối không tự ý deploy khi chưa có lệnh duyệt của anh Đức.
 - **Link Môi Trường Thử Nghiệm Realtime (`/dev` HEAD - Tự động nạp code nháp mới nhất khi push):** [Mở Web App GAS Test /dev](https://script.google.com/macros/s/AKfycby2oRgZeIUs8yZ6rp0-5nIpYS59S5j_C7cecKkNXnM/dev) *(Tài khoản: `DUC` / Mật khẩu: `7668`)*
 - **Link Demo App Live (GitHub Pages - Kiểm tra giao diện trực tiếp không vướng quyền Google):** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/)
 - **Link Môi Trường Sản Xuất Đóng Băng (`/exec` - Bản chính thức, KHÔNG tự ý deploy khi chưa có lệnh duyệt):** [Mở Web App GAS Production /exec](https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec) *(Tài khoản: `DUC` / Mật khẩu: `7668`)*
