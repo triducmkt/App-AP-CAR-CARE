@@ -27,6 +27,7 @@
 | **ERR-016** | `L287–L320` | `[SME OS]` | **Lỗi màn hình đen toàn phần & Biến mất 8 nút Phòng Ban ở Sidebar** do dữ liệu cũ trong ScriptProperties thiếu role `ADMIN_CEO` và thiếu Fail-Safe Active Stage | Dùng `sanitizeDeptAccessConfig` đối soát và tự bổ sung `ADMIN_CEO` cho 100% phòng ban; áp dụng Master Admin Bypass (`isMasterAdmin ? d.enabled !== false : ...`); tự động gọi `switchDepartment(curDept || 'DEPT_MKT')` kích hoạt màn hình. |
 | **ERR-017** | `L322–L360` | `[SME OS]` | **Lỗi trỏ sai Sheet nguồn (`Staff` ảo vs `Nhân sự` thật) & nghẽn hàm ghi đè `ensureBackendSheetsInitialized` trong `doGet`** khiến màn hình đen, mất dữ liệu và timeout | (1) Khóa cứng SSOT `STAFF: "Nhân sự"`, `CATEGORIES: "Danh mục"`; (2) Bỏ hoàn toàn logic `insertSheet("Staff")` và gỡ `ensureBackendSheetsInitialized()` khỏi `doGet`; (3) Quét đăng nhập trực tiếp Cột H/I/F của Sheet `Nhân sự`; (4) Nuôi dropdown từ Sheet `Danh mục`. |
 | **ERR-018** | `L362–L395` | `[SME OS]` | **Lỗi gọi hàm undefined (`applyLogoSlotsToDOM`) làm sập luồng khởi động SPA** khiến khu vực làm việc bị đen dù cú pháp AST hợp lệ | Đổi sang `applyAllLogoSlotsToDOM` + gắn alias; bắt buộc dùng Playwright (`/plw`) đọc `browser_console_messages` trực tiếp trên web app runtime để đạt **0 Console Errors** trước khi báo cáo PO. |
+| **ERR-019** | `L397–L435` | `[SME OS]` | **Lỗi `display: block !important` trên `#viewHome` làm vỡ Flexbox 2 cột**, đẩy `#apMainStage` xuống dưới đáy làm mất nội dung trên Full Screen Desktop | Bắt buộc giữ `html.ap-authenticated #viewHome { display: flex !important; flex-direction: row !important; position: fixed !important; inset: 0 !important; }`; kiểm thử Playwright bounding box ở cả 1920px và 500px. |
 | **UI-GEN** | `L397–L406` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
@@ -270,6 +271,51 @@
   2. **Bắt buộc áp dụng Shortcut `/ap-rule` & kiểm thử Playwright (`/plw`):** Luôn dùng tool `browser_console_messages` mở trang web thật để quét runtime errors, đảm bảo **0 console errors** và kiểm tra chéo (visual check) bằng `browser_take_screenshot` trước khi bàn giao cho PO.
 
 ---
+
+
+### [ERR-019] Lỗi `display: block !important` Trên `#viewHome` Làm Vỡ Flexbox 2 Cột Đẩy `#apMainStage` Ra Ngoài Khung Nhìn Full Screen Desktop
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Khi thu nhỏ cửa sổ trình duyệt (viewport `<= 1024px`), nội dung chính (topbar, hero banner, KPI, khung soạn thảo đa kênh, mindmap node...) hiển thị bình thường. Nhưng khi phóng to cửa sổ ra toàn màn hình (Full Screen Desktop `>= 1025px`), toàn bộ nội dung chính biến mất hoàn toàn, chỉ còn trơ trọi Sidebar bên trái và logo AP chìm mờ ở giữa nền.
+- **Nguyên nhân gốc (Root Cause):**
+  1. Trong khối CSS bảo vệ phiên đăng nhập tức thì (Zero-Flash Session Guard), quy tắc ban đầu sao chép từ dự án single-column có khai báo:
+     ```css
+     html.ap-authenticated #viewHome {
+       opacity: 1 !important;
+       pointer-events: auto !important;
+       visibility: visible !important;
+       position: relative !important;
+       display: block !important; /* <--- LỖI CHÍ MẠNG Ở ĐÂY */
+     }
+     ```
+  2. Trong khi đó, kiến trúc giao diện của **App AP CAR CARE** lại là **Flexbox 2 Cột ngang**:
+     ```css
+     #viewHome {
+       position: fixed; inset: 0; width: 100vw; height: 100vh;
+       display: flex; flex-direction: row; overflow: hidden;
+     }
+     ```
+  3. Khi có cờ `html.ap-authenticated`, lệnh `display: block !important` đã cưỡng chế biến `#viewHome` thành khối thông thường. Sidebar (`#apSidebar`) là phần tử đầu tiên chiếm trọn chiều cao `100vh` (`889px`). Sân khấu chính (`#apMainStage`) là phần tử thứ hai bị đẩy xuống theo chiều dọc, bắt đầu từ tọa độ `top: 889px` (`y = 889`). Kết hợp với `#viewHome { overflow: hidden; height: 100vh; }`, toàn bộ `#apMainStage` bị đẩy hoàn toàn xuống dưới đáy và bị cắt mất (out-of-viewport vertical overflow).
+  4. **Tại sao thu nhỏ cửa sổ trên Mobile/Tablet lại hiện?** Vì ở media query `@media (max-width: 1024px)`, hệ thống chuyển `.ap-sidebar` thành **Off-Canvas Drawer (`position: fixed; transform: translateX(-105%)`)**. Khi Sidebar mang thuộc tính `position: fixed`, nó được tách hoàn toàn khỏi luồng dàn trang tài liệu (out of normal flow). Do đó, `#apMainStage` được đẩy lên trên cùng tại tọa độ `top: 0px`, khiến giao diện xuất hiện bình thường khi thu nhỏ cửa sổ.
+- **Cách khắc phục triệt để:**
+  1. Chuẩn hóa quy tắc CSS Zero-Flash Session Guard cho cấu trúc Flexbox 2 cột:
+     ```css
+     /* Khóa bảo vệ phiên đồng bộ tức thì (Zero-Flash Session Guard - Chuẩn Flexbox 2 Cột AP CAR CARE) */
+     html.ap-authenticated #viewHome {
+       opacity: 1 !important;
+       pointer-events: auto !important;
+       visibility: visible !important;
+       position: fixed !important;
+       inset: 0 !important;
+       display: flex !important;
+       flex-direction: row !important;
+       width: 100vw !important;
+       height: 100vh !important;
+     }
+     ```
+  2. Bổ sung quy trình kiểm thử tự động hai độ phân giải (Dual-Viewport Inspection):
+     - Gọi Playwright `browser_resize` ở `1920x1080`, kiểm tra `mainStage.getBoundingClientRect().top === 0` và `left === 282`.
+     - Gọi Playwright `browser_resize` ở `500x800`, kiểm tra `mainStage.getBoundingClientRect().top === 0` và `left === 0`, đồng thời `sidebar.left < 0`.
+     - Chụp ảnh màn hình trực quan `browser_take_screenshot` để đối soát.
 
 ### [UI-GEN] Tổ hợp Quy tắc Xử lý Sự kiện UI, Biến Global & Đồng bộ 2 Chiều `FIELD_MAP`
 - **Scope / Dự án:** `[Tất cả / Chung]`

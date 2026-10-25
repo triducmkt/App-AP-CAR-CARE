@@ -24,7 +24,9 @@
 - **Link Demo App Live (GitHub Pages - Kiểm tra giao diện trực tiếp không vướng quyền Google):** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/)
 - **Link Môi Trường Sản Xuất Đóng Băng (`/exec` - Bản chính thức, KHÔNG tự ý deploy khi chưa có lệnh duyệt):** [Mở Web App GAS Production /exec](https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec) *(Tài khoản: `DUC` / Mật khẩu: `7668`)*
 - **Link Google Sheet Backend (SSOT):** [Mở Google Sheet Backend App AP CAR CARE](https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit)
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 14:30 (ERR-016 Fix & Real Local Gateway Integration)
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 17:15 (ERR-018 Fix ReferenceError & ERR-019 Fix Flexbox Row on Full Screen Desktop)
+  * Khởi tạo Sheet `Yêu cầu tính năng` (13 cột chuẩn Hiến pháp) trên SSOT Backend Spreadsheet `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0`.
+  * Khắc phục triệt để lỗi `ERR-019` (Lỗi mất section khi full screen desktop): Đã sửa `html.ap-authenticated #viewHome` từ `display: block` thành `display: flex; flex-direction: row; position: fixed; inset: 0;`, đưa `#apMainStage` về đúng vị trí song hành bên cạnh `#apSidebar` trên cả PC Desktop và Mobile.
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư / Nền tảng:** Hệ điều hành Doanh nghiệp SME OS ứng dụng thực chiến cho Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).
