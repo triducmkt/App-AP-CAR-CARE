@@ -1,0 +1,12 @@
+**/**
+!*.gs
+!*.html
+!appsscript.json
+.clasp.json
+.claspignore
+.gitignore
+node_modules/
+*.md
+*.ps1
+*.json
+.git/

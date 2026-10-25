@@ -1,26 +1,21 @@
 # 00-INDEX.md — HQ dự án App AP CAR CARE
 
 ## TRẠNG THÁI HIỆN TẠI
-- **Trạng thái:** Đã hoàn tất 100% **`TASK-015` — Nhân Bản Module Cài Đặt API Key (TDCM Team App), Sub-Tabs Trong Cài Đặt Hệ Thống, Line Mũi Tên Đen Carbon Nét Liền Curve & Nút Tạo Video Liên Kết API Key Kèm Animation Dòng Chảy Tiến Độ Realtime Trên Canvas**.
-- **Link Demo App Live:** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/) *(Tài khoản: `DUC` / Mật khẩu: `1111`)*
+- **Trạng thái:** Đã hoàn tất 100% việc **Triển khai sạch toàn bộ mã nguồn từ GitHub / Local sang Google Apps Script ID `1WVoxU20yqSYltl881Y9_Xm8oDjXBKLdh4Y3UQnlrTIYGcZJhtwG1qovD`, Xóa Sạch 16 File Code Cũ Tồn Đọng của TDCM Team App, Cập Nhật 3 File Cốt Lõi (`appsscript`, `Code`, `Index`) và Phát Hành Bản Triển Khai Web App Production Mới**.
+- **Link Web App Google Apps Script Chính Thức:** [Mở Web App GAS Production](https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec) *(Tài khoản: `DUC` / Mật khẩu: `1111`)*
+- **Link Demo App Live (GitHub Pages):** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/)
 - **Link Google Sheet Backend (SSOT):** [Mở Google Sheet Backend App AP CAR CARE](https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit)
-- **Vừa xong (`TASK-015`):**
-  1. **Nhân bản Module Quản lý Khóa API từ Project TDCM Team App sang Cài đặt (`#pane_SETTINGS`):**
-     - Thiết lập hệ thống 4 Sub-Tabs tinh gọn: `1. Phân Quyền & Bật Tắt 8 Phòng Ban`, `2. Quản Lý Khóa API & AI Engines (Chuẩn TDCM)`, `3. Trạm Kết Nối MCP Hub (Haravan • Getfly • Javis)`, `4. Giao Diện Theme & White-Label Logo`.
-     - Xây dựng Bảng danh sách Khóa API đầy đủ tính năng: STT, Loại API (Gemini, Claude, OpenAI, Vbee, Runway, ElevenLabs...), Tên gợi nhớ, App ID, Masked Key (`••••••••`) kèm nút con mắt 👁️ xem/ẩn token, Model mặc định, Trạng thái (Kích hoạt/Tắt), Thao tác (Sửa, Bật/Tắt, Xóa).
-     - Form Thêm/Chỉnh sửa Khóa API tự động đồng bộ 2 chiều với `localStorage` (`AP_CAR_CARE_API_KEYS`) và Backend ScriptProperties/Sheet.
-  2. **Đổi Đường Line Nối Các Node Canvas Thành Nét Liền Mảnh Đen Carbon Curve:**
-     - Thay thế hoàn toàn đường đứt nét neon cũ bằng **đường cong Cubic Bezier nét liền mảnh (`stroke-width: 1.6px`)**, màu đen Carbon sang trọng (`var(--ap-ve-line-idle, #2B3342)`), kết thúc bằng **đầu mũi tên chỉ hướng tam giác sắc nét** (`<marker id="veCarbonArrow" ...>`).
-  3. **Nút "TẠO VIDEO MỚI" Liên Kết Khóa API & Hiệu Ứng Dòng Chảy Realtime Animation:**
-     - Tích hợp nút **`TẠO VIDEO MỚI (RUN 7 SKILL)`** tại tiêu đề bảng và thanh công cụ Canvas.
-     - Khi bấm Tạo, hệ thống tự động kiểm tra Khóa API hợp lệ (tương tự cơ chế Tạo AI Voice bên TDCM Team App): nếu chưa có API key nào được kích hoạt, hệ thống sẽ bung cảnh báo và dẫn người dùng sang Tab Cài Đặt Khóa API; nếu đã có khóa, kích hoạt ngay **dòng chảy ánh sáng xung mạch (animated flow runner)** dọc theo các line từ node đầu tới node cuối.
-     - Từng Node lần lượt chuyển trạng thái từ `WAITING` $\rightarrow$ `RUNNING` (viền Cobalt phát sáng, xoay nhịp nhàng) $\rightarrow$ `COMPLETED` (tick xanh), kèm dải tiến độ 0% $\rightarrow$ 100% và log chi tiết từng skill, kết thúc bằng file video 1080x1920 Full HD lưu trữ vào Google Drive & Sheet `TT-MKT`.
-  4. **Giải mã kiến trúc Backend Google Sheet, Hybrid Video Rendering & Javis OS MCP Bridge:**
-     - Phân tích rõ nguyên nhân static demo GitHub Pages không tự động ghi vào Sheet nếu chưa deploy Apps Script Web App.
-     - Phân tích giải pháp Hybrid: GAS làm Orchestrator (quản trị, prompt Gemini, cấp quyền), còn render video nặng bằng FFmpeg chuyển cho Worker/Javis OS/Antigravity xử lý và upload lên Drive.
-     - Hướng dẫn chi tiết luồng trao đổi dữ liệu 2 chiều Javis $\leftrightarrow$ SME OS qua Canonical Data Envelope và phân phối dữ liệu theo Ma trận Phân quyền 4D.
-- **Bước tiếp theo:** Anh Đức trải nghiệm Tab Cài Đặt API Key và bấm nút "TẠO VIDEO MỚI" trên Canvas Edit Video để xem trực tiếp hiệu ứng dòng chảy tiến độ thời gian thực.
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-24 23:25
+- **Vừa xong:**
+  1. **Kết nối trực tiếp qua Google Apps Script REST API với Script ID `1WVoxU20yqSYltl881Y9_Xm8oDjXBKLdh4Y3UQnlrTIYGcZJhtwG1qovD`:**
+     - Quét và phát hiện 19 file remote trên Apps Script (trong đó có 16 file cũ tồn đọng của TDCM như `AA_ReadMe`, `AuditLog`, `Automation`, `Dashboard`, `Task_list`...).
+     - Thực hiện cập nhật đè toàn diện (Atomic Replace): Xóa bỏ sạch sẽ 100% các file cũ của TDCM.
+     - Thay thế bằng đúng **3 file chuẩn SSOT của App AP CAR CARE**: `appsscript.json`, `Code.gs` (109KB), `Index.html` (642KB).
+  2. **Tạo Version 1 & Xuất Bản Web App Production Mới:**
+     - Version: `1` (*App AP CAR CARE - SME OS Core v2.0 Clean SSOT*).
+     - Deployment ID: `AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ`.
+     - Web App URL: `https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec`.
+- **Bước tiếp theo:** Anh Đức mở trực tiếp link Web App trên hoặc vào Apps Script chạy hàm `initAllBackendSheets` để tự động khởi tạo Sheet `TT-MKT` và Cột `M` trên Sheet `Nhân sự`.
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 07:56
 
 ## BỐI CẢNH DỰ ÁN & VAI TRÒ
 - **Chủ đầu tư / Nền tảng:** Hệ điều hành Doanh nghiệp SME OS ứng dụng thực chiến cho Công ty TNHH AP CAR CARE (Detailing, Phụ kiện, Đồ chơi xe, Âm thanh Focal... tại TPHCM & Toàn quốc).

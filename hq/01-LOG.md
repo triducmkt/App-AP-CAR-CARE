@@ -479,3 +479,20 @@ ode index.js --style-scan xuất báo cáo pháp y Markdown và file Blueprint J
     * Bổ sung nút **`TẠO VIDEO MỚI (RUN 7 SKILL)`** tại tiêu đề bảng và thanh công cụ Canvas, liên kết trực tiếp với hệ thống API Key (nếu chưa có API Key kích hoạt sẽ cảnh báo và mở ngay Tab Cài Đặt API Key).
     * Tích hợp dải tiến độ thời gian thực `#vePipelineProgressWrap` và hiệu ứng dòng chảy ánh sáng xung mạch (`.ve-edge-flowing`, `stroke-dasharray`, `@keyframes veFlowDash`) chạy dọc theo các line từ node đầu tới node cuối, các node chuyển trạng thái `WAITING` $\rightarrow$ `RUNNING` $\rightarrow$ `COMPLETED`, cập nhật tiến độ 0% $\rightarrow$ 100% và xuất video thành phẩm lưu vào Google Drive & Sheet `TT-MKT`.
   - Cập nhật `hq/CODING_TASKS.json` (`TASK-015`), `hq/00-INDEX.md`, `hq/01-LOG.md`.
+
+---
+
+## [2026-10-25 07:56] — Lucy (Antigravity / Gemini 3.8 Flash Medium) — Triển Khai Toàn Diện Code Lên Google Apps Script, Xóa Sạch 16 File Cũ TDCM & Xuất Bản Web App Production
+- **Yêu cầu từ PO (anh Đức):**
+  - Cung cấp Script ID `1WVoxU20yqSYltl881Y9_Xm8oDjXBKLdh4Y3UQnlrTIYGcZJhtwG1qovD` để triển khai toàn bộ mã nguồn sạch từ GitHub / Local sang Apps Script, xóa sạch toàn bộ các file cũ tồn đọng của TDCM Team App.
+- **Thực thi & Kết quả:**
+  - Kết nối trực tiếp vào Google Apps Script REST API qua tài khoản OAuth `triducmkt@gmail.com`.
+  - Đã quét và phát hiện 19 file remote trên Apps Script (trong đó có 16 file cũ của TDCM: `AA_ReadMe`, `AuditLog`, `Automation`, `Dashboard`, `Task_list`...).
+  - Thực hiện cập nhật đè toàn diện (Atomic Replace): Xóa sạch 100% các file cũ của TDCM, chỉ giữ lại đúng **3 file cốt lõi chuẩn SSOT của AP CAR CARE**:
+    1. `appsscript.json` (209 bytes)
+    2. `Code.gs` (109.289 bytes)
+    3. `Index.html` (642.218 bytes)
+  - Tạo mới Version 1 (*App AP CAR CARE - SME OS Core v2.0 Clean SSOT*) và xuất bản Web App Production:
+    * Deployment ID: `AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ`
+    * Web App URL: `https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec`
+  - Cập nhật `hq/00-INDEX.md`, `hq/01-LOG.md`, `.clasp.json`, `.claspignore`.
