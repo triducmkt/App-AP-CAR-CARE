@@ -24,7 +24,11 @@
 - **Link Demo App Live (GitHub Pages - Kiểm tra giao diện trực tiếp không vướng quyền Google):** [Mở App AP CAR CARE (GitHub Pages)](https://triducmkt.github.io/App-AP-CAR-CARE/)
 - **Link Môi Trường Sản Xuất Đóng Băng (`/exec` - Bản chính thức, KHÔNG tự ý deploy khi chưa có lệnh duyệt):** [Mở Web App GAS Production /exec](https://script.google.com/macros/s/AKfycbxyBy5Mme7JJbLS95nNpBb_Fj-IB_73QCf1GHr28Itcc1k23Ay4Kn47iBA-yOfnRdVQ/exec) *(Tài khoản: `DUC` / Mật khẩu: `7668`)*
 - **Link Google Sheet Backend (SSOT):** [Mở Google Sheet Backend App AP CAR CARE](https://docs.google.com/spreadsheets/d/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0/edit)
-- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 17:15 (ERR-018 Fix ReferenceError & ERR-019 Fix Flexbox Row on Full Screen Desktop)
+- **Cập nhật lần cuối:** Lucy/Antigravity — 2026-10-25 20:15 (FEAT-003 Smart Media Uploader, FEAT-004 Video Render Drive AP, ERR-020 Compact Image Encoding)
+  * Tạm ẩn 3 ô di sản: Soạn thảo nội dung, Kênh đăng đồng thời, Banner đồng bộ Sheet.
+  * Thay thế bằng Section: **Trạm Upload Media & Kho Tư Liệu Drive AP** (Chuẩn Smart Resumable Chunking 5MB & Nén ảnh Compact Sheet < 10KB học từ TDCM Team App).
+  * Đã bổ sung 2 tính năng `FEAT-003` và `FEAT-004` vào Sheet SSOT `Yêu cầu tính năng` trên Google Sheets Backend (Dòng 14 & 15).
+  * Kiểm toán chuyên sâu luồng Edit Video: Giải mã nguyên nhân thông báo phân quyền (Thư mục nằm trên Shared/Team Drive `0ANgvJnmVIUS0Uk9PVA`) và tiến trình render thật qua Local Gateway.
   * Khởi tạo Sheet `Yêu cầu tính năng` (13 cột chuẩn Hiến pháp) trên SSOT Backend Spreadsheet `1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0`.
   * Khắc phục triệt để lỗi `ERR-019` (Lỗi mất section khi full screen desktop): Đã sửa `html.ap-authenticated #viewHome` từ `display: block` thành `display: flex; flex-direction: row; position: fixed; inset: 0;`, đưa `#apMainStage` về đúng vị trí song hành bên cạnh `#apSidebar` trên cả PC Desktop và Mobile.
 

@@ -28,6 +28,7 @@
 | **ERR-017** | `L322–L360` | `[SME OS]` | **Lỗi trỏ sai Sheet nguồn (`Staff` ảo vs `Nhân sự` thật) & nghẽn hàm ghi đè `ensureBackendSheetsInitialized` trong `doGet`** khiến màn hình đen, mất dữ liệu và timeout | (1) Khóa cứng SSOT `STAFF: "Nhân sự"`, `CATEGORIES: "Danh mục"`; (2) Bỏ hoàn toàn logic `insertSheet("Staff")` và gỡ `ensureBackendSheetsInitialized()` khỏi `doGet`; (3) Quét đăng nhập trực tiếp Cột H/I/F của Sheet `Nhân sự`; (4) Nuôi dropdown từ Sheet `Danh mục`. |
 | **ERR-018** | `L362–L395` | `[SME OS]` | **Lỗi gọi hàm undefined (`applyLogoSlotsToDOM`) làm sập luồng khởi động SPA** khiến khu vực làm việc bị đen dù cú pháp AST hợp lệ | Đổi sang `applyAllLogoSlotsToDOM` + gắn alias; bắt buộc dùng Playwright (`/plw`) đọc `browser_console_messages` trực tiếp trên web app runtime để đạt **0 Console Errors** trước khi báo cáo PO. |
 | **ERR-019** | `L397–L435` | `[SME OS]` | **Lỗi `display: block !important` trên `#viewHome` làm vỡ Flexbox 2 cột**, đẩy `#apMainStage` xuống dưới đáy làm mất nội dung trên Full Screen Desktop | Bắt buộc giữ `html.ap-authenticated #viewHome { display: flex !important; flex-direction: row !important; position: fixed !important; inset: 0 !important; }`; kiểm thử Playwright bounding box ở cả 1920px và 500px. |
+| **ERR-020** | `L437–L475` | `[SME OS]` | **Lỗi tràn ô Google Sheet (> 50.000 ký tự) do lưu Base64 ảnh thô & nghẽn upload file video lớn qua Apps Script** | Bắt buộc dùng Smart Resumable Chunking 5MB cho file lớn; nén ảnh Canvas 150px JPEG 0.8 (< 10KB Base64) hoặc link LH3 ~42 ký tự cho ô Sheet. |
 | **UI-GEN** | `L397–L406` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
@@ -316,6 +317,18 @@
      - Gọi Playwright `browser_resize` ở `1920x1080`, kiểm tra `mainStage.getBoundingClientRect().top === 0` và `left === 282`.
      - Gọi Playwright `browser_resize` ở `500x800`, kiểm tra `mainStage.getBoundingClientRect().top === 0` và `left === 0`, đồng thời `sidebar.left < 0`.
      - Chụp ảnh màn hình trực quan `browser_take_screenshot` để đối soát.
+
+
+### [ERR-020] Lỗi Tràn Ô Google Sheet (> 50.000 Ký Tự) Do Lưu Base64 Ảnh Thô & Nghẽn Upload File Lớn Qua Apps Script
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Khi người dùng tải ảnh đại diện hoặc đính kèm ảnh xe vào đơn hàng, Google Sheet báo lỗi vượt quá giới hạn 50.000 ký tự / ô tính; hoặc khi upload video nặng qua `google.script.run`, web app bị treo đơ, báo lỗi `ScriptError: Exceeded maximum execution time` hoặc `Payload Too Large`.
+- **Nguyên nhân gốc:**
+  1. Ảnh chụp từ smartphone hiện đại có dung lượng từ 3MB - 12MB. Nếu convert thô sang Base64 thì chuỗi dài từ 4 triệu đến 16 triệu ký tự, trong khi 1 ô Google Sheet chỉ chứa tối đa 50.000 ký tự.
+  2. Google Apps Script giới hạn payload truyền qua `google.script.run` tối đa ~50MB và timeout 6 phút. Việc truyền file video dung lượng 100MB - 1GB qua Apps Script sẽ làm crash toàn bộ hệ thống.
+- **Cách khắc phục triệt để (Học từ TDCM Team App):**
+  1. **Upload File Lớn (> 5MB):** Sử dụng Google Drive API v3 Resumable Upload (`supportsAllDrives=true`) kết hợp OAuth Token `ScriptApp.getOAuthToken()`. Băm file thành từng khúc 5MB (`CHUNK_SIZE = 5 * 1024 * 1024`) và bơm đa luồng (3 workers) trực tiếp lên Drive, bỏ qua hoàn toàn rào cản 50MB của GAS.
+  2. **Nén Ảnh Vào Ô Sheet:** Sử dụng HTML5 Canvas nén ảnh tại client (`MAX_WIDTH = 150px`, JPEG quality 80%), tạo ra chuỗi Base64 siêu nhẹ < 10.000 ký tự (dung lượng chỉ 3-8 KB), an toàn 100% trong ô tính.
+  3. **Lưu Link Drive Rút Gọn LH3:** Với các file đã có trên Drive, chỉ lưu File ID hoặc link `https://lh3.googleusercontent.com/d/{fileId}` (chỉ ~42 ký tự) hoặc `=IMAGE("https://lh3.googleusercontent.com/d/" & "{fileId}")` để xem tức thì trên cả App và Sheet mà không tốn dung lượng.
 
 ### [UI-GEN] Tổ hợp Quy tắc Xử lý Sự kiện UI, Biến Global & Đồng bộ 2 Chiều `FIELD_MAP`
 - **Scope / Dự án:** `[Tất cả / Chung]`

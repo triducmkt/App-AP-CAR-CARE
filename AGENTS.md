@@ -89,6 +89,10 @@ Danh mục dự án toàn máy:
      * **Trên Tablet & Mobile (`<= 1024px`):** `.ap-sidebar` bắt buộc chuyển thành **Off-Canvas Slide-Over Drawer** (`position: fixed; transform: translateX(-105%)` $\rightarrow$ `.mobile-open { transform: translateX(0); }`) kèm lớp phủ mờ `#apSidebarBackdrop`; `.ap-topbar` chia 2 tầng ngang giúp tiêu đề `#topbarActiveTitle` luôn nằm gọn trên **1 dòng ngang duy nhất** (`white-space: nowrap; overflow: hidden; text-overflow: ellipsis`), tuyệt đối không bị ép rớt thành nhiều dòng dọc.
    - **Bước 4 — Hậu kiểm Tự động (`Automated Post-Build Verification`):**
      * Chạy script kiểm tra tự động xác nhận: (1) `0` CSS trùng lặp giữa `<head>` và `#viewHome`, (2) `0` Emoji trong `#viewHome`, (3) `0` backtick trong `<script>`, (4) Cú pháp JS (`new vm.Script`) hợp lệ 100% ở cả `src/Index.html` và `src/Code.gs`, (5) **`0` Missing DOM IDs** (mọi `getElementById` trong `<script>` đều khớp 100% với `id` trong HTML) và **`0` thẻ `<img src="">` rỗng** (`ERR-011` Guard).
+11. **Chuẩn Upload Media & Mã Hóa Lưu Trữ Ảnh Gọn Nhẹ Vào Ô Sheet (Học từ TDCM Team App - BẮT BUỘC):**
+    - Áp dụng Smart Resumable Upload (Chunking 5MB) qua Google Drive API v3 cho file > 5MB.
+    - Áp dụng Canvas 150px JPEG 80% nén Base64 < 10.000 ký tự hoặc link LH3 ~42 ký tự lưu vào ô Google Sheet chống tràn 50k ký tự.
+
 10. **Quy trình Triển khai Code & Phân định Rạch Ròi Môi Trường Thử Nghiệm (`/dev`) vs Sản Xuất (`/exec`) (BẮT BUỘC 100%):**
     - **Quy tắc Push Test Mặc định (`/dev` First):** Sau mỗi lần code hoặc sửa lỗi, AI **CHỈ ĐƯỢC PHÉP** chạy `clasp push` (hoặc `node hq/push_to_gas.js`) để đẩy code lên bản nháp **HEAD** của Google Apps Script nhằm phục vụ kiểm thử trên môi trường `/dev` và deploy lên GitHub Pages (`.\deploy-demo.ps1`).
     - **Khóa An Toàn Nghiêm Ngặt Cho Bản Triển Khai (`/exec` Gate):** Tuyệt đối **CẤM TỰ TIỆN** tạo Version mới hoặc cập nhật bản triển khai Production (`/exec`) khi chưa có lệnh.
