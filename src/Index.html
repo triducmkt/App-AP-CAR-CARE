@@ -5202,25 +5202,26 @@
       ];
 
       var ROLE_DEFINITIONS = [
-        { code: 'ADMIN_CEO', label: 'Admin / Ban Giám Đốc' },
-        { code: 'MKT',       label: 'Nhân sự Marketing (TT-MKT)' },
-        { code: 'SALE',      label: 'Cố vấn Dịch vụ & Sale (CVDV)' },
-        { code: 'TECH',      label: 'Kỹ thuật viên & Quản đốc (KTV)' },
-        { code: 'HR',        label: 'Nhân sự & Đào tạo (HR - AP Education)' },
-        { code: 'INV',       label: 'Thủ kho & Mua hàng (SKU)' },
-        { code: 'FIN',       label: 'Kế toán & Kiểm toán (KTNB)' },
-        { code: 'OPS',       label: 'Bảo vệ Cổng & Ca trực (OPS)' }
+        { code: 'Admin',         label: 'Admin (Quản trị tối cao)' },
+        { code: 'CEO',           label: 'CEO (Giám đốc điều hành)' },
+        { code: 'Quản lý',       label: 'Quản lý / Trưởng phòng' },
+        { code: 'Sale',          label: 'Kinh doanh & CVDV' },
+        { code: 'Kĩ thuật viên', label: 'Kĩ thuật viên & Thợ thi công' },
+        { code: 'Kế toán',       label: 'Kế toán & Tài chính' },
+        { code: 'Freelancer',    label: 'Freelancer & CTV Content' },
+        { code: 'Khách lạ',      label: 'Khách lạ / Trải nghiệm' },
+        { code: 'ADMIN_CEO',     label: 'Admin & CEO (Chung)' }
       ];
 
       var DEFAULT_DEPT_ACCESS_MATRIX = [
-        { deptId: 'DEPT_CEO',  code: 'CEO',   name: 'Ban Giám Đốc',        subLabel: 'Điều hành & Phê duyệt AI',     icon: 'crown',     enabled: true, allowedRoles: ['ADMIN_CEO'] },
-        { deptId: 'DEPT_MKT',  code: 'TT-MKT',name: 'Phòng TT - MKT',      subLabel: 'Edit Video AI, ROAS & Đa kênh',icon: 'megaphone', enabled: true, allowedRoles: ['ADMIN_CEO', 'MKT'] },
-        { deptId: 'DEPT_SALE', code: 'SALE',  name: 'Kinh Doanh & CSKH',   subLabel: 'Phễu Khách 360° & Đặt lịch',   icon: 'handshake', enabled: true, allowedRoles: ['ADMIN_CEO', 'SALE', 'MKT'] },
-        { deptId: 'DEPT_TECH', code: 'TECH',  name: 'Kỹ Thuật & Xưởng',    subLabel: 'Khoang xe & Lệnh RO',          icon: 'wrench',    enabled: true, allowedRoles: ['ADMIN_CEO', 'TECH', 'SALE'] },
-        { deptId: 'DEPT_HR',   code: 'HR-ĐT', name: 'Phòng HR - Đào Tạo',  subLabel: 'Nhân sự 6 tầng & Học viện AP', icon: 'users',     enabled: true, allowedRoles: ['ADMIN_CEO', 'HR', 'MKT', 'TECH', 'SALE', 'FIN'] },
-        { deptId: 'DEPT_INV',  code: 'KHO',   name: 'Kho & Mua Hàng',      subLabel: 'Tồn kho & Vật tư Focal',       icon: 'box',       enabled: true, allowedRoles: ['ADMIN_CEO', 'INV', 'TECH', 'FIN'] },
-        { deptId: 'DEPT_FIN',  code: 'FIN',   name: 'Kế Toán & Tài Chính', subLabel: 'Đối soát & Sổ quỹ',            icon: 'wallet',    enabled: true, allowedRoles: ['ADMIN_CEO', 'FIN'] },
-        { deptId: 'DEPT_OPS',  code: 'OPS',   name: 'Bảo Vệ & Ca Trực',    subLabel: 'Cổng xe 10s & Checklist',      icon: 'shield',    enabled: true, allowedRoles: ['ADMIN_CEO', 'OPS', 'TECH', 'SALE', 'HR'] }
+        { deptId: 'DEPT_CEO',  code: 'CEO',   name: 'Ban Giám Đốc',        subLabel: 'Điều hành & Phê duyệt AI',     icon: 'crown',     enabled: true, allowedRoles: ['Admin', 'CEO', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_MKT',  code: 'TT-MKT',name: 'Phòng TT - MKT',      subLabel: 'Edit Video AI, ROAS & Đa kênh',icon: 'megaphone', enabled: true, allowedRoles: ['Admin', 'CEO', 'Quản lý', 'Freelancer', 'Sale', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_SALE', code: 'SALE',  name: 'Kinh Doanh & CSKH',   subLabel: 'Phễu Khách 360° & Đặt lịch',   icon: 'handshake', enabled: true, allowedRoles: ['Admin', 'CEO', 'Quản lý', 'Sale', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_TECH', code: 'TECH',  name: 'Kỹ Thuật & Xưởng',    subLabel: 'Khoang xe & Lệnh RO',          icon: 'wrench',    enabled: true, allowedRoles: ['Admin', 'CEO', 'Quản lý', 'Kĩ thuật viên', 'Sale', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_HR',   code: 'HR-ĐT', name: 'Phòng HR - Đào Tạo',  subLabel: 'Nhân sự 6 tầng & Học viện AP', icon: 'users',     enabled: true, allowedRoles: ['Admin', 'CEO', 'Quản lý', 'Kế toán', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_INV',  code: 'KHO',   name: 'Kho & Mua Hàng',      subLabel: 'Tồn kho & Vật tư Focal',       icon: 'box',       enabled: true, allowedRoles: ['Admin', 'CEO', 'Quản lý', 'Kế toán', 'Kĩ thuật viên', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_FIN',  code: 'FIN',   name: 'Kế Toán & Tài Chính', subLabel: 'Đối soát & Sổ quỹ',            icon: 'wallet',    enabled: true, allowedRoles: ['Admin', 'CEO', 'Kế toán', 'ADMIN_CEO'] },
+        { deptId: 'DEPT_OPS',  code: 'OPS',   name: 'Bảo Vệ & Ca Trực',    subLabel: 'Cổng xe 10s & Checklist',      icon: 'shield',    enabled: true, allowedRoles: ['Admin', 'CEO', 'Quản lý', 'Kĩ thuật viên', 'ADMIN_CEO'] }
       ];
 
       var DEPT_TITLES_MAP = {
@@ -5625,6 +5626,7 @@
           renderDynamicMatrixTable('Finance_Transactions', 'tableContainerFinance');
           renderDynamicMatrixTable('Staff', 'tableContainerStaff');
           renderDynamicMatrixTable('Staff', 'tableContainerStaffHr');
+        loadLiveStaffHrData();
           renderDynamicMatrixTable('Tasks', 'tableContainerTasks');
           renderDynamicMatrixTable('Tasks', 'tableContainerAcademyHr');
           renderDynamicMatrixTable('TT_MKT', 'tableContainerTtMktVideos');
@@ -5847,13 +5849,18 @@
       }
 
       function canUserAccessDepartment(deptId, roleCode) {
-        if (roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER') return true;
+        var uName = (AppStore.state.currentUser.username || '').toUpperCase();
+        var rName = (AppStore.state.currentUser.role || '').trim();
+        var rCode = roleCode || AppStore.state.currentUser.roleCode || '';
+        if (rCode === 'ADMIN_CEO' || rCode === 'CEO_FOUNDER' || rName === 'Admin' || rName === 'CEO' || uName === 'DUC' || uName === 'LOC') {
+          return true;
+        }
         var list = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
         for (var i = 0; i < list.length; i++) {
           if (list[i].deptId === deptId) {
             if (!list[i].enabled) return false;
             var allowed = list[i].allowedRoles || [];
-            return allowed.indexOf(roleCode) !== -1;
+            return (allowed.indexOf(rCode) !== -1 || allowed.indexOf(rName) !== -1);
           }
         }
         return true;
@@ -5865,10 +5872,12 @@
         var btnSettingsTopbar = document.getElementById('btnTopbarOpenSettings');
         if (!navEl) return;
 
+        var uName = (AppStore.state.currentUser.username || '').toUpperCase();
+        var rName = (AppStore.state.currentUser.role || '').trim();
         var roleCode = AppStore.state.currentUser.roleCode || 'ADMIN_CEO';
         var list = sanitizeDeptAccessConfig(AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX);
         AppStore.state.deptAccessConfig = list;
-        var isMasterAdmin = (roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER');
+        var isMasterAdmin = (roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER' || rName === 'Admin' || rName === 'CEO' || uName === 'DUC' || uName === 'LOC');
         var html = '';
         var visibleCount = 0;
         var firstVisibleDept = null;
@@ -6247,12 +6256,13 @@
         Staff: [
           { key: 'id', label: 'Mã NV' },
           { key: 'name', label: 'Họ và Tên' },
-          { key: 'orgFloor', label: 'Tầng' },
+          { key: 'email', label: 'Email' },
           { key: 'department', label: 'Phòng ban' },
-          { key: 'subUnit', label: 'Chức danh / Bộ phận' },
-          { key: 'phone', label: 'Liên hệ' },
+          { key: 'role', label: 'Chức vụ' },
+          { key: 'workStatus', label: 'Tình trạng làm việc' },
+          { key: 'phone', label: 'SĐT Zalo' },
           { key: 'status', label: 'Trạng thái', isStatus: true },
-          { key: 'uiPersonalizationJson', label: 'Cột M: Cá Nhân Hóa UI (JSON)' }
+          { key: 'uiPersonalizationJson', label: 'Cá nhân hóa UI (JSON)' }
         ],
         Tasks: [
           { key: 'id', label: 'Mã Học phần' },
@@ -6274,6 +6284,23 @@
           { key: 'status', label: 'Trạng thái Render', isStatus: true }
         ]
       };
+
+      // KẾT NỐI LUỒNG TRỰC TIẾP GIỮA PHÒNG HR VÀ SHEET NHÂN SỰ
+      function loadLiveStaffHrData() {
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(res) {
+              if (res && res.ok && Array.isArray(res.list) && res.list.length > 0) {
+                AppStore.state.systemBundle.seedData.Staff = res.list;
+                renderDynamicMatrixTable('Staff', 'tableContainerStaffHr');
+                var kpiTotal = document.getElementById('kpiHrTotalStaff');
+                if (kpiTotal) kpiTotal.textContent = String(res.list.length);
+              }
+            })
+            .withFailureHandler(function() {})
+            .getStaffList(AppStore.state.currentUser);
+        }
+      }
 
       function renderDynamicMatrixTable(tableName, containerId) {
         var container = document.getElementById(containerId);

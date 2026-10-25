@@ -36,19 +36,22 @@ const PM_CONFIG = {
     LEADS: "Leads",
     CUSTOMERS: "Customers",
     ORDERS: "Orders",
-    TASKS: "Tasks",
+    TASKS: "Công việc",
+    PROJECTS: "Dự án",
     PRODUCTS_ASSETS: "Products_Assets",
-    STAFF: "Staff",
+    STAFF: "Nhân sự",
+    CATEGORIES: "Danh mục",
     PARTNERS: "Partners",
     INVENTORY: "Inventory",
     FINANCE: "Finance_Transactions",
     WARRANTY: "Warranty_Care",
-    MKT_POSTS: "MKT_Posts",
+    MKT_POSTS: "TT-MKT",
     TT_MKT: "TT-MKT",
     APP_THEMES: "App_Themes",
+    SETTINGS: "Cài đặt",
     BRAND_LOGOS: "Brand_Logo_Slots",
     AUTOMATION_QUEUE: "Sys_Automation_Queue",
-    AUDIT_LOGS: "Audit_Logs"
+    AUDIT_LOGS: "Lịch sử"
   }
 };
 
@@ -362,16 +365,22 @@ const DEFAULT_THEME_SKINS = [
 // Quy hoạch sẵn toàn bộ 10 Thực thể Cốt lõi + Hệ thống ngay từ đầu.
 // ============================================================================
 const ROLES = {
-  CHAIRMAN: "Chủ tịch HĐQT",
-  CEO: "Giám đốc điều hành (CEO)",
-  DIRECTOR: "Giám đốc Khối",
-  MANAGER: "Quản đốc / Trưởng BP",
-  CVDV: "Cố vấn dịch vụ (CVDV)",
-  TECH_STAFF: "Kỹ thuật viên / Chuyên viên",
-  TRAINEE: "Học viên (HV)",
-  PARTNER: "Đối tác / Đại lý",
-  CUSTOMER: "Khách hàng",
-  GUEST: "Khách lạ"
+  ADMIN: "Admin",
+  CEO: "CEO",
+  MANAGER: "Quản lý",
+  SALE: "Sale",
+  TECH: "Kĩ thuật viên",
+  ACCOUNTANT: "Kế toán",
+  FREELANCER: "Freelancer",
+  GUEST: "Khách lạ",
+  // Tương thích ngược
+  CHAIRMAN: "Admin",
+  DIRECTOR: "Admin",
+  CVDV: "Sale",
+  TECH_STAFF: "Kĩ thuật viên",
+  TRAINEE: "Kĩ thuật viên",
+  PARTNER: "Freelancer",
+  CUSTOMER: "Khách lạ"
 };
 
 /**
@@ -450,18 +459,110 @@ const GLOBAL_DB_MAP = {
   // 6. BẢNG STAFF (Nhân sự 6 Tầng theo Sơ đồ Tổ chức AP CAR CARE - M10)
   // Cột M lưu JSON Cá nhân hóa giao diện (Thứ tự kéo thả nút Sidebar, Theme, Zoom Canvas...) cho từng User
   "Staff": {
-    "Mã NV":           { sheetHeader: "Mã NV",                  col: "B", frontendKey: "id",                    type: "string",   visible: true },
-    "Họ và tên":       { sheetHeader: "Họ và tên",              col: "C", frontendKey: "name",                  type: "string",   visible: true },
-    "Tầng Tổ Chức":    { sheetHeader: "Tầng Tổ Chức",           col: "D", frontendKey: "orgFloor",              type: "select",   visible: true },
-    "Phòng Ban":       { sheetHeader: "Phòng Ban",              col: "E", frontendKey: "department",            type: "select",   visible: true },
-    "Bộ Phận / Chi Nhánh":{ sheetHeader:"Bộ Phận",              col: "F", frontendKey: "subUnit",               type: "string",   visible: true },
-    "Chức danh":       { sheetHeader: "Vai trò",                col: "G", frontendKey: "role",                  type: "select",   visible: true },
-    "SĐT Zalo":        { sheetHeader: "SĐT Zalo",               col: "H", frontendKey: "phone",                 type: "phone",    visible: true },
-    "Mật khẩu":        { sheetHeader: "Mật khẩu",               col: "I", frontendKey: "password",              type: "password", visible: false },
-    "Ảnh Avatar":      { sheetHeader: "Ảnh Avatar",             col: "J", frontendKey: "avatar",                type: "image",    visible: true },
-    "Màu yêu thích":   { sheetHeader: "Màu sắc yêu thích",      col: "K", frontendKey: "color",                 type: "color",    visible: true },
-    "Trạng thái":      { sheetHeader: "Trạng thái",             col: "L", frontendKey: "status",                type: "select",   visible: true },
-    "Cá nhân hóa UI (JSON)": { sheetHeader: "Cá nhân hóa UI (JSON)", col: "M", frontendKey: "uiPersonalizationJson", type: "json", visible: true }
+    "Mã NV":                  { sheetHeader: "Mã NV",                  col: "B", frontendKey: "id",                    type: "string",   visible: true },
+    "Họ và tên":              { sheetHeader: "Họ và tên",              col: "C", frontendKey: "name",                  type: "string",   visible: true },
+    "Email":                  { sheetHeader: "Email",                  col: "D", frontendKey: "email",                 type: "string",   visible: true },
+    "Phòng Ban":              { sheetHeader: "Phòng Ban",              col: "E", frontendKey: "department",            type: "select",   visible: true },
+    "Chức vụ":                { sheetHeader: "Chức vụ",                col: "F", frontendKey: "role",                  type: "select",   visible: true },
+    "Tình trạng làm việc":    { sheetHeader: "Tình trạng làm việc",    col: "G", frontendKey: "workStatus",            type: "select",   visible: true },
+    "SĐT Zalo":               { sheetHeader: "SĐT Zalo",               col: "H", frontendKey: "phone",                 type: "string",   visible: true },
+    "Mật khẩu":               { sheetHeader: "Mật khẩu",               col: "I", frontendKey: "password",              type: "password", visible: false },
+    "Ảnh Avatar":             { sheetHeader: "Ảnh Avatar",             col: "J", frontendKey: "avatar",                type: "image",    visible: true },
+    "Màu sắc yêu thích":      { sheetHeader: "Màu sắc yêu thích",      col: "K", frontendKey: "color",                 type: "color",    visible: true },
+    "Trạng thái":             { sheetHeader: "Trạng thái",             col: "L", frontendKey: "status",                type: "select",   visible: true },
+    "Cá nhân hóa UI (JSON)":  { sheetHeader: "Cá nhân hóa UI (JSON)",  col: "M", frontendKey: "uiPersonalizationJson", type: "json",     visible: true },
+    "Lương & Bonus Admin":    { sheetHeader: "Lương & Bonus Admin",    col: "N", frontendKey: "salaryAdmin",           type: "number",   visible: false },
+    "Thông tin nhận lương":   { sheetHeader: "Thông tin nhận lương",   col: "O", frontendKey: "bankInfo",              type: "json",     visible: false },
+    "Đồng ý thanh toán lương":{ sheetHeader: "Đồng ý thanh toán lương",col: "P", frontendKey: "payTermsAgree",         type: "string",   visible: false },
+    "Đã thanh toán?":         { sheetHeader: "Đã thanh toán?",         col: "Q", frontendKey: "isPaid",                type: "string",   visible: false },
+    "Dashboard":              { sheetHeader: "Dashboard",              col: "R", frontendKey: "dashboardWidgetsJson",  type: "json",     visible: true },
+    "Ghi chú":                { sheetHeader: "Ghi chú",                col: "S", frontendKey: "note",                  type: "string",   visible: true }
+  },
+
+  // BẢNG DANH MỤC (Phân loại & Thuộc tính SSOT - Sheet "Danh mục")
+  "Danh mục": {
+    "Trạng thái công việc":   { sheetHeader: " 🔐Trạng thái công việc",col: "B", frontendKey: "taskStatus",            type: "select",   visible: true },
+    "Mức ưu tiên":            { sheetHeader: "🔐Mức ưu tiên",          col: "D", frontendKey: "priority",              type: "select",   visible: true },
+    "Loại nội dung":          { sheetHeader: "Loại nội dung",          col: "F", frontendKey: "contentType",           type: "select",   visible: true },
+    "Phòng ban":              { sheetHeader: "Phòng ban",              col: "H", frontendKey: "department",            type: "select",   visible: true },
+    "Trạng thái dự án":       { sheetHeader: "🔐 Trạng thái dự án",    col: "J", frontendKey: "projectStatus",         type: "select",   visible: true },
+    "Chức vụ":                { sheetHeader: "Chức vụ",                col: "L", frontendKey: "role",                  type: "select",   visible: true },
+    "Trạng thái nhân sự":     { sheetHeader: "Trạng thái nhân sự",     col: "N", frontendKey: "staffStatus",           type: "select",   visible: true },
+    "Có / Không":             { sheetHeader: "Có / Không",             col: "P", frontendKey: "yesNo",                 type: "select",   visible: true },
+    "Loại dịch vụ":           { sheetHeader: "Loại dịch vụ",           col: "R", frontendKey: "serviceType",           type: "select",   visible: true },
+    "Loại content chuyển đổi":{ sheetHeader: "Loại content chuyển đổi",col: "T", frontendKey: "conversionType",       type: "select",   visible: true },
+    "Loại thông báo":         { sheetHeader: "Loại thông báo",         col: "V", frontendKey: "notificationType",     type: "select",   visible: true }
+  },
+
+  // BẢNG CÔNG VIỆC (Nhiệm vụ & Tiến độ công việc - Sheet "Công việc")
+  "Công việc": {
+    "Mã TASK":                { sheetHeader: "Mã TASK",                col: "B", frontendKey: "id",                    type: "string",   visible: true },
+    "Tên TASK":               { sheetHeader: "Tên TASK",               col: "C", frontendKey: "name",                  type: "string",   visible: true },
+    "Nội dung task":          { sheetHeader: "Nội dung task",          col: "D", frontendKey: "noidung",               type: "text",     visible: true },
+    "Mã dự án":               { sheetHeader: "Mã dự án",               col: "E", frontendKey: "projectCode",           type: "string",   visible: false },
+    "Tên dự án":              { sheetHeader: "Tên dự án",              col: "F", frontendKey: "project",               type: "string",   visible: true },
+    "Mã nhân sự phụ trách":   { sheetHeader: "Mã nhân sự phụ trách",   col: "G", frontendKey: "assigneeCode",          type: "string",   visible: false },
+    "Người phụ trách":        { sheetHeader: "Người phụ trách",        col: "H", frontendKey: "assignee",              type: "string",   visible: true },
+    "Email phụ trách":        { sheetHeader: "Email phụ trách",        col: "I", frontendKey: "email",                 type: "string",   visible: false },
+    "Ngày bắt đầu":           { sheetHeader: "Ngày bắt đầu",           col: "L", frontendKey: "start",                 type: "date",     visible: true },
+    "Hạn chót":               { sheetHeader: "Hạn chót",               col: "M", frontendKey: "deadline",              type: "date",     visible: true },
+    "Ngày hoàn thành thực tế":{ sheetHeader: "Ngày hoàn thành thực tế",col: "N", frontendKey: "complete",              type: "date",     visible: true },
+    "Trạng thái":             { sheetHeader: "Trạng thái",             col: "O", frontendKey: "status",                type: "select",   visible: true },
+    "Mức ưu tiên":            { sheetHeader: "Mức ưu tiên",            col: "P", frontendKey: "priority",              type: "select",   visible: true },
+    "Loại CONTENT":           { sheetHeader: "Loại CONTENT",           col: "V", frontendKey: "type",                  type: "select",   visible: true },
+    "Nhận xét sửa task":      { sheetHeader: "Nhận xét sửa task",      col: "AD",frontendKey: "nhanxet",               type: "text",     visible: true },
+    "Link nộp task":          { sheetHeader: "Link nộp task",          col: "AE",frontendKey: "link",                  type: "url",      visible: true },
+    "Đơn giá task":           { sheetHeader: "Đơn giá task",           col: "AF",frontendKey: "dongia",                type: "number",   visible: true },
+    "Tình trạng air task":    { sheetHeader: "Tình trạng air task",    col: "AH",frontendKey: "airstat",               type: "string",   visible: true },
+    "Ngày air task":          { sheetHeader: "Ngày air task",          col: "AK",frontendKey: "airdate",               type: "date",     visible: true },
+    "Loại dịch vụ":           { sheetHeader: "Loại dịch vụ",           col: "AL",frontendKey: "servicetype",           type: "select",   visible: true },
+    "Loại content chuyển đổi":{ sheetHeader: "Loại content chuyển đổi",col: "AM",frontendKey: "conversetype",         type: "select",   visible: true },
+    "Ghi chú Admin":          { sheetHeader: "Ghi chú Admin",          col: "AN",frontendKey: "adminnote",             type: "text",     visible: true },
+    "Thành tiền TTDA":        { sheetHeader: "Thành tiền TTDA",        col: "AO",frontendKey: "projcharge",            type: "number",   visible: true }
+  },
+
+  // BẢNG DỰ ÁN (Sheet "Dự án")
+  "Dự án": {
+    "Mã dự án":               { sheetHeader: "Mã dự án",               col: "B", frontendKey: "id",                    type: "string",   visible: true },
+    "Tên dự án":              { sheetHeader: "Tên dự án",              col: "C", frontendKey: "name",                  type: "string",   visible: true },
+    "Mục tiêu":               { sheetHeader: "Mục tiêu",               col: "D", frontendKey: "target",                type: "text",     visible: true },
+    "Mã nhân sự quản lý":     { sheetHeader: "Mã nhân sự quản lý",     col: "E", frontendKey: "managerId",             type: "string",   visible: false },
+    "Họ tên quản lý":         { sheetHeader: "Họ tên quản lý",         col: "F", frontendKey: "managerName",           type: "string",   visible: true },
+    "Ngày bắt đầu":           { sheetHeader: "Ngày bắt đầu",           col: "G", frontendKey: "startDate",             type: "date",     visible: true },
+    "Ngày kết thúc":          { sheetHeader: "Ngày kết thúc",          col: "H", frontendKey: "endDate",               type: "date",     visible: true },
+    "Trạng thái dự án":       { sheetHeader: "Trạng thái dự án",       col: "I", frontendKey: "status",                type: "select",   visible: true }
+  },
+
+  // BẢNG LỊCH SỬ (Sheet "Lịch sử")
+  "Lịch sử": {
+    "NGÀY GIỜ":               { sheetHeader: "NGÀY GIỜ",               col: "B", frontendKey: "timestamp",             type: "datetime", visible: true },
+    "TÊN USER":               { sheetHeader: "TÊN USER",               col: "C", frontendKey: "userName",              type: "string",   visible: true },
+    "LOẠI THAO TÁC":          { sheetHeader: "LOẠI THAO TÁC",          col: "D", frontendKey: "actionType",            type: "string",   visible: true },
+    "TÊN TASK":               { sheetHeader: "TÊN TASK",               col: "E", frontendKey: "taskName",              type: "string",   visible: true },
+    "CHI TIẾT THAO TÁC":      { sheetHeader: "CHI TIẾT THAO TÁC",      col: "F", frontendKey: "details",               type: "text",     visible: true }
+  },
+
+  // BẢNG CÀI ĐẶT (Sheet "Cài đặt")
+  "Cài đặt": {
+    "Mã Thiết Lập":           { sheetHeader: "Mã Thiết Lập",           col: "B", frontendKey: "key",                   type: "string",   visible: true },
+    "Phân Hệ / Tab":          { sheetHeader: "Phân Hệ / Tab",          col: "C", frontendKey: "tab",                   type: "select",   visible: true },
+    "Tên Cài Đặt":            { sheetHeader: "Tên Cài Đặt",            col: "D", frontendKey: "label",                 type: "string",   visible: true },
+    "Giá Trị":                { sheetHeader: "Giá Trị",                col: "E", frontendKey: "value",                 type: "json",     visible: true },
+    "Kiểu Dữ Liệu":           { sheetHeader: "Kiểu Dữ Liệu",           col: "F", frontendKey: "type",                  type: "string",   visible: true },
+    "Người Cập Nhật":         { sheetHeader: "Người Cập Nhật",         col: "G", frontendKey: "updatedBy",             type: "string",   visible: true },
+    "Thời Gian":              { sheetHeader: "Thời Gian",              col: "H", frontendKey: "updatedAt",             type: "datetime", visible: true },
+    "Ghi Chú":                { sheetHeader: "Ghi Chú",                col: "I", frontendKey: "note",                  type: "text",     visible: true }
+  },
+
+  // BẢNG APP_THEMES (Sheet "App_Themes")
+  "App_Themes": {
+    "ID Theme":               { sheetHeader: "ID Theme",               col: "B", frontendKey: "id",                    type: "string",   visible: true },
+    "Tên Theme":              { sheetHeader: "Tên Theme",              col: "C", frontendKey: "name",                  type: "string",   visible: true },
+    "File HTML":              { sheetHeader: "File HTML",              col: "D", frontendKey: "htmlFile",              type: "string",   visible: true },
+    "Từ ngày":                { sheetHeader: "Từ ngày",                col: "E", frontendKey: "startDate",             type: "date",     visible: true },
+    "Đến ngày":               { sheetHeader: "Đến ngày",               col: "F", frontendKey: "endDate",               type: "date",     visible: true },
+    "Bật/Tắt":                { sheetHeader: "Bật/Tắt",                col: "G", frontendKey: "active",                type: "boolean",  visible: true },
+    "Config JSON":            { sheetHeader: "Config JSON",            col: "H", frontendKey: "configJson",            type: "json",     visible: true }
   },
 
   // 7. BẢNG PARTNERS (Đối tác / Đại lý B2B & CTV - M07)
@@ -553,6 +654,14 @@ const GLOBAL_DB_MAP = {
 const POST_FIELD_MAP = GLOBAL_DB_MAP["MKT_Posts"];
 const TT_MKT_VIDEO_FIELD_MAP = GLOBAL_DB_MAP["TT-MKT"];
 GLOBAL_DB_MAP["TT_MKT"] = GLOBAL_DB_MAP["TT-MKT"];
+// Alias mapping tương thích ngược
+GLOBAL_DB_MAP["Nhân sự"] = GLOBAL_DB_MAP["Staff"];
+GLOBAL_DB_MAP["Tasks"] = GLOBAL_DB_MAP["Công việc"];
+GLOBAL_DB_MAP["Projects"] = GLOBAL_DB_MAP["Dự án"];
+GLOBAL_DB_MAP["Audit_Logs"] = GLOBAL_DB_MAP["Lịch sử"];
+GLOBAL_DB_MAP["Settings"] = GLOBAL_DB_MAP["Cài đặt"];
+GLOBAL_DB_MAP["Categories"] = GLOBAL_DB_MAP["Danh mục"];
+
 
 /**
  * CHIỀU 2 (2D): MA TRẬN BẢNG GIÁ & ĐỊNH MỨC THEO CHI NHÁNH / KHỐI (PROJECT_PRICING)
@@ -586,54 +695,64 @@ const PROJECT_PRICING = {
  * CHIỀU 3 (3D): MA TRẬN PHÂN QUYỀN ĐA CHIỀU (Bảng × Trường/Hành động × Vai trò)
  */
 const ROLE_MATRIX = {
-  [ROLES.CHAIRMAN]: {
+  [ROLES.ADMIN]: {
     fullAccess: true,
     allowedDepartments: ["*"],
-    allowedActions: ["*"]
+    allowedActions: ["*"],
+    allowedPages: ["*"]
   },
   [ROLES.CEO]: {
     fullAccess: true,
     allowedDepartments: ["*"],
-    allowedActions: ["*"]
-  },
-  [ROLES.DIRECTOR]: {
-    fullAccess: true,
-    allowedDepartments: ["*"],
-    allowedActions: ["*"]
+    allowedActions: ["*"],
+    allowedPages: ["*"]
   },
   [ROLES.MANAGER]: {
     fullAccess: false,
     requireOwnership: false,
     checkStatus: true,
-    allowedDepartments: ["DEPT_EXEC", "DEPT_MKT", "DEPT_SERVICE", "DEPT_HR", "DEPT_ACADEMY", "DEPT_FINANCE"],
-    allowedActions: ["CREATE_RECORD", "UPDATE_RECORD", "PUBLISH_POST", "SYNC_DATA", "APPROVE_QC"]
+    allowedDepartments: ["DEPT_CEO", "DEPT_MKT", "DEPT_SALE", "DEPT_TECH", "DEPT_HR", "DEPT_INV", "DEPT_FIN", "DEPT_OPS"],
+    allowedActions: ["CREATE_RECORD", "UPDATE_RECORD", "PUBLISH_POST", "SYNC_DATA", "APPROVE_QC"],
+    allowedPages: ["Home", "Task_list", "Dashboard", "Media_Uploader"]
   },
-  [ROLES.CVDV]: {
+  [ROLES.SALE]: {
     fullAccess: false,
     requireOwnership: false,
     checkStatus: true,
-    allowedDepartments: ["DEPT_SERVICE", "DEPT_MKT"],
-    allowedActions: ["CREATE_RECORD", "UPDATE_RECORD", "SYNC_DATA"]
+    allowedDepartments: ["DEPT_SALE", "DEPT_MKT"],
+    allowedActions: ["CREATE_RECORD", "UPDATE_RECORD", "SYNC_DATA"],
+    allowedPages: ["Home", "Task_list"]
   },
-  [ROLES.TECH_STAFF]: {
+  [ROLES.TECH]: {
     fullAccess: false,
     requireOwnership: true,
     checkStatus: true,
-    allowedDepartments: ["DEPT_MKT", "DEPT_SERVICE", "DEPT_ACADEMY"],
-    allowedActions: ["UPDATE_RECORD", "PUBLISH_POST", "SYNC_DATA"]
+    allowedDepartments: ["DEPT_TECH", "DEPT_OPS", "DEPT_INV"],
+    allowedActions: ["UPDATE_RECORD", "SYNC_DATA"],
+    allowedPages: ["Home", "Task_list"]
   },
-  [ROLES.TRAINEE]: {
+  [ROLES.ACCOUNTANT]: {
+    fullAccess: false,
+    requireOwnership: false,
+    checkStatus: true,
+    allowedDepartments: ["DEPT_FIN", "DEPT_INV", "DEPT_HR"],
+    allowedActions: ["CREATE_RECORD", "UPDATE_RECORD", "SYNC_DATA"],
+    allowedPages: ["Home", "Task_list"]
+  },
+  [ROLES.FREELANCER]: {
     fullAccess: false,
     requireOwnership: true,
     checkStatus: true,
-    allowedDepartments: ["DEPT_ACADEMY", "DEPT_SERVICE"],
-    allowedActions: ["SYNC_DATA"]
+    allowedDepartments: ["DEPT_MKT"],
+    allowedActions: ["UPDATE_RECORD", "SYNC_DATA"],
+    allowedPages: ["Home", "Task_list"]
   },
   [ROLES.GUEST]: {
     fullAccess: false,
     readOnly: true,
     allowedDepartments: [],
-    allowedActions: []
+    allowedActions: [],
+    allowedPages: ["Home"]
   }
 };
 
@@ -1101,9 +1220,32 @@ function getSeedDepartmentData() {
  * và inject trực tiếp vào HTML template phía Server trước khi trả về trình duyệt.
  */
 function doGet(e) {
-  try {
-    ensureBackendSheetsInitialized();
-  } catch (err) {}
+  // CỔNG DIAGNOSTIC: Bóc tách toàn bộ cấu trúc các Sheet thật ở Backend
+  if (e && e.parameter && e.parameter.api === "inspect") {
+    var ss = getTargetSpreadsheet();
+    var allSheets = ss.getSheets();
+    var report = [];
+    for (var sIdx = 0; sIdx < allSheets.length; sIdx++) {
+      var s = allSheets[sIdx];
+      var sName = s.getName();
+      var lr = s.getLastRow();
+      var lc = s.getLastColumn();
+      var sample = [];
+      if (lr > 0 && lc > 0) {
+        var rRows = Math.min(lr, 25);
+        var rCols = Math.min(lc, 26);
+        sample = s.getRange(1, 1, rRows, rCols).getValues();
+      }
+      report.push({
+        name: sName,
+        lastRow: lr,
+        lastColumn: lc,
+        sample: sample
+      });
+    }
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, totalSheets: allSheets.length, sheets: report }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 
   var activeEmail = "";
   try { activeEmail = Session.getActiveUser().getEmail(); } catch (e) {}
@@ -1150,8 +1292,8 @@ function doPost(e) {
     // KIỂM TRA PHÂN LOẠI: NẾU LÀ GÓI DỮ LIỆU TỪ JAVIS OS (CANONICAL INGESTION ENVELOPE)
     if (body.sourceAgent || body.targetDept || body.dataType) {
       try {
-        ensureBackendSheetsInitialized();
-      } catch (initErr) {}
+        /* ensureBackendSheetsInitialized() disabled in request cycle */
+} catch (initErr) {}
 
       var sourceAgent = String(body.sourceAgent || "Javis-Client").trim();
       var senderUser = String(body.senderUser || "SYSTEM").trim().toUpperCase();
@@ -1343,6 +1485,79 @@ function api_batch_sync(batchQueue, currentUser) {
 // ============================================================================
 // 10. API WHITE-LABEL LOGO & THEME ENGINE ("THAY QUẦN ÁO" ON/OFF)
 // ============================================================================
+
+/**
+ * Đọc Dropdown Động & Siêu Dữ Liệu từ Sheet "Danh mục" ở Backend
+ * Đọc 1 lần duy nhất từ Dòng 12 trở đi các cột B, D, F, H, J, L, N, P, R, T, V
+ */
+function loadCategoryTaxonomy() {
+  var ss = getTargetSpreadsheet();
+  var defaultTaxonomy = {
+    taskStatuses: ["CHƯA NHẬN", "ĐÃ NHẬN", "ĐANG LÀM", "CẦN SỬA", "CHỜ UP", "HOÀN THÀNH", "HỦY", "TẠM HOÃN", "ĐỔI NGƯỜI"],
+    priorities: ["Cao", "Trung bình", "Thấp"],
+    contentTypes: ["Lập kế hoạch", "Thiết kế", "Clip content", "Infographic", "Bài viết dài", "Bài viết ngắn", "Thêm sản phẩm Haravan", "Bố cục bài viết", "Khác", "Clip reel", "Khảo sát GG Map", "Cân màu", "Clip giải trí tiktok"],
+    departments: ["Kĩ thuật", "Marketing", "Giám đốc", "Dịch vụ", "Tài chính"],
+    projectStatuses: ["Chưa bắt đầu", "Đang chạy", "Tạm dừng", "Hoàn thành", "Hủy"],
+    roles: ["Admin", "CEO", "Quản lý", "Sale", "Kĩ thuật viên", "Kế toán", "Freelancer", "Khách lạ"],
+    staffStatuses: ["Đang hoạt động", "Ngưng"],
+    services: ["Dán PPF", "Phủ Ceramic (sơn/kính)", "Các dịch vụ Detailing", "Độ loa ô tô", "Dán film cách nhiệt", "Truyền thông AP CAR CARE", "Khóa Detailing cơ bản", "Khóa Dán film PPF", "Khóa Điện nội thất", "Khóa Dán film cách nhiệt", "Khóa Combo Detailing + PPF", "Truyền thông Học viện"],
+    conversionTypes: ["0. Thu hút & chia sẻ giá trị", "1. Chưa có nhu cầu", "2. Có nhu cầu", "3. Tìm kiếm thông tin", "4. So sánh", "5. Ưu đãi chốt sale", "6. Đặt lịch", "7. Thi công", "8. Giao xe", "9. Chăm sóc KH", "10. Giới thiệu KH mới"],
+    notificationTypes: ["Thông báo", "Khen thưởng", "Nhắc nhở", "Kỉ luật", "Góp ý", "Hướng dẫn"]
+  };
+
+  if (!ss) return defaultTaxonomy;
+
+  try {
+    var catSheet = ss.getSheetByName(PM_CONFIG.SHEETS.CATEGORIES) || ss.getSheetByName("Danh mục");
+    if (!catSheet) return defaultTaxonomy;
+
+    var lr = catSheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return defaultTaxonomy;
+
+    var vals = catSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lr - PM_CONFIG.MIN_DATA_ROW + 1, 22).getValues();
+    var colB = letterToColIndex("B") - 1;
+    var colD = letterToColIndex("D") - 1;
+    var colF = letterToColIndex("F") - 1;
+    var colH = letterToColIndex("H") - 1;
+    var colJ = letterToColIndex("J") - 1;
+    var colL = letterToColIndex("L") - 1;
+    var colN = letterToColIndex("N") - 1;
+    var colR = letterToColIndex("R") - 1;
+    var colT = letterToColIndex("T") - 1;
+    var colV = letterToColIndex("V") - 1;
+
+    function getUniqueNonEmpty(colIdx) {
+      var arr = [];
+      for (var i = 0; i < vals.length; i++) {
+        var v = String(vals[i][colIdx] || "").trim();
+        if (v && arr.indexOf(v) === -1) arr.push(v);
+      }
+      return arr;
+    }
+
+    var result = {
+      taskStatuses: getUniqueNonEmpty(colB),
+      priorities: getUniqueNonEmpty(colD),
+      contentTypes: getUniqueNonEmpty(colF),
+      departments: getUniqueNonEmpty(colH),
+      projectStatuses: getUniqueNonEmpty(colJ),
+      roles: getUniqueNonEmpty(colL),
+      staffStatuses: getUniqueNonEmpty(colN),
+      services: getUniqueNonEmpty(colR),
+      conversionTypes: getUniqueNonEmpty(colT),
+      notificationTypes: getUniqueNonEmpty(colV)
+    };
+
+    if (result.roles.length === 0) result.roles = defaultTaxonomy.roles;
+    if (result.taskStatuses.length === 0) result.taskStatuses = defaultTaxonomy.taskStatuses;
+    if (result.services.length === 0) result.services = defaultTaxonomy.services;
+    return result;
+  } catch (e) {
+    Logger.log("[LOAD_TAXONOMY_ERROR] " + e.toString());
+    return defaultTaxonomy;
+  }
+}
+
 function getWhiteLabelAndSystemBundle() {
   var props = null;
   try {
@@ -1389,8 +1604,8 @@ function getWhiteLabelAndSystemBundle() {
 
   // Tự động kiểm tra và khởi tạo Sheet TT-MKT và Cột M (Nhân sự) trên Spreadsheet Backend nếu chưa có
   try {
-    ensureBackendSheetsInitialized();
-  } catch (initErr) {
+    /* ensureBackendSheetsInitialized() disabled in request cycle */
+} catch (initErr) {
     Logger.log("[AUTO-INIT SHEETS] " + initErr.toString());
   }
 
@@ -1408,7 +1623,8 @@ function getWhiteLabelAndSystemBundle() {
     themeSkins: themeSkins,
     schemaTables: Object.keys(GLOBAL_DB_MAP),
     moduleContracts: MODULE_CONTRACTS_REGISTRY,
-    seedData: getSeedDepartmentData()
+    seedData: getSeedDepartmentData(),
+    categoryTaxonomy: loadCategoryTaxonomy()
   };
 }
 
@@ -1514,9 +1730,8 @@ function checkLogin(username, password) {
   }
 
   var cleanU = u.toUpperCase();
-  var normPhone = normalizeVNPhone(u);
 
-  // 1. Kiểm tra xác thực trực tiếp từ Bảng Staff / Nhân sự trên Google Sheet (SSOT)
+  // 1. Quét xác thực trực tiếp từ Bảng "Nhân sự" trên Google Sheet SSOT
   try {
     var ss = getTargetSpreadsheet();
     if (ss) {
@@ -1524,71 +1739,77 @@ function checkLogin(username, password) {
       if (staffSheet) {
         var lastRow = staffSheet.getLastRow();
         if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
-          var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
-          var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
-          var colD = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Tầng Tổ Chức"].col);
-          var colE = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Phòng Ban"].col);
-          var colF = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Bộ Phận / Chi Nhánh"].col);
-          var colG = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Chức danh"].col);
-          var colH = letterToColIndex(GLOBAL_DB_MAP["Staff"]["SĐT Zalo"].col);
-          var colI = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mật khẩu"].col);
-          var colJ = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Ảnh Avatar"].col);
-          var colK = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Màu yêu thích"].col);
-          var colL = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Trạng thái"].col);
-          var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+          var colB = letterToColIndex("B"); // Mã NV
+          var colC = letterToColIndex("C"); // Họ và tên
+          var colD = letterToColIndex("D"); // Email
+          var colE = letterToColIndex("E"); // Phòng Ban
+          var colF = letterToColIndex("F"); // Chức vụ
+          var colG = letterToColIndex("G"); // Tình trạng làm việc
+          var colH = letterToColIndex("H"); // SĐT Zalo (Username)
+          var colI = letterToColIndex("I"); // Mật khẩu
+          var colJ = letterToColIndex("J"); // Ảnh Avatar
+          var colK = letterToColIndex("K"); // Màu sắc yêu thích
+          var colL = letterToColIndex("L"); // Trạng thái
+          var colM = letterToColIndex("M"); // Cá nhân hóa UI (JSON)
+          var colR = letterToColIndex("R"); // Dashboard Widgets
 
-          var maxCol = Math.max(colB, colC, colD, colE, colF, colG, colH, colI, colJ, colK, colL, colM);
+          var maxCol = Math.max(colB, colC, colD, colE, colF, colG, colH, colI, colJ, colK, colL, colM, colR);
           var dataRange = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, maxCol).getValues();
 
           for (var i = 0; i < dataRange.length; i++) {
             var row = dataRange[i];
             var rowCode = String(row[colB - 1] || "").trim().toUpperCase();
             var rowName = String(row[colC - 1] || "").trim();
-            var rowPhone = normalizeVNPhone(row[colH - 1]);
+            var rowEmail = String(row[colD - 1] || "").trim();
+            var rowDept = String(row[colE - 1] || "").trim();
+            var rowRole = String(row[colF - 1] || "Kĩ thuật viên").trim();
+            var rowWorkStatus = String(row[colG - 1] || "Đang hoạt động").trim();
+            var rowUser = String(row[colH - 1] || "").trim().toUpperCase();
             var rowPass = String(row[colI - 1] || "").trim();
+            var rowAvatar = String(row[colJ - 1] || "").trim();
+            var rowColor = String(row[colK - 1] || "#0066FF").trim();
+            var rowPref = String(row[colM - 1] || "").trim();
+            var rowDash = String(row[colR - 1] || "").trim();
 
-            // Khớp theo Mã NV (VD: DUC), SĐT Zalo hoặc Họ tên
-            var isUserMatch = (rowCode === cleanU) || (normPhone && rowPhone === normPhone) || (rowName.toUpperCase() === cleanU);
+            // Khớp theo Cột H (SĐT Zalo/Username), Cột B (Mã NV) hoặc Cột C (Họ tên)
+            var isUserMatch = (rowUser === cleanU) || (rowCode === cleanU) || (rowName.toUpperCase() === cleanU) ||
+                              (cleanU === "DUC" && (rowUser === "DUC" || rowName.indexOf("ĐỨC") !== -1 || rowName.indexOf("DUC") !== -1)) ||
+                              (cleanU === "LOC" && (rowUser === "LOC" || rowName.indexOf("LỘC") !== -1 || rowName.indexOf("LOC") !== -1));
 
             if (isUserMatch) {
-              // Kiểm tra mật khẩu chuẩn xác 100% từ ô Cột I của Sheet Nhân sự
               if (rowPass !== p) {
                 return { ok: false, message: "Mật khẩu không chính xác. Vui lòng kiểm tra lại!" };
               }
 
-              var userFloor = String(row[colD - 1] || "Tầng 4 — Giám Đốc Khối");
-              var userDept = String(row[colE - 1] || "Phòng TT - MKT");
-              var userRole = String(row[colG - 1] || "Giám đốc TT & MKT");
-              var rbacRole = ROLES.DIRECTOR;
-
-              if (userFloor.indexOf("Tầng 5") !== -1 || userRole.toUpperCase().indexOf("CEO") !== -1 || cleanU === "LOC" || cleanU === "CEO") {
-                rbacRole = ROLES.CEO;
-              } else if (userFloor.indexOf("Tầng 6") !== -1) {
-                rbacRole = ROLES.CHAIRMAN;
-              } else if (userRole.toUpperCase().indexOf("QUẢN ĐỐC") !== -1 || userRole.toUpperCase().indexOf("CVDV") !== -1) {
-                rbacRole = ROLES.MANAGER;
-              }
+              var isMaster = (rowRole === "Admin" || rowRole === "CEO" || cleanU === "DUC" || cleanU === "LOC");
+              var roleCode = isMaster ? "ADMIN_CEO" : rowRole;
 
               var verifiedProfile = {
                 id: rowCode || cleanU,
+                username: rowUser || cleanU,
                 name: rowName || cleanU,
-                role: userRole,
-                rbacRole: rbacRole,
-                orgFloor: userFloor,
-                departmentName: userDept,
-                phone: rowPhone || "0909123456",
-                color: String(row[colK - 1] || "#0A6CFF"),
-                avatar: String(row[colJ - 1] || ""),
-                uiPersonalizationJson: String(row[colM - 1] || "")
+                email: rowEmail,
+                department: rowDept,
+                departmentName: rowDept,
+                role: rowRole,
+                roleCode: roleCode,
+                workStatus: rowWorkStatus,
+                phone: rowUser,
+                avatar: rowAvatar,
+                color: rowColor,
+                uiPersonalizationJson: rowPref,
+                dashboardWidgetsJson: rowDash,
+                fullAccess: isMaster,
+                isMasterAdmin: isMaster
               };
 
-              logSystemAudit(verifiedProfile.name, "LOGIN_SUCCESS", "Staff", rowPhone, "Đăng nhập thành công từ Sheet Nhân sự");
+              logSystemAudit(verifiedProfile.name, "LOGIN_SUCCESS", "Nhân sự", rowUser, "Đăng nhập thành công từ Sheet Nhân sự");
 
               return {
                 ok: true,
                 user: verifiedProfile.name,
                 role: verifiedProfile.role,
-                roleCode: (rbacRole === ROLES.CEO || rbacRole === ROLES.CHAIRMAN || cleanU === "DUC" || cleanU === "LOC") ? "ADMIN_CEO" : "STAFF",
+                roleCode: roleCode,
                 userProfile: verifiedProfile,
                 loginTime: new Date().toISOString()
               };
@@ -1601,23 +1822,24 @@ function checkLogin(username, password) {
     Logger.log("[CHECK_LOGIN_SHEET_ERROR] " + err.toString());
   }
 
-  // 2. Chế độ kiểm tra chuẩn hóa (Fallback Seed Data nếu Sheet chưa khởi tạo xong)
-  // Mật khẩu chính thức của anh Đức là 7668 (TUYỆT ĐỐI KHÔNG DÙNG 1111)
+  // 2. Fallback Khẩn cấp (Nếu mạng Google Sheet bận hoặc đang kết nối lại)
   if (cleanU === "DUC" || cleanU === "TRIDUC" || cleanU === "ADMIN") {
     if (p !== "7668") {
       return { ok: false, message: "Mật khẩu không chính xác! (Mật khẩu tài khoản DUC là 7668)" };
     }
     var ducProfile = {
-      id: "DUC",
-      name: "TĂNG TRÍ ĐỨC",
-      role: "Giám đốc TT & MKT • GĐ Nhân Sự",
-      rbacRole: ROLES.DIRECTOR,
-      orgFloor: "Tầng 4 — Giám Đốc Khối",
-      departmentId: "DEPT_MKT",
-      departmentName: "Phòng TT - MKT & Nhân Sự",
-      phone: "0909123456",
-      color: "#0A6CFF",
-      avatar: ""
+      id: "NS-0001",
+      username: "DUC",
+      name: "Tăng Trí Đức",
+      email: "triducmkt@gmail.com",
+      department: "Marketing",
+      role: "Admin",
+      roleCode: "ADMIN_CEO",
+      phone: "DUC",
+      color: "#0066FF",
+      avatar: "",
+      fullAccess: true,
+      isMasterAdmin: true
     };
     return {
       ok: true,
@@ -1630,20 +1852,22 @@ function checkLogin(username, password) {
   }
 
   if (cleanU === "LOC" || cleanU === "CEO") {
-    if (p !== "7668" && p !== "8888") {
-      return { ok: false, message: "Mật khẩu CEO không chính xác!" };
+    if (p !== "1234" && p !== "7668") {
+      return { ok: false, message: "Mật khẩu CEO không chính xác! (Mật khẩu là 1234)" };
     }
     var locProfile = {
-      id: "LOC",
-      name: "ANH LỘC (CEO)",
-      role: "Giám Đốc Điều Hành (CEO)",
-      rbacRole: ROLES.CEO,
-      orgFloor: "Tầng 5 — Giám Đốc Điều Hành",
-      departmentId: "DEPT_EXEC",
-      departmentName: "Ban Giám Đốc Điều Hành",
-      phone: "0909000002",
+      id: "NS-0002",
+      username: "LOC",
+      name: "Nguyễn Thanh Lộc",
+      email: "locchamxe@gmail.com",
+      department: "Giám đốc",
+      role: "CEO",
+      roleCode: "ADMIN_CEO",
+      phone: "LOC",
       color: "#10B981",
-      avatar: ""
+      avatar: "",
+      fullAccess: true,
+      isMasterAdmin: true
     };
     return {
       ok: true,
@@ -1655,7 +1879,7 @@ function checkLogin(username, password) {
     };
   }
 
-  return { ok: false, message: "Tài khoản hoặc Mật khẩu không chính xác trong hệ thống Nhân sự AP CAR CARE!" };
+  return { ok: false, message: "Tên đăng nhập hoặc mật khẩu không tồn tại trong hệ thống Nhân sự!" };
 }
 
 /**
@@ -2392,80 +2616,43 @@ function ensureBackendSheetsInitialized() {
  * cho từng User vào cột M ("Cá nhân hóa UI (JSON)") của Sheet Staff/Nhân sự + PropertiesService.
  */
 function saveUserUiPersonalization(username, personalizationObj, currentUser) {
+  var cleanU = String(username || (currentUser && currentUser.username) || "DUC").trim().toUpperCase();
+  var payloadStr = (typeof personalizationObj === "string") ? personalizationObj : JSON.stringify(personalizationObj || {});
+
   return withScriptLock(function() {
-    var cleanUser = String(username || (currentUser && (currentUser.username || currentUser.name || currentUser.id)) || "ADMIN").trim().toUpperCase();
-    var cleanName = String((currentUser && (currentUser.fullName || currentUser.name)) || "").trim().toUpperCase();
-    var cleanId = String((currentUser && currentUser.id) || "").trim().toUpperCase();
-    var jsonStr = (typeof personalizationObj === "string")
-      ? personalizationObj
-      : JSON.stringify(personalizationObj || {});
+    var ss = getTargetSpreadsheet();
+    if (!ss) return { ok: false, message: "Không tìm thấy Spreadsheet" };
 
-    // 1. Lưu nhanh vào ScriptProperties theo từng User để phản hồi 0ms
-    try {
-      PropertiesService.getScriptProperties().setProperty("AP_USER_UI_PREF_" + cleanUser, jsonStr);
-      if (cleanUser === "DUC") {
-        PropertiesService.getScriptProperties().setProperty("AP_USER_UI_PREF_NV-401", jsonStr);
+    var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
+    if (!staffSheet) return { ok: false, message: "Không tìm thấy Sheet Nhân sự" };
+
+    var lr = staffSheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return { ok: false, message: "Chưa có dữ liệu nhân sự" };
+
+    var colB = letterToColIndex("B"); // Mã NV
+    var colC = letterToColIndex("C"); // Họ tên
+    var colH = letterToColIndex("H"); // SĐT Zalo (Username)
+    var colM = letterToColIndex("M"); // Cá nhân hóa UI (JSON)
+
+    var data = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lr - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colB, colC, colH, colM)).getValues();
+
+    for (var i = 0; i < data.length; i++) {
+      var rowCode = String(data[i][colB - 1] || "").trim().toUpperCase();
+      var rowName = String(data[i][colC - 1] || "").trim().toUpperCase();
+      var rowUser = String(data[i][colH - 1] || "").trim().toUpperCase();
+
+      var isMatch = (rowUser === cleanU) || (rowCode === cleanU) || (rowName === cleanU) ||
+                    (cleanU === "DUC" && (rowUser === "DUC" || rowName.indexOf("ĐỨC") !== -1)) ||
+                    (cleanU === "LOC" && (rowUser === "LOC" || rowName.indexOf("LỘC") !== -1));
+
+      if (isMatch) {
+        var targetRow = PM_CONFIG.MIN_DATA_ROW + i;
+        staffSheet.getRange(targetRow, colM).setValue(payloadStr);
+        return { ok: true, message: "Đã lưu Cột M cá nhân hóa cho " + cleanU, targetRow: targetRow };
       }
-    } catch (e) {}
-
-    // 2. Cập nhật trực tiếp vào Cột M ("Cá nhân hóa UI (JSON)") trên Sheet Staff / Nhân sự
-    var updatedSheetRow = 0;
-    try {
-      var ss = getTargetSpreadsheet();
-      if (ss) {
-        var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
-        if (staffSheet) {
-          var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
-          var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
-          var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
-          var lastRow = staffSheet.getLastRow();
-          if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
-            var dataRange = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colC)).getValues();
-            for (var i = 0; i < dataRange.length; i++) {
-              var rowId = String(dataRange[i][colB - 1] || "").trim().toUpperCase();
-              var rowName = String(dataRange[i][colC - 1] || "").trim().toUpperCase();
-              var isMatch = false;
-
-              if (rowId === cleanUser || rowName === cleanUser) {
-                isMatch = true;
-              } else if (cleanId && rowId === cleanId) {
-                isMatch = true;
-              } else if (cleanUser === "DUC" && (rowId === "NV-401" || rowName.indexOf("ĐỨC") !== -1 || rowName.indexOf("DUC") !== -1)) {
-                isMatch = true;
-              } else if (cleanName && rowName.indexOf(cleanName) !== -1) {
-                isMatch = true;
-              }
-
-              if (isMatch) {
-                updatedSheetRow = PM_CONFIG.MIN_DATA_ROW + i;
-                staffSheet.getRange(updatedSheetRow, colM).setValue(jsonStr);
-                break;
-              }
-            }
-          }
-        }
-      }
-    } catch (sheetErr) {
-      Logger.log("[STAFF PERSONALIZATION SHEET SYNC] " + sheetErr.toString());
     }
 
-    logSystemAudit(
-      cleanUser,
-      "SAVE_USER_UI_PERSONALIZATION",
-      "Staff (Col M)",
-      "",
-      jsonStr.substring(0, 450)
-    );
-
-    return {
-      ok: true,
-      username: cleanUser,
-      updatedSheetRow: updatedSheetRow,
-      spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL,
-      uiPersonalizationJson: jsonStr,
-      syncedAt: Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "HH:mm:ss dd/MM/yyyy"),
-      message: "Đã lưu JSON Cá nhân hóa giao diện vào cột M (Sheet Nhân sự / Staff) cho [" + cleanUser + "]!"
-    };
+    return { ok: false, message: "Không tìm thấy user " + cleanU + " trong Sheet Nhân sự" };
   });
 }
 
@@ -2523,44 +2710,61 @@ function getUserUiPersonalization(username) {
 function getUserSession(username) {
   var cleanUser = String(username || "DUC").trim().toUpperCase();
   var ss = getTargetSpreadsheet();
+  var isMaster = (cleanUser === "DUC" || cleanUser === "LOC");
   var userObj = {
     username: cleanUser,
-    fullName: (cleanUser === "DUC") ? "Tăng Trí Đức" : cleanUser,
-    role: (cleanUser === "DUC") ? "Admin • Ban Giám Đốc" : "Nhân sự",
-    roleCode: (cleanUser === "DUC") ? "ADMIN_CEO" : "STAFF",
-    uiPersonalizationJson: ""
+    fullName: (cleanUser === "DUC") ? "Tăng Trí Đức" : ((cleanUser === "LOC") ? "Nguyễn Thanh Lộc" : cleanUser),
+    role: (cleanUser === "DUC") ? "Admin" : ((cleanUser === "LOC") ? "CEO" : "Nhân sự"),
+    roleCode: isMaster ? "ADMIN_CEO" : "STAFF",
+    uiPersonalizationJson: "",
+    dashboardWidgetsJson: "",
+    fullAccess: isMaster,
+    isMasterAdmin: isMaster
   };
 
   try {
     if (ss) {
       var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
       if (staffSheet) {
-        var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
-        var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
-        var colE = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Phòng ban"].col);
-        var colF = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Chức vụ"].col);
-        var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+        var colB = letterToColIndex("B"); // Mã NV
+        var colC = letterToColIndex("C"); // Họ tên
+        var colD = letterToColIndex("D"); // Email
+        var colE = letterToColIndex("E"); // Phòng ban
+        var colF = letterToColIndex("F"); // Chức vụ
+        var colH = letterToColIndex("H"); // SĐT Zalo
+        var colM = letterToColIndex("M"); // Cá nhân hóa UI
+        var colR = letterToColIndex("R"); // Dashboard
         var lastRow = staffSheet.getLastRow();
         if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
-          var data = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colF)).getValues();
+          var data = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colR, colF)).getValues();
           for (var i = 0; i < data.length; i++) {
-            var rowId = String(data[i][colB - 1] || "").trim().toUpperCase();
+            var rowCode = String(data[i][colB - 1] || "").trim().toUpperCase();
             var rowName = String(data[i][colC - 1] || "").trim().toUpperCase();
-            var isMatch = (rowId === cleanUser || rowName === cleanUser || (cleanUser === "DUC" && (rowId === "NV-401" || rowName.indexOf("ĐỨC") !== -1 || rowName.indexOf("DUC") !== -1)));
+            var rowUser = String(data[i][colH - 1] || "").trim().toUpperCase();
+            var isMatch = (rowUser === cleanUser || rowCode === cleanUser || rowName === cleanUser ||
+                          (cleanUser === "DUC" && (rowUser === "DUC" || rowName.indexOf("ĐỨC") !== -1)) ||
+                          (cleanUser === "LOC" && (rowUser === "LOC" || rowName.indexOf("LỘC") !== -1)));
             if (isMatch) {
               userObj.username = cleanUser;
               userObj.fullName = String(data[i][colC - 1] || userObj.fullName).trim();
+              userObj.email = String(data[i][colD - 1] || "").trim();
               userObj.department = String(data[i][colE - 1] || "").trim();
               userObj.role = String(data[i][colF - 1] || userObj.role).trim();
-              userObj.roleCode = (cleanUser === "DUC" || userObj.role.indexOf("Giám đốc") !== -1 || userObj.role.indexOf("CEO") !== -1) ? "ADMIN_CEO" : "STAFF";
+              var masterFlag = (userObj.role === "Admin" || userObj.role === "CEO" || cleanUser === "DUC" || cleanUser === "LOC");
+              userObj.roleCode = masterFlag ? "ADMIN_CEO" : userObj.role;
+              userObj.fullAccess = masterFlag;
+              userObj.isMasterAdmin = masterFlag;
               userObj.uiPersonalizationJson = String(data[i][colM - 1] || "").trim();
+              userObj.dashboardWidgetsJson = String(data[i][colR - 1] || "").trim();
               break;
             }
           }
         }
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    Logger.log("[GET_USER_SESSION_ERROR] " + e.toString());
+  }
 
   return {
     ok: true,
@@ -2854,8 +3058,254 @@ function toggleApiConfigStatus(rowOrId, currentUser) {
  * Hàm khởi tạo toàn bộ các Sheet và Cột cốt lõi trên Google Spreadsheet (Chạy 1-Click)
  */
 function initAllBackendSheets() {
-  return ensureBackendSheetsInitialized();
+  return /* ensureBackendSheetsInitialized() disabled in request cycle */
 }
 
 
 
+
+
+// ============================================================================
+// 12. CÁC API PHÒNG BAN KẾT NỐI FRONTEND & BACKEND (HR, SETTINGS, TASKS, PROJECTS)
+// ============================================================================
+
+/**
+ * Lấy danh sách Nhân sự từ Sheet "Nhân sự"
+ */
+function getStaffList(currentUser) {
+  var ss = getTargetSpreadsheet();
+  if (!ss) return { ok: false, list: [] };
+
+  try {
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
+    if (!sheet) return { ok: false, list: [] };
+
+    var lr = sheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return { ok: true, list: [] };
+
+    var colCount = sheet.getLastColumn();
+    var values = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lr - PM_CONFIG.MIN_DATA_ROW + 1, colCount).getValues();
+    var list = [];
+    var map = GLOBAL_DB_MAP["Staff"];
+
+    for (var i = 0; i < values.length; i++) {
+      var row = values[i];
+      var item = DataMapper.rowToObject(row, map, PM_CONFIG.MIN_DATA_ROW + i);
+      if (item.id || item.name) {
+        // Bảo vệ lương: Chỉ Admin được xem salaryAdmin
+        var curRole = (currentUser && currentUser.role) ? currentUser.role : "";
+        if (curRole !== "Admin" && (!currentUser || currentUser.username !== "DUC")) {
+          delete item.salaryAdmin;
+        }
+        list.push(item);
+      }
+    }
+    return { ok: true, list: list, total: list.length };
+  } catch (e) {
+    Logger.log("[GET_STAFF_LIST_ERROR] " + e.toString());
+    return { ok: false, error: e.toString(), list: [] };
+  }
+}
+
+/**
+ * Lấy hoặc Khởi tạo Thiết lập Hệ thống từ Sheet "Cài đặt"
+ */
+function getSystemSettings() {
+  var ss = getTargetSpreadsheet();
+  if (!ss) return { ok: false, settings: {} };
+
+  try {
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.SETTINGS) || ss.getSheetByName("Cài đặt");
+    if (!sheet) return { ok: false, settings: {} };
+
+    var lr = sheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) {
+      // Khởi tạo dòng 10 tiêu đề và các thiết lập mặc định
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("B")).setValue("Mã Thiết Lập");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("C")).setValue("Phân Hệ / Tab");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("D")).setValue("Tên Cài Đặt");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("E")).setValue("Giá Trị");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("F")).setValue("Kiểu Dữ Liệu");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("G")).setValue("Người Cập Nhật");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("H")).setValue("Thời Gian");
+      sheet.getRange(PM_CONFIG.HEADER_ROW, letterToColIndex("I")).setValue("Ghi Chú");
+
+      var nowStr = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss");
+      var seedRows = [
+        ["CFG_ACL_MATRIX", "acl", "Phân quyền 8 phòng ban", JSON.stringify(DEFAULT_DEPT_ACCESS_CONFIG), "json", "SYSTEM", nowStr, "Mặc định"],
+        ["CFG_THEMES", "themes", "Danh sách Giao diện Themes", JSON.stringify(DEFAULT_THEME_SKINS), "json", "SYSTEM", nowStr, "Mặc định"],
+        ["CFG_BRAND_LOGOS", "brand", "Vị trí Logo & Thương hiệu", JSON.stringify(DEFAULT_BRAND_LOGO_SLOTS), "json", "SYSTEM", nowStr, "Mặc định"],
+        ["CFG_API_GATEWAY", "apikeys", "Cloudflare Tunnel & Gateway Local", "https://gateway.triduccar.media", "string", "SYSTEM", nowStr, "Kết nối Local"]
+      ];
+
+      for (var s = 0; s < seedRows.length; s++) {
+        var rIdx = PM_CONFIG.MIN_DATA_ROW + s;
+        sheet.getRange(rIdx, letterToColIndex("B"), 1, seedRows[s].length).setValues([seedRows[s]]);
+      }
+      lr = sheet.getLastRow();
+    }
+
+    var values = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, letterToColIndex("B"), lr - PM_CONFIG.MIN_DATA_ROW + 1, 8).getValues();
+    var settings = {};
+    for (var i = 0; i < values.length; i++) {
+      var k = String(values[i][0] || "").trim();
+      var tab = String(values[i][1] || "").trim();
+      var val = String(values[i][3] || "").trim();
+      var type = String(values[i][4] || "string").trim();
+      if (k) {
+        var parsedVal = val;
+        if (type === "json") {
+          try { parsedVal = JSON.parse(val); } catch (e) {}
+        }
+        settings[k] = { key: k, tab: tab, value: parsedVal, raw: val };
+      }
+    }
+    return { ok: true, settings: settings };
+  } catch (e) {
+    Logger.log("[GET_SYSTEM_SETTINGS_ERROR] " + e.toString());
+    return { ok: false, settings: {} };
+  }
+}
+
+/**
+ * Lưu một giá trị thiết lập vào Sheet "Cài đặt"
+ */
+function saveSystemSetting(key, tab, value, label, currentUser) {
+  var cleanKey = String(key || "").trim();
+  if (!cleanKey) return { ok: false, message: "Thiếu key cài đặt" };
+
+  var valStr = (typeof value === "object") ? JSON.stringify(value) : String(value || "");
+  var userStr = (currentUser && currentUser.fullName) ? currentUser.fullName : "ADMIN";
+  var nowStr = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss");
+
+  return withScriptLock(function() {
+    var ss = getTargetSpreadsheet();
+    if (!ss) return { ok: false, message: "Không tìm thấy Spreadsheet" };
+
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.SETTINGS) || ss.getSheetByName("Cài đặt");
+    if (!sheet) return { ok: false, message: "Không tìm thấy Sheet Cài đặt" };
+
+    var lr = sheet.getLastRow();
+    var colB = letterToColIndex("B");
+    var colC = letterToColIndex("C");
+    var colD = letterToColIndex("D");
+    var colE = letterToColIndex("E");
+    var colF = letterToColIndex("F");
+    var colG = letterToColIndex("G");
+    var colH = letterToColIndex("H");
+
+    if (lr >= PM_CONFIG.MIN_DATA_ROW) {
+      var keys = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, colB, lr - PM_CONFIG.MIN_DATA_ROW + 1, 1).getValues();
+      for (var i = 0; i < keys.length; i++) {
+        if (String(keys[i][0] || "").trim() === cleanKey) {
+          var targetRow = PM_CONFIG.MIN_DATA_ROW + i;
+          sheet.getRange(targetRow, colE).setValue(valStr);
+          sheet.getRange(targetRow, colG).setValue(userStr);
+          sheet.getRange(targetRow, colH).setValue(nowStr);
+          return { ok: true, message: "Đã cập nhật cài đặt " + cleanKey, row: targetRow };
+        }
+      }
+    }
+
+    // Nếu chưa có, thêm dòng mới
+    var newRowIdx = Math.max(lr + 1, PM_CONFIG.MIN_DATA_ROW);
+    var type = (typeof value === "object") ? "json" : "string";
+    sheet.getRange(newRowIdx, colB).setValue(cleanKey);
+    sheet.getRange(newRowIdx, colC).setValue(tab || "chung");
+    sheet.getRange(newRowIdx, colD).setValue(label || cleanKey);
+    sheet.getRange(newRowIdx, colE).setValue(valStr);
+    sheet.getRange(newRowIdx, colF).setValue(type);
+    sheet.getRange(newRowIdx, colG).setValue(userStr);
+    sheet.getRange(newRowIdx, colH).setValue(nowStr);
+
+    return { ok: true, message: "Đã thêm cài đặt mới " + cleanKey, row: newRowIdx };
+  });
+}
+
+/**
+ * Lấy danh sách Task từ Sheet "Công việc"
+ */
+function getTasksList(limit) {
+  var ss = getTargetSpreadsheet();
+  if (!ss) return { ok: false, list: [] };
+
+  try {
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.TASKS) || ss.getSheetByName("Công việc");
+    if (!sheet) return { ok: false, list: [] };
+
+    var lr = sheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return { ok: true, list: [] };
+
+    var maxRows = limit ? Math.min(limit, lr - PM_CONFIG.MIN_DATA_ROW + 1) : Math.min(100, lr - PM_CONFIG.MIN_DATA_ROW + 1);
+    var values = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, maxRows, sheet.getLastColumn()).getValues();
+    var list = [];
+    var map = GLOBAL_DB_MAP["Công việc"];
+
+    for (var i = 0; i < values.length; i++) {
+      var item = DataMapper.rowToObject(values[i], map, PM_CONFIG.MIN_DATA_ROW + i);
+      if (item.id || item.name) list.push(item);
+    }
+    return { ok: true, list: list, total: list.length };
+  } catch (e) {
+    return { ok: false, error: e.toString(), list: [] };
+  }
+}
+
+/**
+ * Lấy danh sách Dự án từ Sheet "Dự án"
+ */
+function getProjectsList() {
+  var ss = getTargetSpreadsheet();
+  if (!ss) return { ok: false, list: [] };
+
+  try {
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.PROJECTS) || ss.getSheetByName("Dự án");
+    if (!sheet) return { ok: false, list: [] };
+
+    var lr = sheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return { ok: true, list: [] };
+
+    var values = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lr - PM_CONFIG.MIN_DATA_ROW + 1, sheet.getLastColumn()).getValues();
+    var list = [];
+    var map = GLOBAL_DB_MAP["Dự án"];
+
+    for (var i = 0; i < values.length; i++) {
+      var item = DataMapper.rowToObject(values[i], map, PM_CONFIG.MIN_DATA_ROW + i);
+      if (item.id || item.name) list.push(item);
+    }
+    return { ok: true, list: list, total: list.length };
+  } catch (e) {
+    return { ok: false, error: e.toString(), list: [] };
+  }
+}
+
+/**
+ * Lấy danh sách Nhật ký Lịch sử từ Sheet "Lịch sử"
+ */
+function getAuditLogs(limit) {
+  var ss = getTargetSpreadsheet();
+  if (!ss) return { ok: false, list: [] };
+
+  try {
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.AUDIT_LOGS) || ss.getSheetByName("Lịch sử");
+    if (!sheet) return { ok: false, list: [] };
+
+    var lr = sheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return { ok: true, list: [] };
+
+    var count = limit ? Math.min(limit, 50) : 50;
+    var startRow = Math.max(PM_CONFIG.MIN_DATA_ROW, lr - count + 1);
+    var numRows = lr - startRow + 1;
+    var values = sheet.getRange(startRow, 1, numRows, sheet.getLastColumn()).getValues();
+    var list = [];
+    var map = GLOBAL_DB_MAP["Lịch sử"];
+
+    for (var i = values.length - 1; i >= 0; i--) {
+      var item = DataMapper.rowToObject(values[i], map, startRow + i);
+      list.push(item);
+    }
+    return { ok: true, list: list };
+  } catch (e) {
+    return { ok: false, error: e.toString(), list: [] };
+  }
+}
