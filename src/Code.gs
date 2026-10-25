@@ -49,6 +49,7 @@ const PM_CONFIG = {
     TT_MKT: "TT-MKT",
     APP_THEMES: "App_Themes",
     SETTINGS: "Cài đặt",
+    FEATURE_SPECS: "Yêu cầu tính năng",
     BRAND_LOGOS: "Brand_Logo_Slots",
     AUTOMATION_QUEUE: "Sys_Automation_Queue",
     AUDIT_LOGS: "Lịch sử"
@@ -479,6 +480,24 @@ const GLOBAL_DB_MAP = {
     "Ghi chú":                { sheetHeader: "Ghi chú",                col: "S", frontendKey: "note",                  type: "string",   visible: true }
   },
 
+  
+  // BẢNG YÊU CẦU TÍNH NĂNG & ĐẶC TẢ KỸ THUẬT (Sheet "Yêu cầu tính năng" - SSOT Giao việc PO -> AI)
+  "Yêu cầu tính năng": {
+    "Mã Task":                    { sheetHeader: "Mã Task",                    col: "B", frontendKey: "id",                 type: "string",   visible: true },
+    "Phân hệ / Tab UI":           { sheetHeader: "Phân hệ / Tab UI",           col: "C", frontendKey: "departmentId",       type: "select",   visible: true },
+    "Tên Tính Năng & Mục Tiêu":   { sheetHeader: "Tên Tính Năng & Mục Tiêu",   col: "D", frontendKey: "name",               type: "string",   visible: true },
+    "Vị trí Thành phần UI":       { sheetHeader: "Vị trí Thành phần UI",       col: "E", frontendKey: "uiLocation",         type: "string",   visible: true },
+    "Bảng Backend (Sheet)":       { sheetHeader: "Bảng Backend (Sheet)",       col: "F", frontendKey: "targetSheet",        type: "select",   visible: true },
+    "Các Cột Dữ Liệu (Field Map)":{ sheetHeader: "Các Cột Dữ Liệu (Field Map)",col: "G", frontendKey: "fieldMapDesc",      type: "text",     visible: true },
+    "Phân Quyền (Roles)":         { sheetHeader: "Phân Quyền (Roles)",         col: "H", frontendKey: "allowedRoles",       type: "select",   visible: true },
+    "Luồng Xử Lý (Logic / Flow)": { sheetHeader: "Luồng Xử Lý (Logic / Flow)", col: "I", frontendKey: "logicFlow",         type: "text",     visible: true },
+    "Tiêu Chí Nghiệm Thu":        { sheetHeader: "Tiêu Chí Nghiệm Thu",        col: "J", frontendKey: "acceptanceCriteria",type: "text",     visible: true },
+    "Trạng Thái":                 { sheetHeader: "Trạng Thái",                 col: "K", frontendKey: "status",             type: "select",   visible: true },
+    "Ngày Tạo":                   { sheetHeader: "Ngày Tạo",                   col: "L", frontendKey: "createdAt",          type: "datetime", visible: true },
+    "Người Yêu Cầu":              { sheetHeader: "Người Yêu Cầu",              col: "M", frontendKey: "requestedBy",        type: "string",   visible: true },
+    "Ghi Chú Kỹ Thuật":           { sheetHeader: "Ghi Chú Kỹ Thuật",           col: "N", frontendKey: "techNotes",          type: "text",     visible: true }
+  },
+
   // BẢNG DANH MỤC (Phân loại & Thuộc tính SSOT - Sheet "Danh mục")
   "Danh mục": {
     "Trạng thái công việc":   { sheetHeader: " 🔐Trạng thái công việc",col: "B", frontendKey: "taskStatus",            type: "select",   visible: true },
@@ -661,6 +680,7 @@ GLOBAL_DB_MAP["Projects"] = GLOBAL_DB_MAP["Dự án"];
 GLOBAL_DB_MAP["Audit_Logs"] = GLOBAL_DB_MAP["Lịch sử"];
 GLOBAL_DB_MAP["Settings"] = GLOBAL_DB_MAP["Cài đặt"];
 GLOBAL_DB_MAP["Categories"] = GLOBAL_DB_MAP["Danh mục"];
+GLOBAL_DB_MAP["Feature_Specs"] = GLOBAL_DB_MAP["Yêu cầu tính năng"];
 
 
 /**
@@ -1221,6 +1241,10 @@ function getSeedDepartmentData() {
  */
 function doGet(e) {
   // CỔNG DIAGNOSTIC: Bóc tách toàn bộ cấu trúc các Sheet thật ở Backend
+  if (e && e.parameter && e.parameter.api === "init_feature_specs") {
+    var initRes = initFeatureSpecsSheet();
+    return ContentService.createTextOutput(JSON.stringify(initRes)).setMimeType(ContentService.MimeType.JSON);
+  }
   if (e && e.parameter && e.parameter.api === "inspect") {
     var ss = getTargetSpreadsheet();
     var allSheets = ss.getSheets();
@@ -3308,4 +3332,121 @@ function getAuditLogs(limit) {
   } catch (e) {
     return { ok: false, error: e.toString(), list: [] };
   }
+}
+
+
+/**
+ * Khởi tạo Sheet "Yêu cầu tính năng" (Feature Specs Matrix) trên Google Sheet Backend
+ */
+function initFeatureSpecsSheet() {
+  return withScriptLock(function() {
+    var ss = getTargetSpreadsheet();
+    if (!ss) return { ok: false, message: "Không tìm thấy Spreadsheet" };
+
+    var sheetName = "Yêu cầu tính năng";
+    var sheet = ss.getSheetByName(sheetName) || ss.getSheetByName("Feature_Specs");
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+    }
+
+    var headers = [
+      "Mã Task", "Phân hệ / Tab UI", "Tên Tính Năng & Mục Tiêu", "Vị trí Thành phần UI",
+      "Bảng Backend (Sheet)", "Các Cột Dữ Liệu (Field Map)", "Phân Quyền (Roles)",
+      "Luồng Xử Lý (Logic / Flow)", "Tiêu Chí Nghiệm Thu", "Trạng Thái", "Ngày Tạo",
+      "Người Yêu Cầu", "Ghi Chú Kỹ Thuật"
+    ];
+    var guides = [
+      "[id | string]", "[departmentId | select]", "[name | string]", "[uiLocation | string]",
+      "[targetSheet | select]", "[fieldMapDesc | text]", "[allowedRoles | select]",
+      "[logicFlow | text]", "[acceptanceCriteria | text]", "[status | select]", "[createdAt | datetime]",
+      "[requestedBy | string]", "[techNotes | text]"
+    ];
+
+    var startCol = letterToColIndex("B");
+    sheet.getRange(PM_CONFIG.HEADER_ROW, startCol, 1, headers.length).setValues([headers]);
+    sheet.getRange(PM_CONFIG.GUIDE_ROW, startCol, 1, guides.length).setValues([guides]);
+
+    if (sheet.getLastRow() < PM_CONFIG.MIN_DATA_ROW) {
+      var seedRows = [
+        [
+          "FEAT-001", "DEPT_HR", "Đồng bộ Hồ sơ Nhân sự sống từ Sheet Nhân sự",
+          "Bảng #tableContainerStaffHr trong Tab DEPT_HR", "Nhân sự", "Cột B -> S",
+          "Admin, CEO, Quản lý", "Mở tab HR -> gọi getStaffList() render bảng và cập nhật KPI",
+          "(1) Hiển thị đủ dữ liệu; (2) Không reload; (3) Ẩn salaryAdmin với role khác",
+          "Hoàn thành", Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm"), "ĐỨC", "Đã test AST & Playwright 0 lỗi"
+        ],
+        [
+          "FEAT-002", "DEPT_MKT", "Trạm Render Video AI 9:16 kết nối Local Gateway",
+          "Canvas Node Studio & Nút Run Video Studio", "TT-MKT", "Cột B -> W",
+          "Admin, CEO, Quản lý, Freelancer", "Bấm Run -> gọi gateway.triduccar.media -> tải MP4 lên Drive AP",
+          "(1) Trả về Drive link 1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT; (2) Tên chuẩn local",
+          "Hoàn thành", Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm"), "ĐỨC", "Gateway tunnel port 8080"
+        ]
+      ];
+      sheet.getRange(PM_CONFIG.MIN_DATA_ROW, startCol, seedRows.length, seedRows[0].length).setValues(seedRows);
+    }
+
+    return { ok: true, sheetName: sheetName, lastRow: sheet.getLastRow(), message: "Đã khởi tạo bảng Yêu cầu tính năng thành công!" };
+  });
+}
+
+/**
+ * Lấy danh sách Yêu cầu tính năng từ Sheet "Yêu cầu tính năng"
+ */
+function getFeatureRequestsList() {
+  var ss = getTargetSpreadsheet();
+  if (!ss) return { ok: false, list: [] };
+
+  try {
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.FEATURE_SPECS) || ss.getSheetByName("Yêu cầu tính năng");
+    if (!sheet) return { ok: false, list: [] };
+
+    var lr = sheet.getLastRow();
+    if (lr < PM_CONFIG.MIN_DATA_ROW) return { ok: true, list: [] };
+
+    var values = sheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lr - PM_CONFIG.MIN_DATA_ROW + 1, sheet.getLastColumn()).getValues();
+    var list = [];
+    var map = GLOBAL_DB_MAP["Yêu cầu tính năng"];
+
+    for (var i = 0; i < values.length; i++) {
+      var item = DataMapper.rowToObject(values[i], map, PM_CONFIG.MIN_DATA_ROW + i);
+      if (item.id || item.name) list.push(item);
+    }
+    return { ok: true, list: list, total: list.length };
+  } catch (e) {
+    return { ok: false, error: e.toString(), list: [] };
+  }
+}
+
+/**
+ * Lưu / Cập nhật một Yêu cầu tính năng vào Sheet "Yêu cầu tính năng"
+ */
+function saveFeatureRequest(specObj, currentUser) {
+  var obj = specObj || {};
+  if (!obj.name) return { ok: false, message: "Thiếu tên tính năng" };
+
+  return withScriptLock(function() {
+    var ss = getTargetSpreadsheet();
+    if (!ss) return { ok: false, message: "Không tìm thấy Spreadsheet" };
+
+    var sheet = ss.getSheetByName(PM_CONFIG.SHEETS.FEATURE_SPECS) || ss.getSheetByName("Yêu cầu tính năng");
+    if (!sheet) {
+      initFeatureSpecsSheet();
+      sheet = ss.getSheetByName("Yêu cầu tính năng");
+    }
+
+    var map = GLOBAL_DB_MAP["Yêu cầu tính năng"];
+    var lr = sheet.getLastRow();
+    var targetRow = lr + 1;
+    var newId = obj.id || ("FEAT-" + String(Math.max(1, lr - PM_CONFIG.MIN_DATA_ROW + 2)).padStart(3, "0"));
+    obj.id = newId;
+    if (!obj.createdAt) obj.createdAt = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm");
+    if (!obj.requestedBy) obj.requestedBy = (currentUser && currentUser.fullName) ? currentUser.fullName : "ĐỨC";
+    if (!obj.status) obj.status = "Chờ duyệt";
+
+    var rowArray = DataMapper.objectToRow(obj, map);
+    sheet.getRange(targetRow, 1, 1, rowArray.length).setValues([rowArray]);
+
+    return { ok: true, message: "Đã lưu yêu cầu tính năng [" + newId + "] vào Sheet!", id: newId, row: targetRow };
+  });
 }

@@ -26,7 +26,8 @@
 | **ERR-015** | `L257–L285` | `[SME OS]` | **`SyntaxError: Invalid or unexpected token (tệp Code, template.evaluate)`** do chuỗi JS chứa literal `'<?'` bị hiểu nhầm là scriptlet | Cấm viết chuỗi tĩnh chứa `'<?'` trong file HTML GAS; dùng `Utilities.base64Encode()` truyền object từ Server sang Client và giải mã bằng `window.atob()`. |
 | **ERR-016** | `L287–L320` | `[SME OS]` | **Lỗi màn hình đen toàn phần & Biến mất 8 nút Phòng Ban ở Sidebar** do dữ liệu cũ trong ScriptProperties thiếu role `ADMIN_CEO` và thiếu Fail-Safe Active Stage | Dùng `sanitizeDeptAccessConfig` đối soát và tự bổ sung `ADMIN_CEO` cho 100% phòng ban; áp dụng Master Admin Bypass (`isMasterAdmin ? d.enabled !== false : ...`); tự động gọi `switchDepartment(curDept || 'DEPT_MKT')` kích hoạt màn hình. |
 | **ERR-017** | `L322–L360` | `[SME OS]` | **Lỗi trỏ sai Sheet nguồn (`Staff` ảo vs `Nhân sự` thật) & nghẽn hàm ghi đè `ensureBackendSheetsInitialized` trong `doGet`** khiến màn hình đen, mất dữ liệu và timeout | (1) Khóa cứng SSOT `STAFF: "Nhân sự"`, `CATEGORIES: "Danh mục"`; (2) Bỏ hoàn toàn logic `insertSheet("Staff")` và gỡ `ensureBackendSheetsInitialized()` khỏi `doGet`; (3) Quét đăng nhập trực tiếp Cột H/I/F của Sheet `Nhân sự`; (4) Nuôi dropdown từ Sheet `Danh mục`. |
-| **UI-GEN** | `L362–L371` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-018** | `L362–L395` | `[SME OS]` | **Lỗi gọi hàm undefined (`applyLogoSlotsToDOM`) làm sập luồng khởi động SPA** khiến khu vực làm việc bị đen dù cú pháp AST hợp lệ | Đổi sang `applyAllLogoSlotsToDOM` + gắn alias; bắt buộc dùng Playwright (`/plw`) đọc `browser_console_messages` trực tiếp trên web app runtime để đạt **0 Console Errors** trước khi báo cáo PO. |
+| **UI-GEN** | `L397–L406` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -256,6 +257,17 @@
   3. **Quét trực tiếp Cột H/I/F của Sheet `Nhân sự`:** So sánh trực tiếp chuỗi chữ hoa (`DUC`, `LOC`), kiểm tra mật khẩu Cột I (`7668`, `1234`), gán vai trò Cột F (`Admin`, `CEO`) và tự động cấp `fullAccess: true`, `isMasterAdmin: true`.
   4. **Đọc Dropdown Động từ Sheet `Danh mục`:** Viết hàm `loadCategoryTaxonomy()` đọc 1 lần duy nhất các cột B, D, F, H, J, L, N, P, R, T, V từ Sheet `Danh mục` để nuôi các dropdown trên giao diện.
   5. **Kết nối luồng trực tiếp cho các phòng ban:** `DEPT_HR` gọi `getStaffList()`, `DEPT_SETTINGS` kết nối Sheet `Cài đặt`, `DEPT_TECH` kết nối Sheet `Công việc`.
+
+### [ERR-018] Lỗi Gọi Hàm Undefined (`applyLogoSlotsToDOM`) Làm Sập Luồng Khởi Động SPA Khiến Màn Hình Bị Đen
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Giao diện sau khi đăng nhập vẫn chỉ hiện Sidebar bên trái, toàn bộ khu vực làm việc chính bên phải bị đen tuyền; DevTools mở tab Elements thì thấy `#viewHome` chỉ có comment rỗng hoặc không kích hoạt được pane; người dùng nhìn tab Elements không thấy báo đỏ vì lỗi nằm ở Console (`ReferenceError: applyLogoSlotsToDOM is not defined`).
+- **Nguyên nhân gốc:**
+  1. Trong file `Index.html`, hàm định vị logo và thương hiệu được khai báo ở dòng 6090 với tên là `function applyAllLogoSlotsToDOM(slots)`.
+  2. Tuy nhiên, tại dòng 8111 ngay trước lệnh khôi phục phiên `restoreUserSession()`, code lại gọi `applyLogoSlotsToDOM();` (thiếu chữ `All`).
+  3. Lỗi `ReferenceError` này không phải lỗi cú pháp (Syntax Error) nên các trình parser AST tĩnh như `new vm.Script()` không phát hiện được. Khi trang web vừa tải, JS gặp dòng 8111 liền ném ngoại lệ dừng toàn bộ luồng thực thi, khiến `restoreUserSession()`, `switchSpaView('home')` và `AppStore.switchDepartment()` bị chết đứng.
+- **Cách khắc phục triệt để:**
+  1. Sửa lệnh gọi thành `if (typeof applyAllLogoSlotsToDOM === "function") applyAllLogoSlotsToDOM(AppStore.state.systemBundle.logoSlots);` và khai báo alias an toàn `var applyLogoSlotsToDOM = applyAllLogoSlotsToDOM;`.
+  2. **Bắt buộc áp dụng Shortcut `/ap-rule` & kiểm thử Playwright (`/plw`):** Luôn dùng tool `browser_console_messages` mở trang web thật để quét runtime errors, đảm bảo **0 console errors** và kiểm tra chéo (visual check) bằng `browser_take_screenshot` trước khi bàn giao cho PO.
 
 ---
 

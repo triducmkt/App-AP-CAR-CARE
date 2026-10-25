@@ -99,3 +99,8 @@ Danh mục dự án toàn máy:
     - **Quy ước Shortcut Cập nhật Quy Trình Riêng Cho Dự Án Này (`/local:` hoặc `/ap:`):**
       * Lệnh `/global: (nội dung)`: Áp dụng toàn cục cho tất cả các dự án trên máy tính (`D:\My Agents\Global\GLOBAL-RULES.md`).
       * Lệnh `/local: (nội dung)` hoặc `/ap: (nội dung)`: Dành riêng để cập nhật quy định, quy trình và tiêu chuẩn làm việc nội bộ của riêng dự án **App AP CAR CARE** vào file SSOT `AGENTS.md` và `hq/00-INDEX.md` mà không làm xáo trộn các dự án khác.
+      * Shortcut `/ap-rule [-review | -fix | -add | -edit]`: Kích hoạt Quy trình Rà Soát Lỗi Cốt Lõi, Bổ Sung & Chuẩn Hóa Quy Chuẩn Vận Hành Nội Bộ Dự Án App AP CAR CARE (AP Workflow Root-Cause & Process Mutation Protocol):
+        1. **Root-Cause Deep Trace:** Bắt buộc dùng Browser Automation (Playwright `/plw`) để đọc chính xác `browser_console_messages` và inspect DOM runtime, truy tìm tận gốc dòng lỗi (ReferenceError, TypeError, SyntaxError), loại bỏ 100% việc phán đoán mù.
+        2. **Process Mutation (Sửa/Xóa/Thêm Bước):** Xác định bước quy trình bị hổng, bổ sung cổng kiểm soát tự động (như AST verification, Playwright console check trước khi push), hoặc loại bỏ các bước/hàm cũ thừa, xung đột.
+        3. **SSOT Synchronization:** Cập nhật ngay vào `AGENTS.md`, `hq/00-INDEX.md`, và ghi bài học `hq/lesson.md` kèm Fast Rule phòng tránh nhanh.
+        4. **Deploy & Verify 0-Console-Error Gate:** Chạy script kiểm thử AST, push lên `/dev` HEAD, deploy lên GitHub Pages và chạy Playwright kiểm tra trực tiếp giao diện (Visual & Console Verification) đảm bảo **0 Console Error** trước khi báo cáo PO (anh Đức). Tuyệt đối không tự ý deploy lên `/exec` khi chưa có lệnh duyệt.
