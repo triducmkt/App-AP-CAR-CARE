@@ -21,7 +21,8 @@
 | **ERR-010** | `L131–L138` | `[SME OS]` | **Lỗi xung đột màu khi hỗ trợ 2 Theme** (`Dark Blue Carbon Night` & `Showroom Trắng + Sidebar Đen Gradient`) | Mọi màu nền/chữ/viền khu vực làm việc phải dùng biến ngữ nghĩa (`var(--ap-card-bg)`, `var(--ap-text-heading)`...) theo `data-ap-theme="dark|light"`, giữ nguyên Sidebar Đen Gradient ở cả 2 theme. |
 | **ERR-011** | `L140–L154` | `[SME OS]` | **Lỗi không Login được & Console báo 404 (`Failed to load resource: 404`)** do lệch ID input (`username` vs `txtUsername`) và thẻ `<img src="">` rỗng | Bắt buộc chạy script đối soát 100% `getElementById(...)` khớp với `id="..."` trong HTML (`Missing IDs: []`); cấm để `<img src="">` rỗng và luôn gắn `<link rel="icon" href="data:...">`. |
 | **ERR-012** | `L156–L185` | `[SME OS]` | **Lỗi mất Session đăng nhập khi Reload/F5 trên Google Apps Script iframe** do Sandbox Hash ngẫu nhiên & Storage Partitioning | Phục hồi phiên 4 tầng: `sessionStorage` + `localStorage` + URL Query State (`?u=...` qua `google.script.history.replaceState` & `getLocation`); tự động nạp phiên tức thì không bắt login lại. |
-| **UI-GEN** | `L187–L196` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-013** | `L187–L215` | `[SME OS]` | **Lỗi Lệch Schema Phân Quyền & Mã Phòng Ban giữa Backend (`Code.gs`) và Frontend (`Index.html`)** khiến toàn bộ nút biến mất và hiện `0/8` | Bắt buộc đồng bộ 100% SSOT `DEFAULT_DEPT_ACCESS_CONFIG` khớp chính xác với `DEFAULT_DEPT_ACCESS_MATRIX`; bổ sung `ADMIN_CEO` vào `allowedRoles`; dùng `CACHE_SCHEMA_VERSION` tự dọn cache trình duyệt. |
+| **UI-GEN** | `L217–L226` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -166,6 +167,20 @@
      * **Tầng 3 (`URLSearchParams(window.location.search)`):** Hỗ trợ môi trường web tĩnh hoặc GitHub Pages đọc query parameter `?u=...` tự động.
      * **Tầng 4 (`sessionStorage` & `localStorage`):** Lưu trữ song song trong bộ nhớ trình duyệt cho các phiên chuyển view nội bộ.
   2. **Hàm `restoreUserSession()` Tự Động Khôi Phục:** Đặt ở cuối `<script>`, kiểm tra tuần tự 4 tầng trên. Nếu tìm thấy session hoặc URL parameter hợp lệ thì tự động chuyển sang `#viewHome` tức thì trong `0.01s`, loại bỏ hoàn toàn việc bị văng về màn hình Login.
+
+---
+
+### [ERR-013] Lỗi Lệch Schema Phân Quyền & Mã Phòng Ban giữa Backend (`Code.gs`) và Frontend (`Index.html`) (2026-10-25)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Người dùng đăng nhập tài khoản Admin/CEO (`DUC`), nhưng toàn bộ 8 nút shortcut phòng ban trên Sidebar biến mất sạch sẽ, huy hiệu hiện `0/8` hoặc khu vực phòng ban trống trơn, không thể kéo thả sắp xếp nút.
+- **Nguyên nhân gốc rễ:**
+  1. Frontend định nghĩa 8 phòng ban chuẩn hóa (`DEPT_CEO`, `DEPT_MKT`, `DEPT_SALE`, `DEPT_TECH`, `DEPT_HR`, `DEPT_INV`, `DEPT_FIN`, `DEPT_OPS`) và vai trò của user là `ADMIN_CEO`.
+  2. Backend `Code.gs` vẫn còn giữ cấu hình cũ từ giai đoạn dựng khung (`DEPT_EXEC`, `DEPT_WORKSHOP`, `DEPT_PARTS`...) và danh sách quyền `allowedRoles: ["CEO_FOUNDER", "ADMIN_GĐ"]` (**hoàn toàn không có `ADMIN_CEO`**).
+  3. Khi app vừa nạp xong, `getWhiteLabelAndSystemBundle()` trả về dữ liệu cũ đè lên Client, hàm `renderSidebarDepartmentShortcuts()` đối soát vai trò `ADMIN_CEO` với từng phòng ban đều trả về `false` $\rightarrow$ biến toàn bộ nút thành 0.
+  4. Trình duyệt client lưu cache `localStorage.setItem('apDeptAccessMatrixV5', ...)` mảng 0 phòng ban này khiến các lần F5 tiếp theo tiếp tục bị kẹt.
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Đồng bộ 100% SSOT `DEFAULT_DEPT_ACCESS_CONFIG` với `DEFAULT_DEPT_ACCESS_MATRIX`:** Đảm bảo toàn bộ 8 mã `deptId` và danh sách `allowedRoles` (bắt buộc luôn có `ADMIN_CEO`) khớp từng ký tự giữa Backend và Frontend.
+  2. **Cơ chế Tự Thanh Lọc Cache Trình Duyệt (`AP_CACHE_SCHEMA_VERSION` Guard):** Bổ sung biến phiên bản cache (ví dụ `v2.2_clean_20261025`). Khi phát hiện phiên bản cache cũ hơn, app tự động xóa sạch `apDeptAccessMatrixV5` và nạp lại từ SSOT mặc định chuẩn.
 
 ---
 
