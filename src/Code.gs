@@ -1105,6 +1105,77 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
     var body = JSON.parse(e.postData.contents);
+
+    // KIỂM TRA PHÂN LOẠI: NẾU LÀ GÓI DỮ LIỆU TỪ JAVIS OS (CANONICAL INGESTION ENVELOPE)
+    if (body.sourceAgent || body.targetDept || body.dataType) {
+      var sourceAgent = String(body.sourceAgent || "Javis-Client").trim();
+      var senderUser = String(body.senderUser || "SYSTEM").trim().toUpperCase();
+      var targetDept = String(body.targetDept || "GENERAL").trim().toUpperCase();
+      var dataType = String(body.dataType || "INGEST_BATCH").trim().toUpperCase();
+      var payload = body.payload || {};
+      var nowStr = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss");
+
+      // Ghi nhận nhật ký kiểm toán hệ thống
+      logSystemAudit(
+        senderUser,
+        "JAVIS_INGEST_" + dataType,
+        targetDept,
+        sourceAgent,
+        JSON.stringify(payload).substring(0, 450)
+      );
+
+      // Kích hoạt Event Bus cho toàn hệ thống SME OS
+      EVENT_BUS.publish("JAVIS_DATA_INGESTED", {
+        sourceAgent: sourceAgent,
+        senderUser: senderUser,
+        targetDept: targetDept,
+        dataType: dataType,
+        payload: payload,
+        receivedAt: nowStr
+      });
+
+      // Lưu trữ tương ứng vào các Sheet backend theo phòng ban
+      var ss = getTargetSpreadsheet();
+      var recordsProcessed = 0;
+
+      if (ss && (targetDept === "CSKH-BANHANG" || dataType === "LEADS_BATCH" || dataType === "CRM_LEAD")) {
+        var leadsSheet = ss.getSheetByName(PM_CONFIG.SHEETS.LEADS) || ss.getSheetByName("Leads");
+        if (leadsSheet) {
+          var items = Array.isArray(payload) ? payload : [payload];
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var leadId = item.id || ("LD-" + Date.now() + "-" + (i + 1));
+            var cleanPhone = normalizeVNPhone(item.phone || item.normalizedPhone || "");
+            var rowValues = [
+              leadId,
+              item.createdAt || nowStr,
+              item.customerName || item.name || "Khách hàng Javis",
+              cleanPhone,
+              item.sourceChannel || item.source || "Javis MCP Ingest",
+              item.carModel || item.car || "",
+              item.serviceNeed || item.service || "",
+              item.branch || "AP - Toàn hệ thống",
+              item.status || "Mới tiếp nhận"
+            ];
+            leadsSheet.appendRow(rowValues);
+            recordsProcessed++;
+          }
+        }
+      }
+
+      return ContentService.createTextOutput(JSON.stringify({
+        ok: true,
+        message: "SME OS Backend đã tiếp nhận và lưu trữ thành công dữ liệu từ Javis OS!",
+        sourceAgent: sourceAgent,
+        senderUser: senderUser,
+        targetDept: targetDept,
+        dataType: dataType,
+        recordsProcessed: recordsProcessed,
+        receivedAt: nowStr
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // LUỒNG MẶC ĐỊNH: OMNICHANNEL WEBHOOK SENSOR (WEBSITE SENSOR / FORM ĐĂNG KÝ)
     var cleanPhone = normalizeVNPhone(body.phone || (body.message && body.message.phone) || "");
     var leadPayload = {
       id: "LD-" + Date.now(),
@@ -2015,14 +2086,19 @@ function ensureBackendSheetsInitialized() {
  */
 function saveUserUiPersonalization(username, personalizationObj, currentUser) {
   return withScriptLock(function() {
-    var cleanUser = String(username || (currentUser && (currentUser.username || currentUser.name)) || "ADMIN").trim();
+    var cleanUser = String(username || (currentUser && (currentUser.username || currentUser.name || currentUser.id)) || "ADMIN").trim().toUpperCase();
+    var cleanName = String((currentUser && (currentUser.fullName || currentUser.name)) || "").trim().toUpperCase();
+    var cleanId = String((currentUser && currentUser.id) || "").trim().toUpperCase();
     var jsonStr = (typeof personalizationObj === "string")
       ? personalizationObj
       : JSON.stringify(personalizationObj || {});
 
     // 1. Lưu nhanh vào ScriptProperties theo từng User để phản hồi 0ms
     try {
-      PropertiesService.getScriptProperties().setProperty("AP_USER_UI_PREF_" + cleanUser.toUpperCase(), jsonStr);
+      PropertiesService.getScriptProperties().setProperty("AP_USER_UI_PREF_" + cleanUser, jsonStr);
+      if (cleanUser === "DUC") {
+        PropertiesService.getScriptProperties().setProperty("AP_USER_UI_PREF_NV-401", jsonStr);
+      }
     } catch (e) {}
 
     // 2. Cập nhật trực tiếp vào Cột M ("Cá nhân hóa UI (JSON)") trên Sheet Staff / Nhân sự
@@ -2041,7 +2117,19 @@ function saveUserUiPersonalization(username, personalizationObj, currentUser) {
             for (var i = 0; i < dataRange.length; i++) {
               var rowId = String(dataRange[i][colB - 1] || "").trim().toUpperCase();
               var rowName = String(dataRange[i][colC - 1] || "").trim().toUpperCase();
-              if (rowId === cleanUser.toUpperCase() || rowName === cleanUser.toUpperCase()) {
+              var isMatch = false;
+
+              if (rowId === cleanUser || rowName === cleanUser) {
+                isMatch = true;
+              } else if (cleanId && rowId === cleanId) {
+                isMatch = true;
+              } else if (cleanUser === "DUC" && (rowId === "NV-401" || rowName.indexOf("ĐỨC") !== -1 || rowName.indexOf("DUC") !== -1)) {
+                isMatch = true;
+              } else if (cleanName && rowName.indexOf(cleanName) !== -1) {
+                isMatch = true;
+              }
+
+              if (isMatch) {
                 updatedSheetRow = PM_CONFIG.MIN_DATA_ROW + i;
                 staffSheet.getRange(updatedSheetRow, colM).setValue(jsonStr);
                 break;
@@ -2075,19 +2163,101 @@ function saveUserUiPersonalization(username, personalizationObj, currentUser) {
 }
 
 /**
- * Đọc cấu hình JSON Cá nhân hóa giao diện của User từ Backend
+ * Đọc cấu hình JSON Cá nhân hóa giao diện của User từ Backend (ScriptProperties & Sheet Staff Cột M)
  */
 function getUserUiPersonalization(username) {
   var cleanUser = String(username || "ADMIN").trim().toUpperCase();
   var jsonStr = "";
   try {
     jsonStr = PropertiesService.getScriptProperties().getProperty("AP_USER_UI_PREF_" + cleanUser) || "";
+    if (!jsonStr && cleanUser === "DUC") {
+      jsonStr = PropertiesService.getScriptProperties().getProperty("AP_USER_UI_PREF_NV-401") || "";
+    }
   } catch (e) {}
+
+  if (!jsonStr) {
+    try {
+      var ss = getTargetSpreadsheet();
+      if (ss) {
+        var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
+        if (staffSheet) {
+          var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+          var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
+          var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
+          var lastRow = staffSheet.getLastRow();
+          if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
+            var dataRange = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colC)).getValues();
+            for (var i = 0; i < dataRange.length; i++) {
+              var rowId = String(dataRange[i][colB - 1] || "").trim().toUpperCase();
+              var rowName = String(dataRange[i][colC - 1] || "").trim().toUpperCase();
+              var isMatch = (rowId === cleanUser || rowName === cleanUser || (cleanUser === "DUC" && (rowId === "NV-401" || rowName.indexOf("ĐỨC") !== -1 || rowName.indexOf("DUC") !== -1)));
+              if (isMatch) {
+                jsonStr = String(dataRange[i][colM - 1] || "").trim();
+                break;
+              }
+            }
+          }
+        }
+      }
+    } catch (err) {}
+  }
+
   return {
     ok: true,
     username: cleanUser,
     uiPersonalizationJson: jsonStr,
     spreadsheetUrl: PM_CONFIG.SPREADSHEET_URL
+  };
+}
+
+/**
+ * Lấy thông tin phiên làm việc và phân quyền của User phục vụ khôi phục tự động khi reload trang
+ */
+function getUserSession(username) {
+  var cleanUser = String(username || "DUC").trim().toUpperCase();
+  var ss = getTargetSpreadsheet();
+  var userObj = {
+    username: cleanUser,
+    fullName: (cleanUser === "DUC") ? "Tăng Trí Đức" : cleanUser,
+    role: (cleanUser === "DUC") ? "Admin • Ban Giám Đốc" : "Nhân sự",
+    roleCode: (cleanUser === "DUC") ? "ADMIN_CEO" : "STAFF",
+    uiPersonalizationJson: ""
+  };
+
+  try {
+    if (ss) {
+      var staffSheet = ss.getSheetByName(PM_CONFIG.SHEETS.STAFF) || ss.getSheetByName("Nhân sự");
+      if (staffSheet) {
+        var colB = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Mã NV"].col);
+        var colC = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Họ và tên"].col);
+        var colE = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Phòng ban"].col);
+        var colF = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Chức vụ"].col);
+        var colM = letterToColIndex(GLOBAL_DB_MAP["Staff"]["Cá nhân hóa UI (JSON)"].col);
+        var lastRow = staffSheet.getLastRow();
+        if (lastRow >= PM_CONFIG.MIN_DATA_ROW) {
+          var data = staffSheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, lastRow - PM_CONFIG.MIN_DATA_ROW + 1, Math.max(colM, colF)).getValues();
+          for (var i = 0; i < data.length; i++) {
+            var rowId = String(data[i][colB - 1] || "").trim().toUpperCase();
+            var rowName = String(data[i][colC - 1] || "").trim().toUpperCase();
+            var isMatch = (rowId === cleanUser || rowName === cleanUser || (cleanUser === "DUC" && (rowId === "NV-401" || rowName.indexOf("ĐỨC") !== -1 || rowName.indexOf("DUC") !== -1)));
+            if (isMatch) {
+              userObj.username = cleanUser;
+              userObj.fullName = String(data[i][colC - 1] || userObj.fullName).trim();
+              userObj.department = String(data[i][colE - 1] || "").trim();
+              userObj.role = String(data[i][colF - 1] || userObj.role).trim();
+              userObj.roleCode = (cleanUser === "DUC" || userObj.role.indexOf("Giám đốc") !== -1 || userObj.role.indexOf("CEO") !== -1) ? "ADMIN_CEO" : "STAFF";
+              userObj.uiPersonalizationJson = String(data[i][colM - 1] || "").trim();
+              break;
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {}
+
+  return {
+    ok: true,
+    user: userObj
   };
 }
 
