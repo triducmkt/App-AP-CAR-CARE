@@ -22,7 +22,8 @@
 | **ERR-011** | `L140–L154` | `[SME OS]` | **Lỗi không Login được & Console báo 404 (`Failed to load resource: 404`)** do lệch ID input (`username` vs `txtUsername`) và thẻ `<img src="">` rỗng | Bắt buộc chạy script đối soát 100% `getElementById(...)` khớp với `id="..."` trong HTML (`Missing IDs: []`); cấm để `<img src="">` rỗng và luôn gắn `<link rel="icon" href="data:...">`. |
 | **ERR-012** | `L156–L185` | `[SME OS]` | **Lỗi mất Session đăng nhập khi Reload/F5 trên Google Apps Script iframe** do Sandbox Hash ngẫu nhiên & Storage Partitioning | Phục hồi phiên 4 tầng: `sessionStorage` + `localStorage` + URL Query State (`?u=...` qua `google.script.history.replaceState` & `getLocation`); tự động nạp phiên tức thì không bắt login lại. |
 | **ERR-013** | `L187–L215` | `[SME OS]` | **Lỗi Lệch Schema Phân Quyền & Mã Phòng Ban giữa Backend (`Code.gs`) và Frontend (`Index.html`)** khiến toàn bộ nút biến mất và hiện `0/8` | Bắt buộc đồng bộ 100% SSOT `DEFAULT_DEPT_ACCESS_CONFIG` khớp chính xác với `DEFAULT_DEPT_ACCESS_MATRIX`; bổ sung `ADMIN_CEO` vào `allowedRoles`; dùng `CACHE_SCHEMA_VERSION` tự dọn cache trình duyệt. |
-| **UI-GEN** | `L217–L226` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-014** | `L217–L255` | `[SME OS]` | **Lỗi Reload F5 bị văng về màn hình Login trên GAS `/dev`** do hardcode `#viewLogin active`, check session trễ dòng 7861 và Sandbox Ephemeral Hash | (1) Bỏ `active` ở Login, nhúng Micro-Script đầu `<body>` + CSS `html.ap-authenticated`; (2) Server-Assisted Session: `doGet(e)` inject `serverSession` qua Google Email / `?u=DUC`; (3) Đồng bộ SSOT 1 key `apUserSession`. |
+| **UI-GEN** | `L257–L266` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -181,6 +182,22 @@
 - **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
   1. **Đồng bộ 100% SSOT `DEFAULT_DEPT_ACCESS_CONFIG` với `DEFAULT_DEPT_ACCESS_MATRIX`:** Đảm bảo toàn bộ 8 mã `deptId` và danh sách `allowedRoles` (bắt buộc luôn có `ADMIN_CEO`) khớp từng ký tự giữa Backend và Frontend.
   2. **Cơ chế Tự Thanh Lọc Cache Trình Duyệt (`AP_CACHE_SCHEMA_VERSION` Guard):** Bổ sung biến phiên bản cache (ví dụ `v2.2_clean_20261025`). Khi phát hiện phiên bản cache cũ hơn, app tự động xóa sạch `apDeptAccessMatrixV5` và nạp lại từ SSOT mặc định chuẩn.
+
+---
+
+### [ERR-014] Lỗi Reload F5 bị văng về màn hình Login trên Google Apps Script iframe (`/dev`) (2026-10-25)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Người dùng đăng nhập thành công vào app trên link test `/dev` hoặc `/exec`. Khi nhấn F5 reload hoặc mở tab mới, hệ thống lập tức đá văng người dùng về màn hình đăng nhập v11 và bắt nhập lại mật khẩu từ đầu, không tự động giữ phiên.
+- **Nguyên nhân gốc rễ (Bài học đối chứng từ TDCM Team App):**
+  1. **Đảo ngược quyền hiển thị ban đầu (Inversion of View Control):** Ở TDCM Team App, khung App Shell luôn được vẽ sẵn ngay lập tức, modal đăng nhập chỉ là popup nhỏ `#loginMiniModal` (`display: none`). Nhưng ở AP CAR CARE, màn hình Login toàn trang bị hardcode class `active` (`<div class="spa-view spa-view-login active" id="viewLogin">`), view Home bị ẩn. Trình duyệt bắt buộc phải render Login trước.
+  2. **Thời điểm kiểm tra Session quá trễ:** Hàm `restoreUserSession()` đặt ở dòng 7861 (cuối cùng của file sau 150KB script!). Trong suốt thời gian trình duyệt tải 7860 dòng code, người dùng luôn thấy màn hình Đăng nhập chắn trước mắt.
+  3. **Phân mảnh khóa Session trong Client:** Lúc Login thì lưu vào `apUserSession`, nhưng trong hàm `AppStore.init()` lại đọc từ `apUserProfileV5` (vốn chỉ lưu khi đổi màu yêu thích), dẫn đến xung đột và ghi đè session rỗng.
+  4. **Cơ chế Sandbox Ephemeral Hash của Google Apps Script ở môi trường `/dev`:** Khi reload trên `/dev`, GAS có thể sinh ra origin sandbox iframe mới (`n-token...`), trình duyệt cô lập `localStorage` của origin cũ. Trong khi đó, Backend `doGet(e)` hoàn toàn không inject thông tin phiên của Google Account (`Session.getActiveUser().getEmail()`) hay URL param `?u=DUC` xuống HTML template để Client tự phục hồi.
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Zero-Flash Session Guard:** Bỏ class `active` ở `#viewLogin`. Nhúng một đoạn Micro-Script đồng bộ siêu tốc nằm ngay đầu `<body>` (dòng 1) kiểm tra `localStorage`/`sessionStorage` và `serverSessionData`. Nếu có phiên, lập tức gắn class `ap-authenticated` lên `<html>` trong 0.0001s kết hợp CSS `html.ap-authenticated #viewHome { display: block !important; }`, triệt tiêu 100% hiện tượng chớp màn hình Login.
+  2. **Server-Assisted Session Injection:** Trong `Code.gs` hàm `doGet(e)`, tự động nhận diện người dùng qua `Session.getActiveUser().getEmail()` (khớp `triduccarmedia@gmail.com`) hoặc URL param `?u=DUC`, inject thẳng vào `template.serverSession = JSON.stringify(serverUser)`. Dù Client có bị đổi sandbox origin hay mất `localStorage`, Client vẫn lấy được session từ Server và tự động đăng nhập thẳng.
+  3. **Đồng bộ 100% SSOT khóa `apUserSession`:** Thống nhất dùng duy nhất một khóa `apUserSession` xuyên suốt toàn bộ app từ Client đến Server.
+  4. **Tự động Khởi tạo 16 Bảng dữ liệu SME OS:** Nâng cấp `ensureBackendSheetsInitialized()` tự động tạo toàn bộ 16 sheets trong `PM_CONFIG.SHEETS` với Dòng 10 Tiêu đề cột chuẩn, Dòng 11 Hướng dẫn, và Dòng 12 Dữ liệu mẫu.
 
 ---
 
