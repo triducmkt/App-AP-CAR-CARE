@@ -3566,7 +3566,6 @@
       <div class="ap-sidebar-middle-zone">
         <div class="ap-sidebar-section-label">
           <span>PHÂN HỆ PHÒNG BAN</span>
-          <span id="sidebarVisibleDeptCountBadge">8/8</span>
         </div>
         <div class="ap-sidebar-drag-hint">
           <span>Kéo thả sắp xếp thứ tự nút</span>
@@ -5569,24 +5568,54 @@
       function applySavedSidebarOrderToConfig(orderArray) {
         if (!Array.isArray(orderArray) || !orderArray.length) return;
         var currentList = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
+        var roleCode = (AppStore.state.currentUser && AppStore.state.currentUser.roleCode) || 'ADMIN_CEO';
         var mapById = {};
         for (var i = 0; i < currentList.length; i++) {
           mapById[currentList[i].deptId] = currentList[i];
         }
+
         var sorted = [];
+        var prunedOrderArray = [];
+        var hasPruned = false;
+
+        // 1. Duyệt qua mảng cá nhân hóa: chỉ giữ lại phòng ban được Admin/CEO bật và user có quyền
         for (var j = 0; j < orderArray.length; j++) {
           var id = orderArray[j];
-          if (mapById[id]) {
-            sorted.push(mapById[id]);
-            delete mapById[id];
+          var deptObj = mapById[id];
+          if (deptObj) {
+            var hasAccess = deptObj.enabled && (deptObj.allowedRoles || []).indexOf(roleCode) !== -1;
+            if (hasAccess) {
+              sorted.push(deptObj);
+              prunedOrderArray.push(id);
+              delete mapById[id];
+            } else {
+              hasPruned = true;
+              delete mapById[id];
+            }
+          } else {
+            hasPruned = true;
           }
         }
+
+        // 2. Các phòng ban còn lại mà Admin/CEO vừa bật hoặc cấp quyền mới mà chưa có trong orderArray: xếp tiếp vào sau
         for (var remId in mapById) {
           if (Object.prototype.hasOwnProperty.call(mapById, remId)) {
-            sorted.push(mapById[remId]);
+            var remObj = mapById[remId];
+            sorted.push(remObj);
+            var remHasAccess = remObj.enabled && (remObj.allowedRoles || []).indexOf(roleCode) !== -1;
+            if (remHasAccess) {
+              prunedOrderArray.push(remId);
+            }
           }
         }
         AppStore.state.deptAccessConfig = sorted;
+
+        // 3. Nếu cấu hình cá nhân hóa có phòng ban bị Admin tắt đi: TỰ ĐỘNG LƯU MỚI MÃ JSON CÁ NHÂN HÓA VỀ BACKEND
+        if (hasPruned && typeof window.saveCurrentUserSidebarPersonalizationToBackend === 'function') {
+          setTimeout(function () {
+            window.saveCurrentUserSidebarPersonalizationToBackend(false);
+          }, 300);
+        }
       }
 
       window.onSidebarDeptDragStart = function (ev, deptId) {
@@ -7662,6 +7691,18 @@
             AppStore.state.currentUser.fullName = userData.fullName || 'Tăng Trí Đức';
             AppStore.state.currentUser.role = userData.role || 'Admin • Ban Giám Đốc';
             AppStore.state.currentUser.roleCode = userData.roleCode || 'ADMIN_CEO';
+
+            // Lưu phiên đa tầng: localStorage + sessionStorage + URL Query Parameter
+            try { localStorage.setItem('apUserSession', JSON.stringify(userData)); } catch (err) {}
+            try { sessionStorage.setItem('apUserSession', JSON.stringify(userData)); } catch (err) {}
+            try {
+              if (typeof google !== 'undefined' && google.script && google.script.history && google.script.history.replaceState) {
+                google.script.history.replaceState({ u: userData.username }, null, '?u=' + encodeURIComponent(userData.username));
+              } else if (window.history && window.history.replaceState) {
+                var cleanUrl = window.location.pathname + '?u=' + encodeURIComponent(userData.username);
+                window.history.replaceState({ u: userData.username }, '', cleanUrl);
+              }
+            } catch (hErr) {}
           }
           AppStore.init();
         } else {
@@ -7674,6 +7715,14 @@
       if (btnLogout) {
         btnLogout.addEventListener('click', function () {
           try { localStorage.removeItem('apUserSession'); } catch (e) {}
+          try { sessionStorage.removeItem('apUserSession'); } catch (e) {}
+          try {
+            if (typeof google !== 'undefined' && google.script && google.script.history && google.script.history.replaceState) {
+              google.script.history.replaceState({}, null, '');
+            } else if (window.history && window.history.replaceState) {
+              window.history.replaceState({}, '', window.location.pathname);
+            }
+          } catch (e) {}
           switchSpaView('login');
         });
       }
@@ -7699,7 +7748,6 @@
                   var uObj = (res.user && typeof res.user === 'object')
                     ? res.user
                     : { username: u.toUpperCase(), fullName: res.user || 'Tăng Trí Đức', role: res.role || 'Admin • Ban Giám Đốc', roleCode: 'ADMIN_CEO' };
-                  try { localStorage.setItem('apUserSession', JSON.stringify(uObj)); } catch (err) {}
                   switchSpaView('home', uObj);
                 } else {
                   setFeedback((res && res.message) ? res.message : 'Thông tin đăng nhập không chính xác!', 'error');
@@ -7715,7 +7763,6 @@
             if (u.toUpperCase() === 'DUC' && p === '7668') {
               setFeedback('Đăng nhập thành công (Demo Mode)! Đang vào hệ thống...', 'success');
               var sessionObj = { username: 'DUC', fullName: 'Tăng Trí Đức', role: 'Admin • Ban Giám Đốc', roleCode: 'ADMIN_CEO' };
-              try { localStorage.setItem('apUserSession', JSON.stringify(sessionObj)); } catch (err) {}
               switchSpaView('home', sessionObj);
             } else {
               setFeedback('Tên đăng nhập hoặc mật khẩu không đúng! (Tài khoản DUC mật khẩu chính thức: 7668)', 'error');
@@ -7725,12 +7772,71 @@
       }
 
       applyLogoSlotsToDOM();
-      try {
-        var savedSession = localStorage.getItem('apUserSession');
-        if (savedSession) {
-          switchSpaView('home', JSON.parse(savedSession));
+
+      // KHÔI PHỤC TỰ ĐỘNG PHIÊN ĐĂNG NHẬP (CHỐNG MẤT SESSION KHI RELOAD F5)
+      function restoreUserSession() {
+        var sessionData = null;
+        try {
+          var s = sessionStorage.getItem('apUserSession');
+          if (s) sessionData = JSON.parse(s);
+        } catch (e) {}
+        if (!sessionData) {
+          try {
+            var l = localStorage.getItem('apUserSession');
+            if (l) sessionData = JSON.parse(l);
+          } catch (e) {}
         }
-      } catch (e) {}
+
+        var urlUser = null;
+        try {
+          var searchParams = new URLSearchParams(window.location.search);
+          urlUser = searchParams.get('u');
+        } catch (e) {}
+
+        if (sessionData && sessionData.username) {
+          switchSpaView('home', sessionData);
+          return;
+        }
+
+        if (urlUser) {
+          var uUpper = urlUser.toUpperCase();
+          var initialObj = {
+            username: uUpper,
+            fullName: (uUpper === 'DUC') ? 'Tăng Trí Đức' : uUpper,
+            role: (uUpper === 'DUC') ? 'Admin • Ban Giám Đốc' : 'Nhân sự',
+            roleCode: (uUpper === 'DUC') ? 'ADMIN_CEO' : 'STAFF'
+          };
+          switchSpaView('home', initialObj);
+          if (typeof google !== 'undefined' && google.script && google.script.run) {
+            google.script.run
+              .withSuccessHandler(function (res) {
+                if (res && res.user) {
+                  switchSpaView('home', res.user);
+                }
+              })
+              .getUserSession(uUpper);
+          }
+          return;
+        }
+
+        // Tầng 4: Nếu đang trong iframe GAS sandbox, kiểm tra google.script.url.getLocation
+        if (typeof google !== 'undefined' && google.script && google.script.url && google.script.url.getLocation) {
+          google.script.url.getLocation(function (loc) {
+            if (loc && loc.parameter && loc.parameter.u) {
+              var gasUser = loc.parameter.u.toUpperCase();
+              var gasObj = {
+                username: gasUser,
+                fullName: (gasUser === 'DUC') ? 'Tăng Trí Đức' : gasUser,
+                role: (gasUser === 'DUC') ? 'Admin • Ban Giám Đốc' : 'Nhân sự',
+                roleCode: (gasUser === 'DUC') ? 'ADMIN_CEO' : 'STAFF'
+              };
+              switchSpaView('home', gasObj);
+            }
+          });
+        }
+      }
+
+      restoreUserSession();
     })();
   </script>
   </div>
