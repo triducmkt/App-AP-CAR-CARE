@@ -24,7 +24,8 @@
 | **ERR-013** | `L187–L215` | `[SME OS]` | **Lỗi Lệch Schema Phân Quyền & Mã Phòng Ban giữa Backend (`Code.gs`) và Frontend (`Index.html`)** khiến toàn bộ nút biến mất và hiện `0/8` | Bắt buộc đồng bộ 100% SSOT `DEFAULT_DEPT_ACCESS_CONFIG` khớp chính xác với `DEFAULT_DEPT_ACCESS_MATRIX`; bổ sung `ADMIN_CEO` vào `allowedRoles`; dùng `CACHE_SCHEMA_VERSION` tự dọn cache trình duyệt. |
 | **ERR-014** | `L217–L255` | `[SME OS]` | **Lỗi Reload F5 bị văng về màn hình Login trên GAS `/dev`** do hardcode `#viewLogin active`, check session trễ dòng 7861 và Sandbox Ephemeral Hash | (1) Bỏ `active` ở Login, nhúng Micro-Script đầu `<body>` + CSS `html.ap-authenticated`; (2) Server-Assisted Session: `doGet(e)` inject `serverSession` qua Google Email / `?u=DUC`; (3) Đồng bộ SSOT 1 key `apUserSession`. |
 | **ERR-015** | `L257–L285` | `[SME OS]` | **`SyntaxError: Invalid or unexpected token (tệp Code, template.evaluate)`** do chuỗi JS chứa literal `'<?'` bị hiểu nhầm là scriptlet | Cấm viết chuỗi tĩnh chứa `'<?'` trong file HTML GAS; dùng `Utilities.base64Encode()` truyền object từ Server sang Client và giải mã bằng `window.atob()`. |
-| **UI-GEN** | `L287–L296` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
+| **ERR-016** | `L287–L320` | `[SME OS]` | **Lỗi màn hình đen toàn phần & Biến mất 8 nút Phòng Ban ở Sidebar** do dữ liệu cũ trong ScriptProperties thiếu role `ADMIN_CEO` và thiếu Fail-Safe Active Stage | Dùng `sanitizeDeptAccessConfig` đối soát và tự bổ sung `ADMIN_CEO` cho 100% phòng ban; áp dụng Master Admin Bypass (`isMasterAdmin ? d.enabled !== false : ...`); tự động gọi `switchDepartment(curDept || 'DEPT_MKT')` kích hoạt màn hình. |
+| **UI-GEN** | `L322–L331` | `[Tất cả / Chung]` | Tổ hợp quy tắc UI/UX cơ bản: đứt đoạn Hover Tooltip, chặn `<input type="file">`, sai tên biến Global & thiếu map cột GET/POST | Dùng `<label for="...">` mở hộp thoại file; kiểm tra đồng bộ cả 2 chiều `GET` và `POST` trong `FIELD_MAP`; kiểm thử cú pháp AST trước khi commit. |
 
 ---
 
@@ -217,6 +218,27 @@
   3. Thuộc tính HTML nhận giá trị sạch: `<div id="serverSessionData" data-session="<?!= serverSessionBase64 ?>"></div>` (chuỗi Base64 100% không chứa nháy kép, không chứa ký tự đặc biệt).
   4. Phía Client giải mã an toàn qua:
      `var sJson = decodeURIComponent(escape(window.atob(sB64))); var sObj = JSON.parse(sJson);`
+
+---
+
+### [ERR-016] Lỗi màn hình đen toàn phần & Biến mất 8 nút Phòng Ban ở Sidebar do dữ liệu cũ thiếu role `ADMIN_CEO` & Thiếu Fail-Safe Stage Activation (2026-10-25)
+- **Scope / Dự án:** `[SME OS]`
+- **Triệu chứng:** Người dùng đăng nhập thành công vào app với tài khoản `DUC` (Role: Admin • Ban Giám Đốc), tuy nhiên khu vực "PHÂN HỆ PHÒNG BAN" dưới Sidebar hoàn toàn trống trơn (không có bất kỳ nút nào), và toàn bộ khu vực làm việc chính bên phải (`.ap-main-stage`) bị đen tuyền/trống rỗng, không hiển thị bất kỳ nội dung nào.
+- **Nguyên nhân gốc rễ:**
+  1. **Tồn dư dữ liệu phân quyền cũ trên ScriptProperties & LocalStorage:** `ScriptProperties` trên Google Apps Script (và `localStorage.apDeptAccessMatrixV5`) lưu cấu hình từ phiên trước đó, trong đó mảng `allowedRoles` của các phòng ban chỉ có `["CEO_FOUNDER", "ADMIN_GD"]` mà hoàn toàn thiếu mã định danh `ADMIN_CEO`.
+  2. **Kiểm tra quyền cứng nhắc ở Frontend:** Hàm `renderSidebarDepartmentShortcuts()` kiểm tra `var hasAccess = d.enabled && (d.allowedRoles || []).indexOf(roleCode) !== -1;`. Với user `ADMIN_CEO`, toàn bộ 8 phòng ban đều trả về `false`, dẫn tới biến `html = ''` và 0 nút nào được render.
+  3. **Không có phòng ban đầu tiên (`firstVisibleDept = null`):** Khi không có phòng ban nào khả dụng, biến `firstVisibleDept` bị `null`, hàm `AppStore.switchDepartment(...)` hoàn toàn không được gọi.
+  4. **Thiếu cơ chế kích hoạt màn hình an toàn (No Fail-Safe Active Stage):** Toàn bộ các thẻ `.ap-dept-pane` đều có CSS mặc định `display: none`. Vì không có phòng ban nào được kích hoạt (không có pane nào mang class `.active`), toàn bộ màn hình làm việc chính biến thành một màu đen trống rỗng.
+- **Cách giải quyết & Quy tắc Phòng tránh (`Fast Rule`):**
+  1. **Khử khuẩn và Chuẩn hóa Dữ liệu Phân quyền (`sanitizeDeptAccessConfig`):**
+     - Tại cả Backend (`Code.gs`) và Frontend (`Index.html`), mọi dữ liệu cấu hình phòng ban đọc từ `ScriptProperties` hoặc `localStorage` đều phải chạy qua hàm kiểm định: đối soát đủ 8 phòng ban chuẩn (`DEPT_CEO`, `DEPT_MKT`, `DEPT_SALE`, `DEPT_TECH`, `DEPT_HR`, `DEPT_INV`, `DEPT_FIN`, `DEPT_OPS`), loại bỏ các mã phòng ban cũ lỗi thời (`DEPT_EXEC`), và tự động chèn `ADMIN_CEO` vào `allowedRoles` của 100% phòng ban.
+  2. **Quyền Tối Thượng Master Admin Bypass (`ADMIN_CEO` / `CEO_FOUNDER`):**
+     - Tại tất cả các hàm kiểm tra quyền truy cập phòng ban (`canUserAccessDepartment`, `renderSidebarDepartmentShortcuts`, `applySavedSidebarOrderToConfig`), nếu `roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER'` thì quyền truy cập luôn được đảm bảo: `hasAccess = (d.enabled !== false)`. Admin/CEO không bao giờ bị khóa ngoài chỉ vì sơ suất thiếu tên role trong ma trận.
+  3. **Cơ chế Kích hoạt Màn hình An toàn (Fail-Safe Active Stage):**
+     - Trong `AppStore.init()` và `renderSidebarDepartmentShortcuts()`, sau khi vẽ xong các nút, hệ thống luôn kiểm tra và ép kích hoạt một phòng ban hợp lệ:
+       `var curDept = AppStore.state.activeDepartment || firstVisibleDept || 'DEPT_MKT';`
+       `AppStore.switchDepartment(curDept);`
+     - Đảm bảo ít nhất một pane (mặc định là `DEPT_MKT`) luôn luôn mang class `.active`, triệt tiêu 100% khả năng bị màn hình đen trống rỗng.
 
 ---
 

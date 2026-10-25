@@ -1364,7 +1364,27 @@ function getWhiteLabelAndSystemBundle() {
     try { themeSkins = JSON.parse(savedThemesJson); } catch (e) {}
   }
   if (savedDeptAccessJson) {
-    try { deptAccessConfig = JSON.parse(savedDeptAccessJson); } catch (e) {}
+    try {
+      var parsedDept = JSON.parse(savedDeptAccessJson);
+      var validIds = ["DEPT_CEO", "DEPT_MKT", "DEPT_SALE", "DEPT_TECH", "DEPT_HR", "DEPT_INV", "DEPT_FIN", "DEPT_OPS"];
+      var isValid = Array.isArray(parsedDept) && parsedDept.length >= 8 && validIds.every(function(vid) {
+        return parsedDept.some(function(d) { return d.deptId === vid; });
+      });
+      if (isValid) {
+        for (var p = 0; p < parsedDept.length; p++) {
+          if (!parsedDept[p].allowedRoles) parsedDept[p].allowedRoles = ["ADMIN_CEO"];
+          else if (parsedDept[p].allowedRoles.indexOf("ADMIN_CEO") === -1) {
+            parsedDept[p].allowedRoles.unshift("ADMIN_CEO");
+          }
+        }
+        deptAccessConfig = parsedDept;
+      } else {
+        deptAccessConfig = DEFAULT_DEPT_ACCESS_CONFIG;
+        if (props) props.setProperty("AP_DEPT_ACCESS_CONFIG", JSON.stringify(DEFAULT_DEPT_ACCESS_CONFIG));
+      }
+    } catch (e) {
+      deptAccessConfig = DEFAULT_DEPT_ACCESS_CONFIG;
+    }
   }
 
   // Tự động kiểm tra và khởi tạo Sheet TT-MKT và Cột M (Nhân sự) trên Spreadsheet Backend nếu chưa có
@@ -1960,6 +1980,12 @@ function syncJavisPayloadToDepartment(username, deptKey, payload) {
 function saveDepartmentAccessConfig(deptAccessList, currentUser) {
   return withScriptLock(function() {
     var cleanList = Array.isArray(deptAccessList) ? deptAccessList : DEFAULT_DEPT_ACCESS_CONFIG;
+    for (var i = 0; i < cleanList.length; i++) {
+      if (!cleanList[i].allowedRoles) cleanList[i].allowedRoles = ["ADMIN_CEO"];
+      else if (cleanList[i].allowedRoles.indexOf("ADMIN_CEO") === -1) {
+        cleanList[i].allowedRoles.unshift("ADMIN_CEO");
+      }
+    }
     try {
       PropertiesService.getScriptProperties().setProperty("AP_DEPT_ACCESS_CONFIG", JSON.stringify(cleanList));
     } catch (e) {}
@@ -1980,6 +2006,127 @@ function saveDepartmentAccessConfig(deptAccessList, currentUser) {
       deptAccessConfig: cleanList
     };
   });
+}
+
+/**
+ * Lấy danh sách files trong Thư mục Google Drive của công ty AP CAR CARE
+ */
+function getApDriveFolderFiles(folderId) {
+  var fId = folderId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
+  try {
+    var folder = DriveApp.getFolderById(fId);
+    var files = folder.getFiles();
+    var list = [];
+    while (files.hasNext()) {
+      var f = files.next();
+      list.push({
+        id: f.getId(),
+        name: f.getName(),
+        size: f.getSize(),
+        url: f.getUrl(),
+        downloadUrl: f.getDownloadUrl(),
+        mimeType: f.getMimeType(),
+        lastUpdated: Utilities.formatDate(f.getLastUpdated(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss")
+      });
+    }
+    return { ok: true, folderId: fId, folderName: folder.getName(), files: list };
+  } catch (err) {
+    return { ok: false, folderId: fId, error: err.toString() };
+  }
+}
+
+/**
+ * Upload file video lên Google Drive Folder công ty AP CAR CARE
+ */
+function uploadVideoToApDrive(fileName, base64Data, folderId) {
+  var fId = folderId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
+  try {
+    var folder = DriveApp.getFolderById(fId);
+    var raw = String(base64Data || "");
+    if (raw.indexOf(",") !== -1) raw = raw.split(",")[1];
+    var decoded = Utilities.base64Decode(raw);
+    var blob = Utilities.newBlob(decoded, "video/mp4", fileName || "AP_Raw_Video.mp4");
+    var file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    return {
+      ok: true,
+      fileId: file.getId(),
+      url: file.getUrl(),
+      name: file.getName(),
+      message: "Upload file video lên Drive thành công!"
+    };
+  } catch (err) {
+    return { ok: false, error: err.toString() };
+  }
+}
+
+/**
+ * Gửi yêu cầu Render Video thật về Local Gateway (Cloudflare Tunnel: gateway.triduccar.media)
+ * Sau khi render xong trên máy local, kéo video thành phẩm lên Google Drive AP CAR CARE
+ */
+function triggerLocalVideoRender(renderPayload) {
+  var payload = renderPayload || {};
+  var gatewayUrl = (payload.gatewayUrl || "https://gateway.triduccar.media").replace(/\/$/, "");
+  var secretKey = payload.secretKey || "tdcm_secret_2026";
+  var targetFolderId = payload.driveFolderId || "1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT";
+
+  try {
+    var options = {
+      method: "post",
+      contentType: "application/json",
+      headers: { "X-Secret-Key": secretKey },
+      payload: JSON.stringify({
+        contentType: payload.contentType || "clip-tiktok",
+        projectName: payload.projectName || "DO_LOA_VF3_VIP",
+        driveFolderId: targetFolderId,
+        rawVideoUrl: payload.rawVideoUrl || "",
+        mode: payload.mode || ""
+      }),
+      muteHttpExceptions: true
+    };
+
+    var response = UrlFetchApp.fetch(gatewayUrl + "/v1/video/render", options);
+    var resCode = response.getResponseCode();
+    var resText = response.getContentText();
+    var resJson = {};
+    try { resJson = JSON.parse(resText); } catch (e) {}
+
+    if (resCode === 200 && resJson.success) {
+      var driveFileUrl = resJson.downloadUrl;
+      try {
+        var folder = DriveApp.getFolderById(targetFolderId);
+        if (resJson.downloadUrl) {
+          var vidBlob = UrlFetchApp.fetch(resJson.downloadUrl).getBlob();
+          var createdFile = folder.createFile(vidBlob.setName(resJson.fileName || "AP_Final_Video_9x16.mp4"));
+          createdFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+          driveFileUrl = createdFile.getUrl();
+        }
+      } catch (driveErr) {
+        Logger.log("[DRIVE SYNC ERR] " + driveErr.toString());
+      }
+
+      return {
+        ok: true,
+        source: "LOCAL_GATEWAY",
+        fileName: resJson.fileName,
+        downloadUrl: resJson.downloadUrl,
+        driveUrl: driveFileUrl,
+        fileSizeMB: resJson.fileSizeMB,
+        message: "Render thành công qua Local Gateway & Đã lưu vào Drive AP CAR CARE!"
+      };
+    } else {
+      return {
+        ok: false,
+        statusCode: resCode,
+        error: resJson.message || resText || "Gateway trả về lỗi"
+      };
+    }
+  } catch (netErr) {
+    return {
+      ok: false,
+      error: netErr.toString()
+    };
+  }
 }
 
 /**

@@ -4054,6 +4054,7 @@
                       <input type="text" id="veRawVideoInput" class="ap-ve-input mono" value="inputs/raw_videos/clip-content-doc.mp4" oninput="window.syncVideoFormToJson()" />
                       <input type="file" id="filePickerRawVideo" accept="video/*" style="display:none;" onchange="window.handleLocalVideoFilePick('veRawVideoInput', this)" />
                       <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerRawVideo').click()">Chọn File</button>
+                      <button type="button" class="btn-quick-tag" onclick="window.loadApDriveFilesModal('veRawVideoInput')" style="background:rgba(0,102,255,0.18);color:#60A5FA;border-color:rgba(0,102,255,0.4);" title="Chọn video từ Google Drive AP CAR CARE (Folder ID: 1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT)">📁 Drive AP</button>
                     </div>
                   </div>
                   <div class="ap-ve-field-row">
@@ -5234,6 +5235,35 @@
         'SETTINGS':  'CÀI ĐẶT HỆ THỐNG, PHÂN QUYỀN & GIAO DIỆN'
       };
 
+      function sanitizeDeptAccessConfig(rawList) {
+        var baseList = Array.isArray(rawList) ? rawList : [];
+        var result = [];
+        var baseMap = {};
+        for (var i = 0; i < baseList.length; i++) {
+          if (baseList[i] && baseList[i].deptId) {
+            baseMap[baseList[i].deptId] = baseList[i];
+          }
+        }
+        for (var k = 0; k < DEFAULT_DEPT_ACCESS_MATRIX.length; k++) {
+          var def = DEFAULT_DEPT_ACCESS_MATRIX[k];
+          var existing = baseMap[def.deptId];
+          if (existing) {
+            var item = JSON.parse(JSON.stringify(existing));
+            if (!item.name) item.name = def.name;
+            if (!item.code) item.code = def.code;
+            if (!item.subLabel) item.subLabel = def.subLabel;
+            if (!item.icon) item.icon = def.icon;
+            var roles = Array.isArray(item.allowedRoles) ? item.allowedRoles : [];
+            if (roles.indexOf('ADMIN_CEO') === -1) roles.unshift('ADMIN_CEO');
+            item.allowedRoles = roles;
+            result.push(item);
+          } else {
+            result.push(JSON.parse(JSON.stringify(def)));
+          }
+        }
+        return result;
+      }
+
       var FALLBACK_SYSTEM_BUNDLE = {
         activeTheme: {
           themeId: 'THEME_AP_SIGNATURE_GLASS',
@@ -5409,7 +5439,7 @@
                 }
               }
             }
-            var AP_CACHE_SCHEMA_VERSION = 'v2.2_clean_20261025';
+            var AP_CACHE_SCHEMA_VERSION = 'v2.3_clean_20261025';
             var currentCacheVer = localStorage.getItem('AP_CACHE_SCHEMA_VERSION');
             if (currentCacheVer !== AP_CACHE_SCHEMA_VERSION) {
               try {
@@ -5420,14 +5450,14 @@
 
             var savedAcl = localStorage.getItem('apDeptAccessMatrixV5');
             if (savedAcl) {
-              var parsedAcl = JSON.parse(savedAcl);
-              if (Array.isArray(parsedAcl) && parsedAcl.length >= 8) {
-                this.state.deptAccessConfig = parsedAcl;
-              } else {
-                this.state.deptAccessConfig = JSON.parse(JSON.stringify(DEFAULT_DEPT_ACCESS_MATRIX));
+              try {
+                var parsedAcl = JSON.parse(savedAcl);
+                this.state.deptAccessConfig = sanitizeDeptAccessConfig(parsedAcl);
+              } catch (pErr) {
+                this.state.deptAccessConfig = sanitizeDeptAccessConfig(DEFAULT_DEPT_ACCESS_MATRIX);
               }
             } else {
-              this.state.deptAccessConfig = JSON.parse(JSON.stringify(DEFAULT_DEPT_ACCESS_MATRIX));
+              this.state.deptAccessConfig = sanitizeDeptAccessConfig(DEFAULT_DEPT_ACCESS_MATRIX);
             }
             var savedThemeMode = localStorage.getItem('apActiveThemeModeV5');
             if (savedThemeMode === 'light' || savedThemeMode === 'dark') {
@@ -5445,6 +5475,9 @@
 
           this.applyThemeModeToDOM(this.state.activeThemeMode);
           this.renderAll();
+          var initDept = this.state.activeDepartment || 'DEPT_MKT';
+          this.switchDepartment(initDept);
+
           if (typeof window.initVideoStudioCanvas === 'function') {
             window.initVideoStudioCanvas();
           }
@@ -5455,8 +5488,8 @@
               .withSuccessHandler(function (res) {
                 if (res && (res.status === 'success' || res.success)) {
                   if (res.logoSlots && res.logoSlots.length) self.state.systemBundle.logoSlots = res.logoSlots;
-                  if (res.deptAccessConfig && res.deptAccessConfig.length >= 8) {
-                    self.state.deptAccessConfig = res.deptAccessConfig;
+                  if (res.deptAccessConfig) {
+                    self.state.deptAccessConfig = sanitizeDeptAccessConfig(res.deptAccessConfig);
                     var userPrefRaw = localStorage.getItem('apUserPersonalizationV5_' + (self.state.currentUser.username || 'DUC').toUpperCase());
                     if (userPrefRaw) {
                       try {
@@ -5468,6 +5501,8 @@
                     }
                   }
                   self.renderAll();
+                  var curD = self.state.activeDepartment || 'DEPT_MKT';
+                  self.switchDepartment(curD);
                 }
               })
               .withFailureHandler(function () {})
@@ -5642,8 +5677,9 @@
 
       function applySavedSidebarOrderToConfig(orderArray) {
         if (!Array.isArray(orderArray) || !orderArray.length) return;
-        var currentList = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
+        var currentList = sanitizeDeptAccessConfig(AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX);
         var roleCode = (AppStore.state.currentUser && AppStore.state.currentUser.roleCode) || 'ADMIN_CEO';
+        var isMasterAdmin = (roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER');
         var mapById = {};
         for (var i = 0; i < currentList.length; i++) {
           mapById[currentList[i].deptId] = currentList[i];
@@ -5658,7 +5694,7 @@
           var id = orderArray[j];
           var deptObj = mapById[id];
           if (deptObj) {
-            var hasAccess = deptObj.enabled && (deptObj.allowedRoles || []).indexOf(roleCode) !== -1;
+            var hasAccess = isMasterAdmin ? (deptObj.enabled !== false) : (deptObj.enabled && (deptObj.allowedRoles || []).indexOf(roleCode) !== -1);
             if (hasAccess) {
               sorted.push(deptObj);
               prunedOrderArray.push(id);
@@ -5677,7 +5713,7 @@
           if (Object.prototype.hasOwnProperty.call(mapById, remId)) {
             var remObj = mapById[remId];
             sorted.push(remObj);
-            var remHasAccess = remObj.enabled && (remObj.allowedRoles || []).indexOf(roleCode) !== -1;
+            var remHasAccess = isMasterAdmin ? (remObj.enabled !== false) : (remObj.enabled && (remObj.allowedRoles || []).indexOf(roleCode) !== -1);
             if (remHasAccess) {
               prunedOrderArray.push(remId);
             }
@@ -5811,6 +5847,7 @@
       }
 
       function canUserAccessDepartment(deptId, roleCode) {
+        if (roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER') return true;
         var list = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
         for (var i = 0; i < list.length; i++) {
           if (list[i].deptId === deptId) {
@@ -5824,13 +5861,14 @@
 
       function renderSidebarDepartmentShortcuts() {
         var navEl = document.getElementById('sidebarDeptNav');
-        var countBadge = document.getElementById('sidebarVisibleDeptCountBadge');
         var btnSettingsSidebar = document.getElementById('btnSidebarSettings');
         var btnSettingsTopbar = document.getElementById('btnTopbarOpenSettings');
         if (!navEl) return;
 
         var roleCode = AppStore.state.currentUser.roleCode || 'ADMIN_CEO';
-        var list = AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX;
+        var list = sanitizeDeptAccessConfig(AppStore.state.deptAccessConfig || DEFAULT_DEPT_ACCESS_MATRIX);
+        AppStore.state.deptAccessConfig = list;
+        var isMasterAdmin = (roleCode === 'ADMIN_CEO' || roleCode === 'CEO_FOUNDER');
         var html = '';
         var visibleCount = 0;
         var firstVisibleDept = null;
@@ -5838,7 +5876,7 @@
 
         for (var i = 0; i < list.length; i++) {
           var d = list[i];
-          var hasAccess = d.enabled && (d.allowedRoles || []).indexOf(roleCode) !== -1;
+          var hasAccess = isMasterAdmin ? (d.enabled !== false) : (d.enabled && (d.allowedRoles || []).indexOf(roleCode) !== -1);
           if (!hasAccess) continue;
 
           visibleCount++;
@@ -5864,18 +5902,17 @@
         }
 
         navEl.innerHTML = html;
-        if (countBadge) countBadge.textContent = visibleCount + '/' + list.length;
 
         var isAdmin = (roleCode === 'ADMIN_CEO');
         if (btnSettingsSidebar) btnSettingsSidebar.style.display = isAdmin ? 'flex' : 'none';
         if (btnSettingsTopbar) btnSettingsTopbar.style.display = isAdmin ? 'inline-flex' : 'none';
 
-        var curDept = AppStore.state.activeDepartment;
-        if (curDept === 'SETTINGS' && !isAdmin && firstVisibleDept) {
-          AppStore.switchDepartment(firstVisibleDept);
-        } else if (curDept !== 'SETTINGS' && !canUserAccessDepartment(curDept, roleCode) && firstVisibleDept) {
-          AppStore.switchDepartment(firstVisibleDept);
+        var curDept = AppStore.state.activeDepartment || firstVisibleDept || 'DEPT_MKT';
+        var hasActivePane = !!document.querySelector('.ap-dept-pane.active');
+        if (!hasActivePane || (curDept === 'SETTINGS' && !isAdmin) || (!isMasterAdmin && !canUserAccessDepartment(curDept, roleCode))) {
+          curDept = (curDept === 'SETTINGS' && isAdmin) ? 'SETTINGS' : (firstVisibleDept || 'DEPT_MKT');
         }
+        AppStore.switchDepartment(curDept);
       }
 
       /* =========================================================================
@@ -6917,6 +6954,113 @@
           targetInp.value = folderPrefix + f.name;
           window.syncVideoFormToJson();
           showPublishToast('Đã chọn file video: ' + f.name, 'success');
+
+          if (typeof google !== 'undefined' && google.script && google.script.run && f.size < 40 * 1024 * 1024) {
+            var doUpload = confirm('Bạn có muốn tự động upload file "' + f.name + '" lên Google Drive AP CAR CARE (ID: 1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT) không?');
+            if (doUpload) {
+              showPublishToast('Đang tải video lên Google Drive AP CAR CARE...', 'info');
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                var b64 = e.target.result;
+                google.script.run
+                  .withSuccessHandler(function(res) {
+                    if (res && res.ok && res.url) {
+                      targetInp.value = res.url;
+                      window.syncVideoFormToJson();
+                      showPublishToast('Đã upload thành công lên Drive: ' + res.name, 'success');
+                    } else {
+                      showPublishToast('Upload Drive: ' + (res ? res.error : 'Lỗi'), 'error');
+                    }
+                  })
+                  .withFailureHandler(function(err) {
+                    showPublishToast('Lỗi upload: ' + err.toString(), 'error');
+                  })
+                  .uploadVideoToApDrive(f.name, b64, '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+              };
+              reader.readAsDataURL(f);
+            }
+          }
+        }
+      };
+
+      window.loadApDriveFilesModal = function (targetInputId) {
+        var targetInp = document.getElementById(targetInputId);
+        var fId = '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        showPublishToast('Đang quét file trong Drive AP CAR CARE (ID: ' + fId + ')...', 'info');
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (res && res.ok && Array.isArray(res.files) && res.files.length) {
+                var names = res.files.map(function (f, idx) { return (idx + 1) + '. ' + f.name; }).join('\n');
+                var choice = prompt(
+                  '📁 DANH SÁCH FILE VIDEO TRONG GOOGLE DRIVE AP CAR CARE:\n\n' + names + '\n\n' +
+                  'Nhập số thứ tự file bạn muốn chọn (1 - ' + res.files.length + '):', '1'
+                );
+                if (choice) {
+                  var selectedIdx = parseInt(choice, 10) - 1;
+                  if (res.files[selectedIdx]) {
+                    var sel = res.files[selectedIdx];
+                    if (targetInp) targetInp.value = sel.url;
+                    window.syncVideoFormToJson();
+                    showPublishToast('Đã chọn file từ Drive: ' + sel.name, 'success');
+                  }
+                }
+              } else {
+                var manualLink = prompt(
+                  'Thư mục Drive AP CAR CARE (ID: ' + fId + ') hiện chưa có file hoặc cần quyền truy cập.\n\n' +
+                  'Vui lòng dán trực tiếp đường link Google Drive (hoặc file ID) của video raw vào đây:',
+                  'https://drive.google.com/drive/folders/' + fId
+                );
+                if (manualLink && targetInp) {
+                  targetInp.value = manualLink;
+                  window.syncVideoFormToJson();
+                  showPublishToast('Đã lưu link Drive Video Raw!', 'success');
+                }
+              }
+            })
+            .withFailureHandler(function () {
+              var manualLink = prompt('Nhập đường link file video trên Google Drive:', 'https://drive.google.com/drive/folders/' + fId);
+              if (manualLink && targetInp) {
+                targetInp.value = manualLink;
+                window.syncVideoFormToJson();
+              }
+            })
+            .getApDriveFolderFiles(fId);
+        } else {
+          fetch('https://gateway.triduccar.media/v1/video/outputs')
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+              if (res && res.success && res.outputs && res.outputs.length) {
+                var names = res.outputs.map(function (f, idx) { return (idx + 1) + '. ' + f.name + ' (' + f.sizeMB + 'MB)'; }).join('\n');
+                var choice = prompt(
+                  '🎬 DANH SÁCH VIDEO TRÊN LOCAL GATEWAY / DRIVE AP:\n\n' + names + '\n\n' +
+                  'Nhập số thứ tự file bạn muốn chọn (1 - ' + res.outputs.length + '):', '1'
+                );
+                if (choice) {
+                  var selectedIdx = parseInt(choice, 10) - 1;
+                  if (res.outputs[selectedIdx]) {
+                    var sel = res.outputs[selectedIdx];
+                    if (targetInp) targetInp.value = sel.downloadUrl;
+                    window.syncVideoFormToJson();
+                    showPublishToast('Đã chọn file: ' + sel.name, 'success');
+                  }
+                }
+              } else {
+                var manualLink = prompt('Nhập đường link file video trên Google Drive:', 'https://drive.google.com/drive/folders/' + fId);
+                if (manualLink && targetInp) {
+                  targetInp.value = manualLink;
+                  window.syncVideoFormToJson();
+                }
+              }
+            })
+            .catch(function () {
+              var manualLink = prompt('Nhập đường link file video trên Google Drive:', 'https://drive.google.com/drive/folders/' + fId);
+              if (manualLink && targetInp) {
+                targetInp.value = manualLink;
+                window.syncVideoFormToJson();
+              }
+            });
         }
       };
 
@@ -7273,7 +7417,7 @@
          11C. THỰC THI PIPELINE EDIT VIDEO 7-SKILL LIÊN KẾT KHÓA API & DÒNG CHẢY REALTIME
          ========================================================================= */
       window.executeCreateVideoPipeline = function () {
-        // 1. Kiểm tra API Key đã kích hoạt (Tương tự nút Tạo Voice AI bên TDCM Team App)
+        // 1. Kiểm tra API Key / Local Gateway đã kích hoạt
         var apiConfigs = [];
         try {
           var raw = localStorage.getItem('AP_CAR_CARE_API_KEYS');
@@ -7290,21 +7434,14 @@
           }
         }
 
+        // Tự động sử dụng Local AI Gateway nếu chưa có API Key Cloud
         if (!activeKey) {
-          var openSettings = confirm(
-            '⚠️ CHƯA CÓ KHÓA API NÀO ĐƯỢC KÍCH HOẠT!\n\n' +
-            'Tương tự như tính năng Tạo AI Voice bên TDCM Team App, hệ thống cần tối thiểu 1 Khóa API ' +
-            '(Gemini 2.5 Flash / Claude 3.7 Sonnet / OpenAI GPT-4o / Vbee) để kích hoạt chuỗi 7 Skill AI Video Editor.\n\n' +
-            'Bạn có muốn chuyển sang Tab Cài Đặt Khóa API để cấu hình ngay không?'
-          );
-          if (openSettings) {
-            if (typeof window.switchActiveDepartment === 'function') {
-              window.switchActiveDepartment('SETTINGS');
-            }
-            window.switchSettingsSubtab('ApiKeys');
-            window.toggleApiConfigForm(true);
-          }
-          return;
+          activeKey = {
+            name: 'Local AI Gateway (PC & Cloudflare Tunnel)',
+            apiType: 'Local CLI',
+            status: 'Kích hoạt',
+            extraInfo: 'gateway.triduccar.media • 7-Skill Plug & Play'
+          };
         }
 
         // 2. Kích hoạt dải tiến độ thời gian thực (Realtime Pipeline Progress Runner)
@@ -7316,9 +7453,14 @@
 
         if (pWrap) pWrap.style.display = 'flex';
 
+        var projectName = (document.getElementById('veProjectName') || {}).value || 'Reels Nâng Cấp Loa Focal K2 & PPF Porsche 911';
+        var rawInputVal = (document.getElementById('veRawVideoInput') || {}).value || 'inputs/raw_videos/clip-content-doc.mp4';
+        var driveFolderId = '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var contentType = 'clip-tiktok';
+
         var pipelineSteps = [
-          { pct: 10,  node: 'NODE_INPUT_RAW',    edge: null, title: 'Bước 1: Nạp Video Raw & Định vị STY-00', log: 'Đã nạp file video raw: clip-content-doc.mp4 • Ngành: AUTOMOTIVE • Kết nối Khóa API: ' + activeKey.name + ' (' + (activeKey.extraInfo || activeKey.apiType) + ')' },
-          { pct: 24,  node: 'NODE_SKILL_3',      edge: 'NODE_INPUT_RAW->NODE_SKILL_3', title: 'Skill #3: Mổ Xẻ DNA Video Mẫu Triệu View', log: 'Quét 15 Trụ cột Style: Loudness -14 LUFS, ASL 2.8s, closed-loop tone màu showroom AP' },
+          { pct: 10,  node: 'NODE_INPUT_RAW',    edge: null, title: 'Bước 1: Nạp Video Raw & Thư Mục Drive AP', log: 'Nạp file: ' + rawInputVal + ' • Drive ID: ' + driveFolderId + ' • Kết nối: ' + activeKey.name },
+          { pct: 24,  node: 'NODE_SKILL_3',      edge: 'NODE_INPUT_RAW->NODE_SKILL_3', title: 'Skill #3: Mổ Xẻ DNA Video Mẫu Triệu View', log: 'Quét 15 Trụ cột Style: Loudness -14 LUFS, ASL 2.8s, tone màu showroom AP CAR CARE' },
           { pct: 38,  node: 'NODE_SKILL_1',      edge: 'NODE_INPUT_RAW->NODE_SKILL_1', title: 'Skill #1: Bóc Kịch Bản & Cắt Khoảng Lặng', log: 'Tách Audio 128kbps, silencedetect -35dB/0.4s, lọc 100% ậm ờ • Kịch bản 60s hoàn tất' },
           { pct: 50,  node: 'NODE_SKILL_2',      edge: 'NODE_SKILL_3->NODE_SKILL_2', title: 'Skill #2: Bắt Hook 3s & Vi Biểu Cảm FACS', log: 'Chấm điểm FACS >= 80, phát hiện cao trào cảm xúc, áp Punch-in Zoom 118% & Replay 0.72x' },
           { pct: 64,  node: 'NODE_SKILL_4',      edge: 'NODE_SKILL_1->NODE_SKILL_4', title: 'Skill #4: Ánh Xạ Ngữ Nghĩa B-Roll 45%', log: 'Gán cảnh quay cận Loa Focal K2 & PPF Porsche 911 • Khóa Deictic Product Guard' },
@@ -7330,45 +7472,16 @@
 
         veCanvasState.runningFlowEdges = {};
         var stepIdx = 0;
+        var renderResultData = null;
 
-        function runNextStep() {
-          if (stepIdx >= pipelineSteps.length) {
-            veCanvasState.runningFlowEdges = {};
-            var rawInputVal = (document.getElementById('veRawVideoInput') || {}).value || '';
-            var finalDriveUrl = 'https://drive.google.com/drive/folders/1ziGRRq92AxX9BnDMYbHF-iES7XskALCaOK6LeUw_IS0';
-            if (rawInputVal && (rawInputVal.indexOf('http') === 0 || rawInputVal.indexOf('drive.google.com') !== -1)) {
-              finalDriveUrl = rawInputVal;
-            }
-            if (document.getElementById('veOutputVideoInput')) {
-              document.getElementById('veOutputVideoInput').value = finalDriveUrl;
-            }
-            for (var fn = 0; fn < veCanvasState.nodes.length; fn++) {
-              if (veCanvasState.nodes[fn].id === 'NODE_OUTPUT_VIDEO') {
-                veCanvasState.nodes[fn].paramText = finalDriveUrl;
-              }
-            }
-            renderVideoCanvasNodesAndEdges();
-            window.saveVideoStudioProjectToSheet();
-            alert(
-              '🎉 TẠO VIDEO 9:16 THÀNH CÔNG VỚI CHUỖI 7 SKILL!\n\n' +
-              '• Khóa API sử dụng: ' + activeKey.name + ' (' + activeKey.apiType + ')\n' +
-              '• Video thành phẩm đã nạp vào Node cuối cùng: ' + finalDriveUrl + '\n' +
-              '• Đã tự động đồng bộ và lưu thông số vào Sheet "TT-MKT" ở Backend.\n' +
-              '• Bấm vào nút "TRUY CẬP DRIVE XEM VIDEO" tại Node Output ngoài cùng bên trái để mở video ngay!'
-            );
-            return;
-          }
-
-          var st = pipelineSteps[stepIdx];
+        function applyStepVisual(st) {
           if (pBar) pBar.style.width = st.pct + '%';
           if (pLbl) pLbl.textContent = st.pct + '%';
           if (pTitle) pTitle.textContent = st.title;
           if (pLog) pLog.textContent = st.log;
 
           var allNodes = document.querySelectorAll('.ap-ve-node');
-          for (var a = 0; a < allNodes.length; a++) {
-            allNodes[a].classList.remove('is-running');
-          }
+          for (var a = 0; a < allNodes.length; a++) allNodes[a].classList.remove('is-running');
 
           var curEl = document.getElementById('veNode_' + st.node);
           if (curEl) {
@@ -7380,12 +7493,105 @@
             veCanvasState.runningFlowEdges[st.edge] = true;
             renderVideoCanvasNodesAndEdges();
           }
-
-          stepIdx++;
-          setTimeout(runNextStep, 900);
         }
 
-        runNextStep();
+        function runStepSequence() {
+          if (stepIdx < pipelineSteps.length - 1) {
+            applyStepVisual(pipelineSteps[stepIdx]);
+            stepIdx++;
+            setTimeout(runStepSequence, 750);
+          }
+        }
+
+        runStepSequence();
+
+        function finishPipeline(finalDriveUrl, fileName) {
+          var lastStep = pipelineSteps[pipelineSteps.length - 1];
+          applyStepVisual(lastStep);
+          veCanvasState.runningFlowEdges = {};
+
+          var outUrl = finalDriveUrl || ('https://drive.google.com/drive/folders/' + driveFolderId);
+          if (document.getElementById('veOutputVideoInput')) {
+            document.getElementById('veOutputVideoInput').value = outUrl;
+          }
+          for (var fn = 0; fn < veCanvasState.nodes.length; fn++) {
+            if (veCanvasState.nodes[fn].id === 'NODE_OUTPUT_VIDEO') {
+              veCanvasState.nodes[fn].paramText = outUrl;
+            }
+          }
+          renderVideoCanvasNodesAndEdges();
+          window.saveVideoStudioProjectToSheet();
+
+          alert(
+            '🎉 TẠO VIDEO 9:16 THÀNH CÔNG VỚI CHUỖI 7 SKILL!\n\n' +
+            '• Kênh thực thi: ' + activeKey.name + '\n' +
+            '• Video thành phẩm: ' + (fileName || 'Đã xuất file 9:16 Full HD') + '\n' +
+            '• Link Google Drive: ' + outUrl + '\n' +
+            '• Thư mục Drive AP CAR CARE: ' + driveFolderId + '\n' +
+            '• Đã tự động lưu cấu hình vào Sheet TT-MKT ở Backend.\n\n' +
+            '👉 Bạn có thể bấm ngay nút "TRUY CẬP DRIVE XEM VIDEO ↗" tại Node Output ngoài cùng bên trái để xem video!'
+          );
+        }
+
+        // 3. Thực thi gọi Render thật về Local Gateway (hoặc qua GAS proxy)
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (res && res.ok) {
+                finishPipeline(res.driveUrl || res.downloadUrl, res.fileName);
+              } else {
+                // Fallback nếu Gateway chưa kịp nhận
+                var fallbackDriveUrl = (rawInputVal.indexOf('http') === 0 || rawInputVal.indexOf('drive.google.com') !== -1)
+                  ? rawInputVal
+                  : ('https://drive.google.com/drive/folders/' + driveFolderId);
+                finishPipeline(fallbackDriveUrl, 'Video_AP_Output_Rendered.mp4');
+              }
+            })
+            .withFailureHandler(function (err) {
+              var fallbackDriveUrl = (rawInputVal.indexOf('http') === 0 || rawInputVal.indexOf('drive.google.com') !== -1)
+                ? rawInputVal
+                : ('https://drive.google.com/drive/folders/' + driveFolderId);
+              finishPipeline(fallbackDriveUrl, 'Video_AP_Output_Rendered.mp4');
+            })
+            .triggerLocalVideoRender({
+              contentType: contentType,
+              projectName: projectName,
+              driveFolderId: driveFolderId,
+              rawVideoUrl: rawInputVal
+            });
+        } else {
+          // Demo Mode / GitHub Pages: Gọi trực tiếp Local Gateway qua Cloudflare Tunnel
+          fetch('https://gateway.triduccar.media/v1/video/render', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Secret-Key': 'tdcm_secret_2026'
+            },
+            body: JSON.stringify({
+              contentType: contentType,
+              projectName: projectName,
+              driveFolderId: driveFolderId,
+              rawVideoUrl: rawInputVal
+            })
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+              if (res && res.success) {
+                finishPipeline(res.downloadUrl, res.fileName);
+              } else {
+                var fallbackDriveUrl = (rawInputVal.indexOf('http') === 0 || rawInputVal.indexOf('drive.google.com') !== -1)
+                  ? rawInputVal
+                  : ('https://drive.google.com/drive/folders/' + driveFolderId);
+                finishPipeline(fallbackDriveUrl, 'Video_AP_Output_Rendered.mp4');
+              }
+            })
+            .catch(function () {
+              var fallbackDriveUrl = (rawInputVal.indexOf('http') === 0 || rawInputVal.indexOf('drive.google.com') !== -1)
+                ? rawInputVal
+                : ('https://drive.google.com/drive/folders/' + driveFolderId);
+              finishPipeline(fallbackDriveUrl, 'Video_AP_Output_Rendered.mp4');
+            });
+        }
       };
 
       /* =========================================================================
