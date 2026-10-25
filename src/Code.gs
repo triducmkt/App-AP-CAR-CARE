@@ -1086,6 +1086,9 @@ function getSeedDepartmentData() {
  * CỔNG 1: doGet(e) — Render Single-Page Application (SPA) kèm cấu hình Theme & Logo
  */
 function doGet(e) {
+  try {
+    ensureBackendSheetsInitialized();
+  } catch (err) {}
   var template = HtmlService.createTemplateFromFile("Index");
   template.bootstrapConfig = JSON.stringify(getWhiteLabelAndSystemBundle());
   return template.evaluate()
@@ -1108,6 +1111,10 @@ function doPost(e) {
 
     // KIỂM TRA PHÂN LOẠI: NẾU LÀ GÓI DỮ LIỆU TỪ JAVIS OS (CANONICAL INGESTION ENVELOPE)
     if (body.sourceAgent || body.targetDept || body.dataType) {
+      try {
+        ensureBackendSheetsInitialized();
+      } catch (initErr) {}
+
       var sourceAgent = String(body.sourceAgent || "Javis-Client").trim();
       var senderUser = String(body.senderUser || "SYSTEM").trim().toUpperCase();
       var targetDept = String(body.targetDept || "GENERAL").trim().toUpperCase();
@@ -1320,6 +1327,13 @@ function getWhiteLabelAndSystemBundle() {
   }
   if (savedDeptAccessJson) {
     try { deptAccessConfig = JSON.parse(savedDeptAccessJson); } catch (e) {}
+  }
+
+  // Tự động kiểm tra và khởi tạo Sheet TT-MKT và Cột M (Nhân sự) trên Spreadsheet Backend nếu chưa có
+  try {
+    ensureBackendSheetsInitialized();
+  } catch (initErr) {
+    Logger.log("[AUTO-INIT SHEETS] " + initErr.toString());
   }
 
   return {
@@ -2065,6 +2079,37 @@ function ensureBackendSheetsInitialized() {
           var colIndex = letterToColIndex(cfg.col);
           sheet.getRange(PM_CONFIG.HEADER_ROW, colIndex).setValue(cfg.sheetHeader || label);
           sheet.getRange(PM_CONFIG.GUIDE_ROW, colIndex).setValue("[" + cfg.frontendKey + " | " + cfg.type + "]");
+        }
+
+        // Nếu là Sheet TT-MKT mới và chưa có bản ghi nào, chèn 1 dòng dự án mẫu chuẩn
+        if (tblName === "TT-MKT" && sheet.getLastRow() < PM_CONFIG.MIN_DATA_ROW) {
+          var nowStr = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "dd/MM/yyyy HH:mm:ss");
+          var sampleProject = {
+            id: "VID-261025-01",
+            createdAt: nowStr,
+            projectName: "Dự án Video Viral AP CAR CARE - Nâng Cấp Loa Focal K2",
+            author: "TĂNG TRÍ ĐỨC",
+            rawVideoSource: "inputs/raw_videos/clip-content-doc.mp4",
+            benchmarkVideoSource: "inputs/benchmark_videos/sample-viral.mp4",
+            outputVideoUrl: "outputs/final_videos/final_viral_short_v2.mp4",
+            industryDomain: "AUTOMOTIVE",
+            videoGoal: "COMMERCIAL_CONVERSION",
+            targetAudience: "MATURE_PREMIUM (28-55t)",
+            applyStyleFlag: "all",
+            colorPreset: "AUTOMOTIVE_SHOWROOM_HDR",
+            colorParamsJson: "{\"contrast\":1.15,\"saturation\":1.2,\"sharpness\":1.1}",
+            pacingParamsJson: "{\"cutsPerMin\":24,\"silenceThreshold\":0.4}",
+            hookParamsJson: "{\"punchInZoom\":1.25,\"hookSfx\":\"whoosh_sub\"}",
+            subtitleTypographyJson: "{\"font\":\"Barlow Condensed\",\"h1Color\":\"#0066FF\"}",
+            brollParamsJson: "{\"source\":\"assets/broll_videos/\"}",
+            audioSfxParamsJson: "{\"bgmVolume\":0.18,\"ducking\":true}",
+            ctaOfferJson: "{\"title\":\"Ưu đãi 15% Detailing\",\"code\":\"AP2026\"}",
+            canvasNodesJson: "[{\"id\":\"n1\",\"type\":\"RAW\",\"x\":80,\"y\":120},{\"id\":\"n2\",\"type\":\"STYLE\",\"x\":280,\"y\":120},{\"id\":\"n3\",\"type\":\"RENDER\",\"x\":520,\"y\":120}]",
+            fullEdlConfigJson: "{\"version\":\"2.0\",\"skills\":7}",
+            status: "Sẵn sàng Render 9:16"
+          };
+          var sampleRow = DataMapper.objectToRow(sampleProject, fieldMap);
+          sheet.getRange(PM_CONFIG.MIN_DATA_ROW, 1, 1, sampleRow.length).setValues([sampleRow]);
         }
         initializedSheets.push(sheet.getName());
       }

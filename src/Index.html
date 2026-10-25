@@ -7697,7 +7697,7 @@
             try { sessionStorage.setItem('apUserSession', JSON.stringify(userData)); } catch (err) {}
             try {
               if (typeof google !== 'undefined' && google.script && google.script.history && google.script.history.replaceState) {
-                google.script.history.replaceState({ u: userData.username }, null, '?u=' + encodeURIComponent(userData.username));
+                google.script.history.replaceState({ u: userData.username }, { u: userData.username }, '');
               } else if (window.history && window.history.replaceState) {
                 var cleanUrl = window.location.pathname + '?u=' + encodeURIComponent(userData.username);
                 window.history.replaceState({ u: userData.username }, '', cleanUrl);
@@ -7822,13 +7822,19 @@
         // Tầng 4: Nếu đang trong iframe GAS sandbox, kiểm tra google.script.url.getLocation
         if (typeof google !== 'undefined' && google.script && google.script.url && google.script.url.getLocation) {
           google.script.url.getLocation(function (loc) {
+            var gasUser = null;
             if (loc && loc.parameter && loc.parameter.u) {
-              var gasUser = loc.parameter.u.toUpperCase();
+              gasUser = loc.parameter.u;
+            } else if (loc && loc.hash && loc.hash.indexOf('u=') !== -1) {
+              var m = loc.hash.match(/u=([^&]+)/);
+              if (m) gasUser = decodeURIComponent(m[1]);
+            }
+            if (gasUser) {
               var gasObj = {
-                username: gasUser,
-                fullName: (gasUser === 'DUC') ? 'Tăng Trí Đức' : gasUser,
-                role: (gasUser === 'DUC') ? 'Admin • Ban Giám Đốc' : 'Nhân sự',
-                roleCode: (gasUser === 'DUC') ? 'ADMIN_CEO' : 'STAFF'
+                username: gasUser.toUpperCase(),
+                fullName: (gasUser.toUpperCase() === 'DUC') ? 'Tăng Trí Đức' : gasUser,
+                role: (gasUser.toUpperCase() === 'DUC') ? 'Admin • Ban Giám Đốc' : 'Nhân sự',
+                roleCode: (gasUser.toUpperCase() === 'DUC') ? 'ADMIN_CEO' : 'STAFF'
               };
               switchSpaView('home', gasObj);
             }
