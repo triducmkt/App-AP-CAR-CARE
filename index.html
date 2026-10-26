@@ -8168,16 +8168,17 @@
       var MAX_CONCURRENT_SMART = 3; // 3 luồng song song
 
       function ensureDirectDriveImgUrl(url) {
-        if (!url || url.trim() === '' || url === '-') {
+        if (!url || String(url).trim() === '' || url === '-') {
           return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         }
-        if (url.indexOf('drive.google.com') !== -1) {
-          var matchD = url.match(/\/d\/([a-zA-Z0-9-_]+)/i);
-          var matchId = url.match(/id=([a-zA-Z0-9-_]+)/i);
-          var fId = matchD ? matchD[1] : (matchId ? matchId[1] : '');
-          if (fId) return 'https://lh3.googleusercontent.com/d/' + fId;
-        }
-        return url;
+        var str = String(url).trim();
+        if (str.indexOf('lh3.googleusercontent.com/d/') !== -1) return str;
+        var matchD = str.match(/\/d\/([a-zA-Z0-9_-]+)/i);
+        var matchId = str.match(/[?&]id=([a-zA-Z0-9_-]+)/i);
+        var fId = matchD ? matchD[1] : (matchId ? matchId[1] : '');
+        if (!fId && /^[a-zA-Z0-9_-]{25,}$/.test(str)) fId = str;
+        if (fId) return 'https://lh3.googleusercontent.com/d/' + fId;
+        return str;
       }
 
       window.initMediaUploaderHub = function () {
@@ -8225,46 +8226,57 @@
         statusBox.innerHTML = 'Đang kết nối Drive và sao chép tệp vào kho đích...';
         if (btn) btn.disabled = true;
 
-        if (typeof google !== 'undefined' && google.script && google.script.run) {
-          google.script.run
-            .withSuccessHandler(function (res) {
-              if (btn) btn.disabled = false;
-              if (res && res.success) {
-                statusBox.style.background = 'rgba(16, 185, 129, 0.12)';
-                statusBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
-                statusBox.style.color = '#10B981';
-                var msg = res.message || 'Đã nạp tệp thành công vào kho đích!';
-                if (res.failedList && res.failedList.length > 0) {
-                  msg += '<br/><span style="color:#EF4444;font-size:11px;">Một số tệp lỗi: ' + res.failedList.map(function(f){ return f.name + ' (' + f.error + ')'; }).join(', ') + '</span>';
-                }
-                statusBox.innerHTML = '<span style="font-weight:700;">Thành công:</span> ' + msg;
-                inputEl.value = '';
-                window.refreshMediaExplorerFiles();
-              } else {
-                statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
-                statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
-                statusBox.style.color = '#EF4444';
-                var errDetail = res ? (res.error || res.message) : 'Không thể sao chép tệp từ Drive.';
-                statusBox.innerHTML = '<span style="font-weight:700;">Lỗi nạp tệp:</span> ' + errDetail;
-              }
-            })
-            .withFailureHandler(function (err) {
-              if (btn) btn.disabled = false;
-              statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
-              statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
-              statusBox.style.color = '#EF4444';
-              statusBox.innerHTML = '<span style="font-weight:700;">Lỗi hệ thống:</span> ' + (err ? err.toString() : 'Gián đoạn kết nối');
-            })
-            .transferDriveLinkToTargetFolder(url, targetFolderId);
-        } else {
-          setTimeout(function () {
-            if (btn) btn.disabled = false;
+        function onTransferSuccess(res) {
+          if (btn) btn.disabled = false;
+          if (res && res.success) {
             statusBox.style.background = 'rgba(16, 185, 129, 0.12)';
             statusBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
             statusBox.style.color = '#10B981';
-            statusBox.innerHTML = '<span style="font-weight:700;">Thành công:</span> [Mô phỏng] Đã tiếp nhận link Drive và kết nối kho lưu trữ.';
+            var lh3 = res.lh3Url || (res.fileId ? ('https://lh3.googleusercontent.com/d/' + res.fileId) : '');
+            var formula = lh3 ? ('=IMAGE("' + lh3 + '")') : '';
+            var msg = res.message || 'Đã nạp tệp thành công vào kho đích!';
+            if (lh3) {
+              msg += '<br/><span style="font-size:11px;color:#93C5FD;word-break:break-all;">Link LH3: <a href="' + lh3 + '" target="_blank" style="color:#60A5FA;text-decoration:underline;">' + lh3 + '</a></span>';
+              msg += '<br/><span style="font-size:10.5px;color:#A7F3D0;font-family:var(--font-mono);">' + formula + '</span>';
+            }
+            statusBox.innerHTML = '<span style="font-weight:700;">Thành công:</span> ' + msg;
             inputEl.value = '';
-          }, 800);
+            window.refreshMediaExplorerFiles();
+          } else {
+            statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
+            statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+            statusBox.style.color = '#EF4444';
+            statusBox.innerHTML = '<span style="font-weight:700;">Lỗi nạp tệp:</span> ' + (res ? (res.error || res.message) : 'Không thể sao chép tệp');
+          }
+        }
+
+        function onTransferFallback() {
+          fetch('https://gateway.triduccar.media/v1/drive/transfer-link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ driveUrlOrId: url, targetFolderId: targetFolderId })
+          })
+          .then(function(r){ return r.json(); })
+          .then(onTransferSuccess)
+          .catch(function(err){
+            if (btn) btn.disabled = false;
+            statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
+            statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+            statusBox.style.color = '#EF4444';
+            statusBox.innerHTML = '<span style="font-weight:700;">Lỗi sao chép:</span> ' + err.toString();
+          });
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (res && res.success) onTransferSuccess(res);
+              else onTransferFallback();
+            })
+            .withFailureHandler(onTransferFallback)
+            .transferDriveLinkToTargetFolder(url, targetFolderId);
+        } else {
+          onTransferFallback();
         }
       };
 
@@ -8342,22 +8354,12 @@
       };
 
       function fetchFilesFromGatewayOrFallback(folderId) {
-        fetch('https://gateway.triduccar.media/v1/video/outputs')
+        var targetId = folderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        fetch('https://gateway.triduccar.media/v1/drive/files?folderId=' + encodeURIComponent(targetId))
           .then(function (r) { return r.json(); })
           .then(function (res) {
-            if (res && res.success && Array.isArray(res.outputs) && res.outputs.length) {
-              var adapted = res.outputs.map(function (o) {
-                return {
-                  id: o.name,
-                  name: o.name,
-                  size: o.sizeMB + ' MB',
-                  mimeType: 'video/mp4',
-                  url: o.downloadUrl,
-                  thumbUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="%230066FF"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
-                  lh3Url: o.downloadUrl
-                };
-              });
-              renderMediaFilesGrid(adapted);
+            if (res && res.success && Array.isArray(res.data) && res.data.length) {
+              renderMediaFilesGrid(res.data);
             } else {
               renderEmptyFolderContainer();
             }
@@ -8373,8 +8375,8 @@
         if (badge) badge.textContent = '0 tệp';
         if (container) {
           container.innerHTML = '<div style="text-align:center;color:var(--ap-text-muted);font-size:12px;padding-top:60px;line-height:1.6;">' +
-            'Thư mục này hiện chưa có tệp hoặc đang đợi cấp quyền.<br>' +
-            '<span style="color:#60A5FA;">Hãy dùng thẻ Smart Upload bên cạnh để tải file lên ngay!</span>' +
+            'Thư mục này hiện chưa có tệp hoặc đang kết nối Drive.<br>' +
+            '<span style="color:#60A5FA;">Hãy dùng trình upload bên phải để tải file lên ngay!</span>' +
             '</div>';
         }
       }
@@ -8394,13 +8396,14 @@
         var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(95px, 1fr));gap:10px;align-items:start;">';
         filesList.forEach(function (f) {
           var isVid = f.mimeType && f.mimeType.indexOf('video') !== -1;
+          var isImg = f.mimeType && f.mimeType.indexOf('image') !== -1;
           var iconBadge = isVid ? '<span style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#FFF;border-radius:4px;font-size:10px;padding:1px 4px;">🎥</span>' : '';
-          var safeUrl = f.url || '#';
-          var safeThumb = ensureDirectDriveImgUrl(f.thumbUrl || f.lh3Url);
+          var lh3 = f.lh3Url || ('https://lh3.googleusercontent.com/d/' + f.id);
+          var safeUrl = f.url || ('https://drive.google.com/file/d/' + f.id + '/view');
 
-          html += '<div class="media-thumb-card" style="aspect-ratio:1/1;border-radius:10px;border:1px solid var(--ap-border-subtle);overflow:hidden;position:relative;background:rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;" onclick="window.selectMediaFileAsVideoRaw(\'' + encodeURIComponent(safeUrl) + '\', \'' + encodeURIComponent(f.name) + '\')" title="Bấm để chọn làm Video Raw">';
-          if (isVid || (f.mimeType && f.mimeType.indexOf('image') !== -1)) {
-            html += '<img src="' + safeThumb + '" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
+          html += '<div class="media-thumb-card" style="aspect-ratio:1/1;border-radius:10px;border:1px solid var(--ap-border-subtle);overflow:hidden;position:relative;background:rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;" onclick="window.handleMediaFileSelect(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ')" title="Bấm để chọn & sao chép link LH3">';
+          if (isVid || isImg) {
+            html += '<img src="' + lh3 + '" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
           } else {
             html += '<span style="font-size:24px;">📄</span>';
           }
@@ -8412,15 +8415,25 @@
         container.innerHTML = html;
       }
 
-      window.selectMediaFileAsVideoRaw = function (encodedUrl, encodedName) {
-        var url = decodeURIComponent(encodedUrl);
-        var name = decodeURIComponent(encodedName);
-        var inp = document.getElementById('veRawVideoInput');
-        if (inp) {
-          inp.value = url;
-          window.syncVideoFormToJson();
+      window.handleMediaFileSelect = function (encodedId, encodedName, isVid) {
+        var fid = decodeURIComponent(encodedId);
+        var fname = decodeURIComponent(encodedName);
+        var lh3 = 'https://lh3.googleusercontent.com/d/' + fid;
+        var formula = '=IMAGE("' + lh3 + '")';
+
+        if (isVid) {
+          var inp = document.getElementById('veRawVideoInput');
+          if (inp) {
+            inp.value = lh3;
+            window.syncVideoFormToJson();
+          }
         }
-        showPublishToast('Đã chọn [' + name + '] làm Video Raw cho Canvas!', 'success');
+
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(lh3).catch(function () {});
+        }
+
+        showPublishToast('Đã chọn [' + fname + '] & Sao chép Link LH3!', 'success');
       };
 
       window.executeCreateMediaSubFolder = function () {
@@ -8434,28 +8447,42 @@
           return;
         }
 
+        function onFolderSuccess(res) {
+          if (res && res.success) {
+            showPublishToast('Đã tạo thư mục con: ' + folderName, 'success');
+            if (nameInput) nameInput.value = '';
+            window.loadMediaFolderTree();
+            window.loadMediaFolderFiles(res.id || parentId);
+          } else {
+            alert(res ? res.message : 'Lỗi tạo thư mục');
+          }
+        }
+
+        function onFolderFallback() {
+          fetch('https://gateway.triduccar.media/v1/drive/create-folder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ parentId: parentId, folderName: folderName })
+          })
+          .then(function(r){ return r.json(); })
+          .then(onFolderSuccess)
+          .catch(function(err){ alert('Lỗi tạo thư mục: ' + err.toString()); });
+        }
+
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run
             .withSuccessHandler(function (res) {
-              if (res && res.success) {
-                showPublishToast('Đã tạo thư mục con: ' + folderName, 'success');
-                if (nameInput) nameInput.value = '';
-                window.loadMediaFolderTree();
-              } else {
-                alert(res ? res.message : 'Lỗi tạo thư mục');
-              }
+              if (res && res.success) onFolderSuccess(res);
+              else onFolderFallback();
             })
-            .withFailureHandler(function (err) {
-              alert('Lỗi tạo thư mục: ' + err.toString());
-            })
+            .withFailureHandler(onFolderFallback)
             .createNewMediaFolder(parentId, folderName, AppStore.state.currentUser);
         } else {
-          showPublishToast('Đã tạo thư mục cục bộ: ' + folderName, 'success');
-          if (nameInput) nameInput.value = '';
+          onFolderFallback();
         }
       };
 
-      /* SMART UPLOAD ENGINE (BĂM KHÚC CHUNK 5MB + ĐA LUỒNG WORKER) */
+      /* SMART UPLOAD ENGINE (GIỮ NGUYÊN CHẤT LƯỢNG ẢNH GỐC 100% & LINK LH3) */
       window.handleSmartMediaFilesSelect = function (input) {
         if (!input.files || input.files.length === 0) return;
         Array.from(input.files).forEach(function (file) {
@@ -8509,6 +8536,12 @@
           html += '<div id="smartProg_' + f.id + '" style="width:' + f.progress + '%;height:100%;background:' + barColor + ';transition:width 0.2s linear;"></div>';
           html += '</div>';
           html += '<div id="smartProgText_' + f.id + '" style="font-size:10px;font-weight:700;color:' + barColor + ';text-align:right;margin-top:3px;' + showProg + '">' + statusText + '</div>';
+          if (f.status === 'done' && f.lh3Url) {
+            html += '<div style="margin-top:6px;padding:4px 8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:10.5px;display:flex;align-items:center;justify-content:space-between;gap:6px;">';
+            html += '<span style="color:#60A5FA;word-break:break-all;">' + f.lh3Url + '</span>';
+            html += '<button type="button" class="btn-quick-tag" onclick="navigator.clipboard.writeText(\'' + f.lh3Url + '\');showPublishToast(\'Đã sao chép link LH3!\',\'success\');" style="padding:2px 8px;font-size:10px;">Copy LH3</button>';
+            html += '</div>';
+          }
           html += '</div>';
         });
         previewBox.innerHTML = html;
@@ -8536,14 +8569,22 @@
       };
 
       async function getSmartDriveOAuthToken() {
-        if (Date.now() > smartCachedToken.expiresAt) {
+        if (Date.now() > smartCachedToken.expiresAt || !smartCachedToken.value || smartCachedToken.value === 'dummy_demo_token') {
+          var token = '';
           if (typeof google !== 'undefined' && google.script && google.script.run) {
-            smartCachedToken.value = await new Promise(function (res, rej) {
-              google.script.run.withSuccessHandler(res).withFailureHandler(rej).getDriveAccessToken();
-            });
-          } else {
-            smartCachedToken.value = 'dummy_demo_token';
+            try {
+              token = await new Promise(function (res, rej) {
+                google.script.run.withSuccessHandler(res).withFailureHandler(rej).getDriveAccessToken();
+              });
+            } catch (eToken) {}
           }
+          if (!token || token.length < 20) {
+            try {
+              var r = await fetch('https://gateway.triduccar.media/v1/drive/token').then(function(res){ return res.json(); });
+              if (r && r.success && r.token) token = r.token;
+            } catch (eGw) {}
+          }
+          smartCachedToken.value = token || 'dummy_demo_token';
           smartCachedToken.expiresAt = Date.now() + 45 * 60 * 1000;
         }
         return smartCachedToken.value;
@@ -8576,7 +8617,7 @@
           await Promise.all(workers);
 
           if (isSmartUploadingActive) {
-            showPublishToast('🎉 Tải lên toàn bộ tệp vào Drive AP thành công!', 'success');
+            showPublishToast('Tải lên toàn bộ tệp vào Drive AP thành công!', 'success');
             selectedSmartMediaFiles = selectedSmartMediaFiles.filter(function (f) { return f.status !== 'done'; });
             if (progCont) progCont.style.display = 'none';
             renderSmartMediaPreview();
@@ -8616,13 +8657,10 @@
 
       async function uploadSingleFileChunked(fileData, folderId) {
         var token = await getSmartDriveOAuthToken();
-        var file = fileData.fileObj;
+        var file = fileData.fileObj; // Giữ nguyên chất lượng ảnh gốc 100%, không nén nhỏ
 
-        // Nếu trên GitHub Pages (không có token GAS thật), gửi qua Local Gateway
-        if (token === 'dummy_demo_token' || !token) {
-          await new Promise(function (res) { setTimeout(res, 1200); });
-          fileData.progress = 100;
-          return;
+        if (!token || token === 'dummy_demo_token') {
+          throw new Error('Chưa có quyền xác thực Google Drive để tải lên.');
         }
 
         var metadata = { name: fileData.name, parents: [folderId] };
@@ -8653,10 +8691,14 @@
               start = end;
               retryCount = 0;
             } else if (res.code === 200 || res.code === 201) {
-              if (typeof google !== 'undefined' && google.script && google.script.run && res.driveId) {
-                await new Promise(function (resPerm) {
-                  google.script.run.withSuccessHandler(resPerm).withFailureHandler(resPerm).finalizeDriveFilePermissions(res.driveId);
-                });
+              var driveId = res.driveId;
+              fileData.driveId = driveId;
+              fileData.lh3Url = 'https://lh3.googleusercontent.com/d/' + driveId;
+              fileData.formula = '=IMAGE("' + fileData.lh3Url + '")';
+
+              // Tự động phân quyền Public View
+              if (typeof google !== 'undefined' && google.script && google.script.run && driveId) {
+                google.script.run.finalizeDriveFilePermissions(driveId);
               }
               return;
             } else {
@@ -8664,7 +8706,7 @@
             }
           } catch (err) {
             retryCount++;
-            if (retryCount > 3) throw new Error('Thất bại sau 3 lần rớt mạng');
+            if (retryCount > 3) throw new Error('Thất bại sau 3 lần rớt mạng: ' + err.toString());
             await new Promise(function (r) { setTimeout(r, Math.pow(2, retryCount) * 1000); });
           }
         }
