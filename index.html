@@ -3287,7 +3287,7 @@
       }
     }
 
-    /* 🚀 BỘ ANIMATION GRADIENT XANH LÁ CHUYỂN ĐỘNG & BẢNG VIEW LIST KHO MEDIA */
+    /* BỘ ANIMATION GRADIENT XANH LÁ CHUYỂN ĐỘNG & BẢNG VIEW LIST KHO MEDIA */
     @keyframes apUploadPulseFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -3300,26 +3300,39 @@
     }
     .media-list-table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 11.5px;
     }
     .media-list-table th {
       text-align: left;
-      padding: 8px 10px;
+      padding: 8px 6px;
       font-size: 11px;
       font-weight: 700;
       color: var(--ap-text-muted);
       border-bottom: 1px solid var(--ap-border-subtle);
       white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .media-list-table th:hover {
+      color: #60A5FA;
     }
     .media-list-table td {
-      padding: 8px 10px;
+      padding: 8px 6px;
       border-bottom: 1px solid var(--ap-border-subtle);
       color: var(--ap-text-body);
       vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .media-list-table tr {
+      cursor: pointer;
+      transition: background 0.15s ease;
     }
     .media-list-table tr:hover td {
-      background: rgba(0, 102, 255, 0.05);
+      background: rgba(0, 102, 255, 0.08);
     }
     .ap-media-view-btn-active {
       background: rgba(0, 102, 255, 0.25) !important;
@@ -3327,7 +3340,48 @@
       color: #60A5FA !important;
     }
 
-    /* 📱 RESPONSIVE MOBILE KHO MEDIA */
+    
+    /* NÚT THU GỌN / MỞ RỘNG SECTION PHÒNG TT-MKT */
+    .ap-btn-section-toggle {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--ap-border-subtle);
+      color: var(--ap-text-heading);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .ap-btn-section-toggle:hover {
+      background: rgba(0, 102, 255, 0.15);
+      border-color: #0066FF;
+      color: #60A5FA;
+    }
+
+    /* HIỆU ỨNG GRADIENT CHUYỂN ĐỘNG TỪ TRÁI SANG PHẢI (XANH - TRẮNG) */
+    @keyframes apFlowLeftToRight {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    /* Thanh tổng màu xanh lá cây có dải trắng quét từ trái sang phải */
+    .ap-progress-flow-green {
+      background: linear-gradient(90deg, #10B981 0%, #10B981 35%, rgba(255, 255, 255, 0.75) 50%, #10B981 65%, #10B981 100%) !important;
+      background-size: 200% 100% !important;
+      animation: apFlowLeftToRight 1.5s linear infinite !important;
+    }
+    /* Thanh con màu xanh dương có dải trắng quét từ trái sang phải */
+    .ap-progress-flow-blue {
+      background: linear-gradient(90deg, #0066FF 0%, #0066FF 35%, rgba(255, 255, 255, 0.8) 50%, #0066FF 65%, #0066FF 100%) !important;
+      background-size: 200% 100% !important;
+      animation: apFlowLeftToRight 1.5s linear infinite !important;
+    }
+
+    /* RESPONSIVE MOBILE KHO MEDIA */
     @media (max-width: 768px) {
       .ap-media-hub-grid {
         grid-template-columns: 1fr !important;
@@ -3913,13 +3967,18 @@
               </div>
               <h1 class="home-title">PHÒNG MARKETING &amp; TRẠM XUẤT BẢN ĐA KÊNH</h1>
             </div>
-            <button type="button" class="btn-dark-glass" id="btnImportFromJavis">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Kéo Kịch Bản Từ Javis AI</span>
-            </button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button type="button" class="btn-dark-glass" id="btnImportFromJavis">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Kéo Kịch Bản Từ Javis AI</span>
+              </button>
+              <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec1')" title="Thu gọn / Mở rộng Section 1">
+                <span id="iconToggleSec1">▼</span>
+              </button>
+            </div>
           </div>
 
-          <div class="ap-kpi-grid">
+          <div class="ap-kpi-grid" id="mktSec1Body">
             <div class="ap-kpi-card">
               <div class="ap-kpi-title">CHI PHÍ QUẢNG CÁO TUẦN</div>
               <div class="ap-kpi-value">42.500.000 đ</div>
@@ -4094,11 +4153,14 @@
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                   <span>LÀM MỚI KHO</span>
                 </button>
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec3')" title="Thu gọn / Mở rộng Section 3">
+                  <span id="iconToggleSec3">▼</span>
+                </button>
               </div>
             </div>
 
             <!-- LƯỚI 2 CỘT TỐI GIẢN: QUẢN LÝ KHO MEDIA + TRÌNH UPLOAD NHANH -->
-            <div class="ap-media-hub-grid">
+            <div class="ap-media-hub-grid" id="mktSec3Body">
 
               <!-- THẺ 1: QUẢN LÝ KHO MEDIA -->
               <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
@@ -4112,7 +4174,7 @@
 
                 <div>
                   <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đang chọn:</div>
-                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
+                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)" onfocus="window.loadMediaFolderTree(true)" onclick="window.loadMediaFolderTree(true)">
                     <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">test AI edit (Shared Drive AP CAR CARE)</option>
                   </select>
                 </div>
@@ -4153,12 +4215,7 @@
                   </div>
                 </div>
 
-                <div>
-                  <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đích lưu trữ:</div>
-                  <select id="selMediaTargetFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
-                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">test AI edit (Shared Drive AP CAR CARE)</option>
-                  </select>
-                </div>
+
 
                 <!-- DROPZONE TẢI LÊN TỪ MÁY -->
                 <div style="border: 2px dashed rgba(0, 102, 255, 0.35); background: rgba(0, 102, 255, 0.04); border-radius: 14px; padding: 22px 14px; text-align: center; transition: all 0.25s ease;" id="boxSmartUploadDropzone">
@@ -4239,10 +4296,13 @@
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                   <span>TẠO VIDEO MỚI (RUN 7 SKILL)</span>
                 </button>
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec4')" title="Thu gọn / Mở rộng Section 4">
+                  <span id="iconToggleSec4">▼</span>
+                </button>
               </div>
             </div>
 
-            <div class="ap-video-studio-grid">
+            <div class="ap-video-studio-grid" id="mktSec4Body">
               <!-- CỘT TRÁI: DANH SÁCH TẤT CẢ CÁC TRƯỜNG INPUT THIẾT LẬP MẶC ĐỊNH + MÃ JSON -->
               <div class="ap-ve-left-panel" id="veLeftConfigPanel">
                 <!-- NHÓM 1: FILE VIDEO RAW, FILE VIDEO MẪU & TÊN DỰ ÁN -->
@@ -4517,15 +4577,22 @@
           </div>
 
           <!-- BẢNG DỮ LIỆU CÁC DỰ ÁN EDIT VIDEO ĐÃ LƯU TRONG SHEET TT-MKT Ở BACKEND -->
-          <div class="home-panel">
+          <div class="home-panel" id="apVideoRenderHistoryPanel">
             <div class="panel-section-title">
               <span class="panel-label">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
                 <span>DANH SÁCH DỰ ÁN EDIT VIDEO LƯU TẠI SHEET "TT-MKT" BACKEND (HEADER DÒNG 10 • DATA DÒNG 12+)</span>
               </span>
-              <span class="char-badge">Đồng bộ trực tiếp với Google Sheet TT-MKT</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="char-badge">Đồng bộ trực tiếp với Google Sheet TT-MKT</span>
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec5')" title="Thu gọn / Mở rộng Section 5">
+                  <span id="iconToggleSec5">▼</span>
+                </button>
+              </div>
             </div>
-            <div class="ap-table-wrap" id="tableContainerTtMktVideos"></div>
+            <div class="ap-table-wrap" id="mktSec5Body">
+              <div id="tableContainerTtMktVideos"></div>
+            </div>
           </div>
         </section>
 
@@ -5702,6 +5769,12 @@
               if (userPref && Array.isArray(userPref.sidebarOrder) && userPref.sidebarOrder.length) {
                 applySavedSidebarOrderToConfig(userPref.sidebarOrder);
               }
+              if (userPref && userPref.mktSections) {
+                window.apMktSectionsCollapseState = userPref.mktSections;
+                if (typeof window.applyMktSectionsCollapseFromState === 'function') {
+                  window.applyMktSectionsCollapseFromState();
+                }
+              }
             }
           } catch (e) {}
 
@@ -5809,8 +5882,14 @@
             titleEl.textContent = DEPT_TITLES_MAP[deptId];
           }
 
-          // Tự động làm mới kho Media khi vào phòng TT-MKT
+          // Tự động làm mới kho Media & áp dụng cấu hình thu gọn khi vào phòng TT-MKT
           if (deptId === 'DEPT_MKT') {
+            if (typeof window.applyMktSectionsCollapseFromState === 'function') {
+              window.applyMktSectionsCollapseFromState();
+            }
+            if (typeof window.loadMediaFolderTree === 'function') {
+              window.loadMediaFolderTree(true);
+            }
             if (typeof window.refreshMediaExplorerFiles === 'function') {
               window.refreshMediaExplorerFiles();
             }
@@ -6022,6 +6101,40 @@
         window.saveCurrentUserSidebarPersonalizationToBackend(true);
       };
 
+      
+      /* =========================================================================
+         QUẢN LÝ THU GỌN / MỞ RỘNG 4 SECTION P.TT-MKT & CÁ NHÂN HÓA CỘT M
+         ========================================================================= */
+      window.apMktSectionsCollapseState = { sec1: false, sec3: false, sec4: false, sec5: false };
+
+      window.toggleMktSection = function (secKey) {
+        if (!window.apMktSectionsCollapseState) {
+          window.apMktSectionsCollapseState = { sec1: false, sec3: false, sec4: false, sec5: false };
+        }
+        window.apMktSectionsCollapseState[secKey] = !window.apMktSectionsCollapseState[secKey];
+        window.applyMktSectionsCollapseFromState();
+        if (typeof window.saveCurrentUserSidebarPersonalizationToBackend === 'function') {
+          window.saveCurrentUserSidebarPersonalizationToBackend(false);
+        }
+      };
+
+      window.applyMktSectionsCollapseFromState = function () {
+        var state = window.apMktSectionsCollapseState || { sec1: false, sec3: false, sec4: false, sec5: false };
+        var keys = ['sec1', 'sec3', 'sec4', 'sec5'];
+        for (var i = 0; i < keys.length; i++) {
+          var k = keys[i];
+          var isCollapsed = !!state[k];
+          var bodyEl = document.getElementById('mkt' + k.charAt(0).toUpperCase() + k.slice(1) + 'Body');
+          var iconEl = document.getElementById('iconToggle' + k.charAt(0).toUpperCase() + k.slice(1));
+          if (bodyEl) {
+            bodyEl.style.display = isCollapsed ? 'none' : 'block';
+          }
+          if (iconEl) {
+            iconEl.style.transform = isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)';
+          }
+        }
+      };
+
       window.saveCurrentUserSidebarPersonalizationToBackend = function (showToastFlag) {
         var list = AppStore.state.deptAccessConfig || [];
         var orderIds = [];
@@ -6035,6 +6148,7 @@
           sidebarOrder: orderIds,
           themeMode: AppStore.state.activeThemeMode || 'dark',
           activeDepartment: AppStore.state.activeDepartment || 'DEPT_MKT',
+          mktSections: window.apMktSectionsCollapseState || { sec1: false, sec3: false, sec4: false, sec5: false },
           updatedAt: new Date().toLocaleTimeString('vi-VN') + ' ' + new Date().toLocaleDateString('vi-VN')
         };
         var jsonStr = JSON.stringify(prefObj);
@@ -8301,7 +8415,8 @@
         if (!inputEl || !statusBox) return;
 
         var url = (inputEl.value || '').trim();
-        var targetFolderId = targetSelect ? targetSelect.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var parentSelect = document.getElementById('selMediaParentFolder');
+        var targetFolderId = (parentSelect && parentSelect.value) ? parentSelect.value : (targetSelect ? targetSelect.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
 
         if (!url) {
           statusBox.style.display = 'block';
@@ -8369,14 +8484,27 @@
         }
       };
 
-      window.loadMediaFolderTree = function () {
+      var lastFolderTreeLoadTime = 0;
+      window.loadMediaFolderTree = function (forceRefresh) {
+        var now = Date.now();
+        if (!forceRefresh && (now - lastFolderTreeLoadTime < 4000) && smartFolderTree && smartFolderTree.length) {
+          return; // Bỏ qua nếu vừa load trong vòng 4s để dropdown không giật
+        }
+        lastFolderTreeLoadTime = now;
+
+        var currentSelectedId = '';
+        var selParent = document.getElementById('selMediaParentFolder');
+        if (selParent && selParent.value) currentSelectedId = selParent.value;
+
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run
             .withSuccessHandler(function (res) {
               if (res && res.success && Array.isArray(res.data)) {
                 smartFolderTree = res.data;
                 renderMediaFolderTreeOptions();
-                if (smartFolderTree.length > 0) {
+                if (currentSelectedId) {
+                  window.syncMediaFolderSelection(currentSelectedId);
+                } else if (smartFolderTree.length > 0) {
                   window.syncMediaFolderSelection(smartFolderTree[0].id);
                 }
               } else {
@@ -8406,14 +8534,24 @@
         var selParent = document.getElementById('selMediaParentFolder');
         var selTarget = document.getElementById('selMediaTargetFolder');
         var html = '';
-        smartFolderTree.forEach(function (f) {
+        var prevVal = selParent ? selParent.value : '';
+        (smartFolderTree || []).forEach(function (f) {
+          // Bỏ qua nếu là file (chỉ hiển thị thư mục con)
+          if (f.mimeType && f.mimeType.indexOf('folder') === -1 && f.level !== 0) return;
           var indent = '';
-          for (var i = 0; i < f.level; i++) { indent += '&nbsp;&nbsp;&nbsp;&nbsp;'; }
+          for (var i = 0; i < (f.level || 0); i++) { indent += '&nbsp;&nbsp;&nbsp;&nbsp;'; }
           var prefix = f.level === 0 ? '' : ' ├─ 📁 ';
-          html += '<option value="' + f.id + '">' + indent + prefix + f.name + '</option>';
+          var cleanName = (f.name || '').replace(/^[📁\s├─]+/, '');
+          html += '<option value="' + f.id + '">' + indent + prefix + cleanName + '</option>';
         });
-        if (selParent) selParent.innerHTML = html;
-        if (selTarget) selTarget.innerHTML = html;
+        if (selParent) {
+          selParent.innerHTML = html;
+          if (prevVal) selParent.value = prevVal;
+        }
+        if (selTarget) {
+          selTarget.innerHTML = html;
+          if (prevVal) selTarget.value = prevVal;
+        }
       }
 
       window.loadMediaFolderFiles = function (folderId) {
@@ -8503,6 +8641,67 @@
         renderCurrentMediaExplorerView();
       }
 
+      /* =========================================================================
+         SẮP XẾP & HIỂN THỊ KHO MEDIA (LIST VIEW SORTABLE & GRID VIEW)
+         ========================================================================= */
+      window.apMediaSortState = { column: 'name', asc: true };
+
+      window.sortMediaList = function (col) {
+        if (window.apMediaSortState.column === col) {
+          window.apMediaSortState.asc = !window.apMediaSortState.asc;
+        } else {
+          window.apMediaSortState.column = col;
+          window.apMediaSortState.asc = true;
+        }
+        renderCurrentMediaExplorerView();
+      };
+
+      function getSortedMediaFiles() {
+        var list = (currentMediaExplorerFilesList || []).slice(0);
+        var col = window.apMediaSortState.column;
+        var asc = window.apMediaSortState.asc;
+
+        function getFileExt(fn) {
+          if (!fn) return '';
+          var m = fn.match(/\.([a-zA-Z0-9]+)$/);
+          return m ? ('.' + m[1].toUpperCase()) : '---';
+        }
+
+        function parseBytes(sz) {
+          if (typeof sz === 'number') return sz;
+          if (!sz || typeof sz !== 'string') return 0;
+          var m = sz.trim().match(/^([\d.]+)\s*(B|KB|MB|GB)?$/i);
+          if (!m) return 0;
+          var num = parseFloat(m[1]);
+          var u = (m[2] || 'B').toUpperCase();
+          if (u === 'KB') return num * 1024;
+          if (u === 'MB') return num * 1024 * 1024;
+          if (u === 'GB') return num * 1024 * 1024 * 1024;
+          return num;
+        }
+
+        list.sort(function (a, b) {
+          var valA = '', valB = '';
+          if (col === 'name') {
+            valA = (a.name || '').toLowerCase();
+            valB = (b.name || '').toLowerCase();
+          } else if (col === 'ext') {
+            valA = getFileExt(a.name);
+            valB = getFileExt(b.name);
+          } else if (col === 'size') {
+            valA = parseBytes(a.size || a.sizeBytes || 0);
+            valB = parseBytes(b.size || b.sizeBytes || 0);
+          } else if (col === 'time') {
+            valA = a.updatedTime || a.modifiedTime || a.createdTime || '';
+            valB = b.updatedTime || b.modifiedTime || b.createdTime || '';
+          }
+          if (valA < valB) return asc ? -1 : 1;
+          if (valA > valB) return asc ? 1 : -1;
+          return 0;
+        });
+        return list;
+      }
+
       function renderCurrentMediaExplorerView() {
         var container = document.getElementById('mediaFilesContainer');
         if (!container) return;
@@ -8512,52 +8711,95 @@
           return;
         }
 
+        var sortedFiles = getSortedMediaFiles();
+        var curCol = window.apMediaSortState.column;
+        var curAsc = window.apMediaSortState.asc;
+        function getSortIcon(col) {
+          if (curCol !== col) return '<span style="color:var(--ap-text-muted);font-size:10px;margin-left:4px;">⇅</span>';
+          return curAsc ? '<span style="color:#0066FF;font-weight:700;font-size:11px;margin-left:4px;">▲</span>' : '<span style="color:#0066FF;font-weight:700;font-size:11px;margin-left:4px;">▼</span>';
+        }
+
+        function extractExt(fn) {
+          if (!fn) return '---';
+          var m = fn.match(/\.([a-zA-Z0-9]+)$/);
+          return m ? ('.' + m[1].toUpperCase()) : '---';
+        }
+
+        function formatDisplayTime(f) {
+          var raw = f.updatedTime || f.modifiedTime || f.createdTime;
+          if (!raw) return 'Gần đây';
+          try {
+            var d = new Date(raw);
+            if (isNaN(d.getTime())) return String(raw).slice(0, 10);
+            var hh = String(d.getHours()).padStart(2, '0');
+            var mm = String(d.getMinutes()).padStart(2, '0');
+            var dd = String(d.getDate()).padStart(2, '0');
+            var mo = String(d.getMonth() + 1).padStart(2, '0');
+            return hh + ':' + mm + ' ' + dd + '/' + mo;
+          } catch (e) {
+            return 'Gần đây';
+          }
+        }
+
         if (apCurrentMediaViewMode === 'list') {
-          // BẢNG DANH SÁCH HÀNG NGANG (LIST VIEW)
-          var htmlList = '<table class="media-list-table">';
+          // BẢNG DANH SÁCH HÀNG NGANG (LIST VIEW) THEO YÊU CẦU:
+          // 4 Cột: TỆP, ĐUÔI TỆP, DUNG LƯỢNG, THỜI GIAN
+          // Bỏ cột THAO TÁC, click dòng để mở preview trực tiếp
+          var htmlList = '<div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;">';
+          htmlList += '<table class="media-list-table" style="width:100%;table-layout:fixed;border-collapse:collapse;">';
           htmlList += '<thead><tr>';
-          htmlList += '<th>TỆP</th>';
-          htmlList += '<th>ĐỊNH DẠNG</th>';
-          htmlList += '<th style="text-align:right;">THAO TÁC</th>';
+          htmlList += '<th style="width:46%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'name\')" title="Bấm để sắp xếp theo tên">TỆP ' + getSortIcon('name') + '</th>';
+          htmlList += '<th style="width:18%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'ext\')" title="Bấm để sắp xếp theo đuôi file">ĐUÔI TỆP ' + getSortIcon('ext') + '</th>';
+          htmlList += '<th style="width:18%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'size\')" title="Bấm để sắp xếp theo dung lượng">DUNG LƯỢNG ' + getSortIcon('size') + '</th>';
+          htmlList += '<th style="width:18%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'time\')" title="Bấm để sắp xếp theo thời gian">THỜI GIAN ' + getSortIcon('time') + '</th>';
           htmlList += '</tr></thead><tbody>';
 
-          currentMediaExplorerFilesList.forEach(function (f) {
+          sortedFiles.forEach(function (f) {
             var isVid = (f.mimeType && f.mimeType.indexOf('video') !== -1) || /\.(mp4|mov|webm|mkv)$/i.test(f.name);
             var isImg = (f.mimeType && f.mimeType.indexOf('image') !== -1) || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(f.name);
             var lh3 = f.lh3Url || ('https://lh3.googleusercontent.com/d/' + f.id);
-            var typeBadge = isVid ? '<span style="color:#60A5FA;font-weight:700;">VIDEO</span>' : (isImg ? '<span style="color:#34D399;font-weight:700;">ẢNH</span>' : '<span style="color:var(--ap-text-muted);">TÀI LIỆU</span>');
+            var extBadge = extractExt(f.name);
+            var sizeText = f.size || (f.sizeBytes ? (Math.round(f.sizeBytes / 1024 / 1024 * 10) / 10 + ' MB') : '---');
+            var timeText = formatDisplayTime(f);
 
-            htmlList += '<tr>';
-            htmlList += '<td>';
-            htmlList += '<div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="window.handleMediaFileSelectClick(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ', ' + (isImg ? 'true' : 'false') + ')">';
+            var extColor = isVid ? '#60A5FA' : (isImg ? '#34D399' : '#A78BFA');
+            var extBg = isVid ? 'rgba(96, 165, 250, 0.12)' : (isImg ? 'rgba(52, 211, 153, 0.12)' : 'rgba(167, 139, 250, 0.12)');
+
+            htmlList += '<tr style="cursor:pointer;transition:background 0.15s ease;" onclick="window.handleMediaFileSelectClick(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ', ' + (isImg ? 'true' : 'false') + ')" title="Bấm vào dòng để xem trực tiếp file">';
+            
+            // Cột 1: TỆP
+            htmlList += '<td style="overflow:hidden;">';
+            htmlList += '<div style="display:flex;align-items:center;gap:8px;">';
             if (isImg || isVid) {
-              htmlList += '<img src="' + lh3 + '" style="width:34px;height:34px;border-radius:6px;object-fit:cover;border:1px solid var(--ap-border-subtle);flex-shrink:0;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
+              htmlList += '<img src="' + lh3 + '" style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid var(--ap-border-subtle);flex-shrink:0;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
             } else {
-              htmlList += '<div style="width:34px;height:34px;border-radius:6px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ap-text-muted)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>';
+              htmlList += '<div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ap-text-muted)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>';
             }
-            htmlList += '<div style="overflow:hidden;"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;color:var(--ap-text-heading);">' + f.name + '</div>';
-            htmlList += '<div style="font-size:10.5px;color:var(--ap-text-muted);">' + (f.size || '') + '</div></div>';
+            htmlList += '<span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ap-text-heading);font-size:12px;">' + f.name + '</span>';
             htmlList += '</div>';
             htmlList += '</td>';
 
-            htmlList += '<td>' + typeBadge + '</td>';
-
-            htmlList += '<td style="text-align:right;white-space:nowrap;">';
-            htmlList += '<div style="display:inline-flex;gap:6px;">';
-            htmlList += '<button type="button" class="btn-dark-glass" onclick="window.openMediaPreviewModal(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', \'' + (f.mimeType || '') + '\')" style="padding:3px 8px;font-size:10.5px;" title="Xem trực tiếp">Xem</button>';
-            htmlList += '<button type="button" class="btn-dark-glass" onclick="window.copyMediaFileLH3(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\')" style="padding:3px 8px;font-size:10.5px;" title="Sao chép link LH3">Copy</button>';
-            htmlList += '</div>';
+            // Cột 2: ĐUÔI TỆP
+            htmlList += '<td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">';
+            htmlList += '<span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;font-family:var(--font-mono, monospace);background:' + extBg + ';color:' + extColor + ';">' + extBadge + '</span>';
             htmlList += '</td>';
+
+            // Cột 3: DUNG LƯỢNG
+            htmlList += '<td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;color:var(--ap-text-muted);font-family:var(--font-mono, monospace);">' + sizeText + '</td>';
+
+            // Cột 4: THỜI GIAN
+            htmlList += '<td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;color:var(--ap-text-muted);">' + timeText + '</td>';
+
             htmlList += '</tr>';
           });
 
-          htmlList += '</tbody></table>';
+          htmlList += '</tbody></table></div>';
           container.innerHTML = htmlList;
 
         } else {
           // LƯỚI THUMBNAIL TỶ LỆ 1:1 (GRID VIEW)
           var htmlGrid = '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(95px, 1fr));gap:10px;align-items:start;">';
-          currentMediaExplorerFilesList.forEach(function (f) {
+          sortedFiles.forEach(function (f) {
             var isVid = (f.mimeType && f.mimeType.indexOf('video') !== -1) || /\.(mp4|mov|webm|mkv)$/i.test(f.name);
             var isImg = (f.mimeType && f.mimeType.indexOf('image') !== -1) || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(f.name);
             var iconBadge = isVid ? '<span style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#60A5FA;border-radius:4px;font-size:9px;padding:1px 4px;font-weight:700;">MP4</span>' : '';
@@ -8824,8 +9066,8 @@
       }
 
       window.submitSmartMediaUploadProcess = async function () {
-        var targetSel = document.getElementById('selMediaTargetFolder');
-        var targetFolderId = targetSel ? targetSel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var selParent = document.getElementById('selMediaParentFolder');
+        var targetFolderId = (selParent && selParent.value) ? selParent.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
         var pendingFiles = selectedSmartMediaFiles.filter(function (f) { return f.status === 'pending' || f.status === 'error'; });
         if (!pendingFiles.length) {
           alert('Vui lòng chọn ít nhất 1 tệp để tải lên!');
@@ -8846,8 +9088,10 @@
 
         var btnSubmit = document.getElementById('btnSubmitSmartMedia');
         var progCont = document.getElementById('smartGlobalProgressContainer');
+        var gBar = document.getElementById('smartGlobalProgressBar');
         if (btnSubmit) btnSubmit.style.display = 'none';
         if (progCont) progCont.style.display = 'block';
+        if (gBar) gBar.classList.add('ap-progress-flow-green');
         updateSmartGlobalUI();
 
         try {
@@ -8874,6 +9118,8 @@
           console.error('Tiến trình gián đoạn: ', err);
         } finally {
           isSmartUploadingActive = false;
+          var gBarFin = document.getElementById('smartGlobalProgressBar');
+          if (gBarFin) gBarFin.classList.remove('ap-progress-flow-green');
           if (btnSubmit) btnSubmit.style.display = 'flex';
         }
       };
@@ -8902,34 +9148,42 @@
       }
 
       function updateFileProgressUI(fileData, filePercent, currentLoadedBytes) {
-        fileData.progress = filePercent;
+        // Đảm bảo % không bị nhảy lùi sụt (Monotonic non-decreasing)
+        var safePercent = Math.max(fileData.progress || 0, Math.min(filePercent, 99));
+        fileData.progress = safePercent;
+
         var pBar = document.getElementById('smartProg_' + fileData.id);
         var pText = document.getElementById('smartProgText_' + fileData.id);
 
-        if (filePercent >= 80 && filePercent < 100) {
+        // Giữ nguyên màu xanh dương và hiệu ứng gradient flow xanh-trắng suốt quá trình đang tải
+        if (pBar) {
+          pBar.style.background = '#0066FF';
+          pBar.classList.add('ap-progress-flow-blue');
+        }
+
+        if (safePercent >= 80) {
           if (pText) {
             pText.innerText = 'Bạn chờ chút gần xong rồi nhe... 99%';
             pText.style.color = '#34D399';
           }
           if (pBar) {
-            pBar.style.width = Math.min(filePercent, 94) + '%';
-            pBar.classList.add('ap-upload-bar-active');
+            // Chừa khoảng trắng bên phải (tối đa 94%) để biểu hiện chưa xong
+            pBar.style.width = Math.min(safePercent, 94) + '%';
           }
-        } else if (filePercent < 80) {
+        } else {
           if (pText) {
-            pText.innerText = 'Đang tải: ' + filePercent + '%';
+            pText.innerText = 'Đang tải: ' + safePercent + '%';
             pText.style.color = '#60A5FA';
           }
           if (pBar) {
-            pBar.style.width = filePercent + '%';
-            pBar.classList.remove('ap-upload-bar-active');
-            pBar.style.background = '#0066FF';
+            pBar.style.width = safePercent + '%';
           }
         }
 
         var prevUploaded = fileData.uploadedBytes || 0;
-        fileData.uploadedBytes = currentLoadedBytes;
-        smartGlobalUploadStats.uploadedBytes += (fileData.uploadedBytes - prevUploaded);
+        var safeLoaded = Math.max(prevUploaded, currentLoadedBytes || 0);
+        fileData.uploadedBytes = safeLoaded;
+        smartGlobalUploadStats.uploadedBytes += (safeLoaded - prevUploaded);
         updateSmartGlobalUI();
       }
 
@@ -8940,6 +9194,7 @@
         var pText = document.getElementById('smartProgText_' + fileData.id);
         if (pBar) {
           pBar.style.width = '100%';
+          pBar.classList.remove('ap-progress-flow-blue');
           pBar.classList.remove('ap-upload-bar-active');
           pBar.style.background = '#10B981';
         }
@@ -8950,6 +9205,7 @@
         smartGlobalUploadStats.doneFiles++;
         renderSmartMediaPreview();
         updateSmartGlobalUI();
+        // Tự động làm mới kho Media ngay khi hoàn tất 1 file mới
         if (typeof window.refreshMediaExplorerFiles === 'function') {
           window.refreshMediaExplorerFiles();
         }
@@ -8977,7 +9233,7 @@
                 reader.readAsDataURL(file);
               });
 
-              updateFileProgressUI(fileData, 50, Math.round(file.size * 0.5));
+              // Bỏ 50% giả tạo để chống nhảy sụt %
 
               var t1Res = await new Promise(function (resolve, reject) {
                 google.script.run
