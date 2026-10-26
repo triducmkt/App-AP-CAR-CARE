@@ -3287,6 +3287,58 @@
       }
     }
 
+    /* 🚀 BỘ ANIMATION GRADIENT XANH LÁ CHUYỂN ĐỘNG & BẢNG VIEW LIST KHO MEDIA */
+    @keyframes apUploadPulseFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .ap-upload-bar-active {
+      background: linear-gradient(90deg, #10B981 0%, #34D399 50%, #059669 100%) !important;
+      background-size: 200% 200% !important;
+      animation: apUploadPulseFlow 1.6s ease infinite !important;
+    }
+    .media-list-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .media-list-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ap-text-muted);
+      border-bottom: 1px solid var(--ap-border-subtle);
+      white-space: nowrap;
+    }
+    .media-list-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--ap-border-subtle);
+      color: var(--ap-text-body);
+      vertical-align: middle;
+    }
+    .media-list-table tr:hover td {
+      background: rgba(0, 102, 255, 0.05);
+    }
+    .ap-media-view-btn-active {
+      background: rgba(0, 102, 255, 0.25) !important;
+      border-color: #0066FF !important;
+      color: #60A5FA !important;
+    }
+
+    /* 📱 RESPONSIVE MOBILE KHO MEDIA */
+    @media (max-width: 768px) {
+      .ap-media-hub-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+      .modal-card {
+        width: 95vw !important;
+        padding: 16px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -4072,8 +4124,19 @@
 
                 <div>
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading);">Tệp trong thư mục:</span>
-                    <span style="font-size: 11px; color: var(--ap-text-muted);">Bấm để xem hoặc chọn làm Video Raw</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading);">Tệp trong thư mục:</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <button type="button" id="btnMediaViewThumb" class="btn-dark-glass ap-media-view-btn-active" onclick="window.setMediaExplorerViewMode('grid')" style="padding: 4px 8px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px;" title="Chế độ Lưới (Thumbnail)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        <span>Lưới</span>
+                      </button>
+                      <button type="button" id="btnMediaViewList" class="btn-dark-glass" onclick="window.setMediaExplorerViewMode('list')" style="padding: 4px 8px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px;" title="Chế độ Danh sách (List)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                        <span>Danh sách</span>
+                      </button>
+                    </div>
                   </div>
                   <div id="mediaFilesContainer" style="background: rgba(0, 0, 0, 0.22); border: 1px solid var(--ap-border-subtle); border-radius: 12px; height: 320px; overflow-y: auto; padding: 12px;">
                     <div style="text-align: center; color: var(--ap-text-muted); font-size: 12.5px; padding-top: 80px;">Đang quét tệp trong Drive AP CAR CARE...</div>
@@ -5252,6 +5315,30 @@
 
       </div>
     </main>
+
+    <!-- MODAL XEM TRỰC TIẾP TỆP MEDIA (VIDEO & HÌNH ẢNH) -->
+    <div class="modal-overlay" id="apMediaViewerModal" role="dialog" aria-modal="true" aria-hidden="true" style="z-index: 10000;">
+      <div class="modal-card" style="max-width: 860px; width: 92vw; padding: 20px; border-radius: 18px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); box-shadow: 0 20px 60px rgba(0,0,0,0.6);">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px; margin-bottom: 14px;">
+          <div style="display: flex; align-items: center; gap: 10px; overflow: hidden; flex: 1;">
+            <span id="apMediaViewerTypeBadge" style="font-size: 11px; font-weight: 700; color: #60A5FA; padding: 2px 8px; background: rgba(0,102,255,0.15); border-radius: 6px;">MEDIA</span>
+            <span id="apMediaViewerTitle" style="font-size: 14px; font-weight: 700; color: var(--ap-text-heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Xem tệp</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" id="btnCopyViewerLH3" class="btn-dark-glass" style="font-size: 11px; padding: 4px 10px;" onclick="window.copyCurrentViewerLink()">Sao chép Link</button>
+            <button type="button" class="btn-clear-input" style="padding: 4px 10px; font-size: 14px;" onclick="window.closeMediaViewerModal()">✖</button>
+          </div>
+        </div>
+        <div id="apMediaViewerBody" style="flex: 1; min-height: 260px; max-height: 520px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); border-radius: 12px; overflow: hidden; position: relative;">
+          <!-- Nơi inject Video player hoặc Ảnh lightbox -->
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 11.5px; color: var(--ap-text-muted);">
+          <span id="apMediaViewerMeta">Tệp trong kho Drive AP CAR CARE</span>
+          <a id="linkViewerOpenDrive" href="#" target="_blank" style="color: #60A5FA; text-decoration: underline;">Mở trên Google Drive</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 
@@ -5720,6 +5807,13 @@
           var titleEl = document.getElementById('topbarActiveTitle');
           if (titleEl && DEPT_TITLES_MAP[deptId]) {
             titleEl.textContent = DEPT_TITLES_MAP[deptId];
+          }
+
+          // Tự động làm mới kho Media khi vào phòng TT-MKT
+          if (deptId === 'DEPT_MKT') {
+            if (typeof window.refreshMediaExplorerFiles === 'function') {
+              window.refreshMediaExplorerFiles();
+            }
           }
 
           closeMobileSidebar();
@@ -8232,14 +8326,9 @@
             statusBox.style.background = 'rgba(16, 185, 129, 0.12)';
             statusBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
             statusBox.style.color = '#10B981';
-            var lh3 = res.lh3Url || (res.fileId ? ('https://lh3.googleusercontent.com/d/' + res.fileId) : '');
-            var formula = lh3 ? ('=IMAGE("' + lh3 + '")') : '';
             var msg = res.message || 'Đã nạp tệp thành công vào kho đích!';
-            if (lh3) {
-              msg += '<br/><span style="font-size:11px;color:#93C5FD;word-break:break-all;">Link LH3: <a href="' + lh3 + '" target="_blank" style="color:#60A5FA;text-decoration:underline;">' + lh3 + '</a></span>';
-              msg += '<br/><span style="font-size:10.5px;color:#A7F3D0;font-family:var(--font-mono);">' + formula + '</span>';
-            }
-            statusBox.innerHTML = '<span style="font-weight:700;">Thành công:</span> ' + msg;
+            // Hiển thị text đậm bold và BỎ triệt để 2 dòng Link LH3 bên dưới theo yêu cầu của anh Đức
+            statusBox.innerHTML = '<span style="font-weight:700;font-size:12.5px;">✓ ' + msg + '</span>';
             inputEl.value = '';
             window.refreshMediaExplorerFiles();
           } else {
@@ -8381,59 +8470,196 @@
         }
       }
 
+      /* QUẢN LÝ CHẾ ĐỘ VIEW (LIST VS THUMBNAIL) & DANH SÁCH TỆP */
+      var currentMediaExplorerFilesList = [];
+      var apCurrentMediaViewMode = 'grid';
+      try {
+        var savedViewMode = localStorage.getItem('apMediaViewMode');
+        if (savedViewMode === 'list' || savedViewMode === 'grid') apCurrentMediaViewMode = savedViewMode;
+      } catch (eVM) {}
+
+      window.setMediaExplorerViewMode = function (mode) {
+        apCurrentMediaViewMode = (mode === 'list') ? 'list' : 'grid';
+        try { localStorage.setItem('apMediaViewMode', apCurrentMediaViewMode); } catch (eSaveVM) {}
+
+        var btnThumb = document.getElementById('btnMediaViewThumb');
+        var btnList = document.getElementById('btnMediaViewList');
+        if (btnThumb && btnList) {
+          if (apCurrentMediaViewMode === 'grid') {
+            btnThumb.classList.add('ap-media-view-btn-active');
+            btnList.classList.remove('ap-media-view-btn-active');
+          } else {
+            btnList.classList.add('ap-media-view-btn-active');
+            btnThumb.classList.remove('ap-media-view-btn-active');
+          }
+        }
+        renderCurrentMediaExplorerView();
+      };
+
       function renderMediaFilesGrid(filesList) {
-        var container = document.getElementById('mediaFilesContainer');
+        currentMediaExplorerFilesList = Array.isArray(filesList) ? filesList : [];
         var badge = document.getElementById('badgeFolderTotalFiles');
+        if (badge) badge.textContent = currentMediaExplorerFilesList.length + ' tệp';
+        renderCurrentMediaExplorerView();
+      }
+
+      function renderCurrentMediaExplorerView() {
+        var container = document.getElementById('mediaFilesContainer');
         if (!container) return;
 
-        if (!filesList || !filesList.length) {
+        if (!currentMediaExplorerFilesList || !currentMediaExplorerFilesList.length) {
           renderEmptyFolderContainer();
           return;
         }
 
-        if (badge) badge.textContent = filesList.length + ' tệp';
+        if (apCurrentMediaViewMode === 'list') {
+          // BẢNG DANH SÁCH HÀNG NGANG (LIST VIEW)
+          var htmlList = '<table class="media-list-table">';
+          htmlList += '<thead><tr>';
+          htmlList += '<th>TỆP</th>';
+          htmlList += '<th>ĐỊNH DẠNG</th>';
+          htmlList += '<th style="text-align:right;">THAO TÁC</th>';
+          htmlList += '</tr></thead><tbody>';
 
-        var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(95px, 1fr));gap:10px;align-items:start;">';
-        filesList.forEach(function (f) {
-          var isVid = f.mimeType && f.mimeType.indexOf('video') !== -1;
-          var isImg = f.mimeType && f.mimeType.indexOf('image') !== -1;
-          var iconBadge = isVid ? '<span style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#60A5FA;border-radius:4px;font-size:9px;padding:1px 4px;font-weight:700;">MP4</span>' : '';
-          var lh3 = f.lh3Url || ('https://lh3.googleusercontent.com/d/' + f.id);
-          var safeUrl = f.url || ('https://drive.google.com/file/d/' + f.id + '/view');
+          currentMediaExplorerFilesList.forEach(function (f) {
+            var isVid = (f.mimeType && f.mimeType.indexOf('video') !== -1) || /\.(mp4|mov|webm|mkv)$/i.test(f.name);
+            var isImg = (f.mimeType && f.mimeType.indexOf('image') !== -1) || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(f.name);
+            var lh3 = f.lh3Url || ('https://lh3.googleusercontent.com/d/' + f.id);
+            var typeBadge = isVid ? '<span style="color:#60A5FA;font-weight:700;">VIDEO</span>' : (isImg ? '<span style="color:#34D399;font-weight:700;">ẢNH</span>' : '<span style="color:var(--ap-text-muted);">TÀI LIỆU</span>');
 
-          html += '<div class="media-thumb-card" style="aspect-ratio:1/1;border-radius:10px;border:1px solid var(--ap-border-subtle);overflow:hidden;position:relative;background:rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;" onclick="window.handleMediaFileSelect(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ')" title="Bấm để chọn & sao chép link LH3">';
-          if (isVid || isImg) {
-            html += '<img src="' + lh3 + '" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
-          } else {
-            html += '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ap-text-muted)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>';
-          }
-          html += iconBadge;
-          html += '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(3,6,14,0.85);color:#F8FAFC;font-size:9.5px;padding:3px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;">' + f.name + '</div>';
-          html += '</div>';
-        });
-        html += '</div>';
-        container.innerHTML = html;
+            htmlList += '<tr>';
+            htmlList += '<td>';
+            htmlList += '<div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="window.handleMediaFileSelectClick(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ', ' + (isImg ? 'true' : 'false') + ')">';
+            if (isImg || isVid) {
+              htmlList += '<img src="' + lh3 + '" style="width:34px;height:34px;border-radius:6px;object-fit:cover;border:1px solid var(--ap-border-subtle);flex-shrink:0;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
+            } else {
+              htmlList += '<div style="width:34px;height:34px;border-radius:6px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ap-text-muted)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>';
+            }
+            htmlList += '<div style="overflow:hidden;"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;color:var(--ap-text-heading);">' + f.name + '</div>';
+            htmlList += '<div style="font-size:10.5px;color:var(--ap-text-muted);">' + (f.size || '') + '</div></div>';
+            htmlList += '</div>';
+            htmlList += '</td>';
+
+            htmlList += '<td>' + typeBadge + '</td>';
+
+            htmlList += '<td style="text-align:right;white-space:nowrap;">';
+            htmlList += '<div style="display:inline-flex;gap:6px;">';
+            htmlList += '<button type="button" class="btn-dark-glass" onclick="window.openMediaPreviewModal(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', \'' + (f.mimeType || '') + '\')" style="padding:3px 8px;font-size:10.5px;" title="Xem trực tiếp">Xem</button>';
+            htmlList += '<button type="button" class="btn-dark-glass" onclick="window.copyMediaFileLH3(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\')" style="padding:3px 8px;font-size:10.5px;" title="Sao chép link LH3">Copy</button>';
+            htmlList += '</div>';
+            htmlList += '</td>';
+            htmlList += '</tr>';
+          });
+
+          htmlList += '</tbody></table>';
+          container.innerHTML = htmlList;
+
+        } else {
+          // LƯỚI THUMBNAIL TỶ LỆ 1:1 (GRID VIEW)
+          var htmlGrid = '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(95px, 1fr));gap:10px;align-items:start;">';
+          currentMediaExplorerFilesList.forEach(function (f) {
+            var isVid = (f.mimeType && f.mimeType.indexOf('video') !== -1) || /\.(mp4|mov|webm|mkv)$/i.test(f.name);
+            var isImg = (f.mimeType && f.mimeType.indexOf('image') !== -1) || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(f.name);
+            var iconBadge = isVid ? '<span style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#60A5FA;border-radius:4px;font-size:9px;padding:1px 4px;font-weight:700;">MP4</span>' : '';
+            var lh3 = f.lh3Url || ('https://lh3.googleusercontent.com/d/' + f.id);
+
+            htmlGrid += '<div class="media-thumb-card" style="aspect-ratio:1/1;border-radius:10px;border:1px solid var(--ap-border-subtle);overflow:hidden;position:relative;background:rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;" onclick="window.handleMediaFileSelectClick(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ', ' + (isImg ? 'true' : 'false') + ')" title="Bấm để xem trực tiếp hoặc chọn file">';
+            if (isVid || isImg) {
+              htmlGrid += '<img src="' + lh3 + '" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
+            } else {
+              htmlGrid += '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ap-text-muted)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>';
+            }
+            htmlGrid += iconBadge;
+            htmlGrid += '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(3,6,14,0.85);color:#F8FAFC;font-size:9.5px;padding:3px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;">' + f.name + '</div>';
+            htmlGrid += '</div>';
+          });
+          htmlGrid += '</div>';
+          container.innerHTML = htmlGrid;
+        }
       }
 
-      window.handleMediaFileSelect = function (encodedId, encodedName, isVid) {
+      window.handleMediaFileSelectClick = function (encodedId, encodedName, isVid, isImg) {
+        var fid = decodeURIComponent(encodedId);
+        var fname = decodeURIComponent(encodedName);
+        var mime = isVid ? 'video/mp4' : (isImg ? 'image/jpeg' : 'application/octet-stream');
+        window.openMediaPreviewModal(fid, fname, mime);
+      };
+
+      window.copyMediaFileLH3 = function (encodedId, encodedName) {
         var fid = decodeURIComponent(encodedId);
         var fname = decodeURIComponent(encodedName);
         var lh3 = 'https://lh3.googleusercontent.com/d/' + fid;
-        var formula = '=IMAGE("' + lh3 + '")';
-
-        if (isVid) {
-          var inp = document.getElementById('veRawVideoInput');
-          if (inp) {
-            inp.value = lh3;
-            window.syncVideoFormToJson();
-          }
-        }
-
         if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(lh3).catch(function () {});
         }
+        showPublishToast('Đã sao chép Link LH3: ' + fname, 'success');
+      };
 
-        showPublishToast('Đã chọn [' + fname + '] & Sao chép Link LH3!', 'success');
+      // QUẢN LÝ MODAL XEM TRỰC TIẾP VIDEO & HÌNH ẢNH
+      var currentViewerState = { id: '', name: '', lh3Url: '', viewUrl: '' };
+
+      window.openMediaPreviewModal = function (fileIdOrEncoded, fileNameOrEncoded, mimeType) {
+        var fid = decodeURIComponent(fileIdOrEncoded || '');
+        var fname = decodeURIComponent(fileNameOrEncoded || '');
+        var mime = mimeType || '';
+
+        var isVid = (mime.indexOf('video') !== -1) || /\.(mp4|mov|webm|mkv)$/i.test(fname);
+        var isImg = (mime.indexOf('image') !== -1) || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(fname);
+
+        if (!isVid && !isImg) {
+          showPublishToast('Định dạng tệp không hỗ trợ xem trực tiếp. Mở liên kết ngoài.', 'info');
+          window.open('https://drive.google.com/file/d/' + fid + '/view', '_blank');
+          return;
+        }
+
+        var modal = document.getElementById('apMediaViewerModal');
+        var titleEl = document.getElementById('apMediaViewerTitle');
+        var badgeEl = document.getElementById('apMediaViewerTypeBadge');
+        var bodyEl = document.getElementById('apMediaViewerBody');
+        var metaEl = document.getElementById('apMediaViewerMeta');
+        var linkDrive = document.getElementById('linkViewerOpenDrive');
+        if (!modal || !bodyEl) return;
+
+        var lh3 = 'https://lh3.googleusercontent.com/d/' + fid;
+        var viewUrl = 'https://drive.google.com/file/d/' + fid + '/view';
+        currentViewerState = { id: fid, name: fname, lh3Url: lh3, viewUrl: viewUrl };
+
+        if (titleEl) titleEl.textContent = fname;
+        if (badgeEl) badgeEl.textContent = isVid ? 'VIDEO MP4' : 'HÌNH ẢNH';
+        if (metaEl) metaEl.textContent = 'Mã Drive: ' + fid;
+        if (linkDrive) linkDrive.href = viewUrl;
+
+        if (isVid) {
+          bodyEl.innerHTML = '<iframe src="https://drive.google.com/file/d/' + fid + '/preview" style="width:100%;height:460px;border:none;border-radius:8px;" allow="autoplay" allowfullscreen></iframe>';
+          var inp = document.getElementById('veRawVideoInput');
+          if (inp) {
+            inp.value = lh3;
+            if (typeof window.syncVideoFormToJson === 'function') window.syncVideoFormToJson();
+          }
+        } else if (isImg) {
+          bodyEl.innerHTML = '<img src="' + lh3 + '" style="max-width:100%;max-height:480px;object-fit:contain;border-radius:8px;" onerror="this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\';" />';
+        }
+
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+      };
+
+      window.closeMediaViewerModal = function () {
+        var modal = document.getElementById('apMediaViewerModal');
+        var bodyEl = document.getElementById('apMediaViewerBody');
+        if (bodyEl) bodyEl.innerHTML = '';
+        if (modal) {
+          modal.classList.remove('active');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      };
+
+      window.copyCurrentViewerLink = function () {
+        if (!currentViewerState || !currentViewerState.lh3Url) return;
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(currentViewerState.lh3Url).catch(function () {});
+        }
+        showPublishToast('Đã sao chép link LH3 vào bộ nhớ tạm!', 'success');
       };
 
       window.executeCreateMediaSubFolder = function () {
@@ -8626,7 +8852,7 @@
 
         try {
           var workers = [];
-          for (var i = 0; i < 2; i++) {
+          for (var i = 0; i < MAX_CONCURRENT_SMART; i++) {
             workers.push(smartWorkerProcess(targetFolderId));
           }
           await Promise.all(workers);
@@ -8634,13 +8860,13 @@
           if (isSmartUploadingActive) {
             var anyError = selectedSmartMediaFiles.some(function (f) { return f.status === 'error'; });
             if (!anyError) {
-              showPublishToast('Tải lên toàn bộ tệp vào Drive AP thành công!', 'success');
+              showPublishToast('Đã hoàn tất tải lên toàn bộ kho tư liệu vào Drive AP!', 'success');
               selectedSmartMediaFiles = [];
               if (progCont) progCont.style.display = 'none';
               renderSmartMediaPreview();
               window.refreshMediaExplorerFiles();
             } else {
-              showPublishToast('Một số tệp gặp lỗi, vui lòng kiểm tra chi tiết.', 'info');
+              showPublishToast('Một số tệp gặp sự cố, vui lòng xem chi tiết.', 'info');
               renderSmartMediaPreview();
             }
           }
@@ -8654,7 +8880,6 @@
 
       async function smartWorkerProcess(folderId) {
         while (isSmartUploadingActive) {
-          // CHỈ tìm các file còn pending! Cấm tìm file error ở đây để triệt tiêu vĩnh viễn vòng lặp vô hạn
           var fileData = selectedSmartMediaFiles.find(function (f) { return f.status === 'pending'; });
           if (!fileData) break;
           fileData.status = 'uploading';
@@ -8662,12 +8887,6 @@
 
           try {
             await uploadSingleFileRobust(fileData, folderId);
-            if (isSmartUploadingActive) {
-              fileData.status = 'done';
-              smartGlobalUploadStats.doneFiles++;
-              renderSmartMediaPreview();
-              updateSmartGlobalUI();
-            }
           } catch (e) {
             console.error('Lỗi khi tải file:', fileData.name, e);
             fileData.retryCount = (fileData.retryCount || 0) + 1;
@@ -8682,11 +8901,173 @@
         }
       }
 
+      function updateFileProgressUI(fileData, filePercent, currentLoadedBytes) {
+        fileData.progress = filePercent;
+        var pBar = document.getElementById('smartProg_' + fileData.id);
+        var pText = document.getElementById('smartProgText_' + fileData.id);
+
+        if (filePercent >= 80 && filePercent < 100) {
+          if (pText) {
+            pText.innerText = 'Bạn chờ chút gần xong rồi nhe... 99%';
+            pText.style.color = '#34D399';
+          }
+          if (pBar) {
+            pBar.style.width = Math.min(filePercent, 94) + '%';
+            pBar.classList.add('ap-upload-bar-active');
+          }
+        } else if (filePercent < 80) {
+          if (pText) {
+            pText.innerText = 'Đang tải: ' + filePercent + '%';
+            pText.style.color = '#60A5FA';
+          }
+          if (pBar) {
+            pBar.style.width = filePercent + '%';
+            pBar.classList.remove('ap-upload-bar-active');
+            pBar.style.background = '#0066FF';
+          }
+        }
+
+        var prevUploaded = fileData.uploadedBytes || 0;
+        fileData.uploadedBytes = currentLoadedBytes;
+        smartGlobalUploadStats.uploadedBytes += (fileData.uploadedBytes - prevUploaded);
+        updateSmartGlobalUI();
+      }
+
+      function finalizeFileUploadSuccess(fileData) {
+        fileData.status = 'done';
+        fileData.progress = 100;
+        var pBar = document.getElementById('smartProg_' + fileData.id);
+        var pText = document.getElementById('smartProgText_' + fileData.id);
+        if (pBar) {
+          pBar.style.width = '100%';
+          pBar.classList.remove('ap-upload-bar-active');
+          pBar.style.background = '#10B981';
+        }
+        if (pText) {
+          pText.innerText = 'Đã xong 100%';
+          pText.style.color = '#10B981';
+        }
+        smartGlobalUploadStats.doneFiles++;
+        renderSmartMediaPreview();
+        updateSmartGlobalUI();
+        if (typeof window.refreshMediaExplorerFiles === 'function') {
+          window.refreshMediaExplorerFiles();
+        }
+      }
+
       async function uploadSingleFileRobust(fileData, folderId) {
         var file = fileData.fileObj;
         if (!file) throw new Error('Không tìm thấy đối tượng tệp tin.');
 
-        // Ưu tiên 1: Tải lên qua Gateway API Direct Pipe (/v1/drive/upload-direct)
+        var isLessThan50MB = file.size < (50 * 1024 * 1024);
+        var isLessThan15MB = file.size < (15 * 1024 * 1024);
+
+        // =========================================================================
+        // TẦNG 1: NATIVE GOOGLE DRIVE (< 50MB)
+        // Nếu dung lượng file < 50MB, đưa vào tầng 1 đầu tiên.
+        // Nếu nặng hơn 50MB hoặc lỗi tầng 1 -> bypass tầng 1 qua tầng 2 Cloud Bot.
+        // =========================================================================
+        if (isLessThan50MB) {
+          try {
+            if (isLessThan15MB && typeof google !== 'undefined' && google.script && google.script.run) {
+              var base64Data = await new Promise(function (resolve, reject) {
+                var reader = new FileReader();
+                reader.onload = function (e) { resolve(e.target.result); };
+                reader.onerror = function () { reject(new Error('Lỗi đọc tệp base64')); };
+                reader.readAsDataURL(file);
+              });
+
+              updateFileProgressUI(fileData, 50, Math.round(file.size * 0.5));
+
+              var t1Res = await new Promise(function (resolve, reject) {
+                google.script.run
+                  .withSuccessHandler(resolve)
+                  .withFailureHandler(reject)
+                  .uploadMediaSmallFile({
+                    folderId: folderId,
+                    fileName: fileData.name,
+                    mimeType: fileData.mimeType,
+                    base64: base64Data
+                  });
+              });
+
+              if (t1Res && t1Res.success) {
+                fileData.driveId = t1Res.fileId;
+                fileData.lh3Url = t1Res.lh3Url;
+                fileData.viewUrl = t1Res.viewUrl;
+                finalizeFileUploadSuccess(fileData);
+                return;
+              }
+            }
+          } catch (t1Err) {
+            console.warn('[Tầng 1 Native Drive không khả dụng, bypass qua Tầng 2 Cloud Bot]:', t1Err.message || t1Err);
+          }
+        }
+
+        // =========================================================================
+        // TẦNG 2: CLOUD BOT (Google Drive v3 Resumable Upload Chunk 5MB - Chuẩn TDCM Team App)
+        // Chạy 100% Cloud-to-Cloud độc lập giữa Trình duyệt và Máy chủ Google Drive
+        // Không phụ thuộc vào laptop của anh Đức hay bất kỳ Gateway cục bộ nào!
+        // =========================================================================
+        try {
+          var token = await getSmartDriveOAuthToken();
+          if (token && token !== 'dummy_demo_token') {
+            var metadata = { name: fileData.name, parents: [folderId] };
+            var locationUrl = await new Promise(function (resolve, reject) {
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true', true);
+              xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.setRequestHeader('X-Upload-Content-Type', fileData.mimeType);
+              xhr.setRequestHeader('X-Upload-Content-Length', file.size);
+              xhr.onload = function () {
+                if (xhr.status === 200) resolve(xhr.getResponseHeader('Location'));
+                else reject(new Error('Khởi tạo ống tải Drive v3 thất bại: ' + xhr.responseText));
+              };
+              xhr.onerror = function () { reject(new Error('Mất mạng khi khởi tạo Drive v3')); };
+              xhr.send(JSON.stringify(metadata));
+            });
+
+            if (locationUrl) {
+              var start = 0;
+              var retryCount = 0;
+              while (start < file.size && isSmartUploadingActive) {
+                var end = Math.min(start + CHUNK_SIZE_SMART, file.size);
+                var chunk = file.slice(start, end);
+                try {
+                  token = await getSmartDriveOAuthToken();
+                  var res = await sendSingleChunkPromise(locationUrl, chunk, start, end - 1, file.size, token, fileData);
+                  if (res.code === 308) {
+                    start = end;
+                    retryCount = 0;
+                  } else if (res.code === 200 || res.code === 201) {
+                    var driveId = res.driveId;
+                    fileData.driveId = driveId;
+                    fileData.lh3Url = 'https://lh3.googleusercontent.com/d/' + driveId;
+                    fileData.viewUrl = 'https://drive.google.com/file/d/' + driveId + '/view';
+                    if (typeof google !== 'undefined' && google.script && google.script.run && driveId) {
+                      google.script.run.finalizeDriveFilePermissions(driveId);
+                    }
+                    finalizeFileUploadSuccess(fileData);
+                    return;
+                  } else {
+                    throw new Error('Mã trạng thái lạ: ' + res.code);
+                  }
+                } catch (chunkErr) {
+                  retryCount++;
+                  if (retryCount > 3) throw new Error('Thất bại sau 3 lần retry: ' + chunkErr.message);
+                  await new Promise(function (r) { setTimeout(r, Math.pow(2, retryCount) * 1000); });
+                }
+              }
+            }
+          }
+        } catch (t2Err) {
+          console.warn('[Tầng 2 Cloud Bot gặp sự cố, chuyển sang Tầng 3 Local Gateway]:', t2Err.message || t2Err);
+        }
+
+        // =========================================================================
+        // TẦNG 3: LOCAL GATEWAY (Phương án sau cùng, last backup)
+        // =========================================================================
         try {
           var gwUrl = 'https://gateway.triduccar.media/v1/drive/upload-direct?folderId=' + encodeURIComponent(folderId) + '&fileName=' + encodeURIComponent(fileData.name);
           var gwRes = await new Promise(function (resolve, reject) {
@@ -8697,16 +9078,7 @@
             xhr.upload.onprogress = function (e) {
               if (e.lengthComputable && isSmartUploadingActive) {
                 var filePercent = Math.round((e.loaded / e.total) * 100);
-                fileData.progress = filePercent;
-                var pBar = document.getElementById('smartProg_' + fileData.id);
-                var pText = document.getElementById('smartProgText_' + fileData.id);
-                if (pBar) pBar.style.width = filePercent + '%';
-                if (pText) pText.innerText = 'Đang tải: ' + filePercent + '%';
-
-                var prevUploaded = fileData.uploadedBytes || 0;
-                fileData.uploadedBytes = e.loaded;
-                smartGlobalUploadStats.uploadedBytes += (fileData.uploadedBytes - prevUploaded);
-                updateSmartGlobalUI();
+                updateFileProgressUI(fileData, filePercent, e.loaded);
               }
             };
 
@@ -8717,7 +9089,7 @@
                   if (data && data.success) resolve(data);
                   else reject(new Error(data ? data.message : 'Gateway trả về lỗi'));
                 } catch (pe) {
-                  reject(new Error('Lỗi dữ liệu Gateway: ' + xhr.responseText));
+                  reject(new Error('Lỗi dữ liệu Gateway'));
                 }
               } else {
                 reject(new Error('Gateway HTTP ' + xhr.status));
@@ -8734,66 +9106,17 @@
             fileData.driveId = gwRes.fileId;
             fileData.lh3Url = gwRes.lh3Url;
             fileData.viewUrl = gwRes.viewUrl;
-            fileData.progress = 100;
+            finalizeFileUploadSuccess(fileData);
             return;
           }
-        } catch (gwErr) {
-          console.warn('[Gateway Direct Upload thất bại, chuyển sang Fallback Direct Google Drive API]:', gwErr.message);
+        } catch (t3Err) {
+          console.error('[Tầng 3 Local Gateway thất bại]:', t3Err.message || t3Err);
         }
 
-        // Ưu tiên 2: Fallback Direct Google Drive Resumable API
-        var token = await getSmartDriveOAuthToken();
-        if (!token || token === 'dummy_demo_token') {
-          throw new Error('Chưa có quyền xác thực Google Drive để tải lên.');
-        }
-
-        var metadata = { name: fileData.name, parents: [folderId] };
-        var locationUrl = await new Promise(function (resolve, reject) {
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true', true);
-          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.setRequestHeader('X-Upload-Content-Type', fileData.mimeType);
-          xhr.setRequestHeader('X-Upload-Content-Length', file.size);
-          xhr.onload = function () {
-            if (xhr.status === 200) resolve(xhr.getResponseHeader('Location'));
-            else reject(new Error('Khởi tạo ống tải thất bại: ' + xhr.responseText));
-          };
-          xhr.onerror = function () { reject(new Error('Mất mạng khi khởi tạo')); };
-          xhr.send(JSON.stringify(metadata));
-        });
-
-        if (!locationUrl) throw new Error('Không nhận được địa chỉ ống tải Google Drive.');
-
-        var start = 0;
-        var retryCount = 0;
-        while (start < file.size && isSmartUploadingActive) {
-          var end = Math.min(start + CHUNK_SIZE_SMART, file.size);
-          var chunk = file.slice(start, end);
-          try {
-            token = await getSmartDriveOAuthToken();
-            var res = await sendSingleChunkPromise(locationUrl, chunk, start, end - 1, file.size, token, fileData);
-            if (res.code === 308) {
-              start = end;
-              retryCount = 0;
-            } else if (res.code === 200 || res.code === 201) {
-              var driveId = res.driveId;
-              fileData.driveId = driveId;
-              fileData.lh3Url = 'https://lh3.googleusercontent.com/d/' + driveId;
-              fileData.progress = 100;
-              if (typeof google !== 'undefined' && google.script && google.script.run && driveId) {
-                google.script.run.finalizeDriveFilePermissions(driveId);
-              }
-              return;
-            } else {
-              throw new Error('Mã trạng thái lạ: ' + res.code);
-            }
-          } catch (chunkErr) {
-            retryCount++;
-            if (retryCount > 2) throw new Error('Thất bại khi gửi dữ liệu: ' + chunkErr.message);
-            await new Promise(function (r) { setTimeout(r, 1500); });
-          }
-        }
+        // =========================================================================
+        // CẢ 3 TẦNG ĐỀU LỖI: HIỂN THỊ ĐÚNG CÂU CHỮ THEO YÊU CẦU CỦA ANH ĐỨC
+        // =========================================================================
+        throw new Error('hệ thống upload media đang lỗi, vui lòng liên hệ nhờ hỗ trợ từ anh Đức và team!');
       }
 
       function sendSingleChunkPromise(url, chunkBlob, start, end, totalSize, token, fileData) {
@@ -8807,17 +9130,7 @@
             if (e.lengthComputable && isSmartUploadingActive) {
               var uploadedThisChunk = e.loaded;
               var filePercent = Math.round(((start + uploadedThisChunk) / totalSize) * 100);
-              fileData.progress = filePercent;
-
-              var pBar = document.getElementById('smartProg_' + fileData.id);
-              var pText = document.getElementById('smartProgText_' + fileData.id);
-              if (pBar) pBar.style.width = filePercent + '%';
-              if (pText) pText.innerText = 'Đang tải: ' + filePercent + '%';
-
-              var prevUploaded = fileData.uploadedBytes || 0;
-              fileData.uploadedBytes = start + uploadedThisChunk;
-              smartGlobalUploadStats.uploadedBytes += (fileData.uploadedBytes - prevUploaded);
-              updateSmartGlobalUI();
+              updateFileProgressUI(fileData, filePercent, start + uploadedThisChunk);
             }
           };
 
