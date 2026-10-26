@@ -1931,6 +1931,18 @@
       padding: 18px 20px;
       box-shadow: var(--ap-shadow-card);
     }
+    .ap-media-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .ap-media-hub-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
     .panel-section-title {
       display: flex;
       align-items: center;
@@ -4016,17 +4028,16 @@
 
           
           <!-- =====================================================================
-               SECTION: TRẠM UPLOAD TƯ LIỆU MEDIA & DRIVE HUB (CHUẨN TDCM TEAM APP)
-               Học hỏi toàn bộ luồng, kỹ thuật Smart Resumable Chunking 5MB & Nén ảnh Compact
+               SECTION: UPLOAD MEDIA - AP CAR CARE & HỌC VIỆN DETAILING VIỆT NAM
+               Tối giản chuyên nghiệp 2 cột: Quản lý Kho Media & Trình Upload Nhanh
                ===================================================================== -->
           <div class="home-panel" id="apMediaUploaderHubPanel" style="margin-bottom: 24px;">
             <div class="panel-section-title" style="margin-bottom: 18px;">
               <span class="panel-label">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="12 11 12 17 14 15"></polyline></svg>
-                <span>TRẠM UPLOAD TƯ LIỆU MEDIA &amp; DRIVE HUB (CHUẨN SMART RESUMABLE CHUNKING V5)</span>
+                <span>UPLOAD MEDIA - AP CAR CARE &amp; HỌC VIỆN DETAILING VIỆT NAM</span>
               </span>
               <div style="display: flex; gap: 8px; align-items: center;">
-                <span class="ap-org-tier-badge" style="background: rgba(0, 102, 255, 0.15); border: 1px solid rgba(0, 102, 255, 0.4); color: #60A5FA;">BĂM KHÚC CHUNK 5MB • HỖ TRỢ FILE &gt; 400MB</span>
                 <button type="button" class="btn-dark-glass" onclick="window.refreshMediaExplorerFiles()" title="Quét lại tệp mới nhất từ Drive">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                   <span>LÀM MỚI KHO</span>
@@ -4034,14 +4045,15 @@
               </div>
             </div>
 
-            <!-- LƯỚI 3 THẺ NGHIỆP VỤ: KHO TƯ LIỆU + SMART UPLOADER + NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start;">
+            <!-- LƯỚI 2 CỘT TỐI GIẢN: QUẢN LÝ KHO MEDIA + TRÌNH UPLOAD NHANH -->
+            <div class="ap-media-hub-grid">
 
-              <!-- THẺ 1: QUẢN LÝ KHO TƯ LIỆU DRIVE AP CAR CARE -->
+              <!-- THẺ 1: QUẢN LÝ KHO MEDIA -->
               <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
                   <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: var(--ap-accent); font-weight: 700; font-size: 13.5px; text-transform: uppercase;">📂 KHO TƯ LIỆU DRIVE AP</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ap-accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <span style="color: var(--ap-accent); font-weight: 700; font-size: 13.5px; text-transform: uppercase;">QUẢN LÝ KHO MEDIA</span>
                   </div>
                   <span id="badgeFolderTotalFiles" style="font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(0, 102, 255, 0.12); color: #60A5FA; font-weight: 700;">0 tệp</span>
                 </div>
@@ -4049,7 +4061,7 @@
                 <div>
                   <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đang chọn:</div>
                   <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
-                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">📁 test AI edit (Shared Drive AP CAR CARE)</option>
+                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">test AI edit (Shared Drive AP CAR CARE)</option>
                   </select>
                 </div>
 
@@ -4063,37 +4075,57 @@
                     <span style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading);">Tệp trong thư mục:</span>
                     <span style="font-size: 11px; color: var(--ap-text-muted);">Bấm để xem hoặc chọn làm Video Raw</span>
                   </div>
-                  <div id="mediaFilesContainer" style="background: rgba(0, 0, 0, 0.22); border: 1px solid var(--ap-border-subtle); border-radius: 12px; height: 260px; overflow-y: auto; padding: 12px;">
-                    <div style="text-align: center; color: var(--ap-text-muted); font-size: 12.5px; padding-top: 60px;">Đang quét tệp trong Drive AP CAR CARE...</div>
+                  <div id="mediaFilesContainer" style="background: rgba(0, 0, 0, 0.22); border: 1px solid var(--ap-border-subtle); border-radius: 12px; height: 320px; overflow-y: auto; padding: 12px;">
+                    <div style="text-align: center; color: var(--ap-text-muted); font-size: 12.5px; padding-top: 80px;">Đang quét tệp trong Drive AP CAR CARE...</div>
                   </div>
                 </div>
               </div>
 
-              <!-- THẺ 2: SMART UPLOAD TƯ LIỆU MỚI (CHUNKING 5MB + ĐA LUỒNG) -->
+              <!-- THẺ 2: TRÌNH UPLOAD NHANH -->
               <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
                   <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: #10B981; font-weight: 700; font-size: 13.5px; text-transform: uppercase;">📤 SMART UPLOAD (VÔ HẠN FILE)</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span style="color: #10B981; font-weight: 700; font-size: 13.5px; text-transform: uppercase;">TRÌNH UPLOAD NHANH</span>
                   </div>
-                  <span style="font-size: 11px; color: var(--ap-text-muted);">Bỏ qua giới hạn 50MB</span>
                 </div>
 
                 <div>
                   <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đích lưu trữ:</div>
                   <select id="selMediaTargetFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
-                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">📁 test AI edit (Shared Drive AP CAR CARE)</option>
+                    <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">test AI edit (Shared Drive AP CAR CARE)</option>
                   </select>
                 </div>
 
-                <!-- DROPZONE TẢI LÊN -->
+                <!-- DROPZONE TẢI LÊN TỪ MÁY -->
                 <div style="border: 2px dashed rgba(0, 102, 255, 0.35); background: rgba(0, 102, 255, 0.04); border-radius: 14px; padding: 22px 14px; text-align: center; transition: all 0.25s ease;" id="boxSmartUploadDropzone">
-                  <div style="font-size: 28px; margin-bottom: 6px;">📥</div>
+                  <div style="margin-bottom: 8px;">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--ap-accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m16 16-4-4-4 4"></path></svg>
+                  </div>
                   <div style="font-weight: 700; color: var(--ap-text-heading); font-size: 13.5px; margin-bottom: 4px;">Kéo thả Ảnh / Video hoặc bấm chọn từ máy</div>
-                  <div style="font-size: 11.5px; color: var(--ap-text-muted); margin-bottom: 14px;">Hỗ trợ MP4, MOV, MKV, JPG, PNG, WEBP (Tự động băm 5MB/khúc)</div>
+                  <div style="font-size: 11.5px; color: var(--ap-text-muted); margin-bottom: 14px;">Hỗ trợ định dạng MP4, MOV, MKV, JPG, PNG, WEBP</div>
                   <input type="file" id="inputSmartMediaFile" multiple accept="image/*,video/*" style="display: none;" onchange="window.handleSmartMediaFilesSelect(this)" />
-                  <button type="button" class="btn-dark-glass" onclick="document.getElementById('inputSmartMediaFile').click()" style="background: linear-gradient(135deg, rgba(0, 102, 255, 0.8) 0%, rgba(10, 108, 255, 0.95) 100%); color: #FFF; border: none; font-weight: 700;">
+                  <button type="button" class="btn-dark-glass" onclick="document.getElementById('inputSmartMediaFile').click()" style="background: linear-gradient(135deg, rgba(0, 102, 255, 0.8) 0%, rgba(10, 108, 255, 0.95) 100%); color: #FFF; border: none; font-weight: 700; padding: 9px 20px;">
                     + CHỌN TỆP TỪ THIẾT BỊ
                   </button>
+
+                  <!-- BỔ SUNG Ô INPUT LINK GOOGLE DRIVE -->
+                  <div style="display: flex; align-items: center; gap: 10px; margin: 18px 0 12px 0;">
+                    <div style="flex: 1; height: 1px; background: var(--ap-border-subtle);"></div>
+                    <span style="font-size: 10.5px; font-weight: 700; color: var(--ap-text-muted); letter-spacing: 0.5px; text-transform: uppercase;">Hoặc dán link Google Drive</span>
+                    <div style="flex: 1; height: 1px; background: var(--ap-border-subtle);"></div>
+                  </div>
+
+                  <div style="display: flex; gap: 8px;">
+                    <input type="text" id="inputDriveLinkTransfer" placeholder="Dán link Google Drive (tệp hoặc thư mục) cần chuyển..." class="ap-sidebar-mini-input" style="flex: 1; height: 38px; border-radius: 10px; font-size: 12px;" />
+                    <button type="button" id="btnTransferDriveLink" class="btn-dark-glass" onclick="window.handleTransferDriveLink()" style="height: 38px; padding: 0 16px; font-weight: 700; font-size: 12px; background: rgba(0, 102, 255, 0.18); border: 1px solid rgba(0, 102, 255, 0.4); color: #60A5FA; display: inline-flex; align-items: center; gap: 6px;" title="Nạp tự động vào thư mục đích">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                      <span>NẠP TỪ DRIVE</span>
+                    </button>
+                  </div>
+
+                  <!-- DÒNG BÁO LỖI MÀU ĐỎ HOẶC BÁO KẾT QUẢ TỪNG FILE -->
+                  <div id="driveTransferStatusBox" style="display: none; margin-top: 10px; padding: 10px 12px; border-radius: 10px; font-size: 11.5px; line-height: 1.5; text-align: left;"></div>
                 </div>
 
                 <!-- BẢNG TIẾN ĐỘ TỔNG THỂ GLOBAL PROGRESS -->
@@ -4115,49 +4147,8 @@
 
                 <button type="button" id="btnSubmitSmartMedia" class="btn-publish-3d" onclick="window.submitSmartMediaUploadProcess()" style="display: none; width: 100%; margin-top: 4px;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                  <span>BẮT ĐẦU TẢI LÊN DRIVE AP (CHUNKING)</span>
+                  <span>BẮT ĐẦU TẢI LÊN DRIVE AP</span>
                 </button>
-              </div>
-
-              <!-- THẺ 3: CÔNG CỤ NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET (< 10KB BASE64 / LINK LH3) -->
-              <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="color: #F59E0B; font-weight: 700; font-size: 13.5px; text-transform: uppercase;">⚡ NÉN ẢNH GỌN NHẸ VÀO 1 Ô SHEET</span>
-                  </div>
-                  <span class="ap-org-tier-badge" style="background: rgba(245, 158, 11, 0.12); color: #FBBF24; font-size: 10px;">CHỐNG TRÀN 50K KÝ TỰ</span>
-                </div>
-
-                <div style="font-size: 12px; color: var(--ap-text-muted); line-height: 1.5;">
-                  Kỹ thuật từ TDCM Team App: Tự động nén qua HTML5 Canvas xuống kích thước <strong style="color: var(--ap-text-heading);">150px (JPEG 80%)</strong>, dung lượng chỉ <strong style="color: #10B981;">3-8 KB</strong> (&lt; 10.000 ký tự Base64), lưu an toàn 100% vào ô Sheet mà không lo giật lag bảng tính!
-                </div>
-
-                <div style="display: flex; gap: 12px; align-items: center;">
-                  <div style="width: 72px; height: 72px; border-radius: 12px; border: 1px dashed var(--ap-border-subtle); background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;" id="compactImgPreviewBox">
-                    <span style="font-size: 24px; color: var(--ap-text-muted);">📷</span>
-                  </div>
-                  <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
-                    <input type="file" id="inputCompactImgFile" accept="image/*" style="display: none;" onchange="window.handleCompactImageSelect(this)" />
-                    <button type="button" class="btn-dark-glass" onclick="document.getElementById('inputCompactImgFile').click()" style="height: 34px; font-size: 12px; justify-content: center;">
-                      + CHỌN ẢNH CẦN NÉN
-                    </button>
-                    <div id="compactImgStatsText" style="font-size: 11px; color: var(--ap-text-muted);">Chưa chọn ảnh</div>
-                  </div>
-                </div>
-
-                <div style="display: flex; flex-direction: column; gap: 6px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 11.5px; font-weight: 700; color: var(--ap-text-heading);">Mã chèn ô Google Sheet:</span>
-                    <button type="button" class="btn-quick-tag" onclick="window.copyCompactImageOutput()" id="btnCopyCompactOutput" style="display: none;">Sao chép mã</button>
-                  </div>
-                  <textarea id="txtCompactImageOutput" class="home-textarea" style="height: 70px; font-family: var(--font-mono); font-size: 11px; line-height: 1.4; padding: 8px;" readonly placeholder="Mã Base64 hoặc công thức =IMAGE(&quot;https://lh3.googleusercontent.com/d/ID&quot;) sẽ xuất hiện tại đây..."></textarea>
-                </div>
-
-                <div style="display: flex; gap: 8px;">
-                  <button type="button" class="btn-dark-glass" onclick="window.applyCompactImageToAvatar()" id="btnApplyAsAvatar" style="display: none; flex: 1; height: 34px; font-size: 11.5px; color: #60A5FA;">
-                    Gắn làm Avatar Profile
-                  </button>
-                </div>
               </div>
 
             </div>
@@ -8205,6 +8196,76 @@
         var sel = document.getElementById('selMediaParentFolder');
         var fId = sel ? sel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
         window.loadMediaFolderFiles(fId);
+      };
+
+      window.handleTransferDriveLink = function () {
+        var inputEl = document.getElementById('inputDriveLinkTransfer');
+        var targetSelect = document.getElementById('selMediaTargetFolder');
+        var statusBox = document.getElementById('driveTransferStatusBox');
+        var btn = document.getElementById('btnTransferDriveLink');
+        if (!inputEl || !statusBox) return;
+
+        var url = (inputEl.value || '').trim();
+        var targetFolderId = targetSelect ? targetSelect.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+
+        if (!url) {
+          statusBox.style.display = 'block';
+          statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
+          statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+          statusBox.style.color = '#EF4444';
+          statusBox.innerHTML = '<span style="font-weight:700;">Lỗi:</span> Vui lòng dán liên kết Google Drive (tệp hoặc thư mục) hợp lệ.';
+          return;
+        }
+
+        // Đang xử lý
+        statusBox.style.display = 'block';
+        statusBox.style.background = 'rgba(0, 102, 255, 0.08)';
+        statusBox.style.border = '1px solid rgba(0, 102, 255, 0.3)';
+        statusBox.style.color = '#60A5FA';
+        statusBox.innerHTML = 'Đang kết nối Drive và sao chép tệp vào kho đích...';
+        if (btn) btn.disabled = true;
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (res) {
+              if (btn) btn.disabled = false;
+              if (res && res.success) {
+                statusBox.style.background = 'rgba(16, 185, 129, 0.12)';
+                statusBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+                statusBox.style.color = '#10B981';
+                var msg = res.message || 'Đã nạp tệp thành công vào kho đích!';
+                if (res.failedList && res.failedList.length > 0) {
+                  msg += '<br/><span style="color:#EF4444;font-size:11px;">Một số tệp lỗi: ' + res.failedList.map(function(f){ return f.name + ' (' + f.error + ')'; }).join(', ') + '</span>';
+                }
+                statusBox.innerHTML = '<span style="font-weight:700;">Thành công:</span> ' + msg;
+                inputEl.value = '';
+                window.refreshMediaExplorerFiles();
+              } else {
+                statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
+                statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+                statusBox.style.color = '#EF4444';
+                var errDetail = res ? (res.error || res.message) : 'Không thể sao chép tệp từ Drive.';
+                statusBox.innerHTML = '<span style="font-weight:700;">Lỗi nạp tệp:</span> ' + errDetail;
+              }
+            })
+            .withFailureHandler(function (err) {
+              if (btn) btn.disabled = false;
+              statusBox.style.background = 'rgba(239, 68, 68, 0.12)';
+              statusBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+              statusBox.style.color = '#EF4444';
+              statusBox.innerHTML = '<span style="font-weight:700;">Lỗi hệ thống:</span> ' + (err ? err.toString() : 'Gián đoạn kết nối');
+            })
+            .transferDriveLinkToTargetFolder(url, targetFolderId);
+        } else {
+          setTimeout(function () {
+            if (btn) btn.disabled = false;
+            statusBox.style.background = 'rgba(16, 185, 129, 0.12)';
+            statusBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+            statusBox.style.color = '#10B981';
+            statusBox.innerHTML = '<span style="font-weight:700;">Thành công:</span> [Mô phỏng] Đã tiếp nhận link Drive và kết nối kho lưu trữ.';
+            inputEl.value = '';
+          }, 800);
+        }
       };
 
       window.loadMediaFolderTree = function () {
