@@ -3365,20 +3365,60 @@
 
     /* HIỆU ỨNG GRADIENT CHUYỂN ĐỘNG TỪ TRÁI SANG PHẢI (XANH - TRẮNG) */
     @keyframes apFlowLeftToRight {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
-    /* Thanh tổng màu xanh lá cây có dải trắng quét từ trái sang phải */
+    /* Thanh tổng màu xanh lá cây có dải trắng sáng quét từ trái sang phải */
     .ap-progress-flow-green {
-      background: linear-gradient(90deg, #10B981 0%, #10B981 35%, rgba(255, 255, 255, 0.75) 50%, #10B981 65%, #10B981 100%) !important;
+      background: linear-gradient(90deg, #10B981 0%, #10B981 25%, #FFFFFF 50%, #10B981 75%, #10B981 100%) !important;
       background-size: 200% 100% !important;
-      animation: apFlowLeftToRight 1.5s linear infinite !important;
+      animation: apFlowLeftToRight 1.3s linear infinite !important;
     }
-    /* Thanh con màu xanh dương có dải trắng quét từ trái sang phải */
+    /* Thanh con màu xanh dương có dải trắng sáng quét từ trái sang phải */
     .ap-progress-flow-blue {
-      background: linear-gradient(90deg, #0066FF 0%, #0066FF 35%, rgba(255, 255, 255, 0.8) 50%, #0066FF 65%, #0066FF 100%) !important;
+      background: linear-gradient(90deg, #0066FF 0%, #0066FF 25%, #FFFFFF 50%, #0066FF 75%, #0066FF 100%) !important;
       background-size: 200% 100% !important;
-      animation: apFlowLeftToRight 1.5s linear infinite !important;
+      animation: apFlowLeftToRight 1.3s linear infinite !important;
+    }
+
+    /* TIÊU ĐỀ BẢNG LIST VIEW 2 HÀNG TRÊN MOBILE */
+    .ap-br-mobile {
+      display: none;
+    }
+    .ap-th-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    @media (max-width: 768px) {
+      .ap-br-mobile {
+        display: inline;
+      }
+      .media-list-table th {
+        white-space: normal !important;
+        word-break: break-word !important;
+        line-height: 1.25 !important;
+        padding: 6px 4px !important;
+        font-size: 10px !important;
+        vertical-align: middle !important;
+      }
+      .ap-th-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+      }
+    }
+
+    /* SECTION 3: LƯỚI 2 CỘT 50-50 CÂN ĐỐI TRÊN PC/LAPTOP */
+    @media (min-width: 1025px) {
+      #mktSec3Body.ap-media-hub-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+        gap: 20px !important;
+        align-items: start !important;
+      }
     }
 
     /* RESPONSIVE MOBILE KHO MEDIA */
@@ -3967,14 +4007,17 @@
               </div>
               <h1 class="home-title">PHÒNG MARKETING &amp; TRẠM XUẤT BẢN ĐA KÊNH</h1>
             </div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <button type="button" class="btn-dark-glass" id="btnImportFromJavis">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                <span>Kéo Kịch Bản Từ Javis AI</span>
-              </button>
-              <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec1')" title="Thu gọn / Mở rộng Section 1">
-                <span id="iconToggleSec1">▼</span>
-              </button>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;margin-left:auto;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <button type="button" class="btn-dark-glass" id="btnImportFromJavis" onclick="window.showFeatureDevelopingNotice('msgDevelopingJavis')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  <span>Kéo Kịch Bản Từ Javis AI</span>
+                </button>
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec1')" title="Thu gọn / Mở rộng Section 1" style="margin-left:4px;">
+                  <span id="iconToggleSec1">▼</span>
+                </button>
+              </div>
+              <div id="msgDevelopingJavis" style="display:none;color:#EF4444;font-size:11px;font-weight:600;margin-top:4px;white-space:nowrap;">Chức năng này đang được phát triển...</div>
             </div>
           </div>
 
@@ -4014,10 +4057,13 @@
                 <div class="ap-ai-headline">Video Reels "Test Loa Focal Trên Porsche 911" đạt tỷ lệ giữ chân 68% — Đề xuất tăng ngân sách thêm 1.500.000 đ/ngày cho tệp Quận 7.</div>
               </div>
             </div>
-            <button type="button" class="btn-dark-glass" onclick="window.approveAiRecommendation('DEPT_MKT', 'Duyệt tăng ngân sách Reels Focal K2 Power +1.500.000đ/ngày')">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>DUYỆT TỐI ƯU ADS</span>
-            </button>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;">
+              <button type="button" class="btn-dark-glass" onclick="window.showFeatureDevelopingNotice('msgDevelopingAds')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>DUYỆT TỐI ƯU ADS</span>
+              </button>
+              <div id="msgDevelopingAds" style="display:none;color:#EF4444;font-size:11px;font-weight:600;margin-top:4px;white-space:nowrap;">Chức năng này đang được phát triển...</div>
+            </div>
           </div>
 
           <div class="publisher-layout" style="display: none !important;" id="boxPostPublisherLegacy">
@@ -4148,12 +4194,12 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="12 11 12 17 14 15"></polyline></svg>
                 <span>UPLOAD MEDIA - AP CAR CARE &amp; HỌC VIỆN DETAILING VIỆT NAM</span>
               </span>
-              <div style="display: flex; gap: 8px; align-items: center;">
+              <div style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
                 <button type="button" class="btn-dark-glass" onclick="window.refreshMediaExplorerFiles()" title="Quét lại tệp mới nhất từ Drive">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                   <span>LÀM MỚI KHO</span>
                 </button>
-                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec3')" title="Thu gọn / Mở rộng Section 3">
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec3')" title="Thu gọn / Mở rộng Section 3" style="margin-left:4px;">
                   <span id="iconToggleSec3">▼</span>
                 </button>
               </div>
@@ -4174,7 +4220,7 @@
 
                 <div>
                   <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đang chọn:</div>
-                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)" onfocus="window.loadMediaFolderTree(true)" onclick="window.loadMediaFolderTree(true)">
+                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)" onmousedown="window.loadMediaFolderTree(true)" onfocus="window.loadMediaFolderTree(true)">
                     <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">test AI edit (Shared Drive AP CAR CARE)</option>
                   </select>
                 </div>
@@ -4286,7 +4332,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                 <span>BẢNG EDIT VIDEO AI (SKILL #0 → #7) &amp; MIND-MAP SCHEMATIC CANVAS — SHEET TT-MKT</span>
               </span>
-              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto;">
                 <span class="char-badge">Field Map: TT_MKT_VIDEO_FIELD_MAP (Cột B → W)</span>
                 <button type="button" class="btn-dark-glass" id="btnSaveVideoProjectToBackend" onclick="window.saveVideoStudioProjectToSheet()">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -4583,9 +4629,9 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
                 <span>DANH SÁCH DỰ ÁN EDIT VIDEO LƯU TẠI SHEET "TT-MKT" BACKEND (HEADER DÒNG 10 • DATA DÒNG 12+)</span>
               </span>
-              <div style="display:flex;align-items:center;gap:8px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
                 <span class="char-badge">Đồng bộ trực tiếp với Google Sheet TT-MKT</span>
-                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec5')" title="Thu gọn / Mở rộng Section 5">
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec5')" title="Thu gọn / Mở rộng Section 5" style="margin-left:4px;">
                   <span id="iconToggleSec5">▼</span>
                 </button>
               </div>
@@ -5770,7 +5816,18 @@
                 applySavedSidebarOrderToConfig(userPref.sidebarOrder);
               }
               if (userPref && userPref.mktSections) {
-                window.apMktSectionsCollapseState = userPref.mktSections;
+                
+      window.showFeatureDevelopingNotice = function (noticeId) {
+        var el = document.getElementById(noticeId);
+        if (!el) return;
+        el.style.display = 'block';
+        if (el._timer) clearTimeout(el._timer);
+        el._timer = setTimeout(function () {
+          el.style.display = 'none';
+        }, 4500);
+      };
+
+      window.apMktSectionsCollapseState = userPref.mktSections;
                 if (typeof window.applyMktSectionsCollapseFromState === 'function') {
                   window.applyMktSectionsCollapseFromState();
                 }
@@ -6127,7 +6184,8 @@
           var bodyEl = document.getElementById('mkt' + k.charAt(0).toUpperCase() + k.slice(1) + 'Body');
           var iconEl = document.getElementById('iconToggle' + k.charAt(0).toUpperCase() + k.slice(1));
           if (bodyEl) {
-            bodyEl.style.display = isCollapsed ? 'none' : 'block';
+            // Khi mở rộng: xóa display inline (display = '') để nhận diện đúng CSS tự nhiên (grid 4 ô của sec1, grid 2 cột 50-50 của sec3)
+            bodyEl.style.display = isCollapsed ? 'none' : '';
           }
           if (iconEl) {
             iconEl.style.transform = isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)';
@@ -8487,8 +8545,8 @@
       var lastFolderTreeLoadTime = 0;
       window.loadMediaFolderTree = function (forceRefresh) {
         var now = Date.now();
-        if (!forceRefresh && (now - lastFolderTreeLoadTime < 4000) && smartFolderTree && smartFolderTree.length) {
-          return; // Bỏ qua nếu vừa load trong vòng 4s để dropdown không giật
+        if (!forceRefresh && (now - lastFolderTreeLoadTime < 3000) && smartFolderTree && smartFolderTree.length > 1) {
+          return;
         }
         lastFolderTreeLoadTime = now;
 
@@ -8496,10 +8554,31 @@
         var selParent = document.getElementById('selMediaParentFolder');
         if (selParent && selParent.value) currentSelectedId = selParent.value;
 
+        function fetchFoldersFromGatewayFallback() {
+          fetch('https://gateway.triduccar.media/v1/drive/files?folderId=1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT')
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+              if (res && res.success && Array.isArray(res.data)) {
+                var gTree = [{ id: '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT', name: 'Thư mục gốc (test AI edit)', level: 0 }];
+                res.data.forEach(function (item) {
+                  if (item.mimeType === 'application/vnd.google-apps.folder') {
+                    gTree.push({ id: item.id, name: item.name, level: 1 });
+                  }
+                });
+                smartFolderTree = gTree;
+                renderMediaFolderTreeOptions();
+                if (currentSelectedId) {
+                  window.syncMediaFolderSelection(currentSelectedId);
+                }
+              }
+            })
+            .catch(function () {});
+        }
+
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run
             .withSuccessHandler(function (res) {
-              if (res && res.success && Array.isArray(res.data)) {
+              if (res && res.success && Array.isArray(res.data) && res.data.length > 1) {
                 smartFolderTree = res.data;
                 renderMediaFolderTreeOptions();
                 if (currentSelectedId) {
@@ -8508,15 +8587,15 @@
                   window.syncMediaFolderSelection(smartFolderTree[0].id);
                 }
               } else {
-                renderDefaultMediaFolderTree();
+                fetchFoldersFromGatewayFallback();
               }
             })
             .withFailureHandler(function () {
-              renderDefaultMediaFolderTree();
+              fetchFoldersFromGatewayFallback();
             })
             .getMediaFolderTree('1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
         } else {
-          renderDefaultMediaFolderTree();
+          fetchFoldersFromGatewayFallback();
         }
       };
 
@@ -9003,17 +9082,16 @@
           html += '<button type="button" class="btn-clear-input" onclick="window.removeSmartMediaFile(' + idx + ')" style="' + hideBtn + 'padding:2px 6px;font-size:11px;">✖</button>';
           html += '</div>';
 
-          html += '<div style="width:100%;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:6px;overflow:hidden;' + showProg + '">';
-          html += '<div id="smartProg_' + f.id + '" style="width:' + f.progress + '%;height:100%;background:' + barColor + ';transition:width 0.2s linear;"></div>';
+          var isUploading = f.status === 'uploading';
+          var isDone = f.status === 'done';
+          var flowClass = isUploading ? ' ap-progress-flow-blue' : '';
+          var barBgStyle = isDone ? 'background:#10B981;' : (f.status === 'error' ? 'background:#EF4444;' : (isUploading ? '' : 'background:#0066FF;'));
+          html += '<div style="width:100%;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;margin-top:6px;overflow:hidden;' + showProg + '">';
+          html += '<div id="smartProg_' + f.id + '" class="' + flowClass + '" style="width:' + f.progress + '%;height:100%;' + barBgStyle + 'transition:width 0.2s linear;"></div>';
           html += '</div>';
           html += '<div id="smartProgText_' + f.id + '" style="font-size:10px;font-weight:700;color:' + barColor + ';text-align:right;margin-top:3px;' + showProg + '">' + statusText + '</div>';
 
-          if (f.status === 'done' && f.lh3Url) {
-            html += '<div style="margin-top:6px;padding:4px 8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:10.5px;display:flex;align-items:center;justify-content:space-between;gap:6px;">';
-            html += '<span style="color:#60A5FA;word-break:break-all;">' + f.lh3Url + '</span>';
-            html += '<button type="button" class="btn-quick-tag" onclick="copyToClipboardText(\'' + f.lh3Url + '\');" style="padding:2px 8px;font-size:10px;">Copy LH3</button>';
-            html += '</div>';
-          }
+          // Đã bỏ dòng text LH3 theo yêu cầu của anh Đức
           if (f.status === 'error') {
             html += '<div style="margin-top:4px;font-size:10.5px;color:#EF4444;line-height:1.4;">' + (f.errorMsg || 'Không thể tải lên') + '</div>';
           }
