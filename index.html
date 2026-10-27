@@ -4220,7 +4220,7 @@
 
                 <div>
                   <div style="font-size: 12px; font-weight: 700; color: var(--ap-text-heading); margin-bottom: 6px;">Thư mục đang chọn:</div>
-                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)" onmousedown="window.loadMediaFolderTree(true)" onfocus="window.loadMediaFolderTree(true)">
+                  <select id="selMediaParentFolder" class="ap-sidebar-mini-input" style="width: 100%; height: 38px; border-radius: 10px;" onchange="window.syncMediaFolderSelection(this.value)">
                     <option value="1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT">test AI edit (Shared Drive AP CAR CARE)</option>
                   </select>
                 </div>
@@ -8451,17 +8451,25 @@
         window.loadMediaFolderTree();
       };
 
+      window.apCurrentSelectedFolderId = '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+
       window.syncMediaFolderSelection = function (folderId) {
+        if (!folderId) return;
+        window.apCurrentSelectedFolderId = folderId;
         var selParent = document.getElementById('selMediaParentFolder');
         var selTarget = document.getElementById('selMediaTargetFolder');
-        if (selParent) selParent.value = folderId;
-        if (selTarget) selTarget.value = folderId;
+        if (selParent && selParent.value !== folderId) {
+          selParent.value = folderId;
+        }
+        if (selTarget && selTarget.value !== folderId) {
+          selTarget.value = folderId;
+        }
         window.loadMediaFolderFiles(folderId);
       };
 
       window.refreshMediaExplorerFiles = function () {
-        var sel = document.getElementById('selMediaParentFolder');
-        var fId = sel ? sel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var fId = window.apCurrentSelectedFolderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        window.loadMediaFolderTree(true, fId);
         window.loadMediaFolderFiles(fId);
       };
 
@@ -8474,7 +8482,7 @@
 
         var url = (inputEl.value || '').trim();
         var parentSelect = document.getElementById('selMediaParentFolder');
-        var targetFolderId = (parentSelect && parentSelect.value) ? parentSelect.value : (targetSelect ? targetSelect.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+        var targetFolderId = window.apCurrentSelectedFolderId || (parentSelect && parentSelect.value) ? (window.apCurrentSelectedFolderId || parentSelect.value) : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
 
         if (!url) {
           statusBox.style.display = 'block';
@@ -8543,16 +8551,17 @@
       };
 
       var lastFolderTreeLoadTime = 0;
-      window.loadMediaFolderTree = function (forceRefresh) {
+      window.loadMediaFolderTree = function (forceRefresh, targetFolderToSelect) {
         var now = Date.now();
         if (!forceRefresh && (now - lastFolderTreeLoadTime < 3000) && smartFolderTree && smartFolderTree.length > 1) {
           return;
         }
         lastFolderTreeLoadTime = now;
 
-        var currentSelectedId = '';
-        var selParent = document.getElementById('selMediaParentFolder');
-        if (selParent && selParent.value) currentSelectedId = selParent.value;
+        if (targetFolderToSelect) {
+          window.apCurrentSelectedFolderId = targetFolderToSelect;
+        }
+        var activeId = window.apCurrentSelectedFolderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
 
         function fetchFoldersFromGatewayFallback() {
           fetch('https://gateway.triduccar.media/v1/drive/files?folderId=1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT')
@@ -8567,9 +8576,9 @@
                 });
                 smartFolderTree = gTree;
                 renderMediaFolderTreeOptions();
-                if (currentSelectedId) {
-                  window.syncMediaFolderSelection(currentSelectedId);
-                }
+                var targetId = window.apCurrentSelectedFolderId || activeId;
+                var selParent = document.getElementById('selMediaParentFolder');
+                if (selParent) selParent.value = targetId;
               }
             })
             .catch(function () {});
@@ -8581,11 +8590,9 @@
               if (res && res.success && Array.isArray(res.data) && res.data.length > 1) {
                 smartFolderTree = res.data;
                 renderMediaFolderTreeOptions();
-                if (currentSelectedId) {
-                  window.syncMediaFolderSelection(currentSelectedId);
-                } else if (smartFolderTree.length > 0) {
-                  window.syncMediaFolderSelection(smartFolderTree[0].id);
-                }
+                var targetId = window.apCurrentSelectedFolderId || activeId;
+                var selParent = document.getElementById('selMediaParentFolder');
+                if (selParent) selParent.value = targetId;
               } else {
                 fetchFoldersFromGatewayFallback();
               }
@@ -8613,23 +8620,24 @@
         var selParent = document.getElementById('selMediaParentFolder');
         var selTarget = document.getElementById('selMediaTargetFolder');
         var html = '';
-        var prevVal = selParent ? selParent.value : '';
+        var targetSelectId = window.apCurrentSelectedFolderId || (selParent ? selParent.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+
         (smartFolderTree || []).forEach(function (f) {
-          // Bỏ qua nếu là file (chỉ hiển thị thư mục con)
           if (f.mimeType && f.mimeType.indexOf('folder') === -1 && f.level !== 0) return;
           var indent = '';
           for (var i = 0; i < (f.level || 0); i++) { indent += '&nbsp;&nbsp;&nbsp;&nbsp;'; }
           var prefix = f.level === 0 ? '' : ' ├─ 📁 ';
           var cleanName = (f.name || '').replace(/^[📁\s├─]+/, '');
-          html += '<option value="' + f.id + '">' + indent + prefix + cleanName + '</option>';
+          var isSelected = (f.id === targetSelectId) ? ' selected' : '';
+          html += '<option value="' + f.id + '"' + isSelected + '>' + indent + prefix + cleanName + '</option>';
         });
         if (selParent) {
           selParent.innerHTML = html;
-          if (prevVal) selParent.value = prevVal;
+          selParent.value = targetSelectId;
         }
         if (selTarget) {
           selTarget.innerHTML = html;
-          if (prevVal) selTarget.value = prevVal;
+          selTarget.value = targetSelectId;
         }
       }
 
@@ -8721,16 +8729,56 @@
       }
 
       /* =========================================================================
-         SẮP XẾP & HIỂN THỊ KHO MEDIA (LIST VIEW SORTABLE & GRID VIEW)
+         SẮP XẾP & HIỂN THỊ KHO MEDIA (LOGIC SORT THỜI GIAN ƯU TIÊN CAO ĐẾN THẤP)
          ========================================================================= */
-      window.apMediaSortState = { column: 'name', asc: true };
+      // Mặc định sắp xếp theo thời gian từ cao đến thấp (mới nhất lên đầu: phút, giờ, ngày, tháng, năm)
+      window.apMediaSortState = { column: 'time', asc: false };
+
+      function parseMediaFileTimestamp(f) {
+        if (!f) return 0;
+        var raw = f.updatedTime || f.modifiedTime || f.createdTime || f.time || '';
+        if (!raw) return 0;
+        if (typeof raw === 'number') return raw;
+
+        // 1. Thử parse chuỗi chuẩn ISO (ví dụ: 2026-10-26T16:18:49.191Z)
+        var d = new Date(raw);
+        if (!isNaN(d.getTime())) return d.getTime();
+
+        // 2. Thử parse định dạng HH:mm dd/MM/yyyy
+        var str = String(raw).trim();
+        var m1 = str.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?\s+(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+        if (m1) {
+          return new Date(parseInt(m1[6], 10), parseInt(m1[5], 10) - 1, parseInt(m1[4], 10), parseInt(m1[1], 10), parseInt(m1[2], 10), parseInt(m1[3] || 0, 10)).getTime();
+        }
+
+        // 3. Thử parse định dạng dd/MM/yyyy HH:mm
+        var m2 = str.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+        if (m2) {
+          return new Date(parseInt(m2[3], 10), parseInt(m2[2], 10) - 1, parseInt(m2[1], 10), parseInt(m2[4], 10), parseInt(m2[5], 10), parseInt(m2[6] || 0, 10)).getTime();
+        }
+
+        // 4. Thử parse định dạng HH:mm dd/MM
+        var m3 = str.match(/(\d{1,2}):(\d{2})\s+(\d{1,2})\/(\d{1,2})/);
+        if (m3) {
+          var curY = new Date().getFullYear();
+          return new Date(curY, parseInt(m3[4], 10) - 1, parseInt(m3[3], 10), parseInt(m3[1], 10), parseInt(m3[2], 10)).getTime();
+        }
+        return 0;
+      }
 
       window.sortMediaList = function (col) {
         if (window.apMediaSortState.column === col) {
+          // Bấm lần 2 đảo chiều
           window.apMediaSortState.asc = !window.apMediaSortState.asc;
         } else {
           window.apMediaSortState.column = col;
-          window.apMediaSortState.asc = true;
+          // Với cột 'time' hoặc 'size', lần đầu tiên bấm mặc định là TỪ CAO ĐẾN THẤP (asc = false)
+          // Với cột 'name' hoặc 'ext', lần đầu tiên bấm mặc định là A-Z (asc = true)
+          if (col === 'time' || col === 'size') {
+            window.apMediaSortState.asc = false;
+          } else {
+            window.apMediaSortState.asc = true;
+          }
         }
         renderCurrentMediaExplorerView();
       };
@@ -8760,25 +8808,53 @@
         }
 
         list.sort(function (a, b) {
-          var valA = '', valB = '';
-          if (col === 'name') {
-            valA = (a.name || '').toLowerCase();
-            valB = (b.name || '').toLowerCase();
-          } else if (col === 'ext') {
-            valA = getFileExt(a.name);
-            valB = getFileExt(b.name);
+          var valA, valB;
+          if (col === 'time') {
+            valA = parseMediaFileTimestamp(a);
+            valB = parseMediaFileTimestamp(b);
+            // Sắp xếp số timestamp: nếu asc = false -> từ cao đến thấp (mới nhất lên đầu)
+            if (valA < valB) return asc ? -1 : 1;
+            if (valA > valB) return asc ? 1 : -1;
+            return 0;
           } else if (col === 'size') {
             valA = parseBytes(a.size || a.sizeBytes || 0);
             valB = parseBytes(b.size || b.sizeBytes || 0);
-          } else if (col === 'time') {
-            valA = a.updatedTime || a.modifiedTime || a.createdTime || '';
-            valB = b.updatedTime || b.modifiedTime || b.createdTime || '';
+            if (valA < valB) return asc ? -1 : 1;
+            if (valA > valB) return asc ? 1 : -1;
+            return 0;
+          } else if (col === 'ext') {
+            valA = getFileExt(a.name);
+            valB = getFileExt(b.name);
+          } else {
+            valA = (a.name || '').toLowerCase();
+            valB = (b.name || '').toLowerCase();
           }
           if (valA < valB) return asc ? -1 : 1;
           if (valA > valB) return asc ? 1 : -1;
           return 0;
         });
         return list;
+      }
+
+      function formatDisplayTime(f) {
+        var raw = f.updatedTime || f.modifiedTime || f.createdTime;
+        if (!raw) return 'Gần đây';
+        try {
+          var d = new Date(raw);
+          if (isNaN(d.getTime())) {
+            var ts = parseMediaFileTimestamp(f);
+            if (ts > 0) d = new Date(ts);
+            else return String(raw).slice(0, 16);
+          }
+          var hh = String(d.getHours()).padStart(2, '0');
+          var mm = String(d.getMinutes()).padStart(2, '0');
+          var dd = String(d.getDate()).padStart(2, '0');
+          var mo = String(d.getMonth() + 1).padStart(2, '0');
+          var yyyy = d.getFullYear();
+          return hh + ':' + mm + ' ' + dd + '/' + mo + '/' + yyyy;
+        } catch (e) {
+          return 'Gần đây';
+        }
       }
 
       function renderCurrentMediaExplorerView() {
@@ -8793,6 +8869,7 @@
         var sortedFiles = getSortedMediaFiles();
         var curCol = window.apMediaSortState.column;
         var curAsc = window.apMediaSortState.asc;
+
         function getSortIcon(col) {
           if (curCol !== col) return '<span style="color:var(--ap-text-muted);font-size:10px;margin-left:4px;">⇅</span>';
           return curAsc ? '<span style="color:#0066FF;font-weight:700;font-size:11px;margin-left:4px;">▲</span>' : '<span style="color:#0066FF;font-weight:700;font-size:11px;margin-left:4px;">▼</span>';
@@ -8804,33 +8881,14 @@
           return m ? ('.' + m[1].toUpperCase()) : '---';
         }
 
-        function formatDisplayTime(f) {
-          var raw = f.updatedTime || f.modifiedTime || f.createdTime;
-          if (!raw) return 'Gần đây';
-          try {
-            var d = new Date(raw);
-            if (isNaN(d.getTime())) return String(raw).slice(0, 10);
-            var hh = String(d.getHours()).padStart(2, '0');
-            var mm = String(d.getMinutes()).padStart(2, '0');
-            var dd = String(d.getDate()).padStart(2, '0');
-            var mo = String(d.getMonth() + 1).padStart(2, '0');
-            return hh + ':' + mm + ' ' + dd + '/' + mo;
-          } catch (e) {
-            return 'Gần đây';
-          }
-        }
-
         if (apCurrentMediaViewMode === 'list') {
-          // BẢNG DANH SÁCH HÀNG NGANG (LIST VIEW) THEO YÊU CẦU:
-          // 4 Cột: TỆP, ĐUÔI TỆP, DUNG LƯỢNG, THỜI GIAN
-          // Bỏ cột THAO TÁC, click dòng để mở preview trực tiếp
           var htmlList = '<div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;">';
           htmlList += '<table class="media-list-table" style="width:100%;table-layout:fixed;border-collapse:collapse;">';
           htmlList += '<thead><tr>';
-          htmlList += '<th class="ap-col-name" style="width:42%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'name\')" title="Bấm để sắp xếp theo tên"><span class="ap-th-wrap"><span>TỆP</span> ' + getSortIcon('name') + '</span></th>';
+          htmlList += '<th class="ap-col-name" style="width:40%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'name\')" title="Bấm để sắp xếp theo tên"><span class="ap-th-wrap"><span>TỆP</span> ' + getSortIcon('name') + '</span></th>';
           htmlList += '<th class="ap-col-ext" style="width:18%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'ext\')" title="Bấm để sắp xếp theo đuôi file"><span class="ap-th-wrap"><span>ĐUÔI<br class="ap-br-mobile"/>TỆP</span> ' + getSortIcon('ext') + '</span></th>';
-          htmlList += '<th class="ap-col-size" style="width:20%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'size\')" title="Bấm để sắp xếp theo dung lượng"><span class="ap-th-wrap"><span>DUNG<br class="ap-br-mobile"/>LƯỢNG</span> ' + getSortIcon('size') + '</span></th>';
-          htmlList += '<th class="ap-col-time" style="width:20%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'time\')" title="Bấm để sắp xếp theo thời gian"><span class="ap-th-wrap"><span>THỜI<br class="ap-br-mobile"/>GIAN</span> ' + getSortIcon('time') + '</span></th>';
+          htmlList += '<th class="ap-col-size" style="width:18%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'size\')" title="Bấm để sắp xếp theo dung lượng"><span class="ap-th-wrap"><span>DUNG<br class="ap-br-mobile"/>LƯỢNG</span> ' + getSortIcon('size') + '</span></th>';
+          htmlList += '<th class="ap-col-time" style="width:24%;cursor:pointer;user-select:none;" onclick="window.sortMediaList(\'time\')" title="Bấm để sắp xếp theo thời gian (từ cao đến thấp: phút, giờ, ngày, tháng, năm)"><span class="ap-th-wrap"><span>THỜI<br class="ap-br-mobile"/>GIAN</span> ' + getSortIcon('time') + '</span></th>';
           htmlList += '</tr></thead><tbody>';
 
           sortedFiles.forEach(function (f) {
@@ -8845,7 +8903,7 @@
             var extBg = isVid ? 'rgba(96, 165, 250, 0.12)' : (isImg ? 'rgba(52, 211, 153, 0.12)' : 'rgba(167, 139, 250, 0.12)');
 
             htmlList += '<tr style="cursor:pointer;transition:background 0.15s ease;" onclick="window.handleMediaFileSelectClick(\'' + encodeURIComponent(f.id) + '\', \'' + encodeURIComponent(f.name) + '\', ' + (isVid ? 'true' : 'false') + ', ' + (isImg ? 'true' : 'false') + ')" title="Bấm vào dòng để xem trực tiếp file">';
-            
+
             // Cột 1: TỆP
             htmlList += '<td style="overflow:hidden;">';
             htmlList += '<div style="display:flex;align-items:center;gap:8px;">';
@@ -8866,8 +8924,8 @@
             // Cột 3: DUNG LƯỢNG
             htmlList += '<td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;color:var(--ap-text-muted);font-family:var(--font-mono, monospace);">' + sizeText + '</td>';
 
-            // Cột 4: THỜI GIAN
-            htmlList += '<td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;color:var(--ap-text-muted);">' + timeText + '</td>';
+            // Cột 4: THỜI GIAN (Phút, Giờ, Ngày, Tháng, Năm)
+            htmlList += '<td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;color:var(--ap-text-muted);font-family:var(--font-mono, monospace);">' + timeText + '</td>';
 
             htmlList += '</tr>';
           });
@@ -8985,7 +9043,7 @@
 
       window.executeCreateMediaSubFolder = function () {
         var parentSel = document.getElementById('selMediaParentFolder');
-        var parentId = parentSel ? parentSel.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var parentId = (parentSel && parentSel.value) ? parentSel.value : (window.apCurrentSelectedFolderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
         var nameInput = document.getElementById('newMediaFolderName');
         var folderName = nameInput ? nameInput.value.trim() : '';
 
@@ -8995,11 +9053,42 @@
         }
 
         function onFolderSuccess(res) {
-          if (res && res.success) {
-            showPublishToast('Đã tạo thư mục con: ' + folderName, 'success');
+          if (res && res.success && res.id) {
+            var newFolderId = res.id;
+            var newFolderName = res.name || folderName;
+
+            // 1. Cập nhật biến SSOT sang thư mục mới tạo
+            window.apCurrentSelectedFolderId = newFolderId;
+
+            // 2. Thêm ngay thư mục mới vào danh sách cây thư mục trong RAM
+            var exists = false;
+            for (var i = 0; i < smartFolderTree.length; i++) {
+              if (smartFolderTree[i].id === newFolderId) { exists = true; break; }
+            }
+            if (!exists) {
+              smartFolderTree.push({
+                id: newFolderId,
+                name: newFolderName,
+                level: 1
+              });
+            }
+
+            // 3. Render lại options và tự động chọn ngay thư mục mới
+            renderMediaFolderTreeOptions();
+            window.syncMediaFolderSelection(newFolderId);
+
+            // 4. Xóa rỗng ô input
             if (nameInput) nameInput.value = '';
-            window.loadMediaFolderTree();
-            window.loadMediaFolderFiles(res.id || parentId);
+
+            // 5. Hiển thị thông báo toast
+            if (typeof showPublishToast === 'function') {
+              showPublishToast('Đã tạo và tự động chuyển đến thư mục con: ' + newFolderName, 'success');
+            }
+
+            // 6. Tải lại cây thư mục nền để đồng bộ đầy đủ
+            setTimeout(function () {
+              window.loadMediaFolderTree(true, newFolderId);
+            }, 600);
           } else {
             alert(res ? res.message : 'Lỗi tạo thư mục');
           }
@@ -9019,7 +9108,7 @@
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run
             .withSuccessHandler(function (res) {
-              if (res && res.success) onFolderSuccess(res);
+              if (res && res.success && res.id) onFolderSuccess(res);
               else onFolderFallback();
             })
             .withFailureHandler(onFolderFallback)
@@ -9145,7 +9234,7 @@
 
       window.submitSmartMediaUploadProcess = async function () {
         var selParent = document.getElementById('selMediaParentFolder');
-        var targetFolderId = (selParent && selParent.value) ? selParent.value : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var targetFolderId = window.apCurrentSelectedFolderId || (selParent && selParent.value) ? (window.apCurrentSelectedFolderId || selParent.value) : '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
         var pendingFiles = selectedSmartMediaFiles.filter(function (f) { return f.status === 'pending' || f.status === 'error'; });
         if (!pendingFiles.length) {
           alert('Vui lòng chọn ít nhất 1 tệp để tải lên!');
