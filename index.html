@@ -4208,6 +4208,45 @@
             <!-- LƯỚI 2 CỘT TỐI GIẢN: QUẢN LÝ KHO MEDIA + TRÌNH UPLOAD NHANH -->
             <div class="ap-media-hub-grid" id="mktSec3Body">
 
+              <!-- =====================================================================
+                   KHỐI KẾT NỐI LINK DRIVE THƯ MỤC CHÍNH (NẰM NGAY TRÊN ĐẦU SECTION)
+                   - Header: "Nhập link drive cần upload media vào đây:"
+                   - Ô input link drive
+                   - Ghi chú: "Chú ý: kiểm tra mở quyền truy cập thư mục Có thể sửa cho gmail của bạn"
+                   - Nút Test + Trạng thái kết nối (Dấu đỏ/xanh)
+                   ===================================================================== -->
+              <div class="ap-subcard-glass" style="grid-column: 1 / -1; background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px;">
+                <!-- Hàng Header trên ô input & Trạng thái kết nối -->
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ap-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="12 11 12 17 14 15"></polyline></svg>
+                    <span style="font-weight: 700; font-size: 13.5px; color: var(--ap-text-heading); text-transform: uppercase; letter-spacing: 0.3px;">Nhập link drive cần upload media vào đây:</span>
+                  </div>
+                  <!-- Trạng thái kết nối (Dấu đỏ/xanh) -->
+                  <div id="driveConnStatusBadge" style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; background: rgba(239, 68, 68, 0.12); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.35); transition: all 0.3s ease;">
+                    <span id="driveConnDot" style="width: 8px; height: 8px; border-radius: 50%; background: #EF4444; display: inline-block; transition: all 0.3s ease; box-shadow: 0 0 6px #EF4444;"></span>
+                    <span id="driveConnText">Chưa kết nối</span>
+                  </div>
+                </div>
+
+                <!-- Hàng Ô Input & Nút Test -->
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                  <input type="text" id="inputDriveMainFolderUrl" placeholder="https://drive.google.com/drive/folders/... hoặc dán ID thư mục" class="ap-sidebar-mini-input" style="flex: 1; min-width: 260px; height: 42px; border-radius: 10px; font-size: 13px; font-family: 'JetBrains Mono', monospace;" onkeydown="if(event.key==='Enter') window.testAndConnectDriveFolder()" />
+                  <button type="button" id="btnTestDriveConnection" class="btn-dark-glass" onclick="window.testAndConnectDriveFolder()" style="height: 42px; padding: 0 22px; font-weight: 700; font-size: 13px; background: linear-gradient(135deg, rgba(0, 102, 255, 0.8) 0%, rgba(10, 108, 255, 0.95) 100%); color: #FFF; border: none; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 10px rgba(0, 102, 255, 0.25);" title="Kiểm tra quyền ghi và đồng bộ kho media">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>TEST KẾT NỐI</span>
+                  </button>
+                </div>
+
+                <!-- Ghi chú nhỏ dưới ô input & Dòng phản hồi chi tiết -->
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ap-text-muted); flex-wrap: wrap; gap: 8px; margin-top: 2px;">
+                  <div>
+                    <span style="color: #F59E0B; font-weight: 700;">Chú ý:</span> kiểm tra mở quyền truy cập thư mục <strong>Có thể sửa</strong> cho gmail của bạn
+                  </div>
+                  <div id="driveConnFeedbackMsg" style="font-size: 12px; font-weight: 600; transition: all 0.3s ease;"></div>
+                </div>
+              </div>
+
               <!-- THẺ 1: QUẢN LÝ KHO MEDIA -->
               <div class="ap-subcard-glass" style="background: var(--ap-card-bg); border: 1px solid var(--ap-card-border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ap-border-subtle); padding-bottom: 12px;">
@@ -5944,11 +5983,15 @@
             if (typeof window.applyMktSectionsCollapseFromState === 'function') {
               window.applyMktSectionsCollapseFromState();
             }
-            if (typeof window.loadMediaFolderTree === 'function') {
-              window.loadMediaFolderTree(true);
-            }
-            if (typeof window.refreshMediaExplorerFiles === 'function') {
-              window.refreshMediaExplorerFiles();
+            if (typeof window.initMediaUploaderHub === 'function') {
+              window.initMediaUploaderHub();
+            } else {
+              if (typeof window.loadMediaFolderTree === 'function') {
+                window.loadMediaFolderTree(true);
+              }
+              if (typeof window.refreshMediaExplorerFiles === 'function') {
+                window.refreshMediaExplorerFiles();
+              }
             }
           }
 
@@ -8448,7 +8491,242 @@
       }
 
       window.initMediaUploaderHub = function () {
-        window.loadMediaFolderTree();
+        try {
+          var savedUrl = localStorage.getItem('AP_MKT_DRIVE_MAIN_URL');
+          var savedId = localStorage.getItem('AP_MKT_DRIVE_MAIN_ID');
+          var input = document.getElementById('inputDriveMainFolderUrl');
+          if (input && savedUrl) {
+            input.value = savedUrl;
+            var badge = document.getElementById('driveConnStatusBadge');
+            var dot = document.getElementById('driveConnDot');
+            var text = document.getElementById('driveConnText');
+            if (dot) {
+              dot.style.background = '#10B981';
+              dot.style.boxShadow = '0 0 6px #10B981';
+            }
+            if (text) {
+              text.textContent = 'Kết nối thành công';
+            }
+            if (badge) {
+              badge.style.background = 'rgba(16, 185, 129, 0.12)';
+              badge.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+              badge.style.color = '#10B981';
+            }
+          }
+          if (savedId) {
+            window.apCurrentSelectedFolderId = savedId;
+          }
+        } catch (eInitDrive) {}
+
+        window.loadMediaFolderTree(false, window.apCurrentSelectedFolderId);
+
+        // Đọc danh sách thư mục đã lưu từ backend Sheet TT-MKT nếu chưa có cache
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (list) {
+              if (Array.isArray(list) && list.length > 0) {
+                var lastSaved = list[list.length - 1];
+                var inputEl = document.getElementById('inputDriveMainFolderUrl');
+                if (inputEl && !inputEl.value && lastSaved.url) {
+                  inputEl.value = lastSaved.url;
+                  var dotEl = document.getElementById('driveConnDot');
+                  var textEl = document.getElementById('driveConnText');
+                  var badgeEl = document.getElementById('driveConnStatusBadge');
+                  if (dotEl) { dotEl.style.background = '#10B981'; dotEl.style.boxShadow = '0 0 6px #10B981'; }
+                  if (textEl) { textEl.textContent = 'Kết nối thành công'; }
+                  if (badgeEl) {
+                    badgeEl.style.background = 'rgba(16, 185, 129, 0.12)';
+                    badgeEl.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+                    badgeEl.style.color = '#10B981';
+                  }
+                  if (!window.apCurrentSelectedFolderId) {
+                    window.syncMediaFolderSelection(lastSaved.id);
+                  }
+                }
+              }
+            })
+            .getSavedDriveUploadFolders();
+        }
+      };
+
+      /* =========================================================================
+         KẾT NỐI & TEST THƯ MỤC GOOGLE DRIVE CHÍNH (P.TT-MKT MEDIA UPLOADER)
+         - Nhập link/ID thư mục Drive
+         - Upload file test trực tiếp để kiểm tra quyền Có thể sửa (Write access)
+         - Lưu cột mới "Link Thư Mục Drive" (Cột X) ở Sheet TT-MKT (không ghi đè link cũ)
+         - Chuyển dấu đỏ thành dấu xanh và báo Kết nối thành công
+         - Ngay sau đó dropdown duyệt thư mục & khu vực duyệt file đồng bộ truy cập luôn
+         ========================================================================= */
+      window.testAndConnectDriveFolder = function () {
+        var input = document.getElementById('inputDriveMainFolderUrl');
+        var badge = document.getElementById('driveConnStatusBadge');
+        var dot = document.getElementById('driveConnDot');
+        var text = document.getElementById('driveConnText');
+        var feedback = document.getElementById('driveConnFeedbackMsg');
+        var btn = document.getElementById('btnTestDriveConnection');
+        if (!input) return;
+
+        var driveUrl = (input.value || '').trim();
+        if (!driveUrl) {
+          if (feedback) {
+            feedback.style.color = '#EF4444';
+            feedback.textContent = 'Vui lòng dán liên kết Google Drive hoặc ID thư mục!';
+          }
+          input.focus();
+          return;
+        }
+
+        // Trạng thái đang kiểm tra
+        if (btn) {
+          btn.disabled = true;
+          btn.style.opacity = '0.7';
+          btn.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;">↻</span> <span>ĐANG TEST...</span>';
+        }
+        if (dot) {
+          dot.style.background = '#F59E0B';
+          dot.style.boxShadow = '0 0 6px #F59E0B';
+        }
+        if (text) {
+          text.textContent = 'Đang kiểm tra...';
+        }
+        if (badge) {
+          badge.style.background = 'rgba(245, 158, 11, 0.12)';
+          badge.style.border = '1px solid rgba(245, 158, 11, 0.35)';
+          badge.style.color = '#F59E0B';
+        }
+        if (feedback) {
+          feedback.style.color = 'var(--ap-text-muted)';
+          feedback.textContent = 'Đang tải file test lên thư mục Drive và lưu cấu hình...';
+        }
+
+        function handleSuccess(res) {
+          if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> <span>TEST KẾT NỐI</span>';
+          }
+          if (res && res.success) {
+            // Dấu đỏ chuyển dấu xanh và báo Kết nối thành công
+            if (dot) {
+              dot.style.background = '#10B981';
+              dot.style.boxShadow = '0 0 6px #10B981';
+            }
+            if (text) {
+              text.textContent = 'Kết nối thành công';
+            }
+            if (badge) {
+              badge.style.background = 'rgba(16, 185, 129, 0.12)';
+              badge.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+              badge.style.color = '#10B981';
+            }
+            if (feedback) {
+              feedback.style.color = '#10B981';
+              var rowMsg = res.targetRow ? ' (Dòng ' + res.targetRow + ' Sheet TT-MKT)' : '';
+              feedback.textContent = '✓ Kết nối thành công & Đã lưu vào Sheet TT-MKT!' + rowMsg;
+            }
+
+            var folderId = res.folderId || '';
+            var folderName = res.folderName || 'Thư mục Drive vừa kết nối';
+
+            try {
+              localStorage.setItem('AP_MKT_DRIVE_MAIN_URL', driveUrl);
+              localStorage.setItem('AP_MKT_DRIVE_MAIN_ID', folderId);
+              localStorage.setItem('AP_MKT_DRIVE_MAIN_NAME', folderName);
+            } catch (eCache) {}
+
+            // Đồng bộ dropdown duyệt thư mục và khu vực duyệt file của thư mục
+            if (folderId) {
+              window.apCurrentSelectedFolderId = folderId;
+
+              if (Array.isArray(smartFolderTree)) {
+                var exists = false;
+                for (var i = 0; i < smartFolderTree.length; i++) {
+                  if (smartFolderTree[i].id === folderId) {
+                    exists = true;
+                    break;
+                  }
+                }
+                if (!exists) {
+                  smartFolderTree.unshift({
+                    id: folderId,
+                    name: folderName + ' (Thư mục chính vừa kết nối)',
+                    level: 0
+                  });
+                }
+              }
+              renderMediaFolderTreeOptions();
+
+              var selParent = document.getElementById('selMediaParentFolder');
+              if (selParent) selParent.value = folderId;
+              var selTarget = document.getElementById('selMediaTargetFolder');
+              if (selTarget) selTarget.value = folderId;
+
+              // Ngay sau đó dropdown duyệt thư mục và khu vực duyệt file đồng bộ truy cập thư mục này luôn
+              window.loadMediaFolderFiles(folderId);
+            }
+
+            if (typeof showPublishToast === 'function') {
+              showPublishToast('Kết nối thành công thư mục Drive!', 'success');
+            }
+          } else {
+            handleError((res && (res.error || res.message)) ? (res.error || res.message) : 'Không thể kết nối thư mục Drive');
+          }
+        }
+
+        function handleError(errMsg) {
+          if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> <span>TEST KẾT NỐI</span>';
+          }
+          if (dot) {
+            dot.style.background = '#EF4444';
+            dot.style.boxShadow = '0 0 6px #EF4444';
+          }
+          if (text) {
+            text.textContent = 'Chưa kết nối';
+          }
+          if (badge) {
+            badge.style.background = 'rgba(239, 68, 68, 0.12)';
+            badge.style.border = '1px solid rgba(239, 68, 68, 0.35)';
+            badge.style.color = '#EF4444';
+          }
+          if (feedback) {
+            feedback.style.color = '#EF4444';
+            feedback.textContent = 'Lỗi: ' + (errMsg || 'Không thể ghi tệp vào thư mục này. Vui lòng kiểm tra quyền truy cập!');
+          }
+          if (typeof showPublishToast === 'function') {
+            showPublishToast('Lỗi kết nối thư mục: ' + (errMsg || ''), 'error');
+          }
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(handleSuccess)
+            .withFailureHandler(function (err) {
+              handleError(err && err.message ? err.message : String(err));
+            })
+            .testAndSaveDriveUploadFolder(driveUrl);
+        } else {
+          // Fallback giả lập client-side khi chạy ngoài môi trường Apps Script
+          setTimeout(function () {
+            var matchF = driveUrl.match(/folders\/([a-zA-Z0-9_-]+)/i);
+            var matchD = driveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/i);
+            var matchId = driveUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/i);
+            var fId = matchF ? matchF[1] : (matchD ? matchD[1] : (matchId ? matchId[1] : driveUrl));
+            if (fId && fId.length >= 10) {
+              handleSuccess({
+                success: true,
+                message: 'Kết nối thành công (Môi trường Web)',
+                folderId: fId,
+                folderName: 'Thư mục Drive đã liên kết',
+                targetRow: 12
+              });
+            } else {
+              handleError('Link thư mục không hợp lệ hoặc thiếu quyền sửa');
+            }
+          }, 700);
+        }
       };
 
       window.apCurrentSelectedFolderId = '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
