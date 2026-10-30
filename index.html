@@ -4247,9 +4247,9 @@
                       <div style="margin-top: 2px; padding-left: 6px; display: flex; flex-direction: column; gap: 3px;">
                         <div>• <strong>Cách 1:</strong> Bật quyền <em>"Bất kỳ ai có đường liên kết đều có thể chỉnh sửa"</em>.</div>
                         <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                          <span>• <strong>Cách 2:</strong> Chia sẻ quyền <em>"Người chỉnh sửa"</em> cho email Bot hệ thống:</span>
-                          <code id="systemBotEmailCode" style="background: rgba(0, 102, 255, 0.12); color: #60A5FA; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; user-select: all; border: 1px solid rgba(0, 102, 255, 0.25);">upload-media@tri-duc-car-media.iam.gserviceaccount.com</code>
-                          <button type="button" onclick="window.copySystemBotEmail()" class="btn-dark-glass" style="padding: 2px 10px; font-size: 11px; height: 24px; border-radius: 6px; border: 1px solid rgba(0, 102, 255, 0.4); color: #93C5FD; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; background: rgba(0, 102, 255, 0.15);" title="Sao chép email Bot để dán vào quyền chia sẻ Drive">
+                          <span>• <strong>Cách 2:</strong> Chia sẻ quyền <em>"Người chỉnh sửa"</em> cho tài khoản hệ thống:</span>
+                          <code id="systemBotEmailCode" style="background: rgba(0, 102, 255, 0.12); color: #60A5FA; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; user-select: all; border: 1px solid rgba(0, 102, 255, 0.25);">triducmkt@gmail.com</code>
+                          <button type="button" onclick="window.copySystemBotEmail()" class="btn-dark-glass" style="padding: 2px 10px; font-size: 11px; height: 24px; border-radius: 6px; border: 1px solid rgba(0, 102, 255, 0.4); color: #93C5FD; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; background: rgba(0, 102, 255, 0.15);" title="Sao chép email hệ thống để dán vào quyền chia sẻ Drive">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                             <span id="btnCopyBotEmailText">Copy email</span>
                           </button>
@@ -8567,7 +8567,7 @@
          SAO CHÉP EMAIL BOT HỆ THỐNG ĐỂ PHÂN QUYỀN GOOGLE DRIVE
          ========================================================================= */
       window.copySystemBotEmail = function () {
-        var email = 'upload-media@tri-duc-car-media.iam.gserviceaccount.com';
+        var email = 'triducmkt@gmail.com';
         if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(email).then(function () {
             var btnText = document.getElementById('btnCopyBotEmailText');
@@ -8576,13 +8576,13 @@
               setTimeout(function () { btnText.textContent = 'Copy email'; }, 2500);
             }
             if (typeof showPublishToast === 'function') {
-              showPublishToast('Đã chép email Bot: ' + email, 'success');
+              showPublishToast('Đã chép email hệ thống: ' + email, 'success');
             }
           }).catch(function () {
-            prompt('Vui lòng sao chép email Bot hệ thống:', email);
+            prompt('Vui lòng sao chép email hệ thống:', email);
           });
         } else {
-          prompt('Vui lòng sao chép email Bot hệ thống:', email);
+          prompt('Vui lòng sao chép email hệ thống:', email);
         }
       };
 
