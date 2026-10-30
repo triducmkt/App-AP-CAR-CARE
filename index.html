@@ -4238,12 +4238,26 @@
                   </button>
                 </div>
 
-                <!-- Ghi chú nhỏ dưới ô input & Dòng phản hồi chi tiết -->
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ap-text-muted); flex-wrap: wrap; gap: 8px; margin-top: 2px;">
-                  <div>
-                    <span style="color: #F59E0B; font-weight: 700;">Chú ý:</span> kiểm tra mở quyền truy cập thư mục <strong>Có thể sửa</strong> cho gmail của bạn
+                <!-- Ghi chú phân quyền chi tiết dưới ô input & Dòng phản hồi trạng thái -->
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--ap-text-muted); margin-top: 4px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                    <div style="line-height: 1.6; max-width: 720px;">
+                      <span style="color: #F59E0B; font-weight: 700;">Chú ý phân quyền Drive:</span>
+                      Thư mục cần mở quyền ghi theo 1 trong 2 cách:
+                      <div style="margin-top: 2px; padding-left: 6px; display: flex; flex-direction: column; gap: 3px;">
+                        <div>• <strong>Cách 1:</strong> Bật quyền <em>"Bất kỳ ai có đường liên kết đều có thể chỉnh sửa"</em>.</div>
+                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                          <span>• <strong>Cách 2:</strong> Chia sẻ quyền <em>"Người chỉnh sửa"</em> cho email Bot hệ thống:</span>
+                          <code id="systemBotEmailCode" style="background: rgba(0, 102, 255, 0.12); color: #60A5FA; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; user-select: all; border: 1px solid rgba(0, 102, 255, 0.25);">upload-media@tri-duc-car-media.iam.gserviceaccount.com</code>
+                          <button type="button" onclick="window.copySystemBotEmail()" class="btn-dark-glass" style="padding: 2px 10px; font-size: 11px; height: 24px; border-radius: 6px; border: 1px solid rgba(0, 102, 255, 0.4); color: #93C5FD; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; background: rgba(0, 102, 255, 0.15);" title="Sao chép email Bot để dán vào quyền chia sẻ Drive">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span id="btnCopyBotEmailText">Copy email</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="driveConnFeedbackMsg" style="font-size: 12px; font-weight: 600; transition: all 0.3s ease; text-align: right; max-width: 320px; line-height: 1.5;"></div>
                   </div>
-                  <div id="driveConnFeedbackMsg" style="font-size: 12px; font-weight: 600; transition: all 0.3s ease;"></div>
                 </div>
               </div>
 
@@ -8550,9 +8564,32 @@
       };
 
       /* =========================================================================
+         SAO CHÉP EMAIL BOT HỆ THỐNG ĐỂ PHÂN QUYỀN GOOGLE DRIVE
+         ========================================================================= */
+      window.copySystemBotEmail = function () {
+        var email = 'upload-media@tri-duc-car-media.iam.gserviceaccount.com';
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(function () {
+            var btnText = document.getElementById('btnCopyBotEmailText');
+            if (btnText) {
+              btnText.textContent = 'Đã chép!';
+              setTimeout(function () { btnText.textContent = 'Copy email'; }, 2500);
+            }
+            if (typeof showPublishToast === 'function') {
+              showPublishToast('Đã chép email Bot: ' + email, 'success');
+            }
+          }).catch(function () {
+            prompt('Vui lòng sao chép email Bot hệ thống:', email);
+          });
+        } else {
+          prompt('Vui lòng sao chép email Bot hệ thống:', email);
+        }
+      };
+
+      /* =========================================================================
          KẾT NỐI & TEST THƯ MỤC GOOGLE DRIVE CHÍNH (P.TT-MKT MEDIA UPLOADER)
          - Nhập link/ID thư mục Drive
-         - Upload file test trực tiếp để kiểm tra quyền Có thể sửa (Write access)
+         - Upload file test trực tiếp mang tên "test" (để nguyên file, không xóa)
          - Lưu cột mới "Link Thư Mục Drive" (Cột X) ở Sheet TT-MKT (không ghi đè link cũ)
          - Chuyển dấu đỏ thành dấu xanh và báo Kết nối thành công
          - Ngay sau đó dropdown duyệt thư mục & khu vực duyệt file đồng bộ truy cập luôn
@@ -8622,7 +8659,7 @@
             if (feedback) {
               feedback.style.color = '#10B981';
               var rowMsg = res.targetRow ? ' (Dòng ' + res.targetRow + ' Sheet TT-MKT)' : '';
-              feedback.textContent = '✓ Kết nối thành công & Đã lưu vào Sheet TT-MKT!' + rowMsg;
+              feedback.textContent = '✓ Đã tạo file "test" trong thư mục & Lưu vào Sheet TT-MKT!' + rowMsg;
             }
 
             var folderId = res.folderId || '';
