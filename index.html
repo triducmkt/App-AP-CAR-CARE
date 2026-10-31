@@ -2935,9 +2935,56 @@
     /* BẢNG EDIT VIDEO AI & MIND-MAP SCHEMATIC CANVAS (#apVideoEditStudioPanel) */
     .ap-video-studio-grid {
       display: grid;
-      grid-template-columns: 430px minmax(0, 1fr);
+      grid-template-columns: 460px minmax(0, 1fr);
       gap: 16px;
       align-items: stretch;
+    }
+    .ap-ve-preview-and-pipeline-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (max-width: 1200px) {
+      .ap-ve-preview-and-pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .ap-ve-pipeline-card {
+      background: var(--ap-card-alt-bg);
+      border: 1px solid var(--ap-border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+    }
+    .ap-ve-preview-card {
+      background: var(--ap-card-bg);
+      border: 1px solid var(--ap-border-subtle);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ap-ve-preview-player-wrap {
+      width: 100%;
+      height: 220px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .ap-ve-preview-player-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
     .ap-ve-left-panel {
       background: var(--ap-card-alt-bg);
@@ -4366,11 +4413,10 @@
             <div class="panel-section-title">
               <span class="panel-label">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                <span>BẢNG EDIT VIDEO AI (SKILL #0 → #7) &amp; MIND-MAP SCHEMATIC CANVAS — SHEET TT-MKT</span>
+                <span>BẢNG EDIT VIDEO AI &amp; SƠ ĐỒ KỸ THUẬT (AUTO-VIDEO STUDIO)</span>
               </span>
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto;flex:1;justify-content:flex-end;">
-                <span class="char-badge">Field Map: TT_MKT_VIDEO_FIELD_MAP</span>
-                <button type="button" class="btn-dark-glass" id="btnSaveVideoProjectToBackend" onclick="window.saveVideoStudioProjectToSheet()">
+                <button type="button" class="btn-dark-glass" id="btnSaveVideoProjectToBackend" onclick="window.saveVideoStudioProjectToSheet()" title="Lưu thông số dự án vào Sheet TT-MKT">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                   <span>LƯU SHEET</span>
                 </button>
@@ -4378,7 +4424,7 @@
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                   <span>TẠO VIDEO MỚI</span>
                 </button>
-                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec4')" title="Thu gọn / Mở rộng Section 4" style="flex-shrink:0;margin-left:4px;">
+                <button type="button" class="ap-btn-section-toggle" onclick="window.toggleMktSection('sec4')" title="Thu gọn / Mở rộng Section" style="flex-shrink:0;margin-left:4px;">
                   <span id="iconToggleSec4">▼</span>
                 </button>
               </div>
@@ -4390,45 +4436,45 @@
                 <!-- NHÓM 1: FILE VIDEO RAW, FILE VIDEO MẪU & TÊN DỰ ÁN -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>1. NGUỒN FILE VIDEO RAW &amp; VIDEO MẪU BENCHMARK</span>
+                    <span>1. NGUỒN FILE VIDEO GỐC &amp; VIDEO MẪU BENCHMARK</span>
                     <span class="char-badge">URL / Local</span>
                   </div>
                   <div class="ap-ve-field-row">
-                    <label class="ap-ve-label" for="veProjectName"><span>Tên Dự Án / Clip Viral</span><span>Col D</span></label>
+                    <label class="ap-ve-label" for="veProjectName"><span>Tên Dự Án / Clip Viral</span></label>
                     <input type="text" id="veProjectName" class="ap-ve-input" value="Reels Nâng Cấp Loa Focal K2 &amp; PPF Porsche 911" oninput="window.syncVideoFormToJson()" />
                   </div>
                   <div class="ap-ve-field-row">
-                    <label class="ap-ve-label" for="veRawVideoInput"><span>File Video Raw (URL hoặc Đường dẫn Local)</span><span>Col F</span></label>
+                    <label class="ap-ve-label" for="veRawVideoInput"><span>File Video Raw (Đường Dẫn Hoặc URL)</span></label>
                     <div class="ap-ve-file-row">
                       <input type="text" id="veRawVideoInput" class="ap-ve-input mono" value="inputs/raw_videos/clip-content-doc.mp4" oninput="window.syncVideoFormToJson()" />
                       <input type="file" id="filePickerRawVideo" accept="video/*" style="display:none;" onchange="window.handleLocalVideoFilePick('veRawVideoInput', this)" />
-                      <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerRawVideo').click()">Chọn File</button>
-                      <button type="button" class="btn-quick-tag" onclick="window.loadApDriveFilesModal('veRawVideoInput')" style="background:rgba(0,102,255,0.18);color:#60A5FA;border-color:rgba(0,102,255,0.4);" title="Chọn video từ Google Drive AP CAR CARE (Folder ID: 1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT)">Drive AP</button>
+                      <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerRawVideo').click()" title="Tải video từ máy tính">Tải từ máy</button>
+                      <button type="button" class="btn-quick-tag" onclick="window.loadApDriveFilesModal('veRawVideoInput')" style="background:rgba(0,102,255,0.18);color:#60A5FA;border-color:rgba(0,102,255,0.4);" title="Chọn video từ Google Drive">Kho Drive</button>
                     </div>
                   </div>
                   <div class="ap-ve-field-row">
-                    <label class="ap-ve-label" for="veBenchmarkVideoInput"><span>File Video Mẫu Triệu View (URL hoặc Local)</span><span>Col G</span></label>
+                    <label class="ap-ve-label" for="veBenchmarkVideoInput"><span>File Video Mẫu Triệu View Benchmark</span></label>
                     <div class="ap-ve-file-row">
                       <input type="text" id="veBenchmarkVideoInput" class="ap-ve-input mono" value="inputs/benchmark_videos/sample-viral-apcarcare.mp4" oninput="window.syncVideoFormToJson()" />
                       <input type="file" id="filePickerBenchmarkVideo" accept="video/*" style="display:none;" onchange="window.handleLocalVideoFilePick('veBenchmarkVideoInput', this)" />
-                      <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerBenchmarkVideo').click()">Chọn Mẫu</button>
+                      <button type="button" class="btn-quick-tag" onclick="document.getElementById('filePickerBenchmarkVideo').click()">Chọn mẫu</button>
                     </div>
                   </div>
                   <div class="ap-ve-field-row">
-                    <label class="ap-ve-label" for="veOutputVideoInput"><span>File Video Output 9:16 Full HD (Node Ngoài Cùng Trái)</span><span>Col H</span></label>
+                    <label class="ap-ve-label" for="veOutputVideoInput"><span>Đường Dẫn Video Output 9:16 Full HD</span></label>
                     <input type="text" id="veOutputVideoInput" class="ap-ve-input mono" value="outputs/final_videos/final_viral_short_v2.mp4" oninput="window.syncVideoFormToJson()" />
                   </div>
                 </div>
 
-                <!-- NHÓM 2: LOẠI CLIP, NGÀNH HÀNG, ĐỘ TUỔI & CHẾ ĐỘ ÁP DỤNG STYLE (STY-00) -->
+                <!-- NHÓM 2: ĐỊNH HƯỚNG NỘI DUNG, NGÀNH HÀNG & PHONG CÁCH -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>2. LOẠI CLIP, NGÀNH HÀNG &amp; CỜ STYLE (STY-00)</span>
-                    <span class="char-badge">Skill #0 &amp; #3</span>
+                    <span>2. ĐỊNH HƯỚNG NỘI DUNG, NGÀNH HÀNG &amp; PHONG CÁCH</span>
+                    <span class="char-badge">Style Strategy</span>
                   </div>
                   <div class="ap-ve-field-grid2">
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veIndustryDomain"><span>Ngành Hàng</span><span>Col I</span></label>
+                      <label class="ap-ve-label" for="veIndustryDomain"><span>Ngành Hàng</span></label>
                       <select id="veIndustryDomain" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
                         <option value="AUTOMOTIVE" selected>AUTOMOTIVE (Ô tô &amp; Detailing AP)</option>
                         <option value="FASHION_APPAREL">FASHION_APPAREL (Thời trang)</option>
@@ -4440,7 +4486,7 @@
                       </select>
                     </div>
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veVideoGoal"><span>Loại Clip / Mục Tiêu</span><span>Col J</span></label>
+                      <label class="ap-ve-label" for="veVideoGoal"><span>Loại Clip / Mục Tiêu</span></label>
                       <select id="veVideoGoal" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
                         <option value="COMMERCIAL_CONVERSION" selected>COMMERCIAL_CONVERSION (Chuyển đổi &amp; Đặt lịch)</option>
                         <option value="BRAND_AWARENESS">BRAND_AWARENESS (Nhận diện Showroom)</option>
@@ -4451,7 +4497,7 @@
                   </div>
                   <div class="ap-ve-field-grid2">
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veTargetAudience"><span>Chân Dung Khán Giả</span><span>Col K</span></label>
+                      <label class="ap-ve-label" for="veTargetAudience"><span>Chân Dung Khán Giả</span></label>
                       <select id="veTargetAudience" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
                         <option value="MATURE_PREMIUM (28-55t - Chủ xe sang)" selected>MATURE_PREMIUM (28-55t • Chủ xe sang)</option>
                         <option value="YOUNG_ADULT (23-35t)">YOUNG_ADULT (23-35t • Năng động)</option>
@@ -4460,7 +4506,7 @@
                       </select>
                     </div>
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veApplyStyleFlag"><span>Cờ --apply-style</span><span>Col L</span></label>
+                      <label class="ap-ve-label" for="veApplyStyleFlag"><span>Chế Độ Áp Dụng Style</span></label>
                       <select id="veApplyStyleFlag" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
                         <option value="all" selected>all (Áp dụng toàn bộ 8 nhóm Style)</option>
                         <option value="edit-only">edit-only (Chỉ cắt khoảng lặng &amp; ghép B-Roll)</option>
@@ -4470,14 +4516,14 @@
                   </div>
                 </div>
 
-                <!-- NHÓM 3: TONE MÀU SHOWROOM, TƯƠNG PHẢN & KHỬ NHIỄU 3D (SKILL #5 - STY-08 & STY-09) -->
+                <!-- NHÓM 3: TONE MÀU SHOWROOM & ĐỘ NÉT CHI TIẾT 3D -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>3. TONE MÀU, ĐỘ NÉT &amp; KHỬ HẠT 3D (SKILL #5)</span>
-                    <span class="char-badge">Col M &amp; N</span>
+                    <span>3. TONE MÀU SHOWROOM &amp; ĐỘ NÉT CHI TIẾT 3D</span>
+                    <span class="char-badge">Color &amp; 3D</span>
                   </div>
                   <div class="ap-ve-field-row">
-                    <label class="ap-ve-label" for="veColorPreset"><span>Preset Tone Màu Chủ Đạo</span><span>STY-08</span></label>
+                    <label class="ap-ve-label" for="veColorPreset"><span>Preset Tone Màu Chủ Đạo</span></label>
                     <select id="veColorPreset" class="ap-ve-select" onchange="window.syncVideoFormToJson()">
                       <option value="AUTOMOTIVE_SHOWROOM_HDR" selected>AUTOMOTIVE_SHOWROOM_HDR (Sơn Bóng Sâu &amp; Nội Thất Nét)</option>
                       <option value="PORSCHE_CARBON_COBALT">PORSCHE_CARBON_COBALT (Đen Piano &amp; Xanh Cobalt CEO Anh Lộc)</option>
@@ -4487,35 +4533,35 @@
                   </div>
                   <div class="ap-ve-field-grid3">
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veColorContrast"><span>Contrast</span></label>
+                      <label class="ap-ve-label" for="veColorContrast"><span>Tương Phản</span></label>
                       <input type="text" id="veColorContrast" class="ap-ve-input mono" value="1.07" oninput="window.syncVideoFormToJson()" />
                     </div>
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veColorSaturation"><span>Saturation</span></label>
+                      <label class="ap-ve-label" for="veColorSaturation"><span>Bão Hòa</span></label>
                       <input type="text" id="veColorSaturation" class="ap-ve-input mono" value="1.12" oninput="window.syncVideoFormToJson()" />
                     </div>
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veColorBrightness"><span>Brightness</span></label>
+                      <label class="ap-ve-label" for="veColorBrightness"><span>Độ Sáng</span></label>
                       <input type="text" id="veColorBrightness" class="ap-ve-input mono" value="0.015" oninput="window.syncVideoFormToJson()" />
                     </div>
                   </div>
                   <div class="ap-ve-field-grid2">
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veLumaSharpness"><span>Luma Sharpness (unsharp)</span></label>
+                      <label class="ap-ve-label" for="veLumaSharpness"><span>Độ Nét Sơn/Da (unsharp)</span></label>
                       <input type="text" id="veLumaSharpness" class="ap-ve-input mono" value="0.75 (Nét chi tiết sơn/da)" oninput="window.syncVideoFormToJson()" />
                     </div>
                     <div class="ap-ve-field-row">
-                      <label class="ap-ve-label" for="veDenoise3D"><span>Khử nhiễu 3D (hqdn3d)</span></label>
+                      <label class="ap-ve-label" for="veDenoise3D"><span>Khử Nhiễu 3D (hqdn3d)</span></label>
                       <input type="text" id="veDenoise3D" class="ap-ve-input mono" value="hqdn3d=1.5:1.5:6:6" oninput="window.syncVideoFormToJson()" />
                     </div>
                   </div>
                 </div>
 
-                <!-- NHÓM 4: NHỊP CẮT ASL, SILENCE CUT & HOOK 3S CẢM XÚC FACS (SKILL #1 & #2) -->
+                <!-- NHÓM 4: NHỊP CẮT ASL, SILENCE CUT & HOOK 3S CẢM XÚC -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>4. NHỊP CẮT ASL, SILENCE CUT &amp; HOOK 3S (SKILL #1 &amp; #2)</span>
-                    <span class="char-badge">Col O &amp; P</span>
+                    <span>4. NHỊP CẮT, LỌC KHOẢNG LẶNG &amp; HOOK 3S CAO TRÀO</span>
+                    <span class="char-badge">Pacing &amp; Hook</span>
                   </div>
                   <div class="ap-ve-field-grid2">
                     <div class="ap-ve-field-row">
@@ -4539,11 +4585,11 @@
                   </div>
                 </div>
 
-                <!-- NHÓM 5: PHỤ ĐỀ KHÍT 1PX, HỘP TIÊU ĐỀ H1-H3 & B-ROLL 45% (SKILL #4 & #6) -->
+                <!-- NHÓM 5: PHỤ ĐỀ KHÍT 1PX, HỘP TIÊU ĐỀ H1-H3 & B-ROLL 45% -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>5. PHỤ ĐỀ KHÍT 1PX, H1/H2/H3 &amp; B-ROLL (SKILL #4 &amp; #6)</span>
-                    <span class="char-badge">Col Q &amp; R</span>
+                    <span>5. PHỤ ĐỀ CHUYÊN NGHIỆP, HỘP TIÊU ĐỀ &amp; B-ROLL MINH HỌA</span>
+                    <span class="char-badge">Sub &amp; B-Roll</span>
                   </div>
                   <div class="ap-ve-field-grid2">
                     <div class="ap-ve-field-row">
@@ -4561,11 +4607,11 @@
                   </div>
                 </div>
 
-                <!-- NHÓM 6: ÂM THANH ĐA TẦNG, BGM DUCKING (-22dB), SFX QUẠ HD & OFFER CTA (SKILL #7) -->
+                <!-- NHÓM 6: ÂM THANH ĐA TẦNG, BGM DUCKING (-22dB), SFX HD & OFFER CTA -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>6. BGM DUCKING (-22dB), 4 NHÓM SFX HD &amp; CTA (SKILL #7)</span>
-                    <span class="char-badge">Col S &amp; T</span>
+                    <span>6. HÒA ÂM ĐA TẦNG, NHẠC NỀN DUCKING &amp; SFX HI-END</span>
+                    <span class="char-badge">Sound &amp; CTA</span>
                   </div>
                   <div class="ap-ve-field-grid2">
                     <div class="ap-ve-field-row">
@@ -4583,76 +4629,97 @@
                   </div>
                 </div>
 
-                <!-- NHÓM 7: MÃ JSON CÁC THIẾT LẬP (PROJECT_EDL.JSON / TT-MKT FIELD MAP) -->
+                <!-- NHÓM 7: MÃ JSON CÁC THIẾT LẬP (PROJECT_EDL.JSON / LIVE SYNC) -->
                 <div class="ap-ve-group-box">
                   <div class="ap-ve-group-title">
-                    <span>7. MÃ JSON CÁC THIẾT LẬP (LIVE SYNC 2 CHIỀU)</span>
+                    <span>7. MÃ CẤU HÌNH THIẾT LẬP (PROJECT EDL / LIVE SYNC)</span>
                     <button type="button" class="btn-quick-tag" onclick="window.copyVideoStudioJson()">Copy JSON</button>
                   </div>
                   <textarea id="veFullConfigJsonTextarea" class="ap-ve-json-textarea" spellcheck="false" oninput="window.applyJsonTextareaToVideoStudio()"></textarea>
                 </div>
               </div>
 
-              <!-- CỘT PHẢI: CANVAS MIND-MAP / SCHEMATIC MAP (NGOÀI CÙNG BÊN TRÁI LÀ FILE VIDEO OUTPUT + MOUSE WHEEL ZOOM + DRAG NODE) -->
+              <!-- CỘT PHẢI: CANVAS MIND-MAP / SCHEMATIC MAP (LUỒNG CHẢY TRÁI SANG PHẢI + XEM TRƯỚC 9:16) -->
               <div class="ap-ve-canvas-wrap">
                 <div class="ap-ve-canvas-toolbar">
                   <div class="ap-ve-palette-list">
-                    <span style="font-size:11px;font-weight:700;color:var(--ap-text-muted);text-transform:uppercase;margin-right:4px;">Kéo thả / Bấm thêm Node mới:</span>
+                    <span style="font-size:11px;font-weight:700;color:var(--ap-text-muted);text-transform:uppercase;margin-right:4px;">Kéo thả / Thêm Node:</span>
                     <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'BROLL')" onclick="window.addCustomVideoNodeToCanvas('BROLL')">
-                      <span>+ Node B-Roll Cận Cảnh</span>
+                      <span>+ Node B-Roll</span>
                     </button>
                     <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'SFX')" onclick="window.addCustomVideoNodeToCanvas('SFX')">
-                      <span>+ Node Hiệu Ứng SFX</span>
+                      <span>+ Node SFX</span>
                     </button>
                     <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'HOOK')" onclick="window.addCustomVideoNodeToCanvas('HOOK')">
-                      <span>+ Node Hook / Slow-Mo</span>
+                      <span>+ Node Hook</span>
                     </button>
                     <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'COLOR')" onclick="window.addCustomVideoNodeToCanvas('COLOR')">
-                      <span>+ Node Tone Màu LUT</span>
+                      <span>+ Node Tone Màu</span>
                     </button>
                     <button type="button" class="ap-ve-palette-chip" draggable="true" ondragstart="window.onPaletteNodeDragStart(event, 'CUSTOM')" onclick="window.addCustomVideoNodeToCanvas('CUSTOM')">
                       <span>+ Node Tùy Chỉnh</span>
                     </button>
                   </div>
 
-                  <div class="ap-ve-zoom-controls" title="Lăn con lăn chuột (Mouse Wheel) trên Canvas để Zoom In / Zoom Out">
+                  <div class="ap-ve-zoom-controls" title="Lăn chuột (Mouse Wheel) để Zoom In / Zoom Out">
                     <button type="button" class="ap-ve-zoom-btn" id="btnVeZoomOut" onclick="window.adjustVideoCanvasZoom(-0.12)">-</button>
                     <span class="ap-ve-zoom-readout" id="veZoomPercentLabel">92%</span>
                     <button type="button" class="ap-ve-zoom-btn" id="btnVeZoomIn" onclick="window.adjustVideoCanvasZoom(0.12)">+</button>
                     <button type="button" class="btn-quick-tag" id="btnVeZoomReset" onclick="window.resetVideoCanvasView()" style="padding:3px 8px;font-size:10.5px;">Reset</button>
-                    <button type="button" class="btn-primary-glow" id="btnVeExecuteCreateVideoCanvas" onclick="window.executeCreateVideoPipeline()" style="background:linear-gradient(135deg, #0A6CFF 0%, #0052CC 100%);color:#FFF;border:none;padding:4px 12px;border-radius:6px;font-family:var(--font-display);font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;box-shadow:0 3px 10px rgba(10,108,255,0.35);margin-left:4px;">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                      <span>TẠO VIDEO</span>
-                    </button>
                   </div>
                 </div>
 
-                <!-- KHUNG CANVAS LÀM VIỆC EDIT VIDEO (HỖ TRỢ LĂN CHUỘT WHEEL ZOOM & KÉO THẢ NODE) -->
+                <!-- KHUNG CANVAS LÀM VIỆC EDIT VIDEO (LUỒNG TRÁI SANG PHẢI) -->
                 <div class="ap-ve-canvas-viewport" id="veSchematicCanvasViewport">
                   <div class="ap-ve-canvas-stage" id="veCanvasTransformStage">
-                    <svg class="ap-ve-svg-edges" id="veCanvasSvgEdges" viewBox="0 0 1450 680" preserveAspectRatio="none"></svg>
+                    <svg class="ap-ve-svg-edges" id="veCanvasSvgEdges" viewBox="0 0 1600 680" preserveAspectRatio="none"></svg>
                     <div class="ap-ve-nodes-layer" id="veCanvasNodesLayer"></div>
                   </div>
                 </div>
 
-                <!-- DẢI TIẾN ĐỘ THỜI GIAN THỰC KHI NHẤN NÚT TẠO (ANIMATED FLOW RUNNER) -->
-                <div id="vePipelineProgressWrap" style="display:none;padding:12px 14px;border-radius:10px;background:var(--ap-card-alt-bg);border:1px solid var(--ap-accent);flex-direction:column;gap:8px;">
-                  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                    <div style="display:flex;align-items:center;gap:8px;">
-                      <span class="ap-status-chip done" id="vePipelineStepBadge" style="background:#0A6CFF;color:#FFF;">ĐANG THỰC THI 7-SKILL PIPELINE</span>
-                      <strong id="vePipelineStepTitle" style="font-size:13px;color:var(--ap-text-heading);">Khởi tạo Master Director...</strong>
+                <!-- KHUNG TIẾN TRÌNH & XEM TRƯỚC VIDEO THÀNH PHẨM (PIPELINE & 9:16 PREVIEW CARD) -->
+                <div class="ap-ve-preview-and-pipeline-grid">
+                  <!-- KHUNG TRẠNG THÁI TIẾN TRÌNH RENDER PIPELINE -->
+                  <div id="vePipelineProgressWrap" class="ap-ve-pipeline-card">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                      <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="ap-status-chip done" id="vePipelineStepBadge" style="background:#0A6CFF;color:#FFF;">SẴN SÀNG KHỞI CHẠY PIPELINE</span>
+                        <strong id="vePipelineStepTitle" style="font-size:13px;color:var(--ap-text-heading);">Master Director 8-Skill Pipeline</strong>
+                      </div>
+                      <span id="vePipelinePercentLabel" style="font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--ap-accent);">100%</span>
                     </div>
-                    <span id="vePipelinePercentLabel" style="font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--ap-accent);">0%</span>
+                    <div style="width:100%;height:6px;background:var(--ap-border-subtle);border-radius:4px;overflow:hidden;">
+                      <div id="vePipelineProgressBar" style="width:100%;height:100%;background:linear-gradient(90deg, #0A6CFF 0%, #10B981 100%);transition:width 0.3s ease;"></div>
+                    </div>
+                    <div id="vePipelineLogMsg" style="font-family:var(--font-mono);font-size:11px;color:var(--ap-text-secondary);line-height:1.4;">Chuỗi 8 Skill: Bóc kịch bản ➔ Hook 3s ➔ B-Roll 45% ➔ Tone màu HDR ➔ Sub khít 1px ➔ Ducking BGM ➔ Xuất MP4 9:16.</div>
                   </div>
-                  <div style="width:100%;height:6px;background:var(--ap-border-subtle);border-radius:4px;overflow:hidden;">
-                    <div id="vePipelineProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg, #0A6CFF 0%, #10B981 100%);transition:width 0.3s ease;"></div>
+
+                  <!-- KHUNG XEM TRƯỚC VIDEO 9:16 FULL HD -->
+                  <div class="ap-ve-preview-card" id="vePreviewCard">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                      <span style="font-size:11px;font-weight:700;color:var(--ap-text-heading);text-transform:uppercase;letter-spacing:0.4px;">XEM TRƯỚC VIDEO 9:16</span>
+                      <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(16,185,129,0.15);color:#10B981;">1080x1920 • 60FPS</span>
+                    </div>
+                    <div class="ap-ve-preview-player-wrap">
+                      <video id="vePreviewVideoPlayer" controls playsinline preload="metadata">
+                        <source src="" type="video/mp4" id="vePreviewVideoSource">
+                        Trình duyệt không hỗ trợ phát video trực tiếp.
+                      </video>
+                      <div id="vePreviewPlaceholder" style="position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--ap-text-muted);font-size:11.5px;padding:12px;text-align:center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ap-accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span>Bấm "TẠO VIDEO MỚI" hoặc chọn tệp Output để xem trước clip tại đây</span>
+                      </div>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                      <a id="btnOpenDriveOutputVideo" href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="btn-dark-glass" style="flex:1;height:28px;font-size:10.5px;text-decoration:none;justify-content:center;" title="Mở video trong Google Drive">Mở Drive &#8599;</a>
+                      <button type="button" class="btn-dark-glass" onclick="window.playCurrentPreviewVideo()" style="flex:1;height:28px;font-size:10.5px;justify-content:center;">Phát Clip ▶</button>
+                    </div>
                   </div>
-                  <div id="vePipelineLogMsg" style="font-family:var(--font-mono);font-size:11px;color:var(--ap-text-secondary);line-height:1.4;">Kiểm tra cấu hình API Key &amp; Khởi chạy chuỗi Node...</div>
                 </div>
 
                 <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--ap-text-muted);flex-wrap:wrap;gap:8px;">
-                  <span>Hướng dẫn: <strong>Ngoài cùng bên trái là Node File Video Output 9:16</strong> • Kéo thả bất kỳ Node nào để di chuyển • Lăn chuột (Mouse Wheel) để Zoom In / Zoom Out toàn bộ Canvas.</span>
-                  <span id="veCanvasStatusToast" style="color:var(--ap-accent);font-weight:600;">Đã đồng bộ sơ đồ 9 Nodes &amp; JSON</span>
+                  <span>Hướng dẫn: <strong>Sơ đồ xử lý từ Trái sang Phải</strong> (Nguồn Raw ➔ Chuỗi 7-Skill AI ➔ Output Video 9:16) • Kéo thả Node để sắp xếp • Lăn chuột (Mouse Wheel) để Zoom.</span>
+                  <span id="veCanvasStatusToast" style="color:var(--ap-accent);font-weight:600;">Sơ đồ 9 Nodes Chuẩn Luồng Trái Sang Phải</span>
                 </div>
               </div>
             </div>
@@ -7184,7 +7251,7 @@
          ========================================================================= */
       var veCanvasState = {
         scale: 0.92,
-        panX: 12,
+        panX: 16,
         panY: 16,
         isPanning: false,
         panStartX: 0,
@@ -7195,102 +7262,102 @@
         paletteDragType: null,
         nodes: [
           {
-            id: 'NODE_OUTPUT_VIDEO',
-            type: 'output',
-            badge: 'OUTPUT 9:16 • COL H',
-            title: 'FILE VIDEO OUTPUT 9:16 FULL HD',
-            meta: 'Video thành phẩm xuất bản Reels / TikTok / Shorts (1080x1920 • 60fps)',
-            paramKey: 'outputVideoUrl',
-            paramText: 'outputs/final_videos/final_viral_short_v2.mp4',
-            x: 22,
+            id: 'NODE_INPUT_RAW',
+            type: 'input',
+            badge: 'BƯỚC 1 • NGUỒN VIDEO GỐC',
+            title: 'FILE VIDEO RAW & ĐỊNH HƯỚNG',
+            meta: 'Video gốc cần dựng + Ngành hàng & Mục tiêu Chuyển đổi',
+            paramKey: 'rawVideoSource',
+            paramText: 'inputs/raw_videos/clip-content-doc.mp4',
+            x: 30,
             y: 235
           },
           {
-            id: 'NODE_SKILL_7',
+            id: 'NODE_SKILL_3',
             type: 'skill',
-            badge: 'SKILL #7 • AUDIO & CTA',
-            title: 'BGM DUCKING (-22dB) & 4 SFX HD',
-            meta: 'Hạ nhạc nền dưới giọng nói + SFX Whoosh/Boom/Quạ/Ding & Banner CTA',
-            paramKey: 'bgmSfxSummary',
-            paramText: 'dance remix 1.mp3 • Ducking 0.08 • 4 SFX',
-            x: 310,
+            badge: 'SKILL #3 • BENCHMARK DNA',
+            title: 'GIẢI MÃ DNA VIDEO TRIỆU VIEW',
+            meta: 'Mổ xẻ Video Mẫu -> 6 Hợp đồng thông số kỹ thuật chuẩn',
+            paramKey: 'benchmarkVideoSource',
+            paramText: 'inputs/benchmark_videos/sample-viral-apcarcare.mp4',
+            x: 320,
             y: 105
           },
           {
-            id: 'NODE_SKILL_6',
+            id: 'NODE_SKILL_1',
             type: 'skill',
-            badge: 'SKILL #6 • SUB & TITLE',
-            title: 'PHỤ ĐỀ KHÍT 1PX & HỘP H1/H2/H3',
-            meta: 'Font Phudu / Be Vietnam Pro Size 40 • Trễ 4.0s né Hook • Safe Zone',
-            paramKey: 'subtitleSummary',
-            paramText: 'Size 40 • Khít dòng 1px • H1 Đỏ/Vàng',
-            x: 310,
-            y: 375
-          },
-          {
-            id: 'NODE_SKILL_5',
-            type: 'skill',
-            badge: 'SKILL #5 • COLOR & 3D',
-            title: 'TONE MÀU SHOWROOM & DENOISE',
-            meta: 'Closed-Loop Color Grading • Tôn độ bóng sơn Ceramic & vân da nội thất',
-            paramKey: 'colorSummary',
-            paramText: 'AUTOMOTIVE_SHOWROOM_HDR • C:1.07 S:1.12',
-            x: 590,
-            y: 105
-          },
-          {
-            id: 'NODE_SKILL_4',
-            type: 'skill',
-            badge: 'SKILL #4 • B-ROLL 45%',
-            title: 'B-ROLL MATCHER & NÉ TAY CHỈ',
-            meta: 'Ánh xạ ngữ nghĩa B-Roll cận cảnh 45% • Khóa Deictic Product Guard',
-            paramKey: 'brollSummary',
-            paramText: 'B-Roll 45% • Cửa sổ 2.8s • Deictic ON',
-            x: 590,
+            badge: 'SKILL #1 • SCRIPT & CẮT',
+            title: 'BÓC KỊCH BẢN & CẮT LẶNG',
+            meta: 'Silencedetect -30dB / 0.4s • Lọc 100% ậm ờ • ASL 3.6s',
+            paramKey: 'pacingSummary',
+            paramText: '60-90s • 16 cuts/min • Lọc sạch ậm ờ',
+            x: 320,
             y: 375
           },
           {
             id: 'NODE_SKILL_2',
             type: 'skill',
             badge: 'SKILL #2 • FACS HOOK 3S',
-            title: 'VI BIỂU CẢM FACS & HOOK 3 GIÂY',
-            meta: 'Chấm điểm cảm xúc FACS >= 80 • Punch-in Zoom 118% & Replay 0.72x',
+            title: 'HOOK 3 GIÂY ĐẦU & CẢM XÚC',
+            meta: 'Chấm điểm FACS >= 80 • Punch-in Zoom 118% & Replay 0.72x',
             paramKey: 'hookSummary',
             paramText: 'Hook 3.5s • FACS >= 80 • Zoom 118%',
-            x: 870,
+            x: 610,
             y: 105
           },
           {
-            id: 'NODE_SKILL_1',
+            id: 'NODE_SKILL_4',
             type: 'skill',
-            badge: 'SKILL #1 • SCRIPT EDL',
-            title: 'BÓC KỊCH BẢN & CẮT KHOẢNG LẶNG',
-            meta: 'Silencedetect -30dB / 0.4s • Lọc 100% ậm ờ • Nhịp cắt 16 cuts/phút',
-            paramKey: 'pacingSummary',
-            paramText: '60-90s • 16 cuts/min • -30dB/0.4s',
-            x: 870,
+            badge: 'SKILL #4 • B-ROLL 45%',
+            title: 'B-ROLL CẬN CẢNH & NÉ TAY',
+            meta: 'Ánh xạ B-Roll cận cảnh 45% • Khóa Deictic Product Guard',
+            paramKey: 'brollSummary',
+            paramText: 'B-Roll 45% • Cửa sổ 2.8s • Deictic ON',
+            x: 610,
             y: 375
           },
           {
-            id: 'NODE_SKILL_3',
+            id: 'NODE_SKILL_5',
             type: 'skill',
-            badge: 'SKILL #3 • 15 TRỤ CỘT',
-            title: 'GIẢI MÃ DNA VIDEO MẪU (STY-01..15)',
-            meta: 'Mổ xẻ 360° Video Mẫu bằng FFprobe & Gemini Vision -> 6 JSON Contracts',
-            paramKey: 'benchmarkVideoSource',
-            paramText: 'inputs/benchmark_videos/sample-viral-apcarcare.mp4',
-            x: 1150,
+            badge: 'SKILL #5 • COLOR & 3D',
+            title: 'TONE MÀU SHOWROOM & KHỬ HẠT',
+            meta: 'Color Grading • Tôn độ bóng sơn Ceramic & vân da nội thất',
+            paramKey: 'colorSummary',
+            paramText: 'AUTOMOTIVE_SHOWROOM_HDR • C:1.07 S:1.12',
+            x: 900,
             y: 105
           },
           {
-            id: 'NODE_INPUT_RAW',
-            type: 'input',
-            badge: 'SKILL #0 • INPUT SOURCE',
-            title: 'FILE VIDEO RAW & NGỮ CẢNH STY-00',
-            meta: 'Nguồn Video Gốc cần dựng + Ma trận Ngành hàng & Mục tiêu Chuyển đổi',
-            paramKey: 'rawVideoSource',
-            paramText: 'inputs/raw_videos/clip-content-doc.mp4',
-            x: 1150,
+            id: 'NODE_SKILL_6',
+            type: 'skill',
+            badge: 'SKILL #6 • SUB & TITLE',
+            title: 'PHỤ ĐỀ KHÍT 1PX & TIÊU ĐỀ',
+            meta: 'Font Be Vietnam Pro Size 40 • Trễ 4.0s né Hook • Safe Zone',
+            paramKey: 'subtitleSummary',
+            paramText: 'Size 40 • Khít dòng 1px • H1 Đỏ/Vàng',
+            x: 900,
+            y: 375
+          },
+          {
+            id: 'NODE_SKILL_7',
+            type: 'skill',
+            badge: 'SKILL #7 • ÂM THANH & CTA',
+            title: 'HÒA ÂM DUCKING (-22dB) & SFX',
+            meta: 'Hạ nhạc nền dưới giọng nói + 4 SFX Whoosh/Boom/Ding & Banner',
+            paramKey: 'bgmSfxSummary',
+            paramText: 'dance remix 1.mp3 • Ducking 0.08 • 4 SFX',
+            x: 1190,
+            y: 105
+          },
+          {
+            id: 'NODE_OUTPUT_VIDEO',
+            type: 'output',
+            badge: 'THÀNH PHẨM • 9:16 FULL HD',
+            title: 'XUẤT BẢN VIDEO REELS/TIKTOK',
+            meta: 'Video 1080x1920 • 60fps chuẩn định dạng ngắn đa nền tảng',
+            paramKey: 'outputVideoUrl',
+            paramText: 'outputs/final_videos/final_viral_short_v2.mp4',
+            x: 1190,
             y: 375
           }
         ],
@@ -7298,13 +7365,12 @@
           { from: 'NODE_INPUT_RAW', to: 'NODE_SKILL_3' },
           { from: 'NODE_INPUT_RAW', to: 'NODE_SKILL_1' },
           { from: 'NODE_SKILL_3',   to: 'NODE_SKILL_2' },
-          { from: 'NODE_SKILL_3',   to: 'NODE_SKILL_1' },
-          { from: 'NODE_SKILL_2',   to: 'NODE_SKILL_5' },
           { from: 'NODE_SKILL_1',   to: 'NODE_SKILL_4' },
-          { from: 'NODE_SKILL_5',   to: 'NODE_SKILL_7' },
+          { from: 'NODE_SKILL_2',   to: 'NODE_SKILL_5' },
           { from: 'NODE_SKILL_4',   to: 'NODE_SKILL_6' },
-          { from: 'NODE_SKILL_7',   to: 'NODE_OUTPUT_VIDEO' },
-          { from: 'NODE_SKILL_6',   to: 'NODE_OUTPUT_VIDEO' }
+          { from: 'NODE_SKILL_5',   to: 'NODE_SKILL_7' },
+          { from: 'NODE_SKILL_6',   to: 'NODE_SKILL_7' },
+          { from: 'NODE_SKILL_7',   to: 'NODE_OUTPUT_VIDEO' }
         ]
       };
 
@@ -7639,20 +7705,22 @@
           var tgtNode = nodeMap[edge.to];
           if (!srcNode || !tgtNode) continue;
 
-          // Kết nối từ cạnh trái của Node nguồn sang cạnh phải của Node đích (luồng chảy về Output ngoài cùng bên trái)
-          var x1 = srcNode.x;
+          // Kết nối từ cạnh phải của Node nguồn sang cạnh trái của Node đích (luồng chảy từ TRÁI sang PHẢI)
+          var srcW = (srcNode.type === 'output') ? 228 : 218;
+          var tgtW = (tgtNode.type === 'output') ? 228 : 218;
+          var x1 = srcNode.x + srcW;
           var y1 = srcNode.y + 60;
-          var x2 = tgtNode.x + (tgtNode.type === 'output' ? 228 : 218);
+          var x2 = tgtNode.x;
           var y2 = tgtNode.y + 60;
 
-          if (srcNode.x < tgtNode.x) {
-            x1 = srcNode.x + 218;
-            x2 = tgtNode.x;
+          if (srcNode.x > tgtNode.x) {
+            x1 = srcNode.x;
+            x2 = tgtNode.x + tgtW;
           }
 
-          var dx = Math.max(Math.abs(x2 - x1) * 0.48, 55);
-          var c1x = (x2 < x1) ? (x1 - dx) : (x1 + dx);
-          var c2x = (x2 < x1) ? (x2 + dx) : (x2 - dx);
+          var dx = Math.max(Math.abs(x2 - x1) * 0.48, 45);
+          var c1x = x1 + dx;
+          var c2x = x2 - dx;
           var pathData = 'M ' + Math.round(x1) + ' ' + Math.round(y1) +
                          ' C ' + Math.round(c1x) + ' ' + Math.round(y1) + ', ' +
                                  Math.round(c2x) + ' ' + Math.round(y2) + ', ' +
@@ -7894,6 +7962,37 @@
       /* =========================================================================
          11C. THỰC THI PIPELINE EDIT VIDEO 7-SKILL LIÊN KẾT KHÓA API & DÒNG CHẢY REALTIME
          ========================================================================= */
+      window.updateVideoStudioPreview = function (videoUrl) {
+        var player = document.getElementById('vePreviewVideoPlayer');
+        var placeholder = document.getElementById('vePreviewPlaceholder');
+        var btnOpenDrive = document.getElementById('btnOpenDriveOutputVideo');
+        if (!player) return;
+
+        var vUrl = videoUrl || (document.getElementById('veOutputVideoInput') ? document.getElementById('veOutputVideoInput').value : '');
+        if (btnOpenDrive && vUrl) {
+          btnOpenDrive.href = (vUrl.indexOf('http') === 0) ? vUrl : ('https://drive.google.com/drive/folders/1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+        }
+
+        if (vUrl && (vUrl.indexOf('.mp4') !== -1 || vUrl.indexOf('.webm') !== -1 || vUrl.indexOf('http') === 0)) {
+          if (placeholder) placeholder.style.display = 'none';
+          player.src = vUrl;
+        } else {
+          if (placeholder) placeholder.style.display = 'flex';
+        }
+      };
+
+      window.playCurrentPreviewVideo = function () {
+        var player = document.getElementById('vePreviewVideoPlayer');
+        var placeholder = document.getElementById('vePreviewPlaceholder');
+        if (player) {
+          if (placeholder) placeholder.style.display = 'none';
+          if (!player.src || player.src.indexOf('outputs/') !== -1) {
+            player.src = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
+          }
+          player.play().catch(function () {});
+        }
+      };
+
       window.executeCreateVideoPipeline = function () {
         // 1. Kiểm tra API Key / Local Gateway đã kích hoạt
         var apiConfigs = [];
@@ -8000,15 +8099,12 @@
           renderVideoCanvasNodesAndEdges();
           window.saveVideoStudioProjectToSheet();
 
-          alert(
-            '🎉 TẠO VIDEO 9:16 THÀNH CÔNG VỚI CHUỖI 7 SKILL!\n\n' +
-            '• Kênh thực thi: ' + activeKey.name + '\n' +
-            '• Video thành phẩm: ' + (fileName || 'Đã xuất file 9:16 Full HD') + '\n' +
-            '• Link Google Drive: ' + outUrl + '\n' +
-            '• Thư mục Drive AP CAR CARE: ' + driveFolderId + '\n' +
-            '• Đã tự động lưu cấu hình vào Sheet TT-MKT ở Backend.\n\n' +
-            '👉 Bạn có thể bấm ngay nút "TRUY CẬP DRIVE XEM VIDEO ↗" tại Node Output ngoài cùng bên trái để xem video!'
-          );
+          if (typeof window.updateVideoStudioPreview === 'function') {
+            window.updateVideoStudioPreview(outUrl);
+          }
+          if (typeof showPublishToast === 'function') {
+            showPublishToast('Tạo video 9:16 thành công với chuỗi 7 Skill!', 'success');
+          }
         }
 
         // 3. Thực thi gọi Render thật về Local Gateway (hoặc qua GAS proxy)
