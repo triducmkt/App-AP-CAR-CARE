@@ -4238,26 +4238,9 @@
                   </button>
                 </div>
 
-                <!-- Ghi chú phân quyền chi tiết dưới ô input & Dòng phản hồi trạng thái -->
-                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--ap-text-muted); margin-top: 4px;">
-                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-                    <div style="line-height: 1.6; max-width: 720px;">
-                      <span style="color: #F59E0B; font-weight: 700;">Chú ý phân quyền Drive:</span>
-                      Thư mục cần mở quyền ghi theo 1 trong 2 cách:
-                      <div style="margin-top: 2px; padding-left: 6px; display: flex; flex-direction: column; gap: 3px;">
-                        <div>• <strong>Cách 1:</strong> Bật quyền <em>"Bất kỳ ai có đường liên kết đều có thể chỉnh sửa"</em>.</div>
-                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                          <span>• <strong>Cách 2:</strong> Chia sẻ quyền <em>"Người chỉnh sửa"</em> cho tài khoản hệ thống:</span>
-                          <code id="systemBotEmailCode" style="background: rgba(0, 102, 255, 0.12); color: #60A5FA; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; user-select: all; border: 1px solid rgba(0, 102, 255, 0.25);">triducmkt@gmail.com</code>
-                          <button type="button" onclick="window.copySystemBotEmail()" class="btn-dark-glass" style="padding: 2px 10px; font-size: 11px; height: 24px; border-radius: 6px; border: 1px solid rgba(0, 102, 255, 0.4); color: #93C5FD; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; background: rgba(0, 102, 255, 0.15);" title="Sao chép email hệ thống để dán vào quyền chia sẻ Drive">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                            <span id="btnCopyBotEmailText">Copy email</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="driveConnFeedbackMsg" style="font-size: 12px; font-weight: 600; transition: all 0.3s ease; text-align: right; max-width: 320px; line-height: 1.5;"></div>
-                  </div>
+                <!-- Dòng phản hồi trạng thái kết nối tinh gọn -->
+                <div style="display: flex; justify-content: flex-end; align-items: center; margin-top: 4px;">
+                  <div id="driveConnFeedbackMsg" style="font-size: 12px; font-weight: 600; transition: all 0.3s ease; text-align: right; line-height: 1.5;"></div>
                 </div>
               </div>
 
@@ -8529,6 +8512,7 @@
           }
           if (savedId) {
             window.apCurrentSelectedFolderId = savedId;
+            window.loadMediaFolderFiles(savedId);
           }
         } catch (eInitDrive) {}
 
@@ -8675,30 +8659,13 @@
             if (folderId) {
               window.apCurrentSelectedFolderId = folderId;
 
-              if (Array.isArray(smartFolderTree)) {
-                var exists = false;
-                for (var i = 0; i < smartFolderTree.length; i++) {
-                  if (smartFolderTree[i].id === folderId) {
-                    exists = true;
-                    break;
-                  }
-                }
-                if (!exists) {
-                  smartFolderTree.unshift({
-                    id: folderId,
-                    name: folderName + ' (Thư mục chính vừa kết nối)',
-                    level: 0
-                  });
-                }
-              }
-              renderMediaFolderTreeOptions();
-
               var selParent = document.getElementById('selMediaParentFolder');
               if (selParent) selParent.value = folderId;
               var selTarget = document.getElementById('selMediaTargetFolder');
               if (selTarget) selTarget.value = folderId;
 
-              // Ngay sau đó dropdown duyệt thư mục và khu vực duyệt file đồng bộ truy cập thư mục này luôn
+              // Ngay sau đó dropdown duyệt thư mục và khu vực duyệt file tự động nạp toàn bộ thư mục & tệp bên trong
+              window.loadMediaFolderTree(true, folderId);
               window.loadMediaFolderFiles(folderId);
             }
 
@@ -8876,10 +8843,12 @@
         if (targetFolderToSelect) {
           window.apCurrentSelectedFolderId = targetFolderToSelect;
         }
-        var activeId = window.apCurrentSelectedFolderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var activeId = window.apCurrentSelectedFolderId || (function () {
+          try { return localStorage.getItem('AP_MKT_DRIVE_MAIN_ID'); } catch (e) { return null; }
+        })() || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
 
         function fetchFoldersFromGatewayFallback() {
-          fetch('https://gateway.triduccar.media/v1/drive/files?folderId=1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT')
+          fetch('https://gateway.triduccar.media/v1/drive/files?folderId=' + encodeURIComponent(activeId))
             .then(function (r) { return r.json(); })
             .then(function (res) {
               if (res && res.success && Array.isArray(res.data)) {
@@ -8915,7 +8884,7 @@
             .withFailureHandler(function () {
               fetchFoldersFromGatewayFallback();
             })
-            .getMediaFolderTree('1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT');
+            .getMediaFolderTree(activeId);
         } else {
           fetchFoldersFromGatewayFallback();
         }
@@ -8957,7 +8926,9 @@
       }
 
       window.loadMediaFolderFiles = function (folderId) {
-        var targetId = folderId || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
+        var targetId = folderId || window.apCurrentSelectedFolderId || (function () {
+          try { return localStorage.getItem('AP_MKT_DRIVE_MAIN_ID'); } catch (e) { return null; }
+        })() || (document.getElementById('selMediaParentFolder') ? document.getElementById('selMediaParentFolder').value : '') || '1C8HcDHdZ_N8QABe2BP7bXRjFhZrd0qcT';
         var container = document.getElementById('mediaFilesContainer');
         var badge = document.getElementById('badgeFolderTotalFiles');
         if (!container) return;
